@@ -128,7 +128,7 @@ export const BagagesPage = ({ formData, checklistData }: BagagesPageProps) => {
     <Page size="A4" style={styles.page}>
       <Text style={styles.title}>🧳 Bagages Détaillés</Text>
       <Text style={styles.subtitle}>
-        Pour votre voyage : {formData.duree ? `${formData.duree}` : 'Durée non spécifiée'} / {checklistData.labels.destinations[formData.destination]}
+        Pour votre voyage : {formData.duree ? `${formData.duree}` : 'Durée non spécifiée'} / {checklistData.labels?.destinations?.[formData.destination] || formData.destination}
       </Text>
       
       {checklistData.bagages?.vetements && renderBagageSection(

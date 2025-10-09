@@ -32,7 +32,7 @@ interface PDFDocumentProps {
 export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => {
   return (
     <Document>
-      <CoverPage formData={formData} />
+      <CoverPage formData={formData} checklistData={checklistData} />
       <TimelinePage formData={formData} checklistData={checklistData} />
       
       {formData.sectionsInclure.includes('Documents & Administratif') && (
