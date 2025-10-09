@@ -73,15 +73,38 @@ const Generator = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 0));
   };
 
-  const handleGeneratePDF = () => {
+  const handleGeneratePDF = async () => {
     if (!validateStep(currentStep)) return;
 
     toast.success("Génération du PDF en cours...", {
       description: "Votre checklist personnalisée est en cours de création",
     });
 
-    // TODO: Implement PDF generation with @react-pdf/renderer
-    console.log("Generating PDF with data:", formData);
+    try {
+      const { pdf } = await import('@react-pdf/renderer');
+      const { TravelPrepPDF } = await import('@/components/PDF/PDFDocument');
+      const { checklistComplete } = await import('@/data/checklistComplete');
+
+      const blob = await pdf(
+        <TravelPrepPDF formData={formData} checklistData={checklistComplete} />
+      ).toBlob();
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${formData.nomVoyage.replace(/\s+/g, '_')}_TravelPrep.pdf`;
+      link.click();
+      URL.revokeObjectURL(url);
+
+      toast.success("PDF généré avec succès !", {
+        description: "Votre checklist est prête à être utilisée",
+      });
+    } catch (error) {
+      console.error("Erreur génération PDF:", error);
+      toast.error("Erreur lors de la génération du PDF", {
+        description: "Veuillez réessayer",
+      });
+    }
   };
 
   const renderStep = () => {
