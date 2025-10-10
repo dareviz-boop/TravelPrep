@@ -128,15 +128,16 @@ const Generator = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-ocean py-12 px-4">
+    <div className="min-h-screen bg-background py-12 px-4">
       <div className="max-w-5xl mx-auto">
-        {/* Header */}
+        {/* Header Dareviz */}
         <div className="text-center mb-12 animate-fade-in">
-          <h1 className="text-5xl font-bold mb-4 bg-gradient-travel bg-clip-text text-transparent">
-            🌍 TravelPrep
+          <h1 className="text-6xl font-bold mb-2 text-primary">
+            TravelPrep
           </h1>
-          <p className="text-xl text-muted-foreground">
-            Votre guide de préparation au voyage personnalisé
+          <p className="text-sm text-foreground/60 mb-4">by Dareviz</p>
+          <p className="text-xl text-foreground/80 font-medium">
+            Générateur de checklist voyage personnalisée
           </p>
         </div>
 
@@ -148,31 +149,34 @@ const Generator = () => {
         />
 
         {/* Form Step */}
-        <div className="bg-card rounded-2xl shadow-xl p-8 mb-8 border border-border">
+        <div className="bg-card rounded-2xl shadow-lg p-8 md:p-12 mb-8 border-2 border-border">
           {renderStep()}
         </div>
 
         {/* Navigation */}
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center gap-4">
           <Button
             variant="outline"
             onClick={handlePrev}
             disabled={currentStep === 0}
-            className="h-12 px-6"
+            className="h-14 px-8 text-base font-bold border-2 hover:bg-muted disabled:opacity-50"
           >
-            <ArrowLeft className="w-4 h-4 mr-2" />
+            <ArrowLeft className="w-5 h-5 mr-2" />
             Précédent
           </Button>
 
           {currentStep < stepTitles.length - 1 ? (
-            <Button onClick={handleNext} className="h-12 px-6 bg-primary hover:bg-primary-dark">
+            <Button 
+              onClick={handleNext} 
+              className="h-14 px-8 text-base font-bold bg-primary hover:bg-primary-dark text-white shadow-lg"
+            >
               Suivant
-              <ArrowRight className="w-4 h-4 ml-2" />
+              <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           ) : (
             <Button
               onClick={handleGeneratePDF}
-              className="h-12 px-8 bg-gradient-sunset hover:opacity-90 text-white font-semibold"
+              className="h-14 px-10 text-base font-bold bg-primary hover:bg-primary-dark text-white shadow-lg"
             >
               <Download className="w-5 h-5 mr-2" />
               Générer mon PDF

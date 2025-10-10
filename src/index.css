@@ -8,43 +8,45 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Dareviz Brand Colors */
+    --background: 33 100% 97%; /* Crème #FFF7ED */
+    --foreground: 217 33% 17%; /* Texte #1F2937 */
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 217 33% 17%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 217 33% 17%;
 
-    /* Voyage theme - Ocean blue gradient */
-    --primary: 220 90% 56%;
-    --primary-foreground: 210 40% 98%;
-    --primary-dark: 220 90% 40%;
+    /* Orange vif Dareviz - CTA principal */
+    --primary: 14 84% 54%; /* Orange #E85D2A */
+    --primary-foreground: 0 0% 100%;
+    --primary-dark: 14 84% 44%;
     
-    /* Sunset orange accents */
-    --secondary: 38 92% 50%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Crème pour backgrounds */
+    --secondary: 33 100% 97%;
+    --secondary-foreground: 217 33% 17%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 33 100% 92%;
+    --muted-foreground: 217 16% 47%;
 
+    /* Vert pour checkmarks */
     --accent: 142 76% 36%;
-    --accent-foreground: 210 40% 98%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 220 90% 56%;
+    --border: 33 50% 88%;
+    --input: 33 50% 88%;
+    --ring: 14 84% 54%;
 
     --radius: 0.75rem;
     
-    /* Custom gradients */
-    --gradient-travel: linear-gradient(135deg, hsl(220 90% 56%), hsl(200 80% 60%));
-    --gradient-sunset: linear-gradient(135deg, hsl(38 92% 50%), hsl(25 95% 53%));
-    --gradient-ocean: linear-gradient(180deg, hsl(200 100% 97%), hsl(210 40% 98%));
+    /* Gradients Dareviz */
+    --gradient-travel: linear-gradient(135deg, hsl(14 84% 54%), hsl(25 95% 53%));
+    --gradient-sunset: linear-gradient(135deg, hsl(14 84% 54%), hsl(30 100% 50%));
+    --gradient-ocean: linear-gradient(180deg, hsl(33 100% 97%), hsl(0 0% 100%));
 
     --sidebar-background: 0 0% 98%;
 
@@ -64,38 +66,38 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 217 33% 10%;
+    --foreground: 33 100% 97%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 217 33% 13%;
+    --card-foreground: 33 100% 97%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 217 33% 13%;
+    --popover-foreground: 33 100% 97%;
 
-    --primary: 220 90% 56%;
-    --primary-foreground: 210 40% 98%;
-    --primary-dark: 220 90% 40%;
+    --primary: 14 84% 54%;
+    --primary-foreground: 0 0% 100%;
+    --primary-dark: 14 84% 44%;
 
-    --secondary: 38 92% 50%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 33 100% 20%;
+    --secondary-foreground: 33 100% 97%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 217 33% 18%;
+    --muted-foreground: 217 16% 65%;
 
     --accent: 142 76% 36%;
-    --accent-foreground: 210 40% 98%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 220 90% 56%;
+    --border: 217 33% 18%;
+    --input: 217 33% 18%;
+    --ring: 14 84% 54%;
     
-    --gradient-travel: linear-gradient(135deg, hsl(220 90% 40%), hsl(200 80% 45%));
-    --gradient-sunset: linear-gradient(135deg, hsl(38 92% 40%), hsl(25 95% 43%));
-    --gradient-ocean: linear-gradient(180deg, hsl(222.2 84% 6%), hsl(217.2 32.6% 12%));
+    --gradient-travel: linear-gradient(135deg, hsl(14 84% 44%), hsl(25 95% 43%));
+    --gradient-sunset: linear-gradient(135deg, hsl(14 84% 44%), hsl(30 100% 40%));
+    --gradient-ocean: linear-gradient(180deg, hsl(217 33% 13%), hsl(217 33% 18%));
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
