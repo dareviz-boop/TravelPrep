@@ -22,8 +22,8 @@ export const filterItemsByConditions = (
 
   const { destination, saison, duree, activites, profil } = item.conditions;
 
-  // Check destination
-  if (destination && !destination.includes(formData.destination)) {
+  // Check localisation (destination)
+  if (destination && !destination.includes(formData.localisation)) {
     return false;
   }
 

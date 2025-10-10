@@ -1,7 +1,14 @@
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { FormData, Destination, Saison, Duree } from "@/types/form";
-import checklistData from "@/data/checklist";
+import { FormData, Pays } from "@/types/form";
+import { Button } from "@/components/ui/button";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Badge } from "@/components/ui/badge";
+import { Check, ChevronsUpDown, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { checklistData, getPaysOptions, calculateDuree } from "@/utils/checklistUtils";
 
 interface Step2DestinationProps {
   formData: FormData;
@@ -9,9 +16,51 @@ interface Step2DestinationProps {
 }
 
 export const Step2Destination = ({ formData, updateFormData }: Step2DestinationProps) => {
-  const destinations = checklistData.labels.destinations;
-  const saisons = checklistData.labels.saisons;
-  const durees = checklistData.labels.durees;
+  const [open, setOpen] = useState(false);
+  const [showPaysSelector, setShowPaysSelector] = useState(false);
+
+  const paysOptions = getPaysOptions(formData.localisation);
+
+  // Auto-calculate duration if both dates are provided
+  useEffect(() => {
+    if (formData.dateDepart && formData.dateRetour) {
+      const calculatedDuree = calculateDuree(formData.dateDepart, formData.dateRetour);
+      updateFormData({ duree: calculatedDuree });
+    }
+  }, [formData.dateDepart, formData.dateRetour]);
+
+  const handlePaysSelect = (pays: Pays) => {
+    const currentPays = formData.pays || [];
+    const isAlreadySelected = currentPays.some(p => p.code === pays.code);
+    
+    if (isAlreadySelected) {
+      updateFormData({ pays: currentPays.filter(p => p.code !== pays.code) });
+    } else if (currentPays.length < 3) {
+      updateFormData({ pays: [...currentPays, pays] });
+    }
+  };
+
+  const handlePaysRemove = (paysCode: string) => {
+    updateFormData({ pays: (formData.pays || []).filter(p => p.code !== paysCode) });
+  };
+
+  const handleConditionToggle = (conditionId: string) => {
+    const current = formData.conditionsClimatiques || [];
+    
+    // If "aucune" is selected, clear all others and add it
+    if (conditionId === 'aucune') {
+      updateFormData({ conditionsClimatiques: ['aucune'] });
+      return;
+    }
+    
+    // If any other is selected, remove "aucune" if present
+    const filtered = current.filter(c => c !== 'aucune');
+    const updated = current.includes(conditionId)
+      ? filtered.filter(c => c !== conditionId)
+      : [...filtered, conditionId];
+    
+    updateFormData({ conditionsClimatiques: updated });
+  };
 
   return (
     <div className="space-y-8 animate-fade-in">
@@ -20,85 +69,231 @@ export const Step2Destination = ({ formData, updateFormData }: Step2DestinationP
           📍 Où partez-vous ?
         </h2>
         <p className="text-muted-foreground">
-          Cela nous aidera à personnaliser votre checklist
+          Ces informations nous permettront d'adapter vos recommandations
         </p>
       </div>
 
       <div className="space-y-8 max-w-2xl mx-auto">
+        {/* Zone géographique */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
-            Type de destination <span className="text-destructive">*</span>
+            Zone géographique <span className="text-destructive">*</span>
           </Label>
           <RadioGroup
-            value={formData.destination}
-            onValueChange={(value) => updateFormData({ destination: value as Destination })}
+            value={formData.localisation}
+            onValueChange={(value) => {
+              updateFormData({ localisation: value as FormData['localisation'], pays: [] });
+            }}
             className="grid grid-cols-1 gap-3"
           >
-            {Object.entries(destinations).map(([key, label]) => (
+            {Object.entries(checklistData.localisations).map(([code, loc]: [string, any]) => (
               <div
-                key={key}
+                key={code}
                 className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
-                  formData.destination === key ? "border-primary bg-primary/5" : "border-border"
+                  formData.localisation === code ? "border-primary bg-primary/5" : "border-border"
                 }`}
               >
-                <RadioGroupItem value={key} id={`dest-${key}`} />
-                <Label htmlFor={`dest-${key}`} className="flex-1 cursor-pointer text-base">
-                  {label}
+                <RadioGroupItem value={code} id={code} />
+                <Label htmlFor={code} className="flex-1 cursor-pointer text-base">
+                  {loc.nom}
                 </Label>
               </div>
             ))}
           </RadioGroup>
         </div>
 
+        {/* Pays visités (optionnel) */}
+        {formData.localisation && formData.localisation !== 'multi-destinations' && (
+          <div className="space-y-4">
+            <div className="flex items-center space-x-2 cursor-pointer" onClick={() => setShowPaysSelector(!showPaysSelector)}>
+              <Checkbox
+                id="show-pays"
+                checked={showPaysSelector}
+                onCheckedChange={(checked) => setShowPaysSelector(checked === true)}
+              />
+              <Label htmlFor="show-pays" className="text-base font-semibold cursor-pointer">
+                💡 Préciser le(s) pays visité(s) (optionnel, max 3)
+              </Label>
+            </div>
+
+            {showPaysSelector && (
+              <div className="space-y-3">
+                <Popover open={open} onOpenChange={setOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={open}
+                      className="w-full justify-between h-12"
+                      disabled={(formData.pays || []).length >= 3}
+                    >
+                      🔍 Rechercher un pays...
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-full p-0">
+                    <Command>
+                      <CommandInput placeholder="Rechercher..." />
+                      <CommandEmpty>Aucun pays trouvé.</CommandEmpty>
+                      <CommandList>
+                        <CommandGroup>
+                          {paysOptions.map((pays) => (
+                            <CommandItem
+                              key={pays.code}
+                              onSelect={() => {
+                                handlePaysSelect(pays);
+                                setOpen(false);
+                              }}
+                            >
+                              <Check
+                                className={`mr-2 h-4 w-4 ${
+                                  (formData.pays || []).some(p => p.code === pays.code)
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                }`}
+                              />
+                              {pays.flag} {pays.nom}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+
+                {/* Selected pays chips */}
+                {formData.pays && formData.pays.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {formData.pays.map((pays) => (
+                      <Badge
+                        key={pays.code}
+                        variant="secondary"
+                        className="text-sm py-2 px-3"
+                      >
+                        {pays.flag} {pays.nom}
+                        <button
+                          onClick={() => handlePaysRemove(pays.code)}
+                          className="ml-2 hover:text-destructive"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </Badge>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Température moyenne */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
-            Saison sur place <span className="text-destructive">*</span>
+            🌡️ Température moyenne sur place <span className="text-destructive">*</span>
+          </Label>
+          <RadioGroup
+            value={formData.temperature}
+            onValueChange={(value) => updateFormData({ temperature: value as FormData['temperature'] })}
+            className="grid grid-cols-1 gap-3"
+          >
+            {Object.entries(checklistData.temperatures).map(([code, temp]: [string, any]) => (
+              <div
+                key={code}
+                className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
+                  formData.temperature === code ? "border-primary bg-primary/5" : "border-border"
+                }`}
+              >
+                <RadioGroupItem value={code} id={`temp-${code}`} />
+                <Label htmlFor={`temp-${code}`} className="flex-1 cursor-pointer text-base">
+                  {temp.label}
+                </Label>
+              </div>
+            ))}
+          </RadioGroup>
+        </div>
+
+        {/* Saison de voyage */}
+        <div className="space-y-4">
+          <Label className="text-base font-semibold">
+            📅 Saison de voyage <span className="text-destructive">*</span>
           </Label>
           <RadioGroup
             value={formData.saison}
-            onValueChange={(value) => updateFormData({ saison: value as Saison })}
+            onValueChange={(value) => updateFormData({ saison: value as FormData['saison'] })}
             className="grid grid-cols-2 gap-3"
           >
-            {Object.entries(saisons).map(([key, label]) => (
+            {Object.entries(checklistData.saisons).map(([code, saison]: [string, any]) => (
               <div
-                key={key}
+                key={code}
                 className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
-                  formData.saison === key ? "border-primary bg-primary/5" : "border-border"
+                  formData.saison === code ? "border-primary bg-primary/5" : "border-border"
                 }`}
               >
-                <RadioGroupItem value={key} id={`saison-${key}`} />
-                <Label htmlFor={`saison-${key}`} className="flex-1 cursor-pointer text-base">
-                  {label}
+                <RadioGroupItem value={code} id={`saison-${code}`} />
+                <Label htmlFor={`saison-${code}`} className="flex-1 cursor-pointer">
+                  {saison.label}
                 </Label>
               </div>
             ))}
           </RadioGroup>
         </div>
 
+        {/* Conditions climatiques spéciales */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
-            Durée du séjour
+            💨 Conditions climatiques spéciales (optionnel)
           </Label>
-          <RadioGroup
-            value={formData.duree}
-            onValueChange={(value) => updateFormData({ duree: value as Duree })}
-            className="grid grid-cols-1 gap-3"
-          >
-            {Object.entries(durees).map(([key, label]) => (
+          <div className="grid grid-cols-1 gap-2">
+            {checklistData.conditionsClimatiques.map((condition: any) => (
               <div
-                key={key}
-                className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
-                  formData.duree === key ? "border-primary bg-primary/5" : "border-border"
+                key={condition.id}
+                className={`flex items-center space-x-3 p-3 rounded-lg border transition-all cursor-pointer hover:border-primary/50 ${
+                  (formData.conditionsClimatiques || []).includes(condition.id)
+                    ? "border-primary/30 bg-primary/5"
+                    : "border-border"
                 }`}
+                onClick={() => handleConditionToggle(condition.id)}
               >
-                <RadioGroupItem value={key} id={`duree-${key}`} />
-                <Label htmlFor={`duree-${key}`} className="flex-1 cursor-pointer text-base">
-                  {label}
+                <Checkbox
+                  id={`condition-${condition.id}`}
+                  checked={(formData.conditionsClimatiques || []).includes(condition.id)}
+                  onCheckedChange={() => handleConditionToggle(condition.id)}
+                />
+                <Label htmlFor={`condition-${condition.id}`} className="flex-1 cursor-pointer">
+                  {condition.nom}
                 </Label>
               </div>
             ))}
-          </RadioGroup>
+          </div>
         </div>
+
+        {/* Duration if not auto-calculated */}
+        {!formData.dateRetour && (
+          <div className="space-y-4">
+            <Label className="text-base font-semibold">
+              ⏱️ Durée estimée du voyage <span className="text-destructive">*</span>
+            </Label>
+            <RadioGroup
+              value={formData.duree}
+              onValueChange={(value) => updateFormData({ duree: value as FormData['duree'] })}
+              className="grid grid-cols-2 gap-3"
+            >
+              {Object.entries(checklistData.durees).map(([code, duree]: [string, any]) => (
+                <div
+                  key={code}
+                  className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
+                    formData.duree === code ? "border-primary bg-primary/5" : "border-border"
+                  }`}
+                >
+                  <RadioGroupItem value={code} id={`duree-${code}`} />
+                  <Label htmlFor={`duree-${code}`} className="flex-1 cursor-pointer">
+                    {duree.label}
+                  </Label>
+                </div>
+              ))}
+            </RadioGroup>
+          </div>
+        )}
       </div>
     </div>
   );

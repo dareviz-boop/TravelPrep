@@ -1,7 +1,7 @@
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { FormData, Activite } from "@/types/form";
-import checklistData from "@/data/checklist";
+import { FormData } from "@/types/form";
+import { checklistData } from "@/utils/checklistUtils";
 
 interface Step3ActivitesProps {
   formData: FormData;
@@ -9,13 +9,11 @@ interface Step3ActivitesProps {
 }
 
 export const Step3Activites = ({ formData, updateFormData }: Step3ActivitesProps) => {
-  const activites = checklistData.labels.activites;
-
-  const handleActiviteToggle = (activite: Activite) => {
-    const current = formData.activites || [];
-    const updated = current.includes(activite)
-      ? current.filter((a) => a !== activite)
-      : [...current, activite];
+  const handleActiviteToggle = (activite: string) => {
+    const currentActivites = formData.activites || [];
+    const updated = currentActivites.includes(activite as any)
+      ? currentActivites.filter((a) => a !== activite)
+      : [...currentActivites, activite as any];
     updateFormData({ activites: updated });
   };
 
@@ -23,7 +21,7 @@ export const Step3Activites = ({ formData, updateFormData }: Step3ActivitesProps
     <div className="space-y-8 animate-fade-in">
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold mb-3 bg-gradient-travel bg-clip-text text-transparent">
-          🎯 Quelles activités au programme ?
+          🎯 Quelles activités prévoyez-vous ?
         </h2>
         <p className="text-muted-foreground">
           Sélectionnez tout ce qui s'applique
@@ -31,25 +29,30 @@ export const Step3Activites = ({ formData, updateFormData }: Step3ActivitesProps
       </div>
 
       <div className="space-y-4 max-w-2xl mx-auto">
-        <Label className="text-base font-semibold">Type d'activités</Label>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {Object.entries(activites).map(([key, label]) => (
+        <Label className="text-base font-semibold">
+          Activités prévues (plusieurs choix possibles)
+        </Label>
+        <div className="grid grid-cols-1 gap-3">
+          {Object.entries(checklistData.activites).map(([code, activite]: [string, any]) => (
             <div
-              key={key}
+              key={code}
               className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
-                formData.activites?.includes(key as Activite)
+                formData.activites.includes(code as any)
                   ? "border-primary bg-primary/5"
                   : "border-border"
               }`}
-              onClick={() => handleActiviteToggle(key as Activite)}
+              onClick={() => handleActiviteToggle(code)}
             >
               <Checkbox
-                id={`activite-${key}`}
-                checked={formData.activites?.includes(key as Activite)}
-                onCheckedChange={() => handleActiviteToggle(key as Activite)}
+                id={`activite-${code}`}
+                checked={formData.activites.includes(code as any)}
+                onCheckedChange={() => handleActiviteToggle(code)}
               />
-              <Label htmlFor={`activite-${key}`} className="flex-1 cursor-pointer text-base">
-                {label}
+              <Label
+                htmlFor={`activite-${code}`}
+                className="flex-1 cursor-pointer text-base"
+              >
+                {activite.label}
               </Label>
             </div>
           ))}

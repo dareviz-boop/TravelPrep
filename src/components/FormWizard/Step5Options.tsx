@@ -3,7 +3,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormData } from "@/types/form";
-import checklistData from "@/data/checklist";
+import { checklistData } from "@/utils/checklistUtils";
 import { Card } from "@/components/ui/card";
 
 interface Step5OptionsProps {
@@ -12,7 +12,18 @@ interface Step5OptionsProps {
 }
 
 export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) => {
-  const sections = checklistData.sections;
+  const sections = [
+    "📄 Documents & Administratif",
+    "💳 Finances & Argent",
+    "🏥 Santé & Assurances",
+    "🏠 Domicile (avant départ)",
+    "📱 Technologie & Apps",
+    "🎫 Réservations & Activités",
+    "⏰ Timeline chronologique",
+    "🎒 Bagages détaillés",
+    "🚨 Kit d'urgence",
+    "📱 Applications recommandées"
+  ];
 
   const handleSectionToggle = (section: string) => {
     const current = formData.sectionsInclure || sections;
@@ -70,11 +81,11 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
                 <span className="font-semibold">{duration} jours</span>
               </div>
             )}
-            {formData.destination && (
+            {formData.localisation && (
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Destination :</span>
                 <span className="font-semibold">
-                  {checklistData.labels.destinations[formData.destination]}
+                  {(checklistData.localisations as any)[formData.localisation]?.nom || formData.localisation}
                 </span>
               </div>
             )}
@@ -88,7 +99,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Profil :</span>
                 <span className="font-semibold">
-                  {checklistData.labels.profils[formData.profil]}
+                  {(checklistData.profils as any)[formData.profil]?.label || formData.profil}
                 </span>
               </div>
             )}
@@ -96,7 +107,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Confort :</span>
                 <span className="font-semibold">
-                  {String(checklistData.labels.conforts[formData.confort]).split(" - ")[0]}
+                  {(checklistData.conforts as any)[formData.confort]?.label || formData.confort}
                 </span>
               </div>
             )}
@@ -139,7 +150,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
           </Label>
           <RadioGroup
             value={formData.formatPDF}
-            onValueChange={(value) => updateFormData({ formatPDF: value as 'compact' | 'detaille' | 'notion' })}
+            onValueChange={(value) => updateFormData({ formatPDF: value as 'compact' | 'detaille' | 'tableau' })}
             className="grid grid-cols-1 gap-3"
           >
             <div
@@ -168,14 +179,14 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
             </div>
             <div
               className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
-                formData.formatPDF === "notion" ? "border-primary bg-primary/5" : "border-border"
+                formData.formatPDF === "tableau" ? "border-primary bg-primary/5" : "border-border"
               }`}
             >
-              <RadioGroupItem value="notion" id="format-notion" />
-              <Label htmlFor="format-notion" className="flex-1 cursor-pointer">
-                <div className="font-semibold text-base mb-1">📊 Format Notion</div>
+              <RadioGroupItem value="tableau" id="format-tableau" />
+              <Label htmlFor="format-tableau" className="flex-1 cursor-pointer">
+                <div className="font-semibold text-base mb-1">📊 Format Tableau</div>
                 <div className="text-sm text-muted-foreground">
-                  Optimisé pour import dans Notion
+                  Optimisé pour import dans Excel/Trello
                 </div>
               </Label>
             </div>

@@ -9,20 +9,23 @@ import { Step5Options } from "@/components/FormWizard/Step5Options";
 import { FormData } from "@/types/form";
 import { ArrowLeft, ArrowRight, Download } from "lucide-react";
 import { toast } from "sonner";
-import checklistData from "@/data/checklist";
+import { checklistData } from "@/utils/checklistUtils";
 
 const Generator = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<FormData>({
     nomVoyage: "",
     dateDepart: "",
-    destination: "europe",
+    localisation: "europe",
+    pays: [],
+    temperature: "temperee",
     saison: "ete",
+    conditionsClimatiques: [],
     activites: [],
     profil: "solo",
     agesEnfants: [],
     confort: "confort",
-    sectionsInclure: checklistData.sections,
+    sectionsInclure: [],
     formatPDF: "detaille",
   });
 
@@ -41,8 +44,8 @@ const Generator = () => {
         }
         return true;
       case 1:
-        if (!formData.destination || !formData.saison) {
-          toast.error("Veuillez sélectionner une destination et une saison");
+        if (!formData.localisation || !formData.temperature || !formData.saison) {
+          toast.error("Veuillez remplir tous les champs obligatoires");
           return false;
         }
         return true;
@@ -83,10 +86,10 @@ const Generator = () => {
     try {
       const { pdf } = await import('@react-pdf/renderer');
       const { TravelPrepPDF } = await import('@/components/PDF/PDFDocument');
-      const { checklistComplete } = await import('@/data/checklistComplete');
+      const checklistComplete = await import('@/data/checklistComplete.json');
 
       const blob = await pdf(
-        <TravelPrepPDF formData={formData} checklistData={checklistComplete} />
+        <TravelPrepPDF formData={formData} checklistData={checklistComplete.default} />
       ).toBlob();
 
       const url = URL.createObjectURL(blob);

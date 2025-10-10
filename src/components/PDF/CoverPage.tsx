@@ -83,9 +83,9 @@ export const CoverPage = ({ formData, checklistData }: CoverPageProps) => {
   };
 
   const getActivitesLabels = () => {
-    if (!checklistData.labels?.activites) return '';
+    if (!checklistData.activites) return '';
     return formData.activites
-      .map(act => checklistData.labels.activites[act])
+      .map(act => checklistData.activites[act]?.label)
       .filter(Boolean)
       .join(', ');
   };
@@ -121,12 +121,12 @@ export const CoverPage = ({ formData, checklistData }: CoverPageProps) => {
         
         <View style={styles.infoRow}>
           <Text style={styles.infoLabel}>📍 Destination :</Text>
-          <Text style={styles.infoValue}>{checklistData.labels?.destinations?.[formData.destination] || formData.destination}</Text>
+          <Text style={styles.infoValue}>{checklistData.localisations?.[formData.localisation]?.nom || formData.localisation}</Text>
         </View>
         
         <View style={styles.infoRow}>
           <Text style={styles.infoLabel}>👥 Profil :</Text>
-          <Text style={styles.infoValue}>{checklistData.labels?.profils?.[formData.profil] || formData.profil}</Text>
+          <Text style={styles.infoValue}>{checklistData.profils?.[formData.profil]?.label || formData.profil}</Text>
         </View>
         
         {formData.activites.length > 0 && (
