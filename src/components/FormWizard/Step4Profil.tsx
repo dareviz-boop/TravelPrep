@@ -3,7 +3,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormData, Profil, Confort, EnfantAge } from "@/types/form";
-import checklistData from "@/data/checklist";
+import { checklistData } from "@/utils/checklistUtils";
 
 interface Step4ProfilProps {
   formData: FormData;
@@ -11,8 +11,8 @@ interface Step4ProfilProps {
 }
 
 export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
-  const profils = checklistData.labels.profils;
-  const conforts = checklistData.labels.conforts;
+  const profils = checklistData.profils;
+  const conforts = checklistData.conforts;
 
   const agesEnfants = [
     { key: '0-2-ans', label: '0-2 ans (bébé)' },
@@ -50,7 +50,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
             onValueChange={(value) => updateFormData({ profil: value as Profil })}
             className="grid grid-cols-1 gap-3"
           >
-            {Object.entries(profils).map(([key, label]) => (
+            {Object.entries(profils).map(([key, profil]: [string, any]) => (
               <div
                 key={key}
                 className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
@@ -59,7 +59,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
               >
                 <RadioGroupItem value={key} id={`profil-${key}`} />
                 <Label htmlFor={`profil-${key}`} className="flex-1 cursor-pointer text-base">
-                  {label}
+                  {profil.label}
                 </Label>
               </div>
             ))}
@@ -120,7 +120,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
             onValueChange={(value) => updateFormData({ confort: value as Confort })}
             className="grid grid-cols-1 gap-3"
           >
-            {Object.entries(conforts).map(([key, label]) => (
+            {Object.entries(conforts).map(([key, confort]: [string, any]) => (
               <div
                 key={key}
                 className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
@@ -129,9 +129,9 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
               >
                 <RadioGroupItem value={key} id={`confort-${key}`} />
                 <Label htmlFor={`confort-${key}`} className="flex-1 cursor-pointer">
-                  <div className="font-semibold text-base mb-1">{String(label).split(' - ')[0]}</div>
+                  <div className="font-semibold text-base mb-1">{confort.label}</div>
                   <div className="text-sm text-muted-foreground">
-                    {String(label).split(' - ')[1]}
+                    {confort.description}
                   </div>
                 </Label>
               </div>
