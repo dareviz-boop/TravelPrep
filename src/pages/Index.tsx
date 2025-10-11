@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Plane, CheckSquare, FileDown, Sparkles } from "lucide-react";
+import { Plane, Clock, FileDown, Sparkles } from "lucide-react";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -52,10 +52,10 @@ const Index = () => {
           </div>
 
           <div className="bg-card p-8 rounded-2xl shadow-lg border border-border hover:shadow-xl transition-shadow animate-slide-up" style={{ animationDelay: "0.1s" }}>
-            <div className="w-14 h-14 bg-secondary/10 rounded-full flex items-center justify-center mb-6">
-              <CheckSquare className="w-7 h-7 text-secondary" />
+            <div className="w-14 h-14 bg-accent/10 rounded-full flex items-center justify-center mb-6">
+              <Clock className="w-7 h-7 text-accent" />
             </div>
-            <h3 className="text-2xl font-bold mb-4">⏰ Timeline Complète</h3>
+            <h3 className="text-2xl font-bold mb-4">Timeline Complète</h3>
             <p className="text-muted-foreground">
               Échéances calculées automatiquement de J-90 au retour. Ne manquez plus jamais une
               démarche importante.
@@ -63,8 +63,8 @@ const Index = () => {
           </div>
 
           <div className="bg-card p-8 rounded-2xl shadow-lg border border-border hover:shadow-xl transition-shadow animate-slide-up" style={{ animationDelay: "0.2s" }}>
-            <div className="w-14 h-14 bg-accent/10 rounded-full flex items-center justify-center mb-6">
-              <FileDown className="w-7 h-7 text-accent" />
+            <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+              <FileDown className="w-7 h-7 text-primary" />
             </div>
             <h3 className="text-2xl font-bold mb-4">PDF Prêt à Imprimer</h3>
             <p className="text-muted-foreground">
