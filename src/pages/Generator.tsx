@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ProgressBar } from "@/components/FormWizard/ProgressBar";
-import { Step1Info } from "@/components/FormWizard/Step1Info";
-import { Step2Destination } from "@/components/FormWizard/Step2Destination";
+import { Step1Destination } from "@/components/FormWizard/Step1Destination";
 import { Step3Activites } from "@/components/FormWizard/Step3Activites";
 import { Step4Profil } from "@/components/FormWizard/Step4Profil";
 import { Step5Options } from "@/components/FormWizard/Step5Options";
@@ -24,12 +23,14 @@ const Generator = () => {
     activites: [],
     profil: "solo",
     agesEnfants: [],
-    confort: "confort",
+    typeVoyage: "equilibre",
+    confort: "confortable",
     sectionsInclure: [],
     formatPDF: "detaille",
+    formatFichier: "pdf",
   });
 
-  const stepTitles = ["Infos", "Destination", "Activités", "Profil", "Options"];
+  const stepTitles = ["Destination", "Activités", "Profil", "Récapitulatif", "Checkout"];
 
   const updateFormData = (data: Partial<FormData>) => {
     setFormData((prev) => ({ ...prev, ...data }));
@@ -113,15 +114,15 @@ const Generator = () => {
   const renderStep = () => {
     switch (currentStep) {
       case 0:
-        return <Step1Info formData={formData} updateFormData={updateFormData} />;
+        return <Step1Destination formData={formData} updateFormData={updateFormData} />;
       case 1:
-        return <Step2Destination formData={formData} updateFormData={updateFormData} />;
-      case 2:
         return <Step3Activites formData={formData} updateFormData={updateFormData} />;
-      case 3:
+      case 2:
         return <Step4Profil formData={formData} updateFormData={updateFormData} />;
-      case 4:
+      case 3:
         return <Step5Options formData={formData} updateFormData={updateFormData} />;
+      case 4:
+        return <div className="text-center">Checkout page à venir</div>;
       default:
         return null;
     }

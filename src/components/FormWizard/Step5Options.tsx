@@ -150,7 +150,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
           </Label>
           <RadioGroup
             value={formData.formatPDF}
-            onValueChange={(value) => updateFormData({ formatPDF: value as 'compact' | 'detaille' | 'tableau' })}
+            onValueChange={(value) => updateFormData({ formatPDF: value as 'compact' | 'detaille' })}
             className="grid grid-cols-1 gap-3"
           >
             <div
@@ -174,19 +174,6 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
                 <div className="font-semibold text-base mb-1">📋 Format détaillé</div>
                 <div className="text-sm text-muted-foreground">
                   Avec conseils et délais recommandés
-                </div>
-              </Label>
-            </div>
-            <div
-              className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
-                formData.formatPDF === "tableau" ? "border-primary bg-primary/5" : "border-border"
-              }`}
-            >
-              <RadioGroupItem value="tableau" id="format-tableau" />
-              <Label htmlFor="format-tableau" className="flex-1 cursor-pointer">
-                <div className="font-semibold text-base mb-1">📊 Format Tableau</div>
-                <div className="text-sm text-muted-foreground">
-                  Optimisé pour import dans Excel/Trello
                 </div>
               </Label>
             </div>
