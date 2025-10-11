@@ -227,10 +227,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               type="date"
               value={formData.dateDepart}
               onChange={(e) => {
-                const value = e.target.value;
-                if (validateYear(value) && isFutureDate(value)) {
-                  updateFormData({ dateDepart: value });
-                }
+                updateFormData({ dateDepart: e.target.value });
               }}
               className="h-14 text-base border-2 focus:border-primary"
               required
@@ -250,10 +247,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               type="date"
               value={formData.dateRetour || ''}
               onChange={(e) => {
-                const value = e.target.value;
-                if (validateYear(value) || !value) {
-                  updateFormData({ dateRetour: value });
-                }
+                updateFormData({ dateRetour: e.target.value });
               }}
               className="h-14 text-base border-2 focus:border-primary"
               min={formData.dateDepart || new Date().toISOString().split('T')[0]}
