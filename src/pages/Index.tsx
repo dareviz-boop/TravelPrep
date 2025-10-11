@@ -63,8 +63,8 @@ const Index = () => {
           </div>
 
           <div className="bg-card p-8 rounded-2xl shadow-lg border border-border hover:shadow-xl transition-shadow animate-slide-up" style={{ animationDelay: "0.2s" }}>
-            <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mb-6">
-              <FileDown className="w-7 h-7 text-primary" />
+            <div className="w-14 h-14 bg-muted rounded-full flex items-center justify-center mb-6">
+              <FileDown className="w-7 h-7 text-foreground" />
             </div>
             <h3 className="text-2xl font-bold mb-4">PDF Prêt à Imprimer</h3>
             <p className="text-muted-foreground">
