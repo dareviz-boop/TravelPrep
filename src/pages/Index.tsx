@@ -55,7 +55,7 @@ const Index = () => {
             <div className="w-14 h-14 bg-secondary/10 rounded-full flex items-center justify-center mb-6">
               <CheckSquare className="w-7 h-7 text-secondary" />
             </div>
-            <h3 className="text-2xl font-bold mb-4">Timeline Complète</h3>
+            <h3 className="text-2xl font-bold mb-4">⏰ Timeline Complète</h3>
             <p className="text-muted-foreground">
               Échéances calculées automatiquement de J-90 au retour. Ne manquez plus jamais une
               démarche importante.
