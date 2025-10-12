@@ -9,6 +9,7 @@ import { FormData, Localisation, Pays } from "@/types/form";
 import { checklistData, getPaysOptions } from "@/utils/checklistUtils";
 import { Check, ChevronsUpDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 interface Step1DestinationProps {
   formData: FormData;
@@ -16,6 +17,7 @@ interface Step1DestinationProps {
 }
 
 export const Step1Destination = ({ formData, updateFormData }: Step1DestinationProps) => {
+  const { toast } = useToast();
   const [showPaysSelector, setShowPaysSelector] = useState(false);
   const [open, setOpen] = useState(false);
   const [paysOptions, setPaysOptions] = useState<Pays[]>([]);
@@ -227,11 +229,26 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               type="date"
               value={formData.dateDepart}
               onChange={(e) => {
-                updateFormData({ dateDepart: e.target.value });
+                const value = e.target.value;
+                const selectedDate = new Date(value);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                // Validation : la date doit être dans le futur
+                if (selectedDate <= today) {
+                  toast({
+                    title: "Date invalide",
+                    description: "❌ La date de départ doit être dans le futur",
+                    variant: "destructive"
+                  });
+                  return;
+                }
+                
+                updateFormData({ dateDepart: value });
               }}
               className="h-14 text-base border-2 focus:border-primary"
               required
-              min={new Date().toISOString().split('T')[0]}
+              min={new Date(Date.now() + 86400000).toISOString().split('T')[0]}
             />
             <p className="text-sm text-muted-foreground">
               On calculera automatiquement tes échéances
@@ -247,10 +264,30 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               type="date"
               value={formData.dateRetour || ''}
               onChange={(e) => {
-                updateFormData({ dateRetour: e.target.value });
+                const value = e.target.value;
+                
+                if (!value) {
+                  updateFormData({ dateRetour: value });
+                  return;
+                }
+                
+                const selectedDate = new Date(value);
+                const departDate = new Date(formData.dateDepart);
+                
+                // Validation : la date de retour doit être après la date de départ
+                if (selectedDate <= departDate) {
+                  toast({
+                    title: "Date invalide",
+                    description: "❌ La date de retour doit être après la date de départ",
+                    variant: "destructive"
+                  });
+                  return;
+                }
+                
+                updateFormData({ dateRetour: value });
               }}
               className="h-14 text-base border-2 focus:border-primary"
-              min={formData.dateDepart || new Date().toISOString().split('T')[0]}
+              min={formData.dateDepart || new Date(Date.now() + 86400000).toISOString().split('T')[0]}
             />
             {formData.dateDepart && formData.dateRetour && (
               <p className="text-sm text-accent font-bold flex items-center gap-2">
