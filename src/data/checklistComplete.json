@@ -293,12 +293,36 @@
   },
 
   "conditionsClimatiques": [
-    {"id": "pluie-mousson", "nom": "🌧️ Pluie / Mousson"},
-    {"id": "sec-aride", "nom": "🏜️ Sec / Aride"},
-    {"id": "humide-tropical", "nom": "🌴 Humide / Tropical"},
-    {"id": "vent-fort", "nom": "💨 Vent fort"},
-    {"id": "altitude-montagne", "nom": "⛰️ Altitude / Montagne"},
-    {"id": "aucune", "nom": "✅ Aucune condition spéciale"}
+      {   "groupe": "Précipitations",
+          "options": [
+              { "id": "pluies_mousson", "nom": "🌧️ Saison des pluies / Mousson" },
+              { "id": "sec_aride", "nom": "🌵 Saison sèche / Aride" },
+              { "id": "orages_freq", "nom": "⛈️ Orages fréquents" },
+              { "id": "neige_blizzards", "nom": "🌨️ Neige / Blizzards" }
+          ]
+      },
+      {   "groupe": "Vents & Tempêtes",
+          "options": [
+              { "id": "vents_forts", "nom": "💨 Vents forts / Tempêtes" },
+              { "id": "cyclones", "nom": "🌀 Cyclones / Typhons / Ouragans" },
+              { "id": "tempete_sable", "nom": "🏜️ Tempêtes de sable" }
+          ]
+      },
+      {   "groupe": "Températures extrêmes",
+          "options": [
+              { "id": "canicule", "nom": "🌡️ Canicule / Vague de chaleur" },
+              { "id": "froid_intense", "nom": "🧊 Grand froid / Gel intense" },
+              { "id": "amplitude_thermique", "nom": "🌓 Amplitude thermique jour/nuit importante" }
+          ]
+      },
+      {   "groupe": "Autres",
+          "options": [
+              { "id": "brouillard_brume", "nom": "🌫️ Brouillard / Brume fréquents" },
+              { "id": "uv_eleves", "nom": "☀️ Ensoleillement extrême / UV élevés" },
+              { "id": "forte_humidite", "nom": "💧 Forte humidité" },
+              { "id": "aucune", "nom": "❌ Aucune condition particulière" }
+          ]
+      }
   ],
 
   "durees": {
