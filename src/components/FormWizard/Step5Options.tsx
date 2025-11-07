@@ -12,25 +12,27 @@ interface Step5OptionsProps {
 }
 
 export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) => {
-  const sections = [
-    "📄 Documents & Administratif",
-    "💳 Finances & Argent",
-    "🏥 Santé & Assurances",
-    "🏠 Domicile (avant départ)",
-    "📱 Technologie & Apps",
-    "🎫 Réservations & Activités",
-    "⏰ Timeline chronologique",
-    "🎒 Bagages détaillés",
-    "🚨 Kit d'urgence",
-    "📱 Applications recommandées"
-  ];
+  const sectionsData = [
+  { id: 'documents', label: '📄 Documents & Administratif', desc: 'Passeport, visas, assurances, copies de sécurité' },
+  { id: 'finances', label: '💳 Finances & Argent', desc: 'Cartes bancaires, devises, notifications banque' },
+  { id: 'sante', label: '🏥 Santé & Assurances', desc: 'Vaccins, pharmacie, traitements, urgences' },
+  { id: 'domicile', label: '🏠 Domicile (avant départ)', desc: 'Clés, courrier, plantes, sécurisation maison' },
+  { id: 'technologie', label: '💻 Technologie & Apps', desc: 'Forfait, applications, sauvegardes, matériel' },
+  { id: 'reservations', label: '🎫 Réservations & Activités', desc: 'Vols, hébergements, excursions, transports' },
+  { id: 'timeline', label: '⏰ Timeline chronologique', desc: 'Planning détaillé de J-90 au retour' },
+  { id: 'bagages', label: '🎒 Bagages détaillés', desc: 'Liste vêtements et équipement adapté à votre voyage' },
+  { id: 'urgence', label: '🚨 Kit d\'urgence', desc: 'Ce qu\'il faut toujours avoir sur soi' },
+  { id: 'apps', label: '📱 Applications recommandées', desc: 'Apps offline et online essentielles' },
+];
 
-  const handleSectionToggle = (section: string) => {
-    const current = formData.sectionsInclure || sections;
-    const updated = current.includes(section)
-      ? current.filter((s) => s !== section)
+  const handleSectionToggle = (sectionId: string) => {
+    const allIds = sectionsData.map(s => s.id);
+    const current = formData.sectionsInclure || allIds;
+    
+    const updated = current.includes(sectionId)
+      ? current.filter((id) => id !== sectionId)
       : [...current, section];
-    updateFormData({ sectionsInclure: updated });
+    updateFormData({ sectionsInclure: updated.length === allIds.length ? undefined : updated });
   };
 
   const calculateDuration = () => {
@@ -116,30 +118,69 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
 
         {/* Sections à inclure */}
         <div className="space-y-4">
+          
           <Label className="text-base font-semibold">
             Sections à inclure
           </Label>
-          <div className="grid grid-cols-1 gap-2">
-            {sections.map((section) => (
-              <div
-                key={section}
-                className={`flex items-center space-x-3 p-3 rounded-lg border transition-all cursor-pointer hover:border-primary/50 ${
-                  formData.sectionsInclure?.includes(section) || !formData.sectionsInclure
-                    ? "border-primary/30 bg-primary/5"
-                    : "border-border"
-                }`}
-                onClick={() => handleSectionToggle(section)}
+
+          {/* Bouton Tout Sélectionner / Tout Désélectionner */}
+          <div className="flex justify-end">
+              <button
+                  type="button"
+                  onClick={() => {
+                      const allIds = sectionsData.map(s => s.id);
+                      const currentSelected = formData.sectionsInclure || allIds;
+                      const shouldSelectAll = currentSelected.length !== allIds.length; 
+                      
+                      updateFormData({ 
+                          // Si on sélectionne tout, on envoie la liste complète. Sinon, une liste vide.
+                          sectionsInclure: shouldSelectAll ? allIds : [] 
+                      });
+                  }}
+                  className="text-sm text-primary hover:underline font-semibold"
               >
-                <Checkbox
-                  id={`section-${section}`}
-                  checked={formData.sectionsInclure?.includes(section) || !formData.sectionsInclure}
-                  onCheckedChange={() => handleSectionToggle(section)}
-                />
-                <Label htmlFor={`section-${section}`} className="flex-1 cursor-pointer">
-                  {section}
-                </Label>
-              </div>
-            ))}
+                  {(formData.sectionsInclure || sectionsData.map(s => s.id)).length === sectionsData.length
+                      ? 'Tout dé-sélectionner'
+                      : 'Tout sélectionner'
+                  }
+              </button>
+          </div>
+
+          <div className="grid grid-cols-1 gap-2">
+            {sectionsData.map((section) => {
+                // Vérifie si la section est incluse
+                const isSelected = (formData.sectionsInclure || sectionsData.map(s => s.id)).includes(section.id);
+                
+                // Extraction de l'emoji et du titre (si le label contient déjà l'emoji)
+                const [emoji, ...labelParts] = section.label.split(' ');
+                const title = labelParts.join(' ').trim();
+                
+                return (
+                    <div
+                      key={section.id}
+                      className={`flex items-start space-x-3 p-3 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
+                        isSelected ? "border-primary bg-primary/5" : "border-border"
+                      }`}
+                      onClick={() => handleSectionToggle(section.id)}
+                    >
+                      <Checkbox
+                        id={`section-${section.id}`}
+                        checked={isSelected}
+                        onCheckedChange={() => handleSectionToggle(section.id)}
+                        className="mt-1"
+                      />
+                      <Label htmlFor={`section-${section.id}`} className="flex-1 cursor-pointer">
+                          <div className="font-semibold text-base mb-1 flex items-center">
+                              <span className="mr-2">{emoji}</span>
+                              {title}
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                              {section.desc}
+                          </div>
+                      </Label>
+                    </div>
+                );
+            })}
           </div>
         </div>
 
