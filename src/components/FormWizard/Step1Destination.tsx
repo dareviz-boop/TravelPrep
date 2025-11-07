@@ -89,7 +89,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
           </Label>
           <Input
             id="nomVoyage"
-            placeholder="Ex: Roadtrip Australie 2025"
+            placeholder="Ex: Voyage au pays des pandas - 2028"
             value={formData.nomVoyage}
             onChange={(e) => updateFormData({ nomVoyage: e.target.value })}
             className="h-14 text-base border-2 focus:border-primary"
@@ -217,7 +217,99 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
             </p>
           </div>
         )}
-
+          
+            {formData.localisation === 'multi-destinations' && (
+        <div className="space-y-4 bg-card p-6 rounded-xl border-2 border-border shadow-sm">
+          
+          {/* Titre mis à jour */}
+          <div className="flex items-center justify-between">
+            <Label className="text-lg font-bold text-foreground">
+              Vos destinations <span className="text-muted-foreground text-sm font-normal">(ex: 10 max)</span>
+            </Label>
+          </div>
+      
+          {/* Pays sélectionnés (Code identique au bloc 1) */}
+          {formData.pays.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-3">
+              {formData.pays.map((pays) => (
+                <div
+                  key={pays.code}
+                  className="flex items-center gap-2 bg-primary/10 border-2 border-primary/30 rounded-lg px-3 py-2"
+                >
+                  <span className="text-lg">{pays.flag}</span>
+                  <span className="text-sm font-bold text-foreground">{pays.nom}</span>
+                  <button
+                    type="button"
+                    onClick={() => handlePaysRemove(pays.code)}
+                    className="ml-1 hover:text-destructive"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+      
+          {/* Combobox mis à jour (limite et source des données) */}
+          {formData.pays.length < 10 && ( 
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={open}
+                  className="w-full justify-between h-14 border-2"
+                >
+                  <span className="text-muted-foreground">
+                    Rechercher un pays...
+                  </span>
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-full p-0" align="start">
+                <Command>
+                  <CommandInput placeholder="Rechercher..." />
+                  <CommandList>
+                    <CommandEmpty>Aucun pays trouvé.</CommandEmpty>
+                    <CommandGroup>
+                      
+                      {/* ATTENTION : Utilise la liste COMPLÈTE des pays */}
+                      {allPaysOptions.map((pays) => { 
+                        const isSelected = formData.pays.find(p => p.code === pays.code);
+                        return (
+                          <CommandItem
+                            key={pays.code}
+                            value={`${pays.nom} ${pays.nomEn}`}
+                            onSelect={() => {
+                              handlePaysSelect(pays);
+                              // On ne ferme PAS la popover pour permettre la multi-sélection rapide
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                isSelected ? "opacity-100" : "opacity-0"
+                              )}
+                            />
+                            <span className="mr-2">{pays.flag}</span>
+                            {pays.nom}
+                          </CommandItem>
+                        );
+                      })}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+          )}
+          
+          {/* Texte d'aide mis à jour */}
+          <p className="text-sm text-muted-foreground">
+            Sélectionnez tous les pays de votre itinéraire.
+          </p>
+        </div>
+      )}
+        
         {/* Dates */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-3 bg-card p-6 rounded-xl border-2 border-border shadow-sm hover:shadow-md transition-shadow">
