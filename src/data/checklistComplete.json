@@ -85,70 +85,71 @@
   },
 
   "temperatures": {
-    "tres-froide": {"nom": "🥶 Très froide (< -10°C)", "description": "Grand froid, neige"},
-    "froide": {"nom": "❄️ Froide (-10°C à 5°C)", "description": "Froid, possibilité neige"},
-    "temperee": {"nom": "🌤️ Tempérée (5°C à 20°C)", "description": "Climat doux"},
-    "chaude": {"nom": "☀️ Chaude (20°C à 30°C)", "description": "Chaleur modérée"},
-    "tres-chaude": {"nom": "🔥 Très chaude (> 30°C)", "description": "Chaleur intense"},
-    "inconnue": {"nom": "❓ Je ne sais pas", "description": "À déterminer"}
+    "tres-froide": {"label": "🥶 Très froide (< -10°C)", "description": "Grand froid, neige"},
+    "froide": {"label": "❄️ Froide (-10°C à 5°C)", "description": "Froid, possibilité neige"},
+    "temperee": {"label": "🌤️ Tempérée (5°C à 20°C)", "description": "Climat doux"},
+    "chaude": {"label": "☀️ Chaude (20°C à 30°C)", "description": "Chaleur modérée"},
+    "tres-chaude": {"label": "🔥 Très chaude (> 30°C)", "description": "Chaleur intense"},
+    "inconnue": {"label": "❓ Je ne sais pas", "description": "À déterminer"}
   },
 
   "saisons": {
-    "ete": {"nom": "☀️ Été", "description": "Saison chaude"},
-    "hiver": {"nom": "❄️ Hiver", "description": "Saison froide"},
-    "printemps": {"nom": "🌸 Printemps", "description": "Saison douce"},
-    "automne": {"nom": "🍂 Automne", "description": "Saison tempérée"},
-    "inconnue": {"nom": "❓ Inconnue", "description": "À déterminer"}
+    "ete": {"label": "☀️ Été", "description": "Saison chaude"},
+    "hiver": {"label": "❄️ Hiver", "description": "Saison froide"},
+    "printemps": {"label": "🌸 Printemps", "description": "Saison douce"},
+    "automne": {"label": "🍂 Automne", "description": "Saison tempérée"},
+    "inconnue": {"label": "❓ Inconnue", "description": "À déterminer"}
   },
 
   "conditionsClimatiques": [
-    "pluie-mousson",
-    "sec-aride",
-    "humide-tropical",
-    "vent-fort",
-    "altitude-montagne"
+    {"id": "pluie-mousson", "nom": "🌧️ Pluie / Mousson"},
+    {"id": "sec-aride", "nom": "🏜️ Sec / Aride"},
+    {"id": "humide-tropical", "nom": "🌴 Humide / Tropical"},
+    {"id": "vent-fort", "nom": "💨 Vent fort"},
+    {"id": "altitude-montagne", "nom": "⛰️ Altitude / Montagne"},
+    {"id": "aucune", "nom": "✅ Aucune condition spéciale"}
   ],
 
   "durees": {
-    "court": {"nom": "🏃 Court (2-7 jours)", "description": "Week-end prolongé"},
-    "moyen": {"nom": "📅 Moyen (1-3 semaines)", "description": "Séjour standard"},
-    "long": {"nom": "🗓️ Long (1-3 mois)", "description": "Voyage prolongé"},
-    "tres-long": {"nom": "🌍 Très long (3 mois et +)", "description": "Tour du monde / Gap year"}
+    "court": {"label": "🏃 Court (2-7 jours)", "description": "Week-end prolongé"},
+    "moyen": {"label": "📅 Moyen (1-3 semaines)", "description": "Séjour standard"},
+    "long": {"label": "🗓️ Long (1-3 mois)", "description": "Voyage prolongé"},
+    "tres-long": {"label": "🌍 Très long (3 mois et +)", "description": "Tour du monde / Gap year"}
   },
 
   "activites": {
-    "randonnee": {"nom": "⛰️ Randonnée / Trekking", "description": "Montagne, nature, trails"},
-    "plage": {"nom": "🏖️ Plage / Mer / Sports nautiques", "description": "Détente, baignade, surf, plongée"},
-    "city-trip": {"nom": "🏙️ City-trip / Visites culturelles", "description": "Musées, monuments, vie urbaine"},
-    "backpacking": {"nom": "🎒 Backpacking / Aventure", "description": "Voyage sac à dos, rencontres"},
-    "camping": {"nom": "🏕️ Camping / Nature", "description": "Bivouac, camping sauvage, immersion nature"},
-    "sports-hiver": {"nom": "⛷️ Sports d'hiver", "description": "Ski, snowboard, raquettes"},
-    "road-trip": {"nom": "🚗 Road-trip", "description": "Voyage en voiture, liberté"},
-    "gastronomie": {"nom": "🍜 Gastronomie", "description": "Découverte culinaire, restaurants"},
-    "shopping": {"nom": "🛍️ Shopping", "description": "Marchés, boutiques, souvenirs"}
+    "randonnee": {"label": "⛰️ Randonnée / Trekking", "description": "Montagne, nature, trails"},
+    "plage": {"label": "🏖️ Plage / Mer / Sports nautiques", "description": "Détente, baignade, surf, plongée"},
+    "city-trip": {"label": "🏙️ City-trip / Visites culturelles", "description": "Musées, monuments, vie urbaine"},
+    "backpacking": {"label": "🎒 Backpacking / Aventure", "description": "Voyage sac à dos, rencontres"},
+    "camping": {"label": "🏕️ Camping / Nature", "description": "Bivouac, camping sauvage, immersion nature"},
+    "sports-hiver": {"label": "⛷️ Sports d'hiver", "description": "Ski, snowboard, raquettes"},
+    "road-trip": {"label": "🚗 Road-trip", "description": "Voyage en voiture, liberté"},
+    "gastronomie": {"label": "🍜 Gastronomie", "description": "Découverte culinaire, restaurants"},
+    "shopping": {"label": "🛍️ Shopping", "description": "Marchés, boutiques, souvenirs"}
   },
 
   "profils": {
-    "solo": {"nom": "🚶 Solo", "description": "Voyageur seul"},
-    "couple": {"nom": "💑 Couple", "description": "Voyage à deux"},
-    "famille": {"nom": "👨‍👩‍👧‍👦 Famille", "description": "Avec enfants"},
-    "groupe": {"nom": "👥 Groupe d'amis", "description": "Entre amis"},
-    "pro": {"nom": "💼 Voyage professionnel", "description": "Déplacement business"}
+    "solo": {"label": "🚶 Solo", "description": "Voyageur seul"},
+    "couple": {"label": "💑 Couple", "description": "Voyage à deux"},
+    "famille": {"label": "👨‍👩‍👧‍👦 Famille", "description": "Avec enfants"},
+    "groupe": {"label": "👥 Groupe d'amis", "description": "Entre amis"},
+    "pro": {"label": "💼 Voyage professionnel", "description": "Déplacement business"}
   },
 
   "typesVoyage": {
-    "backpacker": {"nom": "🎒 Backpacker", "description": "Voyage au rythme local, transports publics, hébergements économiques"},
-    "immersion": {"nom": "🌍 Immersion locale", "description": "Rencontres authentiques, homestays, vie quotidienne locale"},
-    "equilibre": {"nom": "⚖️ Équilibré", "description": "Mix confort et découverte, flexibilité"},
-    "confort-organise": {"nom": "🏨 Confort organisé", "description": "Itinéraire planifié, hébergements confortables, prestations qualité"},
-    "luxe": {"nom": "💎 Luxe & Prestige", "description": "Services premium, expériences exclusives, confort maximum"}
+    "backpacker": {"label": "🎒 Backpacker", "description": "Voyage au rythme local, transports publics, hébergements économiques"},
+    "immersion": {"label": "🌍 Immersion locale", "description": "Rencontres authentiques, homestays, vie quotidienne locale"},
+    "equilibre": {"label": "⚖️ Équilibré", "description": "Mix confort et découverte, flexibilité"},
+    "confort-organise": {"label": "🏨 Confort organisé", "description": "Itinéraire planifié, hébergements confortables, prestations qualité"},
+    "luxe": {"label": "💎 Luxe & Prestige", "description": "Services premium, expériences exclusives, confort maximum"}
   },
 
   "conforts": {
-    "economique": {"nom": "💰 Économique", "description": "Auberges de jeunesse, dortoirs, cuisine partagée, transports locaux"},
-    "confortable": {"nom": "🏠 Confortable", "description": "Hôtels 2-3★, chambres privées, petits restaurants locaux"},
-    "premium": {"nom": "✨ Premium", "description": "Hôtels 4★, restaurants de qualité, activités organisées"},
-    "luxe": {"nom": "💎 Luxe", "description": "Hôtels 5★, services concierge, expériences VIP, confort maximal"}
+    "economique": {"label": "💰 Économique", "description": "Auberges de jeunesse, dortoirs, cuisine partagée, transports locaux"},
+    "confortable": {"label": "🏠 Confortable", "description": "Hôtels 2-3★, chambres privées, petits restaurants locaux"},
+    "premium": {"label": "✨ Premium", "description": "Hôtels 4★, restaurants de qualité, activités organisées"},
+    "luxe": {"label": "💎 Luxe", "description": "Hôtels 5★, services concierge, expériences VIP, confort maximal"}
   },
 
   "categories": {
