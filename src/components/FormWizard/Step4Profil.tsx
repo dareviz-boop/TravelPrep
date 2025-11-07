@@ -13,6 +13,7 @@ interface Step4ProfilProps {
 export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
   const profils = checklistData.profils;
   const conforts = checklistData.conforts;
+  const typesVoyage = checklistData.typeVoyage.options;
 
   const agesEnfants = [
     { key: '0-2-ans', label: '0-2 ans (bébé)' },
@@ -84,33 +85,76 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
             </div>
 
             <div className="space-y-4">
-              <Label className="text-base font-semibold">Âge des enfants</Label>
-              <div className="grid grid-cols-1 gap-3">
-                {agesEnfants.map(({ key, label }) => (
-                  <div
-                    key={key}
-                    className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
-                      formData.agesEnfants?.includes(key as EnfantAge)
-                        ? "border-primary bg-primary/5"
-                        : "border-border"
-                    }`}
-                    onClick={() => handleAgeEnfantToggle(key as EnfantAge)}
-                  >
-                    <Checkbox
-                      id={`age-${key}`}
-                      checked={formData.agesEnfants?.includes(key as EnfantAge)}
-                      onCheckedChange={() => handleAgeEnfantToggle(key as EnfantAge)}
-                    />
-                    <Label htmlFor={`age-${key}`} className="flex-1 cursor-pointer text-base">
-                      {label}
-                    </Label>
-                  </div>
-                ))}
+              <Label className="text-base font-semibold">Âge des enfants <span className="text-destructive">*</span></Label>
+              <div className="grid grid-cols-1 gap-2">
+                {/* Ajout des emojis dans la déclaration agesEnfants ou directement ici */}
+                {agesEnfants.map(({ key, label }) => {
+                  let emoji = '';
+                  if (key === '0-2-ans') emoji = '🍼';
+                  else if (key === '3-5-ans') emoji = '👶';
+                  else if (key === '6-12-ans') emoji = '👦';
+                  else if (key === '13+-ans') emoji = '🧑';
+                    
+                  return (
+                    <div 
+                      key={key} 
+                      className="flex items-center space-x-3" // Style simple, pas de bordure
+                    >
+                      <Checkbox
+                        id={`age-${key}`}
+                        checked={formData.agesEnfants?.includes(key as EnfantAge)}
+                        onCheckedChange={() => handleAgeEnfantToggle(key as EnfantAge)}
+                        // Le onCheckedChange est essentiel pour que l'état soit mis à jour
+                      />
+                      <Label 
+                        htmlFor={`age-${key}`} 
+                        className="text-base font-normal flex items-center cursor-pointer"
+                      >
+                        {emoji} {label}
+                      </Label>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
         )}
 
+        {/* BLOC NOUVEAU : Type de voyage */}
+        <div className="space-y-4">
+          <Label className="text-base font-semibold">
+            Type de voyage <span className="text-destructive">*</span>
+          </Label>
+          <RadioGroup
+            // Assurez-vous que formData possède bien un champ pour le type de voyage (ex: typeVoyage)
+            value={formData.typeVoyage}
+            onValueChange={(value) => updateFormData({ typeVoyage: value as string })}
+            className="grid grid-cols-1 gap-3"
+          >
+            {typesVoyage.map((type) => (
+              <div
+                key={type.id}
+                // Le nom de la propriété dans votre JSON est 'nom', mais nous allons afficher l'emoji et la description séparément
+                className={`flex items-start space-x-3 p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
+                  formData.typeVoyage === type.id ? "border-primary bg-primary/5" : "border-border"
+                }`}
+              >
+                <RadioGroupItem value={type.id} id={`typeVoyage-${type.id}`} />
+                <Label htmlFor={`typeVoyage-${type.id}`} className="flex-1 cursor-pointer">
+                  <div className="font-semibold text-base mb-1 flex items-center">
+                    <span className="mr-2">{type.emoji}</span>
+                    {/* Nous retirons l'emoji du nom ici car il est déjà affiché avant */}
+                    {type.nom.replace(type.emoji, '').trim()} 
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    {type.description}
+                  </div>
+                </Label>
+              </div>
+            ))}
+          </RadioGroup>
+        </div>
+        
         <div className="space-y-4">
           <Label className="text-base font-semibold">
             Niveau de confort souhaité <span className="text-destructive">*</span>
