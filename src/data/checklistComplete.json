@@ -24,7 +24,7 @@
       ]
     },
     "asie": {
-      "nom": "🌏 Asie",
+      "nom": "🏯 Asie",
       "code": "asie",
       "pays": [
         {"code": "JP", "nom": "Japon", "nomEn": "Japan", "flag": "🇯🇵"},
@@ -35,7 +35,7 @@
       ]
     },
     "afrique": {
-      "nom": "🌍 Afrique",
+      "nom": "🦁 Afrique",
       "code": "afrique",
       "pays": [
         {"code": "MA", "nom": "Maroc", "nomEn": "Morocco", "flag": "🇲🇦"},
