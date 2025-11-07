@@ -45,21 +45,27 @@ export const Step2Destination = ({ formData, updateFormData }: Step2DestinationP
   };
 
   const handleConditionToggle = (conditionId: string) => {
-    const current = formData.conditionsClimatiques || [];
-    
-    // If "aucune" is selected, clear all others and add it
-    if (conditionId === 'aucune') {
-      updateFormData({ conditionsClimatiques: ['aucune'] });
-      return;
-    }
-    
-    // If any other is selected, remove "aucune" if present
-    const filtered = current.filter(c => c !== 'aucune');
-    const updated = current.includes(conditionId)
-      ? filtered.filter(c => c !== conditionId)
-      : [...filtered, conditionId];
-    
-    updateFormData({ conditionsClimatiques: updated });
+      // Récupérer l'état actuel, par défaut un tableau vide si undefined
+      const current = formData.conditionsClimatiques || [];
+  
+      // Logique pour l'option "aucune"
+      if (conditionId === 'aucune') {
+          const isCurrentlyNone = current.includes('aucune');
+          // Si elle est cochée -> la décocher (état vide), sinon -> sélectionner uniquement 'aucune'
+          updateFormData({ conditionsClimatiques: isCurrentlyNone ? [] : ['aucune'] });
+          return;
+      }
+  
+      // Pour toute autre option :
+      // 1. S'assurer de retirer 'aucune' si elle était sélectionnée.
+      const filteredCurrent = current.filter(id => id !== 'aucune');
+  
+      // 2. Basculer l'option cliquée
+      const updated = filteredCurrent.includes(conditionId)
+          ? filteredCurrent.filter((id) => id !== conditionId)
+          : [...filteredCurrent, conditionId];
+  
+      updateFormData({ conditionsClimatiques: updated });
   };
 
   return (
@@ -239,32 +245,52 @@ export const Step2Destination = ({ formData, updateFormData }: Step2DestinationP
         </div>
 
         {/* Conditions climatiques spéciales */}
-        <div className="space-y-4">
-          <Label className="text-base font-semibold">
-            💨 Conditions climatiques spéciales (optionnel)
-          </Label>
-          <div className="grid grid-cols-1 gap-2">
-            {checklistData.conditionsClimatiques.map((condition: any) => (
-              <div
-                key={condition.id}
-                className={`flex items-center space-x-3 p-3 rounded-lg border transition-all cursor-pointer hover:border-primary/50 ${
-                  (formData.conditionsClimatiques || []).includes(condition.id)
-                    ? "border-primary/30 bg-primary/5"
-                    : "border-border"
-                }`}
-                onClick={() => handleConditionToggle(condition.id)}
-              >
-                <Checkbox
-                  id={`condition-${condition.id}`}
-                  checked={(formData.conditionsClimatiques || []).includes(condition.id)}
-                  onCheckedChange={() => handleConditionToggle(condition.id)}
-                />
-                <Label htmlFor={`condition-${condition.id}`} className="flex-1 cursor-pointer">
-                  {condition.nom}
-                </Label>
-              </div>
+          <div className="space-y-6">
+            <h3 className="text-xl font-bold mb-3">
+                Conditions climatiques <span className="text-muted-foreground text-sm font-normal">(choix multiple - optionnel)</span>
+            </h3>
+        
+            {/* Utilise la nouvelle structure groupée du JSON */}
+            {checklistData.conditionsClimatiques.map((groupe, index) => (
+                <div key={index} className="space-y-3 p-4 border rounded-lg bg-muted/30 shadow-sm">
+                    <Label className="text-base font-semibold text-primary/80 border-b pb-2 block">
+                        {groupe.groupe}
+                    </Label>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {groupe.options.map((condition) => {
+                            const isSelected = (formData.conditionsClimatiques || []).includes(condition.id);
+                            
+                            // Extraction de l'emoji et du nom pour l'affichage (si le JSON contient l'emoji dans 'nom')
+                            const [emoji, ...labelParts] = condition.nom.split(' ');
+                            const title = labelParts.join(' ').trim();
+                            
+                            return (
+                                <div
+                                    key={condition.id}
+                                    className={`flex items-start space-x-3 p-3 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
+                                        isSelected ? "border-primary bg-primary/5" : "border-border"
+                                    }`}
+                                    onClick={() => handleConditionToggle(condition.id)}
+                                >
+                                    <Checkbox
+                                        id={`condition-${condition.id}`}
+                                        checked={isSelected}
+                                        onCheckedChange={() => handleConditionToggle(condition.id)}
+                                        className="mt-1"
+                                    />
+                                    <Label htmlFor={`condition-${condition.id}`} className="flex-1 cursor-pointer">
+                                        <span className="font-semibold text-base flex items-center">
+                                            <span className="mr-2">{emoji}</span>
+                                            {title}
+                                        </span>
+                                    </Label>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
             ))}
-          </div>
         </div>
 
         {/* Duration if not auto-calculated */}
