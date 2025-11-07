@@ -47,8 +47,8 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
 
   const localisations: { value: Localisation; label: string; emoji: string }[] = [
     { value: 'europe', label: 'Europe', emoji: '🇪🇺' },
-    { value: 'asie', label: 'Asie', emoji: '🌏' },
-    { value: 'afrique', label: 'Afrique', emoji: '🌍' },
+    { value: 'asie', label: 'Asie', emoji: '🏯' },
+    { value: 'afrique', label: 'Afrique', emoji: '🦁' },
     { value: 'amerique-nord', label: 'Amérique du Nord', emoji: '🗽' },
     { value: 'amerique-centrale-caraibes', label: 'Caraïbes', emoji: '🏝️' },
     { value: 'amerique-sud', label: 'Amérique du Sud', emoji: '🦙' },
