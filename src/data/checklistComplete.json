@@ -276,9 +276,9 @@
   },
 
   "temperatures": {
-    "tres-froide": {"label": "🥶 Très froide (< -10°C)", "description": "Grand froid, neige"},
-    "froide": {"label": "❄️ Froide (-10°C à 5°C)", "description": "Froid, possibilité neige"},
-    "temperee": {"label": "🌤️ Tempérée (5°C à 20°C)", "description": "Climat doux"},
+    "tres-froide": {"label": "🥶 Très froide (< -5°C)", "description": "Grand froid, neige"},
+    "froide": {"label": "❄️ Froide (-5°C à 10°C)", "description": "Froid, possibilité neige"},
+    "temperee": {"label": "🌤️ Tempérée (10°C à 20°C)", "description": "Climat doux"},
     "chaude": {"label": "☀️ Chaude (20°C à 30°C)", "description": "Chaleur modérée"},
     "tres-chaude": {"label": "🔥 Très chaude (> 30°C)", "description": "Chaleur intense"},
     "inconnue": {"label": "❓ Je ne sais pas", "description": "À déterminer"}
@@ -310,14 +310,18 @@
 
   "activites": {
     "randonnee": {"label": "⛰️ Randonnée / Trekking", "description": "Montagne, nature, trails"},
-    "plage": {"label": "🏖️ Plage / Mer / Sports nautiques", "description": "Détente, baignade, surf, plongée"},
+    "plage": {"label": "🏖️ Plage / Mer", "description": "Détente, baignade, farniente"},
+    "sports-nautiques": {"label": "🏄 Sports nautiques", "description": "Surf, plongée, snorkeling, kayak"},
     "city-trip": {"label": "🏙️ City-trip / Visites culturelles", "description": "Musées, monuments, vie urbaine"},
     "backpacking": {"label": "🎒 Backpacking / Aventure", "description": "Voyage sac à dos, rencontres"},
     "camping": {"label": "🏕️ Camping / Nature", "description": "Bivouac, camping sauvage, immersion nature"},
     "sports-hiver": {"label": "⛷️ Sports d'hiver", "description": "Ski, snowboard, raquettes"},
     "road-trip": {"label": "🚗 Road-trip", "description": "Voyage en voiture, liberté"},
+    "vie-nocturne": {"label": "🌃 Vie nocturne", "description": "Bars, clubs, soirées, ambiance nocturne"},
+    "vélo": {"label": "🚴 Vélo", "description": "Cyclotourisme, VTT, balades"},
     "gastronomie": {"label": "🍜 Gastronomie", "description": "Découverte culinaire, restaurants"},
     "shopping": {"label": "🛍️ Shopping", "description": "Marchés, boutiques, souvenirs"}
+    "Photographie": {"label": "📸 Photographie", "description": "Paysages, portraits, vie citadine, découvertes"}
   },
 
   "profils": {
@@ -331,16 +335,17 @@
   "typesVoyage": {
     "backpacker": {"label": "🎒 Backpacker", "description": "Voyage au rythme local, transports publics, hébergements économiques"},
     "immersion": {"label": "🌍 Immersion locale", "description": "Rencontres authentiques, homestays, vie quotidienne locale"},
-    "equilibre": {"label": "⚖️ Équilibré", "description": "Mix confort et découverte, flexibilité"},
+    "flexible": {"label": "⚖️ Flexibilité", "description": "Mix confort et découverte, équilibré"},
     "confort-organise": {"label": "🏨 Confort organisé", "description": "Itinéraire planifié, hébergements confortables, prestations qualité"},
     "luxe": {"label": "💎 Luxe & Prestige", "description": "Services premium, expériences exclusives, confort maximum"}
   },
 
   "conforts": {
-    "economique": {"label": "💰 Économique", "description": "Auberges de jeunesse, dortoirs, cuisine partagée, transports locaux"},
+    "economique": {"label": "🏕️ Économique", "description": "Auberges de jeunesse, dortoirs, cuisine partagée, transports locaux"},
     "confortable": {"label": "🏠 Confortable", "description": "Hôtels 2-3★, chambres privées, petits restaurants locaux"},
-    "premium": {"label": "✨ Premium", "description": "Hôtels 4★, restaurants de qualité, activités organisées"},
-    "luxe": {"label": "💎 Luxe", "description": "Hôtels 5★, services concierge, expériences VIP, confort maximal"}
+    "standard": {"label": "🏨 Standard", "🏨","description": "Hôtels 3★, chambres confortables, bon rapport qualité/prix"},
+    "premium": {"label": "🌟 Premium", "description": "Hôtels 4★, restaurants de qualité, activités organisées"},
+    "luxe": {"label": "👑 Luxe", "description": "Hôtels 5★, services concierge, expériences VIP, confort maximal"}
   },
 
   "categories": {
