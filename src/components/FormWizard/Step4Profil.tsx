@@ -41,7 +41,8 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
           Adaptons votre checklist à vos besoins
         </p>
       </div>
-
+    </div>
+    
       <div className="space-y-8 max-w-2xl mx-auto">
         
         {/* Type de voyageur (Profil) */}
@@ -78,7 +79,8 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
             ))}
           </RadioGroup>
         </div>
-
+      </div>
+        
         {/* Champs Enfants (Conditionnel) */}
         {formData.profil === 'famille' && (
           <div className="space-y-6 animate-scale-in"> 
@@ -148,4 +150,63 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
               <div key={type.id}>
                 <RadioGroupItem value={type.id} id={`typeVoyage-${type.id}`} className="peer sr-only" />
                 <Label
-                  htmlFor={`typeVoyage-${
+                  htmlFor={`typeVoyage-${type.id}`}
+                  className={cn(
+                    "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
+                    "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5"
+                  )}
+                >
+                  <span className="flex-1 cursor-pointer">
+                    <p className="font-semibold text-base flex items-center">
+                        <span className="mr-2 text-xl">{type.emoji}</span>
+                        {type.nom}
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                        {type.description}
+                    </p>
+                  </span>
+                </Label>
+              </div>
+            ))}
+          </RadioGroup>
+        </div>
+        
+        {/* Niveau de confort souhaité - CORRECTION DÉFAUT */}
+        <div className="space-y-4">
+          <Label className="text-base font-semibold">
+            Niveau de confort souhaité <span className="text-primary">*</span>
+          </Label>
+          <RadioGroup
+            // CORRECTION: Défaut sur 'standard'
+            value={formData.confort || "standard"}
+            onValueChange={(value) => updateFormData({ confort: value as Confort })}
+            className="grid grid-cols-1 gap-3"
+          >
+            {conforts.options.map((confort: any) => (
+              <div key={confort.id}>
+                <RadioGroupItem value={confort.id} id={`confort-${confort.id}`} className="peer sr-only" />
+                <Label
+                  htmlFor={`confort-${confort.id}`}
+                  className={cn(
+                    "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
+                    "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5"
+                  )}
+                >
+                  <span className="flex-1 cursor-pointer">
+                    <p className="font-semibold text-base flex items-center">
+                        <span className="mr-2">{confort.emoji}</span>
+                        {confort.nom}
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                        {confort.description}
+                    </p>
+                  </span>
+                </Label>
+              </div>
+            ))}
+          </RadioGroup>
+        </div>
+      </div>
+    </div>
+  );
+};
