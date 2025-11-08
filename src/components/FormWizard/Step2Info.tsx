@@ -10,12 +10,12 @@ import { useState, useEffect } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { checklistData, getPaysOptions, calculateDuree } from "@/utils/checklistUtils";
 
-interface Step2DestinationProps {
+interface Step2InfoProps {
   formData: FormData;
   updateFormData: (data: Partial<FormData>) => void;
 }
 
-export const Step2Destination = ({ formData, updateFormData }: Step2DestinationProps) => {
+export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   const [open, setOpen] = useState(false);
   const [showPaysSelector, setShowPaysSelector] = useState(false);
 
