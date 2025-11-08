@@ -39,6 +39,10 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
     updateFormData({ conditionsClimatiques: updated });
   };
 
+  
+  console.log("Saisons chargées :", checklistData.saisons);
+
+  
   return (
     <div className="space-y-8 animate-fade-in">
       <div className="text-center mb-12">
