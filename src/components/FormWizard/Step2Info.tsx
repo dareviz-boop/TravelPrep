@@ -68,22 +68,21 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
             onValueChange={(value) => updateFormData({ saison: value as FormData['saison'] })}
             className="grid grid-cols-2 gap-3"
           >
-            {Object.entries(checklistData.saisons).map(([code, saison]: [string, any]) => (
-              <div
-                key={code}
-              >
-                <RadioGroupItem value={code} id={`saison-${code}`} className="peer sr-only" />
-                <Label
-                  htmlFor={`saison-${code}`}
-                  className={cn(
-                    "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                    "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5",
-                  )}
-                >
-                  <span className="flex-1 cursor-pointer font-semibold text-base">{saison.label}</span>
-                </Label>
-              </div>
-            ))}
+              {checklistData.saisons.options.map((saison: any) => (
+                <div key={saison.id}>
+                  <RadioGroupItem value={saison.id} id={`saison-${saison.id}`} className="peer sr-only" />
+                  <Label
+                    htmlFor={`saison-${saison.id}`}
+                    className={cn(
+                      "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
+                      "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5",
+                    )}
+                  >
+                    {/* Utilisation de saison.nom pour l'affichage (à adapter si votre JSON utilise 'label' pour les saisons) */}
+                    <span className="flex-1 cursor-pointer font-semibold text-base">{saison.nom}</span>
+                  </Label>
+                </div>
+              ))}
           </RadioGroup>
         </div>
 
