@@ -1,14 +1,8 @@
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { FormData, Pays } from "@/types/form";
-import { Button } from "@/components/ui/button";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Badge } from "@/components/ui/badge";
-import { Check, ChevronsUpDown, X } from "lucide-react";
-import { useState, useEffect } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { checklistData, getPaysOptions, calculateDuree } from "@/utils/checklistUtils";
+import { FormData } from "@/types/form";
+import { checklistData } from "@/utils/checklistUtils";
 
 interface Step2InfoProps {
   formData: FormData;
@@ -16,26 +10,6 @@ interface Step2InfoProps {
 }
 
 export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
-  const [open, setOpen] = useState(false);
-  const [showPaysSelector, setShowPaysSelector] = useState(false);
-
-  const paysOptions = getPaysOptions(formData.localisation);
-
-  const handlePaysSelect = (pays: Pays) => {
-    const currentPays = formData.pays || [];
-    const isAlreadySelected = currentPays.some(p => p.code === pays.code);
-    
-    if (isAlreadySelected) {
-      updateFormData({ pays: currentPays.filter(p => p.code !== pays.code) });
-    } else if (currentPays.length < 3) {
-      updateFormData({ pays: [...currentPays, pays] });
-    }
-  };
-
-  const handlePaysRemove = (paysCode: string) => {
-    updateFormData({ pays: (formData.pays || []).filter(p => p.code !== paysCode) });
-  };
-
   const handleConditionToggle = (conditionId: string) => {
       // Récupérer l'état actuel, par défaut un tableau vide si undefined
       const current = formData.conditionsClimatiques || [];
