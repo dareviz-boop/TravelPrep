@@ -10,6 +10,9 @@ interface Step3ActivitesProps {
 }
 
 export const Step3Activites = ({ formData, updateFormData }: Step3ActivitesProps) => {
+  // CORRECTION: On suppose que la liste des activités est dans le tableau 'options'
+  const activitesList = checklistData.activites.options || []; 
+    
   const handleActiviteToggle = (activite: string) => {
     const currentActivites = formData.activites || []; 
     
@@ -35,8 +38,13 @@ export const Step3Activites = ({ formData, updateFormData }: Step3ActivitesProps
 
       <div className="space-y-4 max-w-2xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {Object.entries(checklistData.activites).map(([code, activite]: [string, any]) => {
+          {/* CORRECTION: Itérer sur la liste d'options extraite */}
+          {activitesList.map((activite: any) => {
+            const code = activite.id; // Utilisation de l'ID comme code
             const isChecked = (formData.activites || []).includes(code as any);
+
+            // Priorité au 'nom' puis au 'label' pour l'affichage
+            const displayLabel = activite.nom || activite.label; 
 
             return (
               <div
@@ -59,12 +67,16 @@ export const Step3Activites = ({ formData, updateFormData }: Step3ActivitesProps
                 />
                 <Label
                   htmlFor={`activite-${code}`}
-                  className="flex-1 cursor-pointer text-base font-medium"
+                  // Ajout de flex items-center pour aligner l'emoji et le texte
+                  className="flex-1 cursor-pointer text-base font-medium flex items-center"
                 >
-                  {activite.label}
+                  {/* Affichage de l'emoji si présent, sinon juste le label */}
+                  {activite.emoji && <span className="mr-2">{activite.emoji}</span>}
+                  {displayLabel}
                 </Label>
               </div>
-            );})}
+            );
+          })}
         </div>
       </div>
     </div>
