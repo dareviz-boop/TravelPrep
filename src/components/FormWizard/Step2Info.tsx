@@ -39,12 +39,6 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
     updateFormData({ conditionsClimatiques: updated });
   };
 
-  
-  console.log("Objet checklistData COMPLET :", checklistData); 
-  console.log("Propriétés de saisons :", Object.keys(checklistData.saisons || {}));
-  
-  
-  
   return (
     <div className="space-y-8 animate-fade-in">
       <div className="text-center mb-12">
@@ -58,67 +52,37 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
       <div className="space-y-8 max-w-2xl mx-auto">
         
-        {/* Saison de voyage */}
+        {/* Saison de voyage (Bloc Corrigé) */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
             📅 Saison de voyage <span className="text-primary">*</span>
           </Label>
           <RadioGroup
-            value={formData.saison}
+            value={formData.saison || ""} // Assure que la valeur n'est jamais null/undefined
             onValueChange={(value) => updateFormData({ saison: value as FormData['saison'] })}
             className="grid grid-cols-2 gap-3"
           >
-              // NOUVEAU CODE (Itère sur le tableau 'options')
-              {checklistData.saisons.options.map((saison: any) => (
-                <div key={saison.id}>
-                  {/* Utilise saison.id pour la valeur de la RadioGroupItem */}
-                  <RadioGroupItem value={saison.id} id={`saison-${saison.id}`} className="peer sr-only" />
-                  <Label
-                    htmlFor={`saison-${saison.id}`}
-                    className={cn(
-                      "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                      "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5",
-                    )}
-                  >
-                      <span className="flex-1 cursor-pointer">
-                          {/* 1. Titre principal et Emoji */}
-                          <p className="font-semibold text-base flex items-center">
-                              <span className="mr-2">{saison.emoji}</span>
-                              {saison.nom}
-                          </p>
-                          {/* 2. Description / Texte secondaire */}
-                          <p className="text-muted-foreground text-sm font-normal mt-1">
-                              {saison.description}
-                          </p>
-                      </span>
-                  </Label>
-                </div>
-              ))}
-          </RadioGroup>
-        </div>
-
-        {/* Température moyenne */}
-        <div className="space-y-4">
-          <Label className="text-base font-semibold">
-            🌡️ Température moyenne sur place <span className="text-primary">*</span>
-          </Label>
-          <RadioGroup
-            value={formData.temperature}
-            onValueChange={(value) => updateFormData({ temperature: value as FormData['temperature'] })}
-            className="grid grid-cols-1 gap-3"
-          >
-            {Object.entries(checklistData.temperatures).map(([code, temp]: [string, any]) => (
-              <div key={code}>
-                <RadioGroupItem value={code} id={`temp-${code}`} className="peer sr-only" />
+            {/* // Correction : Itère sur 'options' et utilise 'saison.id', 'saison.emoji', 'saison.nom', 'saison.description' */}
+            {checklistData.saisons.options.map((saison: any) => (
+              <div key={saison.id}>
+                <RadioGroupItem value={saison.id} id={`saison-${saison.id}`} className="peer sr-only" />
                 <Label
-                  htmlFor={`temp-${code}`}
+                  htmlFor={`saison-${saison.id}`}
                   className={cn(
                     "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
                     "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5",
                   )}
                 >
-                  <span className="flex-1 cursor-pointer text-base font-medium">
-                    {temp.label}
+                  <span className="flex-1 cursor-pointer">
+                      {/* 1. Titre principal et Emoji */}
+                      <p className="font-semibold text-base flex items-center">
+                          <span className="mr-2">{saison.emoji}</span>
+                          {saison.nom}
+                      </p>
+                      {/* 2. Description / Texte secondaire */}
+                      <p className="text-muted-foreground text-sm font-normal mt-1">
+                          {saison.description}
+                      </p>
                   </span>
                 </Label>
               </div>
@@ -126,7 +90,43 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
           </RadioGroup>
         </div>
 
-        {/* Conditions climatiques spéciales */}
+        {/* Température moyenne (Bloc Corrigé) */}
+        <div className="space-y-4">
+          <Label className="text-base font-semibold">
+            🌡️ Température moyenne sur place <span className="text-primary">*</span>
+          </Label>
+          <RadioGroup
+            value={formData.temperature || ""} // Assure que la valeur n'est jamais null/undefined
+            onValueChange={(value) => updateFormData({ temperature: value as FormData['temperature'] })}
+            className="grid grid-cols-1 gap-3"
+          >
+            {/* // Correction : Itère sur 'options' et utilise 'temp.id', 'temp.emoji', 'temp.nom', 'temp.description' */}
+            {checklistData.temperatures.options.map((temp: any) => (
+              <div key={temp.id}>
+                <RadioGroupItem value={temp.id} id={`temp-${temp.id}`} className="peer sr-only" />
+                <Label
+                  htmlFor={`temp-${temp.id}`}
+                  className={cn(
+                    "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
+                    "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5",
+                  )}
+                >
+                  <span className="flex-1 cursor-pointer">
+                    <p className="font-semibold text-base flex items-center">
+                        <span className="mr-2">{temp.emoji}</span>
+                        {temp.nom}
+                    </p>
+                    <p className="text-muted-foreground text-sm font-normal mt-1">
+                        {temp.description}
+                    </p>
+                  </span>
+                </Label>
+              </div>
+            ))}
+          </RadioGroup>
+        </div>
+
+        {/* Conditions climatiques spéciales (Structure OK) */}
         <div className="space-y-6">
           <h3 className="text-xl font-bold mb-3">
             Conditions climatiques <span className="text-muted-foreground text-sm font-normal">(choix multiple - optionnel)</span>
@@ -158,7 +158,6 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                       <Checkbox
                         id={`condition-${condition.id}`}
                         checked={isSelected}
-                        // La logique de bascule est gérée par l'onClick du div parent via handleConditionToggle
                         onCheckedChange={() => {}} 
                         className="mt-1"
                       />
