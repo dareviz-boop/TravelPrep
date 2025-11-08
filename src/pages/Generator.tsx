@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ProgressBar } from "@/components/FormWizard/ProgressBar";
 import { Step1Destination } from "@/components/FormWizard/Step1Destination";
+import { Step2Info } from './components/Step2Info';
 import { Step3Activites } from "@/components/FormWizard/Step3Activites";
 import { Step4Profil } from "@/components/FormWizard/Step4Profil";
 import { Step5Options } from "@/components/FormWizard/Step5Options";
@@ -49,7 +50,6 @@ const Generator = () => {
           toast.error("Veuillez remplir tous les champs obligatoires");
           return false;
         }
-        return true;
       case 3:
         if (!formData.profil || !formData.confort) {
           toast.error("Veuillez sélectionner un profil et un niveau de confort");
