@@ -12,32 +12,38 @@ interface Step5OptionsProps {
 }
 
 export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) => {
+  // ❌ Ancien code : Liste codée en dur
+  /*
   const sectionsData = [
-  { id: 'documents', label: '📄 Documents & Administratif', desc: 'Passeport, visas, assurances, copies de sécurité' },
-  { id: 'finances', label: '💳 Finances & Argent', desc: 'Cartes bancaires, devises, notifications banque' },
-  { id: 'sante', label: '🏥 Santé & Assurances', desc: 'Vaccins, pharmacie, traitements, urgences' },
-  { id: 'domicile', label: '🏠 Domicile (avant départ)', desc: 'Clés, courrier, plantes, sécurisation maison' },
-  { id: 'technologie', label: '💻 Technologie & Apps', desc: 'Forfait, applications, sauvegardes, matériel' },
-  { id: 'reservations', label: '🎫 Réservations & Activités', desc: 'Vols, hébergements, excursions, transports' },
-  { id: 'timeline', label: '⏰ Timeline chronologique', desc: 'Planning détaillé de J-90 au retour' },
-  { id: 'bagages', label: '🎒 Bagages détaillés', desc: 'Liste vêtements et équipement adapté à votre voyage' },
-  { id: 'urgence', label: '🚨 Kit d\'urgence', desc: 'Ce qu\'il faut toujours avoir sur soi' },
-  { id: 'apps', label: '📱 Applications recommandées', desc: 'Apps offline et online essentielles' },
-];
+    { id: 'documents', label: '📄 Documents & Administratif', desc: '...' },
+    // ...
+  ];
+  */
+
+  // ✅ NOUVEAU CODE : Lecture directe du JSON uniformisé
+  // Crée un tableau d'objets avec les propriétés id, label et desc, directement à partir du JSON
+  const sectionsData = checklistData.categories.options.map((category) => ({
+    id: category.id,
+    label: `${category.emoji} ${category.nom}`, // Utilise l'emoji et le nom du JSON pour créer le label
+    desc: category.description, // Utilise la description détaillée du JSON
+  }));
 
   const handleSectionToggle = (sectionId: string) => {
     const allIds = sectionsData.map(s => s.id);
-    const current = formData.sectionsInclure || allIds;
+    // Si sectionsInclure est undefined (tout est sélectionné par défaut), on utilise la liste complète
+    const current = formData.sectionsInclure === undefined ? allIds : formData.sectionsInclure;
     
     const updated = current.includes(sectionId)
       ? current.filter((id) => id !== sectionId)
       : [...current, sectionId];
+
+    // Logique pour mettre sectionsInclure à undefined si toutes les sections sont sélectionnées
+    // pour simplifier le stockage (si la liste est complète, on assume "tout coché").
     updateFormData({ sectionsInclure: updated.length === allIds.length ? undefined : updated });
   };
 
   const calculateDuration = () => {
-    if (!formData.dateDepart) return null;
-    if (!formData.dateRetour) return null;
+    if (!formData.dateDepart || !formData.dateRetour) return null;
     const days = Math.ceil(
       (new Date(formData.dateRetour).getTime() - new Date(formData.dateDepart).getTime()) /
         (1000 * 60 * 60 * 24)
@@ -59,7 +65,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
       </div>
 
       <div className="space-y-8 max-w-2xl mx-auto">
-        {/* Récapitulatif */}
+        {/* Récapitulatif (Pas de changement nécessaire ici) */}
         <Card className="p-6 bg-gradient-ocean border-2 border-primary/20">
           <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
             📋 Récapitulatif
@@ -77,24 +83,19 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
                   : "Non renseigné"}
               </span>
             </div>
-            {duration && (
+            {duration !== null && (
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Durée :</span>
                 <span className="font-semibold">{duration} jours</span>
               </div>
             )}
+            {/* ⚠️ NOTE: Les lignes ci-dessous nécessiteront une correction dans d'autres composants si vous uniformisez tous les filtres :
             {formData.localisation && (
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Destination :</span>
                 <span className="font-semibold">
                   {(checklistData.localisations as any)[formData.localisation]?.nom || formData.localisation}
                 </span>
-              </div>
-            )}
-            {formData.activites && formData.activites.length > 0 && (
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Activités :</span>
-                <span className="font-semibold">{formData.activites.length} sélectionnée(s)</span>
               </div>
             )}
             {formData.profil && (
@@ -109,6 +110,41 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Confort :</span>
                 <span className="font-semibold">
+                  {(checklistData.conforts as any)[formData.confort]?.label || formData.confort}
+                </span>
+              </div>
+            )}
+            */}
+            {/* Laissez ces lignes si vous n'avez pas encore uniformisé localisations, profils, et conforts */}
+            {formData.localisation && (
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Destination :</span>
+                <span className="font-semibold">
+                  {/* Si localisations n'est pas uniformisé, ça peut encore marcher */}
+                  {(checklistData.localisations as any)[formData.localisation]?.nom || formData.localisation}
+                </span>
+              </div>
+            )}
+            {formData.activites && formData.activites.length > 0 && (
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Activités :</span>
+                <span className="font-semibold">{formData.activites.length} sélectionnée(s)</span>
+              </div>
+            )}
+            {formData.profil && (
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Profil :</span>
+                <span className="font-semibold">
+                   {/* Si profils n'est pas uniformisé, ça peut encore marcher */}
+                  {(checklistData.profils as any)[formData.profil]?.label || formData.profil}
+                </span>
+              </div>
+            )}
+            {formData.confort && (
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Confort :</span>
+                <span className="font-semibold">
+                   {/* Si conforts n'est pas uniformisé, ça peut encore marcher */}
                   {(checklistData.conforts as any)[formData.confort]?.label || formData.confort}
                 </span>
               </div>
@@ -130,16 +166,16 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
                   onClick={() => {
                       const allIds = sectionsData.map(s => s.id);
                       const currentSelected = formData.sectionsInclure || allIds;
-                      const shouldSelectAll = currentSelected.length !== allIds.length; 
+                      const shouldSelectAll = currentSelected.length !== allIds.length;
                       
                       updateFormData({ 
-                          // Si on sélectionne tout, on envoie la liste complète. Sinon, une liste vide.
-                          sectionsInclure: shouldSelectAll ? allIds : [] 
+                          // Si on sélectionne tout, on envoie undefined. Si on désélectionne tout, on envoie une liste vide.
+                          sectionsInclure: shouldSelectAll ? undefined : [] 
                       });
                   }}
                   className="text-sm text-primary hover:underline font-semibold"
               >
-                  {(formData.sectionsInclure || sectionsData.map(s => s.id)).length === sectionsData.length
+                  {(formData.sectionsInclure === undefined || formData.sectionsInclure.length === sectionsData.length)
                       ? 'Tout dé-sélectionner'
                       : 'Tout sélectionner'
                   }
@@ -148,12 +184,12 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
 
           <div className="grid grid-cols-1 gap-2">
             {sectionsData.map((section) => {
-                // Vérifie si la section est incluse
-                const isSelected = (formData.sectionsInclure || sectionsData.map(s => s.id)).includes(section.id);
+                // Vérifie si la section est incluse (si sectionsInclure est undefined, tout est coché)
+                const isSelected = formData.sectionsInclure === undefined || formData.sectionsInclure.includes(section.id);
                 
-                // Extraction de l'emoji et du titre (si le label contient déjà l'emoji)
-                const [emoji, ...labelParts] = section.label.split(' ');
-                const title = labelParts.join(' ').trim();
+                // L'extraction de l'emoji et du titre n'est plus nécessaire car sectionsData le fournit directement
+                // const [emoji, ...labelParts] = section.label.split(' ');
+                // const title = labelParts.join(' ').trim();
                 
                 return (
                     <div
@@ -171,8 +207,8 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
                       />
                       <Label htmlFor={`section-${section.id}`} className="flex-1 cursor-pointer">
                           <div className="font-semibold text-base mb-1 flex items-center">
-                              <span className="mr-2">{emoji}</span>
-                              {title}
+                              {/* Utilisation directe du label qui contient déjà l'emoji et le nom */}
+                              {section.label}
                           </div>
                           <div className="text-sm text-muted-foreground">
                               {section.desc}
@@ -185,6 +221,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
         </div>
 
         {/* Format PDF */}
+        {/* ... (Reste inchangé) ... */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
             Format du PDF <span className="text-destructive">*</span>
@@ -222,6 +259,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
         </div>
 
         {/* Email optionnel */}
+        {/* ... (Reste inchangé) ... */}
         <div className="space-y-2">
           <Label htmlFor="email" className="text-base font-semibold">
             Email{" "}
