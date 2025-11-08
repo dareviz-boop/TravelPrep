@@ -1,10 +1,10 @@
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input"; // <-- Ajout de l'Input
+import { Input } from "@/components/ui/input";
 import { FormData, Profil, Confort, EnfantAge } from "@/types/form";
 import { checklistData } from "@/utils/checklistUtils";
-import { cn } from "@/lib/utils"; // <-- Ajout de cn
+import { cn } from "@/lib/utils"; 
 
 interface Step4ProfilProps {
   formData: FormData;
@@ -12,11 +12,10 @@ interface Step4ProfilProps {
 }
 
 export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
-  const profils = checklistData.profils; // Objet contenant .options
-  const conforts = checklistData.conforts; // Objet contenant .options
-  const typesVoyage = checklistData.typesVoyage.options; // Array
+  const profils = checklistData.profils;
+  const conforts = checklistData.conforts;
+  const typesVoyage = checklistData.typesVoyage.options;
 
-  // Mise à jour de la structure pour inclure les emojis directement
   const agesEnfants = [
     { key: '0-2-ans', label: '0-2 ans (bébé)', emoji: '🍼' },
     { key: '3-5-ans', label: '3-5 ans (jeune enfant)', emoji: '👶' },
@@ -45,7 +44,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
 
       <div className="space-y-8 max-w-2xl mx-auto">
         
-        {/* Type de voyageur (Profil) - CORRIGÉ */}
+        {/* Type de voyageur (Profil) */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
             Type de voyageur <span className="text-primary">*</span>
@@ -55,7 +54,6 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
             onValueChange={(value) => updateFormData({ profil: value as Profil })}
             className="grid grid-cols-1 md:grid-cols-2 gap-3"
           >
-            {/* CORRECTION : Itère sur profils.options et utilise nom, description, emoji */}
             {profils.options.map((profil: any) => (
               <div key={profil.id}>
                 <RadioGroupItem value={profil.id} id={`profil-${profil.id}`} className="peer sr-only" />
@@ -81,13 +79,12 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
           </RadioGroup>
         </div>
 
-        {/* Champs Enfants (Conditionnel) - CORRIGÉ FOND ET ÉTOILE */}
+        {/* Champs Enfants (Conditionnel) */}
         {formData.profil === 'famille' && (
-          // CORRECTION: Retrait des classes p-6 bg-muted/30 rounded-xl border-2 border-primary/20 animate-scale-in shadow-inner
           <div className="space-y-6 animate-scale-in"> 
             <div className="space-y-2">
               <Label htmlFor="nombreEnfants" className="text-base font-semibold">
-                Nombre d'enfants <span className="text-primary">*</span> {/* CORRECTION: Ajout étoile */}
+                Nombre d'enfants <span className="text-primary">*</span>
               </Label>
               <Input
                 id="nombreEnfants"
@@ -136,78 +133,19 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
           </div>
         )}
 
-        {/* Type de voyage - CORRIGÉ AFFICHAGE DESCRIPTION */}
+        {/* Type de voyage - CORRECTION DÉFAUT */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
             Type de voyage <span className="text-primary">*</span>
           </Label>
           <RadioGroup
-            value={formData.typeVoyage || ""}
+            // CORRECTION: Défaut sur 'flexibilite'
+            value={formData.typeVoyage || "flexibilite"}
             onValueChange={(value) => updateFormData({ typeVoyage: value as FormData['typeVoyage'] })}
             className="grid grid-cols-1 gap-3"
           >
             {typesVoyage.map((type: any) => (
               <div key={type.id}>
                 <RadioGroupItem value={type.id} id={`typeVoyage-${type.id}`} className="peer sr-only" />
-                {/* CORRECTION: Standardisation de la structure Label pour l'alignement */}
                 <Label
-                  htmlFor={`typeVoyage-${type.id}`}
-                  className={cn(
-                    "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                    "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5"
-                  )}
-                >
-                  <span className="flex-1 cursor-pointer">
-                    <p className="font-semibold text-base flex items-center">
-                        <span className="mr-2 text-xl">{type.emoji}</span>
-                        {type.nom}
-                    </p>
-                    <p className="text-sm text-muted-foreground mt-1">
-                        {type.description}
-                    </p>
-                  </span>
-                </Label>
-              </div>
-            ))}
-          </RadioGroup>
-        </div>
-        
-        {/* Niveau de confort souhaité - CORRIGÉ */}
-        <div className="space-y-4">
-          <Label className="text-base font-semibold">
-            Niveau de confort souhaité <span className="text-primary">*</span>
-          </Label>
-          <RadioGroup
-            value={formData.confort || ""}
-            onValueChange={(value) => updateFormData({ confort: value as Confort })}
-            className="grid grid-cols-1 gap-3"
-          >
-            {/* CORRECTION : Itère sur conforts.options et utilise nom, description, emoji */}
-            {conforts.options.map((confort: any) => (
-              <div key={confort.id}>
-                <RadioGroupItem value={confort.id} id={`confort-${confort.id}`} className="peer sr-only" />
-                <Label
-                  htmlFor={`confort-${confort.id}`}
-                  className={cn(
-                    "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                    "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5"
-                  )}
-                >
-                  <span className="flex-1 cursor-pointer">
-                    <p className="font-semibold text-base flex items-center">
-                        <span className="mr-2">{confort.emoji}</span>
-                        {confort.nom}
-                    </p>
-                    <p className="text-sm text-muted-foreground mt-1">
-                        {confort.description}
-                    </p>
-                  </span>
-                </Label>
-              </div>
-            ))}
-          </RadioGroup>
-        </div>
-      </div>
-    </div>
-  );
-};
+                  htmlFor={`typeVoyage-${
