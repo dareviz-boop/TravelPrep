@@ -12,9 +12,9 @@ interface Step4ProfilProps {
 }
 
 export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
-  const profils = checklistData.profils;
-  const conforts = checklistData.conforts;
-  const typesVoyage = checklistData.typesVoyage.options;
+  const profils = checklistData.profils; // Objet contenant .options
+  const conforts = checklistData.conforts; // Objet contenant .options
+  const typesVoyage = checklistData.typesVoyage.options; // Array
 
   // Mise à jour de la structure pour inclure les emojis directement
   const agesEnfants = [
@@ -45,17 +45,18 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
 
       <div className="space-y-8 max-w-2xl mx-auto">
         
-        {/* Type de voyageur (Profil) */}
+        {/* Type de voyageur (Profil) - CORRIGÉ */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
             Type de voyageur <span className="text-primary">*</span>
           </Label>
           <RadioGroup
-            value={formData.profil}
+            value={formData.profil || ""}
             onValueChange={(value) => updateFormData({ profil: value as Profil })}
             className="grid grid-cols-1 md:grid-cols-2 gap-3" // Ajout de 2 colonnes pour les profils
           >
-            {checklistData.profils.options.map((profil: any) => (
+            {/* CORRECTION : Itère sur profils.options et utilise nom, description, emoji */}
+            {profils.options.map((profil: any) => (
               <div key={profil.id}>
                 <RadioGroupItem value={profil.id} id={`profil-${profil.id}`} className="peer sr-only" />
                 <Label
@@ -67,11 +68,10 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
                 >
                   <span className="flex-1 cursor-pointer">
                     <p className="font-semibold text-base flex items-center">
-                        {/* Adaptez 'profil.emoji' et 'profil.nom' si les clés JSON sont différentes */}
                         <span className="mr-2">{profil.emoji}</span>
                         {profil.nom}
                     </p>
-                    <p className="text-muted-foreground text-sm font-normal mt-1">
+                    <p className="text-sm text-muted-foreground mt-1">
                         {profil.description}
                     </p>
                   </span>
@@ -81,7 +81,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
           </RadioGroup>
         </div>
 
-        {/* Champs Enfants (Conditionnel) */}
+        {/* Champs Enfants (Conditionnel) - OK */}
         {formData.profil === 'famille' && (
           <div className="space-y-6 p-6 bg-muted/30 rounded-xl border-2 border-primary/20 animate-scale-in shadow-inner">
             <div className="space-y-2">
@@ -135,17 +135,17 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
           </div>
         )}
 
-        {/* Type de voyage */}
+        {/* Type de voyage - OK */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
             Type de voyage <span className="text-primary">*</span>
           </Label>
           <RadioGroup
-            value={formData.typeVoyage}
+            value={formData.typeVoyage || ""}
             onValueChange={(value) => updateFormData({ typeVoyage: value as FormData['typeVoyage'] })}
             className="grid grid-cols-1 gap-3"
           >
-            {typesVoyage.map((type) => (
+            {typesVoyage.map((type: any) => (
               <div key={type.id}>
                 <RadioGroupItem value={type.id} id={`typeVoyage-${type.id}`} className="peer sr-only" />
                 <Label
@@ -169,17 +169,18 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
           </RadioGroup>
         </div>
         
-        {/* Niveau de confort souhaité */}
+        {/* Niveau de confort souhaité - CORRIGÉ */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
             Niveau de confort souhaité <span className="text-primary">*</span>
           </Label>
           <RadioGroup
-            value={formData.confort}
+            value={formData.confort || ""}
             onValueChange={(value) => updateFormData({ confort: value as Confort })}
             className="grid grid-cols-1 gap-3"
           >
-            {checklistData.conforts.options.map((confort: any) => (
+            {/* CORRECTION : Itère sur conforts.options et utilise nom, description, emoji */}
+            {conforts.options.map((confort: any) => (
               <div key={confort.id}>
                 <RadioGroupItem value={confort.id} id={`confort-${confort.id}`} className="peer sr-only" />
                 <Label
@@ -191,11 +192,10 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
                 >
                   <span className="flex-1 cursor-pointer">
                     <p className="font-semibold text-base flex items-center">
-                        {/* Adaptez 'confort.emoji' et 'confort.nom' si les clés JSON sont différentes */}
                         <span className="mr-2">{confort.emoji}</span>
                         {confort.nom}
                     </p>
-                    <p className="text-muted-foreground text-sm font-normal mt-1">
+                    <p className="text-sm text-muted-foreground mt-1">
                         {confort.description}
                     </p>
                   </span>
