@@ -205,5 +205,6 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
             ))}
           </RadioGroup>
         </div>
-  );
+      </div>
+    );
 };
