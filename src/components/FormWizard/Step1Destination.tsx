@@ -310,6 +310,23 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
         </div>
       )}
         
+        {/* Villes / Étapes importantes (Optionnel) */}
+        <div className="space-y-3 bg-card p-6 rounded-xl border-2 border-border shadow-sm hover:shadow-md transition-shadow">
+          <Label htmlFor="villesEtapes" className="text-lg font-bold text-foreground">
+            Villes et étapes principales <span className="text-muted-foreground text-sm font-normal">(optionnel)</span>
+          </Label>
+          <Input
+            id="villesEtapes"
+            placeholder="Ex: Tokyo, Osaka, Kyoto, ou Route 66"
+            value={formData.villesEtapes || ''}
+            onChange={(e) => updateFormData({ villesEtapes: e.target.value })}
+            className="h-14 text-base border-2 focus:border-primary"
+          />
+          <p className="text-sm text-muted-foreground">
+            Séparez les villes/étapes par une virgule pour adapter certaines recommandations (ex: transport).
+          </p>
+        </div>
+        
         {/* Dates */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-3 bg-card p-6 rounded-xl border-2 border-border shadow-sm hover:shadow-md transition-shadow">
