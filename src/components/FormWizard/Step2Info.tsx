@@ -45,6 +45,32 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
         </p>
       </div>
 
+        {/* Saison de voyage */}
+        <div className="space-y-4">
+          <Label className="text-base font-semibold">
+            📅 Saison de voyage <span className="text-destructive">*</span>
+          </Label>
+          <RadioGroup
+            value={formData.saison}
+            onValueChange={(value) => updateFormData({ saison: value as FormData['saison'] })}
+            className="grid grid-cols-2 gap-3"
+          >
+            {Object.entries(checklistData.saisons).map(([code, saison]: [string, any]) => (
+              <div
+                key={code}
+                className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
+                  formData.saison === code ? "border-primary bg-primary/5" : "border-border"
+                }`}
+              >
+                <RadioGroupItem value={code} id={`saison-${code}`} />
+                <Label htmlFor={`saison-${code}`} className="flex-1 cursor-pointer">
+                  {saison.label}
+                </Label>
+              </div>
+            ))}
+          </RadioGroup>
+        </div>
+
       <div className="space-y-8 max-w-2xl mx-auto">
         {/* Température moyenne */}
         <div className="space-y-4">
@@ -66,32 +92,6 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                 <RadioGroupItem value={code} id={`temp-${code}`} />
                 <Label htmlFor={`temp-${code}`} className="flex-1 cursor-pointer text-base">
                   {temp.label}
-                </Label>
-              </div>
-            ))}
-          </RadioGroup>
-        </div>
-
-        {/* Saison de voyage */}
-        <div className="space-y-4">
-          <Label className="text-base font-semibold">
-            📅 Saison de voyage <span className="text-destructive">*</span>
-          </Label>
-          <RadioGroup
-            value={formData.saison}
-            onValueChange={(value) => updateFormData({ saison: value as FormData['saison'] })}
-            className="grid grid-cols-2 gap-3"
-          >
-            {Object.entries(checklistData.saisons).map(([code, saison]: [string, any]) => (
-              <div
-                key={code}
-                className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
-                  formData.saison === code ? "border-primary bg-primary/5" : "border-border"
-                }`}
-              >
-                <RadioGroupItem value={code} id={`saison-${code}`} />
-                <Label htmlFor={`saison-${code}`} className="flex-1 cursor-pointer">
-                  {saison.label}
                 </Label>
               </div>
             ))}
