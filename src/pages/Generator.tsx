@@ -39,33 +39,47 @@ const Generator = () => {
 
   const validateStep = (step: number): boolean => {
     switch (step) {
-      case 0:
-        if (!formData.nomVoyage || !formData.dateDepart) {
-          toast.error("Veuillez remplir tous les champs obligatoires");
+      case 0: // Étape 1 : Destinations (Nom, Localisation, Dates/Durée)
+        if (!formData.nomVoyage || !formData.dateDepart || !formData.localisation) {
+          toast.error("Veuillez remplir le nom du voyage, la date de départ et la zone géographique.");
+          return false;
+        }
+        if (!formData.dateRetour && !formData.duree) {
+            toast.error("Veuillez renseigner la date de retour OU la durée estimée.");
+            return false;
+        }
+        return true;
+
+      case 1: // Étape 2 : Infos (Saison & Température)
+        // L'ancienne validation qui posait problème est corrigée ici
+        if (!formData.temperature || !formData.saison) { 
+          toast.error("Veuillez sélectionner la température moyenne et la saison de votre voyage.");
           return false;
         }
         return true;
-      case 1:
-        if (!formData.localisation || !formData.temperature || !formData.saison) {
-          toast.error("Veuillez remplir tous les champs obligatoires");
-          return false;
-        }
-      case 3:
+        
+      case 2: // Étape 3 : Activités/Thèmes
+        // À modifier lorsque vous coderez le contenu de Step3Activites.tsx
+        return true; 
+
+      case 3: // Étape 4 : Profils
         if (!formData.profil || !formData.confort) {
-          toast.error("Veuillez sélectionner un profil et un niveau de confort");
+          toast.error("Veuillez sélectionner votre profil voyageur et votre niveau de confort.");
           return false;
         }
         return true;
-      case 4:
+        
+      case 4: // Étape 5 : Options
         if (!formData.formatPDF) {
-          toast.error("Veuillez sélectionner un format de PDF");
+          toast.error("Veuillez sélectionner un format de PDF.");
           return false;
         }
         return true;
+        
       default:
         return true;
     }
-  };
+};
 
   const handleNext = () => {
     if (validateStep(currentStep)) {
@@ -116,13 +130,15 @@ const Generator = () => {
       case 0:
         return <Step1Destination formData={formData} updateFormData={updateFormData} />;
       case 1:
-        return <Step3Activites formData={formData} updateFormData={updateFormData} />;
+        return <Step2Info formData={formData} updateFormData={updateFormData} />; 
       case 2:
-        return <Step4Profil formData={formData} updateFormData={updateFormData} />;
+        return <Step3Activites formData={formData} updateFormData={updateFormData} />;
       case 3:
-        return <Step5Options formData={formData} updateFormData={updateFormData} />;
+        return <Step4Profil formData={formData} updateFormData={updateFormData} />;
       case 4:
-        return <div className="text-center">Checkout page à venir</div>;
+        return <Step5Options formData={formData} updateFormData={updateFormData} />;
+      case 5:
+        return <div className="text-center">Page de résumé/génération ou checkout page à venir</div>;
       default:
         return null;
     }
