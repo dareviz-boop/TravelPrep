@@ -55,17 +55,26 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
             onValueChange={(value) => updateFormData({ profil: value as Profil })}
             className="grid grid-cols-1 md:grid-cols-2 gap-3" // Ajout de 2 colonnes pour les profils
           >
-            {Object.entries(profils).map(([key, profil]: [string, any]) => (
-              <div key={key}>
-                <RadioGroupItem value={key} id={`profil-${key}`} className="peer sr-only" />
+            {checklistData.profils.options.map((profil: any) => (
+              <div key={profil.id}>
+                <RadioGroupItem value={profil.id} id={`profil-${profil.id}`} className="peer sr-only" />
                 <Label
-                  htmlFor={`profil-${key}`}
+                  htmlFor={`profil-${profil.id}`}
                   className={cn(
-                    "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
+                    "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
                     "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5"
                   )}
                 >
-                  <span className="flex-1 cursor-pointer text-base font-medium">{profil.label}</span>
+                  <span className="flex-1 cursor-pointer">
+                    <p className="font-semibold text-base flex items-center">
+                        {/* Adaptez 'profil.emoji' et 'profil.nom' si les clés JSON sont différentes */}
+                        <span className="mr-2">{profil.emoji}</span>
+                        {profil.nom}
+                    </p>
+                    <p className="text-muted-foreground text-sm font-normal mt-1">
+                        {profil.description}
+                    </p>
+                  </span>
                 </Label>
               </div>
             ))}
@@ -170,20 +179,26 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
             onValueChange={(value) => updateFormData({ confort: value as Confort })}
             className="grid grid-cols-1 gap-3"
           >
-            {Object.entries(conforts).map(([key, confort]: [string, any]) => (
-              <div key={key}>
-                <RadioGroupItem value={key} id={`confort-${key}`} className="peer sr-only" />
+            {checklistData.conforts.options.map((confort: any) => (
+              <div key={confort.id}>
+                <RadioGroupItem value={confort.id} id={`confort-${confort.id}`} className="peer sr-only" />
                 <Label
-                  htmlFor={`confort-${key}`}
+                  htmlFor={`confort-${confort.id}`}
                   className={cn(
                     "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
                     "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5"
                   )}
                 >
-                  <div className="font-semibold text-base mb-1">{confort.label}</div>
-                  <div className="text-sm text-muted-foreground">
-                    {confort.description}
-                  </div>
+                  <span className="flex-1 cursor-pointer">
+                    <p className="font-semibold text-base flex items-center">
+                        {/* Adaptez 'confort.emoji' et 'confort.nom' si les clés JSON sont différentes */}
+                        <span className="mr-2">{confort.emoji}</span>
+                        {confort.nom}
+                    </p>
+                    <p className="text-muted-foreground text-sm font-normal mt-1">
+                        {confort.description}
+                    </p>
+                  </span>
                 </Label>
               </div>
             ))}
