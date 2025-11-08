@@ -87,10 +87,17 @@ const Generator = () => {
 
       case 4: // Étape 5 : Options
         if (!formData.formatPDF) {
-          toast.error("Veuillez sélectionner un format de PDF.");
+          toast.error("Veuillez sélectionner un format de PDF (compact ou détaillé).");
           return false;
         }
         return true;
+
+      case 5: // Page de Checkout/Génération
+        if (formData.email && !/^\S+@\S+\.\S+$/.test(formData.email)) {
+          toast.error("Veuillez entrer une adresse email valide.");
+          return false;
+        }
+  return true;
         
       default:
         return true;
