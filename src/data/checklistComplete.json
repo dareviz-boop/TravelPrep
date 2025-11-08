@@ -274,6 +274,14 @@
       "pays": []
     }
   },
+  
+  "saisons": {
+      "ete": {"label": "☀️ Été", "description": "Saison chaude"},
+      "hiver": {"label": "❄️ Hiver", "description": "Saison froide"},
+      "printemps": {"label": "🌸 Printemps", "description": "Saison douce"},
+      "automne": {"label": "🍂 Automne", "description": "Saison tempérée"},
+      "inconnue": {"label": "❓ Inconnue", "description": "À déterminer"}
+    },
 
   "temperatures": {
     "tres-froide": {"label": "🥶 Très froide (< -5°C)", "description": "Grand froid, neige"},
@@ -282,14 +290,6 @@
     "chaude": {"label": "☀️ Chaude (20°C à 30°C)", "description": "Chaleur modérée"},
     "tres-chaude": {"label": "🔥 Très chaude (> 30°C)", "description": "Chaleur intense"},
     "inconnue": {"label": "❓ Je ne sais pas", "description": "À déterminer"}
-  },
-
-  "saisons": {
-    "ete": {"label": "☀️ Été", "description": "Saison chaude"},
-    "hiver": {"label": "❄️ Hiver", "description": "Saison froide"},
-    "printemps": {"label": "🌸 Printemps", "description": "Saison douce"},
-    "automne": {"label": "🍂 Automne", "description": "Saison tempérée"},
-    "inconnue": {"label": "❓ Inconnue", "description": "À déterminer"}
   },
 
   "conditionsClimatiques": [
