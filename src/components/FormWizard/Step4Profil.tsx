@@ -53,7 +53,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
           <RadioGroup
             value={formData.profil || ""}
             onValueChange={(value) => updateFormData({ profil: value as Profil })}
-            className="grid grid-cols-1 md:grid-cols-2 gap-3" // Ajout de 2 colonnes pour les profils
+            className="grid grid-cols-1 md:grid-cols-2 gap-3"
           >
             {/* CORRECTION : Itère sur profils.options et utilise nom, description, emoji */}
             {profils.options.map((profil: any) => (
@@ -81,12 +81,13 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
           </RadioGroup>
         </div>
 
-        {/* Champs Enfants (Conditionnel) - OK */}
+        {/* Champs Enfants (Conditionnel) - CORRIGÉ FOND ET ÉTOILE */}
         {formData.profil === 'famille' && (
-          <div className="space-y-6 p-6 bg-muted/30 rounded-xl border-2 border-primary/20 animate-scale-in shadow-inner">
+          // CORRECTION: Retrait des classes p-6 bg-muted/30 rounded-xl border-2 border-primary/20 animate-scale-in shadow-inner
+          <div className="space-y-6 animate-scale-in"> 
             <div className="space-y-2">
               <Label htmlFor="nombreEnfants" className="text-base font-semibold">
-                Nombre d'enfants
+                Nombre d'enfants <span className="text-primary">*</span> {/* CORRECTION: Ajout étoile */}
               </Label>
               <Input
                 id="nombreEnfants"
@@ -117,7 +118,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
                       <Checkbox
                         id={`age-${key}`}
                         checked={isChecked}
-                        onCheckedChange={() => {}} // Géré par le div parent
+                        onCheckedChange={() => {}} 
                         className="mt-1"
                       />
                       <Label 
@@ -135,7 +136,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
           </div>
         )}
 
-        {/* Type de voyage - OK */}
+        {/* Type de voyage - CORRIGÉ AFFICHAGE DESCRIPTION */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
             Type de voyage <span className="text-primary">*</span>
@@ -148,6 +149,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
             {typesVoyage.map((type: any) => (
               <div key={type.id}>
                 <RadioGroupItem value={type.id} id={`typeVoyage-${type.id}`} className="peer sr-only" />
+                {/* CORRECTION: Standardisation de la structure Label pour l'alignement */}
                 <Label
                   htmlFor={`typeVoyage-${type.id}`}
                   className={cn(
@@ -155,14 +157,15 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
                     "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5"
                   )}
                 >
-                  <div className="font-semibold text-base mb-1 flex items-center">
-                    {/* Affiche l'emoji et le nom du type de voyage */}
-                    <span className="mr-2 text-xl">{type.emoji}</span>
-                    {type.nom}
-                  </div>
-                  <div className="text-sm text-muted-foreground ml-7 -mt-1">
-                    {type.description}
-                  </div>
+                  <span className="flex-1 cursor-pointer">
+                    <p className="font-semibold text-base flex items-center">
+                        <span className="mr-2 text-xl">{type.emoji}</span>
+                        {type.nom}
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                        {type.description}
+                    </p>
+                  </span>
                 </Label>
               </div>
             ))}
