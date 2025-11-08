@@ -59,8 +59,11 @@ const Generator = () => {
         return true;
         
       case 2: // Étape 3 : Activités/Thèmes
-        // À modifier lorsque vous coderez le contenu de Step3Activites.tsx
-        return true; 
+        if (!formData.activites || formData.activites.length === 0) {
+           toast.error("Veuillez choisir au moins un thème d'activités pour générer la checklist.");
+           return false;
+    }
+    return true;
 
       case 3: // Étape 4 : Profils
         if (!formData.profil || !formData.confort) {
