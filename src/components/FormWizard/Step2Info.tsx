@@ -40,8 +40,10 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   };
 
   
-  console.log("Saisons chargées :", checklistData.saisons);
-
+  console.log("Objet checklistData COMPLET :", checklistData); 
+  console.log("Propriétés de saisons :", Object.keys(checklistData.saisons || {}));
+  
+  
   
   return (
     <div className="space-y-8 animate-fade-in">
