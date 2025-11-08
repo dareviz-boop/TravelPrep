@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -446,7 +447,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
             <Label className="text-lg font-bold text-foreground">
               Durée estimée du voyage <span className="text-primary">*</span>
             </Label>
-            <div
+            <RadioGroup
               value={formData.duree}
               onValueChange={(value) => updateFormData({ duree: value as FormData['duree'] })}
               className="grid grid-cols-2 md:grid-cols-4 gap-3"
@@ -472,7 +473,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                   </Label>
                 </div>
               ))}
-            </div>
+            </RadioGroup>
           </div>
         )}
       </div>

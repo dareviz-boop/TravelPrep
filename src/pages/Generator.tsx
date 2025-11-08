@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ProgressBar } from "@/components/FormWizard/ProgressBar";
 import { Step1Destination } from "@/components/FormWizard/Step1Destination";
-import { Step2Info } from './components/Step2Info';
+import { Step2Info } from '@/components/FormWizard/Step2Info';
 import { Step3Activites } from "@/components/FormWizard/Step3Activites";
 import { Step4Profil } from "@/components/FormWizard/Step4Profil";
 import { Step5Options } from "@/components/FormWizard/Step5Options";
@@ -16,6 +16,7 @@ const Generator = () => {
   const [formData, setFormData] = useState<FormData>({
     nomVoyage: "",
     dateDepart: "",
+    duree: "court",
     localisation: "europe",
     pays: [],
     temperature: "temperee",

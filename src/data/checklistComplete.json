@@ -20,7 +20,7 @@
         {"code": "GB", "nom": "Royaume-Uni", "nomEn": "United Kingdom", "flag": "🇬🇧"},
         {"code": "PT", "nom": "Portugal", "nomEn": "Portugal", "flag": "🇵🇹"},
         {"code": "GR", "nom": "Grèce", "nomEn": "Greece", "flag": "🇬🇷"},
-        {"code": "CH", "nom": "Suisse", "nomEn": "Switzerland", "flag": "🇨🇭"}
+        {"code": "CH", "nom": "Suisse", "nomEn": "Switzerland", "flag": "🇨🇭"},
         {"code": "AL", "nom": "Albanie", "nomEn": "Albania", "flag": "🇦🇱"},
         {"code": "AD", "nom": "Andorre", "nomEn": "Andorra", "flag": "🇦🇩"},
         {"code": "AT", "nom": "Autriche", "nomEn": "Austria", "flag": "🇦🇹"},
@@ -66,7 +66,7 @@
         {"code": "TH", "nom": "Thaïlande", "nomEn": "Thailand", "flag": "🇹🇭"},
         {"code": "CN", "nom": "Chine", "nomEn": "China", "flag": "🇨🇳"},
         {"code": "IN", "nom": "Inde", "nomEn": "India", "flag": "🇮🇳"},
-        {"code": "VN", "nom": "Vietnam", "nomEn": "Vietnam", "flag": "🇻🇳"}
+        {"code": "VN", "nom": "Vietnam", "nomEn": "Vietnam", "flag": "🇻🇳"},
         {"code": "AF", "nom": "Afghanistan", "nomEn": "Afghanistan", "flag": "🇦🇫"},
         {"code": "AM", "nom": "Arménie", "nomEn": "Armenia", "flag": "🇦🇲"},
         {"code": "AZ", "nom": "Azerbaïdjan", "nomEn": "Azerbaijan", "flag": "🇦🇿"},
@@ -120,7 +120,7 @@
       "pays": [
         {"code": "MA", "nom": "Maroc", "nomEn": "Morocco", "flag": "🇲🇦"},
         {"code": "ZA", "nom": "Afrique du Sud", "nomEn": "South Africa", "flag": "🇿🇦"},
-        {"code": "EG", "nom": "Égypte", "nomEn": "Egypt", "flag": "🇪🇬"}
+        {"code": "EG", "nom": "Égypte", "nomEn": "Egypt", "flag": "🇪🇬"},
         {"code": "DZ", "nom": "Algérie", "nomEn": "Algeria", "flag": "🇩🇿"},
         {"code": "AO", "nom": "Angola", "nomEn": "Angola", "flag": "🇦🇴"},
         {"code": "BJ", "nom": "Bénin", "nomEn": "Benin", "flag": "🇧🇯"},
@@ -181,7 +181,7 @@
       "pays": [
         {"code": "US", "nom": "États-Unis", "nomEn": "United States", "flag": "🇺🇸"},
         {"code": "CA", "nom": "Canada", "nomEn": "Canada", "flag": "🇨🇦"},
-        {"code": "MX", "nom": "Mexique", "nomEn": "Mexico", "flag": "🇲🇽"}
+        {"code": "MX", "nom": "Mexique", "nomEn": "Mexico", "flag": "🇲🇽"},
         {"code": "AG", "nom": "Antigua-et-Barbuda", "nomEn": "Antigua and Barbuda", "flag": "🇦🇬"},
         {"code": "BS", "nom": "Bahamas", "nomEn": "Bahamas", "flag": "🇧🇸"},
         {"code": "BB", "nom": "Barbade", "nomEn": "Barbados", "flag": "🇧🇧"},
@@ -209,7 +209,7 @@
       "code": "amerique-centrale-caraibes",
       "pays": [
         {"code": "CR", "nom": "Costa Rica", "nomEn": "Costa Rica", "flag": "🇨🇷"},
-        {"code": "CU", "nom": "Cuba", "nomEn": "Cuba", "flag": "🇨🇺"}
+        {"code": "CU", "nom": "Cuba", "nomEn": "Cuba", "flag": "🇨🇺"},
         {"code": "BZ", "nom": "Belize", "nomEn": "Belize", "flag": "🇧🇿"},
         {"code": "SV", "nom": "Salvador", "nomEn": "El Salvador", "flag": "🇸🇻"},
         {"code": "GT", "nom": "Guatemala", "nomEn": "Guatemala", "flag": "🇬🇹"},
@@ -235,7 +235,7 @@
       "pays": [
         {"code": "BR", "nom": "Brésil", "nomEn": "Brazil", "flag": "🇧🇷"},
         {"code": "AR", "nom": "Argentine", "nomEn": "Argentina", "flag": "🇦🇷"},
-        {"code": "PE", "nom": "Pérou", "nomEn": "Peru", "flag": "🇵🇪"}
+        {"code": "PE", "nom": "Pérou", "nomEn": "Peru", "flag": "🇵🇪"},
         {"code": "CL", "nom": "Chili", "nomEn": "Chile", "flag": "🇨🇱"},
         {"code": "CO", "nom": "Colombie", "nomEn": "Colombia", "flag": "🇨🇴"},
         {"code": "VE", "nom": "Venezuela", "nomEn": "Venezuela", "flag": "🇻🇪"},
@@ -253,7 +253,7 @@
       "code": "oceanie",
       "pays": [
         {"code": "AU", "nom": "Australie", "nomEn": "Australia", "flag": "🇦🇺"},
-        {"code": "NZ", "nom": "Nouvelle-Zélande", "nomEn": "New Zealand", "flag": "🇳🇿"}
+        {"code": "NZ", "nom": "Nouvelle-Zélande", "nomEn": "New Zealand", "flag": "🇳🇿"},
         {"code": "FJ", "nom": "Fidji", "nomEn": "Fiji", "flag": "🇫🇯"},
         {"code": "PG", "nom": "Papouasie-Nouvelle-Guinée", "nomEn": "Papua New Guinea", "flag": "🇵🇬"},
         {"code": "SB", "nom": "Îles Salomon", "nomEn": "Solomon Islands", "flag": "🇸🇧"},
@@ -392,7 +392,7 @@
       { "id": "premium", "nom": "Premium", "description": "Hôtels 4★, restaurants de qualité, activités organisées", "emoji": "🌟" },
       { "id": "luxe", "nom": "Luxe", "description": "Hôtels 5★, services concierge, expériences VIP, confort maximal", "emoji": "👑" }
     ]
-  }
+  },
 
   "categories": {
   "description": "Sections principales de la checklist (pour l'affichage et l'étape de sélection finale)",
@@ -476,4 +476,5 @@
       "emoji": "🔄"
     }
   ]
+  }
 }

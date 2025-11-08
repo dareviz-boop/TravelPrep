@@ -11,15 +11,13 @@ interface Step3ActivitesProps {
 
 export const Step3Activites = ({ formData, updateFormData }: Step3ActivitesProps) => {
   const handleActiviteToggle = (activite: string) => {
-    // Assurez-vous que formData.activites existe, sinon utilisez un tableau vide
     const currentActivites = formData.activites || []; 
     
-    // Vérifie si l'activité est déjà sélectionnée
-    const isSelected = currentActivites.includes(activite);
+    const isSelected = currentActivites.includes(activite as any);
     
     const updated = isSelected
-      ? currentActivites.filter((a) => a !== activite) // Retirer l'activité
-      : [...currentActivites, activite]; // Ajouter l'activité
+      ? currentActivites.filter((a) => a !== activite as any)
+      : [...currentActivites, activite as any];
         
     updateFormData({ activites: updated });
   };
@@ -38,7 +36,7 @@ export const Step3Activites = ({ formData, updateFormData }: Step3ActivitesProps
       <div className="space-y-4 max-w-2xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {Object.entries(checklistData.activites).map(([code, activite]: [string, any]) => {
-            const isChecked = (formData.activites || []).includes(code);
+            const isChecked = (formData.activites || []).includes(code as any);
 
             return (
               <div

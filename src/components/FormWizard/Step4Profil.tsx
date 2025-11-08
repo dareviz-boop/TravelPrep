@@ -14,7 +14,7 @@ interface Step4ProfilProps {
 export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
   const profils = checklistData.profils;
   const conforts = checklistData.conforts;
-  const typesVoyage = checklistData.typeVoyage.options;
+  const typesVoyage = checklistData.typesVoyage.options;
 
   // Mise à jour de la structure pour inclure les emojis directement
   const agesEnfants = [
@@ -133,7 +133,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
           </Label>
           <RadioGroup
             value={formData.typeVoyage}
-            onValueChange={(value) => updateFormData({ typeVoyage: value as string })}
+            onValueChange={(value) => updateFormData({ typeVoyage: value as FormData['typeVoyage'] })}
             className="grid grid-cols-1 gap-3"
           >
             {typesVoyage.map((type) => (
