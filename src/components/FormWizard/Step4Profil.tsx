@@ -41,7 +41,6 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
           Adaptons votre checklist à vos besoins
         </p>
       </div>
-    </div>
     
       <div className="space-y-8 max-w-2xl mx-auto">
         
