@@ -80,8 +80,17 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                       "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5",
                     )}
                   >
-                    {/* Utilise saison.nom ou saison.label pour le texte visible */}
-                    <span className="flex-1 cursor-pointer font-semibold text-base">{saison.nom || saison.label}</span>
+                      <span className="flex-1 cursor-pointer">
+                          {/* 1. Titre principal et Emoji */}
+                          <p className="font-semibold text-base flex items-center">
+                              <span className="mr-2">{saison.emoji}</span>
+                              {saison.nom}
+                          </p>
+                          {/* 2. Description / Texte secondaire */}
+                          <p className="text-muted-foreground text-sm font-normal mt-1">
+                              {saison.description}
+                          </p>
+                      </span>
                   </Label>
                 </div>
               ))}
