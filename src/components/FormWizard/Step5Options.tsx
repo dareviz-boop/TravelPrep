@@ -31,7 +31,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
     
     const updated = current.includes(sectionId)
       ? current.filter((id) => id !== sectionId)
-      : [...current, section];
+      : [...current, sectionId];
     updateFormData({ sectionsInclure: updated.length === allIds.length ? undefined : updated });
   };
 
