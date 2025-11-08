@@ -1,7 +1,5 @@
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
 import { FormData, Profil, Confort, EnfantAge } from "@/types/form";
 import { checklistData } from "@/utils/checklistUtils";
 
