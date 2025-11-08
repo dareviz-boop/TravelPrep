@@ -68,8 +68,10 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
             onValueChange={(value) => updateFormData({ saison: value as FormData['saison'] })}
             className="grid grid-cols-2 gap-3"
           >
+              // NOUVEAU CODE (Itère sur le tableau 'options')
               {checklistData.saisons.options.map((saison: any) => (
                 <div key={saison.id}>
+                  {/* Utilise saison.id pour la valeur de la RadioGroupItem */}
                   <RadioGroupItem value={saison.id} id={`saison-${saison.id}`} className="peer sr-only" />
                   <Label
                     htmlFor={`saison-${saison.id}`}
@@ -78,8 +80,8 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                       "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5",
                     )}
                   >
-                    {/* Utilisation de saison.nom pour l'affichage (à adapter si votre JSON utilise 'label' pour les saisons) */}
-                    <span className="flex-1 cursor-pointer font-semibold text-base">{saison.nom}</span>
+                    {/* Utilise saison.nom ou saison.label pour le texte visible */}
+                    <span className="flex-1 cursor-pointer font-semibold text-base">{saison.nom || saison.label}</span>
                   </Label>
                 </div>
               ))}
