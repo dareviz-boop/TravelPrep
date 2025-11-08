@@ -1,4 +1,4 @@
-// Types based on Checklist_Voyage_2.json
+// Types basés sur Checklist_Voyage_2.json (Vos types restent inchangés)
 export type Localisation = 'europe' | 'asie' | 'afrique' | 'amerique-nord' | 'amerique-centrale-caraibes' | 'amerique-sud' | 'oceanie' | 'multi-destinations';
 export type Temperature = 'tres-froide' | 'froide' | 'temperee' | 'chaude' | 'tres-chaude' | 'inconnue';
 export type Saison = 'ete' | 'hiver' | 'printemps' | 'automne' | 'inconnue';
@@ -18,18 +18,25 @@ export interface Pays {
 }
 
 export interface FormData {
-  // Page 1: Informations du Voyage
+  // Page 1: Informations du Voyage & Destination (Étape 1)
   nomVoyage: string;
+  
+  // AJOUT NÉCESSAIRE: Champ de texte pour les villes/étapes
+  villesEtapes?: string; 
+  
+  // DATES (Déplacé/Maintenu dans Page 1, mais toujours lié)
   dateDepart: string;
   dateRetour?: string;
+  duree: Duree; // *Retiré l'optionnel* car il est soit calculé, soit saisi manuellement dans l'Étape 1
   
-  // Page 2: Destination & Climat
+  // DESTINATION GÉOGRAPHIQUE (Déplacé/Maintenu dans Page 1, mais toujours lié)
   localisation: Localisation;
   pays: Pays[];
+
+  // Page 2: Climat & Conditions (Étape 2)
   temperature: Temperature;
   saison: Saison;
-  conditionsClimatiques: string[];
-  duree?: Duree; // Auto-calculated if dateRetour provided
+  conditionsClimatiques: string[]; // Reste ici, géré dans l'Étape 2
   
   // Page 3: Activités
   activites: Activite[];
