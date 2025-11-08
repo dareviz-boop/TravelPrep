@@ -78,7 +78,6 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
             ))}
           </RadioGroup>
         </div>
-      </div>
         
         {/* Champs Enfants (Conditionnel) */}
         {formData.profil === 'famille' && (
@@ -204,7 +203,8 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
               </div>
             ))}
           </RadioGroup>
-        </div>
+        </div> 
       </div>
+    </div>
     );
 };
