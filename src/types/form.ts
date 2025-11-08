@@ -1,12 +1,12 @@
 // Types basés sur Checklist_Voyage_2.json (Vos types restent inchangés)
 export type Localisation = 'europe' | 'asie' | 'afrique' | 'amerique-nord' | 'amerique-centrale-caraibes' | 'amerique-sud' | 'oceanie' | 'multi-destinations';
+export type Duree = 'court' | 'moyen' | 'long' | 'tres-long';
 export type Temperature = 'tres-froide' | 'froide' | 'temperee' | 'chaude' | 'tres-chaude' | 'inconnue';
 export type Saison = 'ete' | 'hiver' | 'printemps' | 'automne' | 'inconnue';
-export type Duree = 'court' | 'moyen' | 'long' | 'tres-long';
-export type Activite = 'randonnee' | 'plage' | 'city-trip' | 'backpacking' | 'camping' | 'sports-hiver' | 'road-trip' | 'gastronomie' | 'shopping';
+export type Activite = 'randonnee' | 'plage' | 'sports-nautiques' | 'city-trip' | 'backpacking' | 'camping' | 'sports-hiver' | 'road-trip' | 'vie-nocturne' | 'velo' | 'gastronomie' | 'shopping' | 'photographie';
 export type Profil = 'solo' | 'couple' | 'famille' | 'groupe' | 'pro';
 export type TypeVoyage = 'backpacker' | 'immersion' | 'equilibre' | 'confort-organise' | 'luxe';
-export type Confort = 'economique' | 'confortable' | 'premium' | 'luxe';
+export type Confort = 'economique' | 'confortable' | 'standard' | 'premium' | 'luxe';
 export type EnfantAge = '0-2-ans' | '3-5-ans' | '6-12-ans' | '13+-ans';
 export type FormatFichier = 'pdf' | 'csv' | 'les-deux';
 
