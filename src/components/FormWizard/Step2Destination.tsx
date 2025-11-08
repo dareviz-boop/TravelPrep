@@ -21,14 +21,6 @@ export const Step2Destination = ({ formData, updateFormData }: Step2DestinationP
 
   const paysOptions = getPaysOptions(formData.localisation);
 
-  // Auto-calculate duration if both dates are provided
-  useEffect(() => {
-    if (formData.dateDepart && formData.dateRetour) {
-      const calculatedDuree = calculateDuree(formData.dateDepart, formData.dateRetour);
-      updateFormData({ duree: calculatedDuree });
-    }
-  }, [formData.dateDepart, formData.dateRetour]);
-
   const handlePaysSelect = (pays: Pays) => {
     const currentPays = formData.pays || [];
     const isAlreadySelected = currentPays.some(p => p.code === pays.code);
@@ -80,34 +72,6 @@ export const Step2Destination = ({ formData, updateFormData }: Step2DestinationP
       </div>
 
       <div className="space-y-8 max-w-2xl mx-auto">
-        {/* Zone géographique */}
-        <div className="space-y-4">
-          <Label className="text-base font-semibold">
-            Zone géographique <span className="text-destructive">*</span>
-          </Label>
-          <RadioGroup
-            value={formData.localisation}
-            onValueChange={(value) => {
-              updateFormData({ localisation: value as FormData['localisation'], pays: [] });
-            }}
-            className="grid grid-cols-1 gap-3"
-          >
-            {Object.entries(checklistData.localisations).map(([code, loc]: [string, any]) => (
-              <div
-                key={code}
-                className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
-                  formData.localisation === code ? "border-primary bg-primary/5" : "border-border"
-                }`}
-              >
-                <RadioGroupItem value={code} id={code} />
-                <Label htmlFor={code} className="flex-1 cursor-pointer text-base">
-                  {loc.nom}
-                </Label>
-              </div>
-            ))}
-          </RadioGroup>
-        </div>
-
         {/* Température moyenne */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
@@ -208,33 +172,6 @@ export const Step2Destination = ({ formData, updateFormData }: Step2DestinationP
                 </div>
             ))}
         </div>
-
-        {/* Duration if not auto-calculated */}
-        {!formData.dateRetour && (
-          <div className="space-y-4">
-            <Label className="text-base font-semibold">
-              ⏱️ Durée estimée du voyage <span className="text-destructive">*</span>
-            </Label>
-            <RadioGroup
-              value={formData.duree}
-              onValueChange={(value) => updateFormData({ duree: value as FormData['duree'] })}
-              className="grid grid-cols-2 gap-3"
-            >
-              {Object.entries(checklistData.durees).map(([code, duree]: [string, any]) => (
-                <div
-                  key={code}
-                  className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
-                    formData.duree === code ? "border-primary bg-primary/5" : "border-border"
-                  }`}
-                >
-                  <RadioGroupItem value={code} id={`duree-${code}`} />
-                  <Label htmlFor={`duree-${code}`} className="flex-1 cursor-pointer">
-                    {duree.label}
-                  </Label>
-                </div>
-              ))}
-            </RadioGroup>
-          </div>
         )}
       </div>
     </div>
