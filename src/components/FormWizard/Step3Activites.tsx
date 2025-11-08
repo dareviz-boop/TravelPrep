@@ -2,72 +2,73 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormData } from "@/types/form";
 import { checklistData } from "@/utils/checklistUtils";
+import { cn } from "@/lib/utils"; // Importation pour la gestion des classes
 
 interface Step3ActivitesProps {
-  formData: FormData;
-  updateFormData: (data: Partial<FormData>) => void;
+  formData: FormData;
+  updateFormData: (data: Partial<FormData>) => void;
 }
 
 export const Step3Activites = ({ formData, updateFormData }: Step3ActivitesProps) => {
-  const handleActiviteToggle = (activite: string) => {
-    // Assurez-vous que formData.activites existe, sinon utilisez un tableau vide
-    const currentActivites = formData.activites || []; 
-    
-    // Vérifie si l'activité est déjà sélectionnée
-    const isSelected = currentActivites.includes(activite);
-    
-    const updated = isSelected
-      ? currentActivites.filter((a) => a !== activite) // Retirer l'activité
-      : [...currentActivites, activite]; // Ajouter l'activité
-      
-    updateFormData({ activites: updated });
-  };
+  const handleActiviteToggle = (activite: string) => {
+    // Assurez-vous que formData.activites existe, sinon utilisez un tableau vide
+    const currentActivites = formData.activites || []; 
+    
+    // Vérifie si l'activité est déjà sélectionnée
+    const isSelected = currentActivites.includes(activite);
+    
+    const updated = isSelected
+      ? currentActivites.filter((a) => a !== activite) // Retirer l'activité
+      : [...currentActivites, activite]; // Ajouter l'activité
+        
+    updateFormData({ activites: updated });
+  };
 
-  return (
-    <div className="space-y-8 animate-fade-in">
-      <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold mb-3 bg-gradient-travel bg-clip-text text-transparent">
-          🎯 Quelles activités prévoyez-vous ?
-        </h2>
-        <p className="text-muted-foreground">
-          Sélectionnez tout ce qui s'applique
-        </p>
-      </div>
+  return (
+    <div className="space-y-8 animate-fade-in">
+      <div className="text-center mb-12">
+        <h2 className="text-3xl font-bold mb-3 bg-gradient-travel bg-clip-text text-transparent">
+          🎯 Quelles activités prévoyez-vous ?
+        </h2>
+        <p className="text-muted-foreground">
+          Sélectionnez tout ce qui s'applique (choix multiple)
+        </p>
+      </div>
 
-      <div className="space-y-4 max-w-2xl mx-auto">
-        <Label className="text-base font-semibold">
-          Activités prévues (plusieurs choix possibles)
-        </Label>
-        <div className="grid grid-cols-1 gap-3">
-          {Object.entries(checklistData.activites).map(([code, activite]: [string, any]) => {
-                const isChecked = (formData.activites || []).includes(code); // Utilisation de || [] pour la sécurité
+      <div className="space-y-4 max-w-2xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {Object.entries(checklistData.activites).map(([code, activite]: [string, any]) => {
+            const isChecked = (formData.activites || []).includes(code);
 
-                return (
-            <div
-              key={code}
-              className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
-                isChecked
-                  ? "border-primary bg-primary/5"
-                  : "border-border"
-              }`}
-              onClick={() => handleActiviteToggle(code)}
-            >
-              <Checkbox
-                id={`activite-${code}`}
-                checked={isChecked}
-                // Pas besoin de onCheckedChange car le onClick du div parent gère le toggle
-                // onCheckedChange={() => handleActiviteToggle(code)} 
-              />
-              <Label
-                htmlFor={`activite-${code}`}
-                className="flex-1 cursor-pointer text-base"
-              >
-                {activite.label}
-              </Label>
-            </div>
-          );})}
-        </div>
-      </div>
-    </div>
-  );
+            return (
+              <div
+                key={code}
+                // Utilisation de cn pour une meilleure gestion des classes
+                className={cn(
+                  "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
+                  isChecked
+                    ? "border-primary bg-primary/5 shadow-md" 
+                    : "border-border"
+                )}
+                onClick={() => handleActiviteToggle(code)}
+              >
+                <Checkbox
+                  id={`activite-${code}`}
+                  checked={isChecked}
+                  // OnCheckedChange n'est pas nécessaire puisque le click sur le div parent gère le toggle
+                  onCheckedChange={() => {}} 
+                  className="mt-1" // Aide à l'alignement de la checkbox
+                />
+                <Label
+                  htmlFor={`activite-${code}`}
+                  className="flex-1 cursor-pointer text-base font-medium"
+                >
+                  {activite.label}
+                </Label>
+              </div>
+            );})}
+        </div>
+      </div>
+    </div>
+  );
 };
