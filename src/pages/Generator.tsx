@@ -64,14 +64,27 @@ const Generator = () => {
            return false;
     }
     return true;
-
-      case 3: // Étape 4 : Profils
-        if (!formData.profil || !formData.confort) {
-          toast.error("Veuillez sélectionner votre profil voyageur et votre niveau de confort.");
-          return false;
-        }
-        return true;
         
+      // Dans Generator.tsx, à l'intérieur de la fonction validateStep
+      case 3: // Étape 4 : Profils et Confort
+          if (!formData.profil || !formData.typeVoyage || !formData.confort) { 
+            toast.error("Veuillez sélectionner le type de voyageur, le type de voyage et le niveau de confort.");
+            return false;
+          }
+          
+          // Validation conditionnelle pour les familles
+          if (formData.profil === 'famille') {
+              if (!formData.nombreEnfants || formData.nombreEnfants <= 0) {
+                   toast.error("Veuillez indiquer le nombre d'enfants.");
+                   return false;
+              }
+              if (!formData.agesEnfants || formData.agesEnfants.length === 0) {
+                   toast.error("Veuillez sélectionner au moins une catégorie d'âge pour vos enfants.");
+                   return false;
+              }
+          }
+          return true;
+
       case 4: // Étape 5 : Options
         if (!formData.formatPDF) {
           toast.error("Veuillez sélectionner un format de PDF.");
