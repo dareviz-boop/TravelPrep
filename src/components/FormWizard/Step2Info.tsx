@@ -150,6 +150,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                   return (
                     <div
                       key={condition.id}
+                      // Changement de items-start (mieux pour l'alignement haut)
                       className={`flex items-start space-x-3 p-3 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
                           isSelected ? "border-primary bg-primary/5" : "border-border"
                       }`}
@@ -159,13 +160,14 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                         id={`condition-${condition.id}`}
                         checked={isSelected}
                         onCheckedChange={() => {}} 
-                        className="mt-1"
+                        className="mt-0" // <-- S'assurer qu'il n'y a pas de marge supplémentaire sur la checkbox
                       />
                       <Label htmlFor={`condition-${condition.id}`} className="flex-1 cursor-pointer">
                         <span className="font-semibold text-base flex items-center">
-                          <span className="mr-2">{emoji}</span>
+                          <span className="mr-2 text-xl">{emoji}</span> {/* Ajout de text-xl pour une meilleure visibilité de l'emoji */}
                           {title}
                         </span>
+                        {/* Si le texte est très long, l'alignement haut est garanti par items-start sur le div parent */}
                       </Label>
                     </div>
                   );
