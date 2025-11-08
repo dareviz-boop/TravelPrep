@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { FormData, Localisation, Pays } from "@/types/form";
@@ -16,14 +15,46 @@ interface Step1DestinationProps {
   updateFormData: (data: Partial<FormData>) => void;
 }
 
+// Fonction utilitaire pour récupérer la liste complète des pays pour l'option "Multi-destinations"
+const getAllPaysOptions = (): Pays[] => {
+  if (!checklistData.localisations) return [];
+
+  // Récupère toutes les valeurs (objets de zones) et les fusionne
+  return Object.values(checklistData.localisations)
+    // Filtre la zone 'multi-destinations' elle-même, car elle n'a pas de liste de pays dans le JSON
+    .filter((loc) => loc.code !== 'multi-destinations')
+    .flatMap((loc) => loc.pays || []); // Utilise flatMap pour créer un tableau simple
+};
+
 export const Step1Destination = ({ formData, updateFormData }: Step1DestinationProps) => {
   const { toast } = useToast();
   const [showPaysSelector, setShowPaysSelector] = useState(false);
   const [open, setOpen] = useState(false);
   const [paysOptions, setPaysOptions] = useState<Pays[]>([]);
+  
+  // NOUVEAU : Récupération dynamique des localisations (Zones Géographiques)
+  const localisations: { value: Localisation; label: string; emoji: string }[] = Object.entries(
+    checklistData.localisations
+  ).map(([key, data]) => {
+    // data.nom est de la forme "🇪🇺 Europe". On extrait l'emoji et le label.
+    const parts = data.nom.split(' ');
+    const emoji = parts[0];
+    const label = parts.slice(1).join(' '); // Reconstruit le label si le nom est composé de plusieurs mots
+
+    return {
+      value: key as Localisation, // La clé est le code (ex: 'europe')
+      label: label,
+      emoji: emoji,
+    };
+  });
+  
+  // NOUVEAU : Calcul de la liste complète des pays pour le sélecteur "Multi-destinations"
+  const allPaysOptions = getAllPaysOptions();
+
 
   useEffect(() => {
     if (formData.localisation && formData.localisation !== 'multi-destinations') {
+      // getPaysOptions lit déjà checklistData.localisations[formData.localisation].pays
       const options = getPaysOptions(formData.localisation);
       setPaysOptions(options);
     } else {
@@ -32,30 +63,31 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
   }, [formData.localisation]);
 
   const handlePaysSelect = (pays: Pays) => {
-    if (!formData.pays.find(p => p.code === pays.code)) {
-      if (formData.pays.length < 3) {
-        updateFormData({ pays: [...formData.pays, pays] });
-      }
-    } else {
-      updateFormData({ pays: formData.pays.filter(p => p.code !== pays.code) });
+    const currentPays = formData.pays || [];
+    const isAlreadySelected = currentPays.find(p => p.code === pays.code);
+    
+    // Détermine la limite basée sur le type de localisation
+    const maxPays = formData.localisation === 'multi-destinations' ? 10 : 3;
+
+    if (isAlreadySelected) {
+      updateFormData({ pays: currentPays.filter(p => p.code !== pays.code) });
+    } else if (currentPays.length < maxPays) {
+      updateFormData({ pays: [...currentPays, pays] });
+    } else if (formData.localisation !== 'multi-destinations') {
+        // Affiche un toast uniquement pour la limite de 3 pays par zone
+        toast({
+            title: "Limite atteinte",
+            description: "❌ Vous ne pouvez sélectionner que 3 pays maximum par zone.",
+            variant: "destructive"
+        });
     }
   };
 
   const handlePaysRemove = (code: string) => {
     updateFormData({ pays: formData.pays.filter(p => p.code !== code) });
   };
-
-  const localisations: { value: Localisation; label: string; emoji: string }[] = [
-    { value: 'europe', label: 'Europe', emoji: '🇪🇺' },
-    { value: 'asie', label: 'Asie', emoji: '🏯' },
-    { value: 'afrique', label: 'Afrique', emoji: '🦁' },
-    { value: 'amerique-nord', label: 'Amérique du Nord', emoji: '🗽' },
-    { value: 'amerique-centrale-caraibes', label: 'Caraïbes', emoji: '🏝️' },
-    { value: 'amerique-sud', label: 'Amérique du Sud', emoji: '🦙' },
-    { value: 'oceanie', label: 'Océanie', emoji: '🦘' },
-    { value: 'multi-destinations', label: 'Multi-destinations', emoji: '🌐' },
-  ];
-
+  
+  // Fonctions de validation (laissé inchangé)
   const validateYear = (dateString: string): boolean => {
     if (!dateString) return true;
     const year = dateString.split('-')[0];
@@ -69,6 +101,8 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
     today.setHours(0, 0, 0, 0);
     return selected >= today;
   };
+  // Fin Fonctions de validation
+
 
   return (
     <div className="space-y-8 animate-fade-in">
@@ -82,7 +116,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
       </div>
 
       <div className="space-y-8 max-w-2xl mx-auto">
-        {/* Nom du voyage */}
+        {/* Nom du voyage (Inchangé) */}
         <div className="space-y-3 bg-card p-6 rounded-xl border-2 border-border shadow-sm hover:shadow-md transition-shadow">
           <Label htmlFor="nomVoyage" className="text-lg font-bold text-foreground">
             Nom du voyage <span className="text-primary">*</span>
@@ -100,12 +134,13 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
           </p>
         </div>
 
-        {/* Zone géographique */}
+        {/* Zone géographique (Utilise la liste dynamique 'localisations') */}
         <div className="space-y-4">
           <Label className="text-lg font-bold text-foreground">
             Zone géographique <span className="text-primary">*</span>
           </Label>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {/* L'itération reste la même, mais utilise la nouvelle source de données */}
             {localisations.map((loc) => (
               <button
                 key={loc.value}
@@ -128,7 +163,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
           </div>
         </div>
 
-        {/* Sélecteur de pays */}
+        {/* Sélecteur de pays - MONO DESTINATION */}
         {formData.localisation && formData.localisation !== 'multi-destinations' && (
           <div className="space-y-4 bg-card p-6 rounded-xl border-2 border-border shadow-sm">
             <div className="flex items-center justify-between">
@@ -137,7 +172,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               </Label>
             </div>
 
-            {/* Pays sélectionnés */}
+            {/* Pays sélectionnés (Inchangé) */}
             {formData.pays.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-3">
                 {formData.pays.map((pays) => (
@@ -159,7 +194,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               </div>
             )}
 
-            {/* Combobox */}
+            {/* Combobox (Inchangé) */}
             {formData.pays.length < 3 && (
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
@@ -189,7 +224,8 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                               value={`${pays.nom} ${pays.nomEn}`}
                               onSelect={() => {
                                 handlePaysSelect(pays);
-                                if (formData.pays.length >= 2) {
+                                // On ferme la popover si on a atteint 3 pays pour cette zone
+                                if (formData.pays.length >= 2) { 
                                   setOpen(false);
                                 }
                               }}
@@ -218,99 +254,97 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
           </div>
         )}
           
-            {formData.localisation === 'multi-destinations' && (
-        <div className="space-y-4 bg-card p-6 rounded-xl border-2 border-border shadow-sm">
-          
-          {/* Titre mis à jour */}
-          <div className="flex items-center justify-between">
-            <Label className="text-lg font-bold text-foreground">
-              Vos destinations <span className="text-muted-foreground text-sm font-normal">(ex: 10 max)</span>
-            </Label>
-          </div>
-      
-          {/* Pays sélectionnés (Code identique au bloc 1) */}
-          {formData.pays.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-3">
-              {formData.pays.map((pays) => (
-                <div
-                  key={pays.code}
-                  className="flex items-center gap-2 bg-primary/10 border-2 border-primary/30 rounded-lg px-3 py-2"
-                >
-                  <span className="text-lg">{pays.flag}</span>
-                  <span className="text-sm font-bold text-foreground">{pays.nom}</span>
-                  <button
-                    type="button"
-                    onClick={() => handlePaysRemove(pays.code)}
-                    className="ml-1 hover:text-destructive"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-              ))}
+        {/* Sélecteur de pays - MULTI DESTINATIONS */}
+        {formData.localisation === 'multi-destinations' && (
+          <div className="space-y-4 bg-card p-6 rounded-xl border-2 border-border shadow-sm">
+            
+            <div className="flex items-center justify-between">
+              <Label className="text-lg font-bold text-foreground">
+                Vos destinations <span className="text-muted-foreground text-sm font-normal">(max 10)</span>
+              </Label>
             </div>
-          )}
       
-          {/* Combobox mis à jour (limite et source des données) */}
-          {formData.pays.length < 10 && ( 
-            <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  aria-expanded={open}
-                  className="w-full justify-between h-14 border-2"
-                >
-                  <span className="text-muted-foreground">
-                    Rechercher un pays...
-                  </span>
-                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-full p-0" align="start">
-                <Command>
-                  <CommandInput placeholder="Rechercher..." />
-                  <CommandList>
-                    <CommandEmpty>Aucun pays trouvé.</CommandEmpty>
-                    <CommandGroup>
-                      
-                      {/* ATTENTION : Utilise la liste COMPLÈTE des pays */}
-                      {allPaysOptions.map((pays) => { 
-                        const isSelected = formData.pays.find(p => p.code === pays.code);
-                        return (
-                          <CommandItem
-                            key={pays.code}
-                            value={`${pays.nom} ${pays.nomEn}`}
-                            onSelect={() => {
-                              handlePaysSelect(pays);
-                              // On ne ferme PAS la popover pour permettre la multi-sélection rapide
-                            }}
-                          >
-                            <Check
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                isSelected ? "opacity-100" : "opacity-0"
-                              )}
-                            />
-                            <span className="mr-2">{pays.flag}</span>
-                            {pays.nom}
-                          </CommandItem>
-                        );
-                      })}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
-          )}
+            {/* Pays sélectionnés (Inchangé) */}
+            {formData.pays.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-3">
+                {formData.pays.map((pays) => (
+                  <div
+                    key={pays.code}
+                    className="flex items-center gap-2 bg-primary/10 border-2 border-primary/30 rounded-lg px-3 py-2"
+                  >
+                    <span className="text-lg">{pays.flag}</span>
+                    <span className="text-sm font-bold text-foreground">{pays.nom}</span>
+                    <button
+                      type="button"
+                      onClick={() => handlePaysRemove(pays.code)}
+                      className="ml-1 hover:text-destructive"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+      
+            {/* Combobox mis à jour : utilise 'allPaysOptions' */}
+            {formData.pays.length < 10 && ( 
+              <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="w-full justify-between h-14 border-2"
+                  >
+                    <span className="text-muted-foreground">
+                      Rechercher un pays...
+                    </span>
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-full p-0" align="start">
+                  <Command>
+                    <CommandInput placeholder="Rechercher..." />
+                    <CommandList>
+                      <CommandEmpty>Aucun pays trouvé.</CommandEmpty>
+                      <CommandGroup>
+                        {/* Utilisation de la liste complète des pays */}
+                        {allPaysOptions.map((pays) => { 
+                          const isSelected = formData.pays.find(p => p.code === pays.code);
+                          return (
+                            <CommandItem
+                              key={pays.code}
+                              value={`${pays.nom} ${pays.nomEn}`}
+                              onSelect={() => {
+                                handlePaysSelect(pays);
+                                // On ne ferme PAS la popover pour permettre la multi-sélection rapide
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  isSelected ? "opacity-100" : "opacity-0"
+                                )}
+                              />
+                              <span className="mr-2">{pays.flag}</span>
+                              {pays.nom}
+                            </CommandItem>
+                          );
+                        })}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            )}
+            
+            <p className="text-sm text-muted-foreground">
+              Sélectionnez tous les pays de votre itinéraire.
+            </p>
+          </div>
+        )}
           
-          {/* Texte d'aide mis à jour */}
-          <p className="text-sm text-muted-foreground">
-            Sélectionnez tous les pays de votre itinéraire.
-          </p>
-        </div>
-      )}
-        
-        {/* Villes / Étapes importantes (Optionnel) */}
+        {/* Villes / Étapes importantes (Inchangé) */}
         <div className="space-y-3 bg-card p-6 rounded-xl border-2 border-border shadow-sm hover:shadow-md transition-shadow">
           <Label htmlFor="villesEtapes" className="text-lg font-bold text-foreground">
             Villes et étapes principales <span className="text-muted-foreground text-sm font-normal">(optionnel)</span>
@@ -327,7 +361,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
           </p>
         </div>
         
-        {/* Dates */}
+        {/* Dates (Inchangé) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-3 bg-card p-6 rounded-xl border-2 border-border shadow-sm hover:shadow-md transition-shadow">
             <Label htmlFor="dateDepart" className="text-lg font-bold text-foreground">
@@ -406,13 +440,13 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
           </div>
         </div>
 
-        {/* Durée si pas de date retour */}
+        {/* Durée si pas de date retour (Inchangé) */}
         {formData.dateDepart && !formData.dateRetour && (
           <div className="space-y-4 bg-card p-6 rounded-xl border-2 border-border shadow-sm">
             <Label className="text-lg font-bold text-foreground">
               Durée estimée du voyage <span className="text-primary">*</span>
             </Label>
-            <RadioGroup
+            <div
               value={formData.duree}
               onValueChange={(value) => updateFormData({ duree: value as FormData['duree'] })}
               className="grid grid-cols-2 md:grid-cols-4 gap-3"
@@ -438,7 +472,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                   </Label>
                 </div>
               ))}
-            </RadioGroup>
+            </div>
           </div>
         )}
       </div>
