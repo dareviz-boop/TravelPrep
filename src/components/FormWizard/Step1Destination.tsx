@@ -400,40 +400,51 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
             </p>
           </div>
 
-          <div className="space-y-3 bg-card p-6 rounded-xl border-2 border-border shadow-sm hover:shadow-md transition-shadow">
-            <Label htmlFor="dateRetour" className="text-lg font-bold text-foreground">
-              Date de retour <span className="text-muted-foreground text-sm font-normal">(optionnel)</span>
-            </Label>
-            <Input
-              id="dateRetour"
-              type="date"
-              value={formData.dateRetour || ''}
-              onChange={(e) => {
-                const value = e.target.value;
+          div className="space-y-3 bg-card p-6 rounded-xl border-2 border-border shadow-sm hover:shadow-md transition-shadow">
+            <Label htmlFor="dateRetour" className="text-lg font-bold text-foreground">
+              Date de retour <span className="text-muted-foreground text-sm font-normal">(optionnel)</span>
+            </Label>
+            <Input
+              id="dateRetour"
+              type="date"
+              value={formData.dateRetour || ''}
+              onChange={(e) => {
+                const value = e.target.value;
+                
+                // Si la valeur est vide, on met à jour et on sort
+                if (!value) {
+                  updateFormData({ dateRetour: value });
+                  return;
+                }
+                
+                // 🛑 CORRECTION MAJEURE: Si la chaîne de date n'est pas complète (YYYY-MM-DD = 10 caractères)
+                // on met à jour la valeur MAIS on SAUTE la validation pour éviter l'erreur.
+                // Note : Certains navigateurs comme Safari peuvent ne pas fournir la date dans le format YYYY-MM-DD
+                // tant qu'elle n'est pas complète.
+
+                const isDateComplete = value.length === 10;
                 
-                if (!value) {
-                  updateFormData({ dateRetour: value });
-                  return;
-                }
-                
-                const selectedDate = new Date(value);
-                const departDate = new Date(formData.dateDepart);
-                
-                // Validation : la date de retour doit être après la date de départ
-                if (selectedDate <= departDate) {
-                  toast({
-                    title: "Date invalide",
-                    description: "❌ La date de retour doit être après la date de départ",
-                    variant: "destructive"
-                  });
-                  return;
-                }
-                
+                // On met TOUJOURS à jour la valeur
                 updateFormData({ dateRetour: value });
-              }}
-              className="h-14 text-base border-2 focus:border-primary"
-              min={formData.dateDepart || new Date(Date.now() + 86400000).toISOString().split('T')[0]}
-            />
+
+                // On ne valide que si la chaîne est complète ET qu'il existe une date de départ
+                if (isDateComplete && formData.dateDepart) {
+                  const selectedDate = new Date(value);
+                  const departDate = new Date(formData.dateDepart);
+                
+                  // Validation : la date de retour doit être après la date de départ
+                  if (selectedDate <= departDate) {
+                    toast({
+                      title: "Date invalide",
+                      description: "❌ La date de retour doit être après la date de départ",
+                      variant: "destructive"
+                    });
+                  }
+                }
+              }}
+              className="h-14 text-base border-2 focus:border-primary"
+              min={formData.dateDepart || new Date(Date.now() + 86400000).toISOString().split('T')[0]}
+            />
             {formData.dateDepart && formData.dateRetour && (
               <p className="text-sm text-accent font-bold flex items-center gap-2">
                 ✓ Durée : {Math.ceil((new Date(formData.dateRetour).getTime() - new Date(formData.dateDepart).getTime()) / (1000 * 60 * 60 * 24))} jours
