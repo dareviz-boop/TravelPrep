@@ -66,7 +66,6 @@ export const Step3Activites = ({ formData, updateFormData }: Step3ActivitesProps
                   className="mt-1" // Aide à l'alignement de la checkbox
                 />
                 <Label
-                  htmlFor={`activite-${code}`}
                   // Ajout de flex items-center pour aligner l'emoji et le texte
                   className="flex-1 cursor-pointer text-base font-medium flex items-center"
                 >
