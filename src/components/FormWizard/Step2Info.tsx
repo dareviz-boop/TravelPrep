@@ -174,6 +174,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
               })}
             </div>
           </div>
+        </div>
       </div>
     </div>
   );
