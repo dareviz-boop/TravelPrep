@@ -139,43 +139,41 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                 {groupe.groupe}
               </Label>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {groupe.options.map((condition) => {
-                  const isSelected = (formData.conditionsClimatiques || []).includes(condition.id);
-                  
-                  // Extraction de l'emoji et du nom
-                  const [emoji, ...labelParts] = condition.nom.split(' ');
-                  const title = labelParts.join(' ').trim();
-                  
-                  return (
-                    <div
-                      key={condition.id}
-                      // Changement de items-start (mieux pour l'alignement haut)
-                      className={`flex items-start space-x-3 p-3 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
-                          isSelected ? "border-primary bg-primary/5" : "border-border"
-                      }`}
-                      onClick={() => handleConditionToggle(condition.id)}
-                    >
-                      <Checkbox
-                        id={`condition-${condition.id}`}
-                        checked={isSelected}
-                        onCheckedChange={() => {}} 
-                        className="mt-0" // <-- S'assurer qu'il n'y a pas de marge supplémentaire sur la checkbox
-                      />
-                      <Label htmlFor={`condition-${condition.id}`} className="flex-1 cursor-pointer">
-                        <span className="font-semibold text-base flex items-center">
-                          <span className="mr-2 text-xl">{emoji}</span> {/* Ajout de text-xl pour une meilleure visibilité de l'emoji */}
-                          {title}
-                        </span>
-                        {/* Si le texte est très long, l'alignement haut est garanti par items-start sur le div parent */}
-                      </Label>
-                    </div>
-                  );
-                })}
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {groupe.options.map((condition) => {
+                const isSelected = (formData.conditionsClimatiques || []).includes(condition.id);
+                
+                // Extraction de l'emoji et du nom
+                const [emoji, ...labelParts] = condition.nom.split(' ');
+                const title = labelParts.join(' ').trim();
+                
+                return (
+                  <div
+                    key={condition.id}
+                    // items-start aligne le contenu en haut (première ligne)
+                    className={`flex items-start space-x-3 p-3 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
+                        isSelected ? "border-primary bg-primary/5" : "border-border"
+                    }`}
+                    onClick={() => handleConditionToggle(condition.id)}
+                  >
+                    <Checkbox
+                      id={`condition-${condition.id}`}
+                      checked={isSelected}
+                      // La logique de bascule est gérée par l'onClick du div parent via handleConditionToggle
+                      onCheckedChange={() => {}} 
+                      className="mt-0" // CORRECTION : Supprimer le décalage, alignement géré par le parent
+                    />
+                    <Label htmlFor={`condition-${condition.id}`} className="flex-1 cursor-pointer">
+                      <span className="font-semibold text-base flex items-center">
+                        <span className="mr-2 text-xl">{emoji}</span>
+                        {title}
+                      </span>
+                    </Label>
+                  </div>
+                );
+              })}
             </div>
-          ))}
-        </div>
+          </div>
       </div>
     </div>
   );
