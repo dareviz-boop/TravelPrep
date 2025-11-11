@@ -21,10 +21,13 @@ const getAllPaysOptions = (): Pays[] => {
   if (!checklistData.localisations) return [];
 
   // Récupère toutes les valeurs (objets de zones) et les fusionne
-  return Object.values(checklistData.localisations)
+  const allPays = Object.values(checklistData.localisations)
     // Filtre la zone 'multi-destinations' elle-même, car elle n'a pas de liste de pays dans le JSON
     .filter((loc) => loc.code !== 'multi-destinations')
     .flatMap((loc) => loc.pays || []); // Utilise flatMap pour créer un tableau simple
+
+  // 🟢 AJOUT : Tri par ordre alphabétique du nom français
+  return allPays.sort((a, b) => a.nom.localeCompare(b.nom, 'fr'));
 };
 
 export const Step1Destination = ({ formData, updateFormData }: Step1DestinationProps) => {
@@ -49,7 +52,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
     };
   });
   
-  // NOUVEAU : Calcul de la liste complète des pays pour le sélecteur "Multi-destinations"
+  // NOUVEAU : Calcul de la liste complète des pays pour le sélecteur "Multi-destinations" (maintenant triée)
   const allPaysOptions = getAllPaysOptions();
 
 
@@ -57,6 +60,8 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
     if (formData.localisation && formData.localisation !== 'multi-destinations') {
       // getPaysOptions lit déjà checklistData.localisations[formData.localisation].pays
       const options = getPaysOptions(formData.localisation);
+      // 🟢 AJOUT : Tri par ordre alphabétique du nom français pour la zone spécifique
+      options.sort((a, b) => a.nom.localeCompare(b.nom, 'fr'));
       setPaysOptions(options);
     } else {
       setPaysOptions([]);
@@ -217,6 +222,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                     <CommandList>
                       <CommandEmpty>Aucun pays trouvé.</CommandEmpty>
                       <CommandGroup>
+                        {/* Utilise la liste triée via l'useEffect */}
                         {paysOptions.map((pays) => {
                           const isSelected = formData.pays.find(p => p.code === pays.code);
                           return (
@@ -288,8 +294,8 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               </div>
             )}
       
-            {/* Combobox mis à jour : utilise 'allPaysOptions' */}
-            {formData.pays.length < 10 && ( 
+            {/* Combobox mis à jour : utilise 'allPaysOptions' (maintenant trié) */}
+            {formData.pays.length < 10 && (  
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                   <Button
@@ -310,8 +316,8 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                     <CommandList>
                       <CommandEmpty>Aucun pays trouvé.</CommandEmpty>
                       <CommandGroup>
-                        {/* Utilisation de la liste complète des pays */}
-                        {allPaysOptions.map((pays) => { 
+                        {/* Utilisation de la liste complète des pays (maintenant triée) */}
+                        {allPaysOptions.map((pays) => {  
                           const isSelected = formData.pays.find(p => p.code === pays.code);
                           return (
                             <CommandItem
@@ -400,24 +406,24 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
             </p>
           </div>
 
-          div className="space-y-3 bg-card p-6 rounded-xl border-2 border-border shadow-sm hover:shadow-md transition-shadow">
-            <Label htmlFor="dateRetour" className="text-lg font-bold text-foreground">
-              Date de retour <span className="text-muted-foreground text-sm font-normal">(optionnel)</span>
-            </Label>
-            <Input
-              id="dateRetour"
-              type="date"
-              value={formData.dateRetour || ''}
-              onChange={(e) => {
-                const value = e.target.value;
-                
-                // Si la valeur est vide, on met à jour et on sort
-                if (!value) {
-                  updateFormData({ dateRetour: value });
-                  return;
-                }
-                
-                // 🛑 CORRECTION MAJEURE: Si la chaîne de date n'est pas complète (YYYY-MM-DD = 10 caractères)
+          <div className="space-y-3 bg-card p-6 rounded-xl border-2 border-border shadow-sm hover:shadow-md transition-shadow">
+            <Label htmlFor="dateRetour" className="text-lg font-bold text-foreground">
+              Date de retour <span className="text-muted-foreground text-sm font-normal">(optionnel)</span>
+            </Label>
+            <Input
+              id="dateRetour"
+              type="date"
+              value={formData.dateRetour || ''}
+              onChange={(e) => {
+                const value = e.target.value;
+                
+                // Si la valeur est vide, on met à jour et on sort
+                if (!value) {
+                  updateFormData({ dateRetour: value });
+                  return;
+                }
+                
+                // 🛑 CORRECTION MAJEURE: Si la chaîne de date n'est pas complète (YYYY-MM-DD = 10 caractères)
                 // on met à jour la valeur MAIS on SAUTE la validation pour éviter l'erreur.
                 // Note : Certains navigateurs comme Safari peuvent ne pas fournir la date dans le format YYYY-MM-DD
                 // tant qu'elle n'est pas complète.
@@ -429,22 +435,22 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
 
                 // On ne valide que si la chaîne est complète ET qu'il existe une date de départ
                 if (isDateComplete && formData.dateDepart) {
-                  const selectedDate = new Date(value);
-                  const departDate = new Date(formData.dateDepart);
-                
-                  // Validation : la date de retour doit être après la date de départ
-                  if (selectedDate <= departDate) {
-                    toast({
-                      title: "Date invalide",
-                      description: "❌ La date de retour doit être après la date de départ",
-                      variant: "destructive"
-                    });
-                  }
+                  const selectedDate = new Date(value);
+                  const departDate = new Date(formData.dateDepart);
+                  
+                  // Validation : la date de retour doit être après la date de départ
+                  if (selectedDate <= departDate) {
+                    toast({
+                      title: "Date invalide",
+                      description: "❌ La date de retour doit être après la date de départ",
+                      variant: "destructive"
+                    });
+                  }
                 }
-              }}
-              className="h-14 text-base border-2 focus:border-primary"
-              min={formData.dateDepart || new Date(Date.now() + 86400000).toISOString().split('T')[0]}
-            />
+              }}
+              className="h-14 text-base border-2 focus:border-primary"
+              min={formData.dateDepart || new Date(Date.now() + 86400000).toISOString().split('T')[0]}
+            />
             {formData.dateDepart && formData.dateRetour && (
               <p className="text-sm text-accent font-bold flex items-center gap-2">
                 ✓ Durée : {Math.ceil((new Date(formData.dateRetour).getTime() - new Date(formData.dateDepart).getTime()) / (1000 * 60 * 60 * 24))} jours
