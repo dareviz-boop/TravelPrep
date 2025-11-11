@@ -200,7 +200,10 @@ const Generator = () => {
             variant="outline"
             onClick={handlePrev}
             disabled={currentStep === 0}
-            className="h-14 px-8 text-base font-bold border-2 hover:bg-muted disabled:opacity-50"
+            className="h-14 px-8 text-base font-bold border-2 
+                        border-primary/50 text-foreground 
+                        hover:bg-primary/10 hover:border-primary/70 hover:text-foreground 
+                        disabled:opacity-50"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
             Précédent
