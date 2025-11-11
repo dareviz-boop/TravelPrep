@@ -12,6 +12,7 @@ interface Step4ProfilProps {
 }
 
 export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
+  // L'objet checklistData a été mis à jour pour inclure les options des profils et conforts.
   const profils = checklistData.profils;
   const conforts = checklistData.conforts;
   const typesVoyage = checklistData.typesVoyage.options;
@@ -41,7 +42,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
           Adaptons votre checklist à vos besoins
         </p>
       </div>
-    
+      
       <div className="space-y-8 max-w-2xl mx-auto">
         
         {/* Type de voyageur (Profil) */}
@@ -50,7 +51,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
             Type de voyageur <span className="text-primary">*</span>
           </Label>
           <RadioGroup
-            value={formData.profil || ""}
+            value={formData.profil || "seul"} // Défaut sur 'seul' pour ne pas laisser le champ vide
             onValueChange={(value) => updateFormData({ profil: value as Profil })}
             className="grid grid-cols-1 md:grid-cols-2 gap-3"
           >
@@ -133,14 +134,13 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
           </div>
         )}
 
-        {/* Type de voyage - CORRECTION DÉFAUT */}
+        {/* Type de voyage */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
-            Type de voyage <span className="text-primary">*</span>
+            Type de voyage <span className="text-primary">*</span> {/* CORRECTION : Rendu obligatoire */}
           </Label>
           <RadioGroup
-            // CORRECTION: Défaut sur 'flexibilite'
-            value={formData.typeVoyage || "flexibilite"}
+            value={formData.typeVoyage || "flexibilite"} // CORRECTION : Défaut sur 'flexibilite'
             onValueChange={(value) => updateFormData({ typeVoyage: value as FormData['typeVoyage'] })}
             className="grid grid-cols-1 gap-3"
           >
@@ -169,14 +169,13 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
           </RadioGroup>
         </div>
         
-        {/* Niveau de confort souhaité - CORRECTION DÉFAUT */}
+        {/* Niveau de confort souhaité */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
             Niveau de confort souhaité <span className="text-primary">*</span>
           </Label>
           <RadioGroup
-            // CORRECTION: Défaut sur 'standard'
-            value={formData.confort || "standard"}
+            value={formData.confort || "standard"} // CORRECTION : Défaut sur 'standard'
             onValueChange={(value) => updateFormData({ confort: value as Confort })}
             className="grid grid-cols-1 gap-3"
           >
