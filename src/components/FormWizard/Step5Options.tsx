@@ -167,7 +167,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
                       onCheckedChange={() => {}} 
                       className="mt-1"
                     />
-                    <Label htmlFor={`section-${section.id}`} className="flex-1 cursor-pointer">
+                    <Label className="flex-1 cursor-pointer">
                         <div className="font-semibold text-base mb-1 flex items-center">
                             {section.label}
                         </div>
