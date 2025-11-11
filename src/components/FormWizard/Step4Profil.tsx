@@ -120,7 +120,6 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
                         className="mt-1"
                       />
                       <Label 
-                        htmlFor={`age-${key}`} 
                         className="flex-1 cursor-pointer text-base font-medium flex items-center"
                       >
                         <span className="mr-2">{emoji}</span>
