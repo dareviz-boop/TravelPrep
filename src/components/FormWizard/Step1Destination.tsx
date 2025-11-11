@@ -173,7 +173,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               </Label>
             </div>
 
-            {/* Pays sélectionnés (Inchangé) */}
+            {/* Pays sélectionnés (La sélection orange est correcte ici) */}
             {formData.pays.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-3">
                 {formData.pays.map((pays) => (
@@ -195,7 +195,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               </div>
             )}
 
-            {/* Combobox (Inchangé) */}
+            {/* Combobox (La couleur du focus/ring est gérée par --primary, ce qui est correct pour l'orange) */}
             {formData.pays.length < 3 && (
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
@@ -234,6 +234,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                               <Check
                                 className={cn(
                                   "mr-2 h-4 w-4",
+                                  // La coche utilise ici la couleur "foreground" par défaut, mais est visible
                                   isSelected ? "opacity-100" : "opacity-0"
                                 )}
                               />
@@ -265,7 +266,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               </Label>
             </div>
       
-            {/* Pays sélectionnés (Inchangé) */}
+            {/* Pays sélectionnés (La sélection orange est correcte ici) */}
             {formData.pays.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-3">
                 {formData.pays.map((pays) => (
@@ -441,14 +442,14 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
           </div>
         </div>
 
-        {/* Durée si pas de date retour (Inchangé) */}
+        {/* Durée si pas de date retour (Bloc corrigé pour la couleur et le défaut) */}
         {formData.dateDepart && !formData.dateRetour && (
           <div className="space-y-4 bg-card p-6 rounded-xl border-2 border-border shadow-sm">
             <Label className="text-lg font-bold text-foreground">
               Durée estimée du voyage <span className="text-primary">*</span>
             </Label>
             <RadioGroup
-              value={formData.duree}
+              value={formData.duree || "moyen"} // <-- CORRECTION: Défaut sur 'moyen'
               onValueChange={(value) => updateFormData({ duree: value as FormData['duree'] })}
               className="grid grid-cols-2 md:grid-cols-4 gap-3"
             >
@@ -466,7 +467,11 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                   />
                   <Label
                     htmlFor={option.value}
-                    className="flex flex-col items-center justify-center rounded-xl border-2 border-border bg-card p-4 hover:bg-accent/5 hover:border-primary/50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10 cursor-pointer transition-all"
+                    className={cn(
+                      "flex flex-col items-center justify-center rounded-xl border-2 border-border bg-card p-4 hover:bg-accent/5 cursor-pointer transition-all",
+                      // 🟢 CORRECTION: Utilisation de 'accent' (vert) pour la sélection 🟢
+                      "hover:border-accent/50 peer-data-[state=checked]:border-accent peer-data-[state=checked]:bg-accent/10" 
+                    )}
                   >
                     <span className="text-sm font-bold text-foreground">{option.label}</span>
                     <span className="text-xs text-muted-foreground mt-1">{option.desc}</span>
