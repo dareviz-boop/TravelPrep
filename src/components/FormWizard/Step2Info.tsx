@@ -163,7 +163,11 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                       className="mt-0" // CORRECTION : Supprimer le décalage
                     />
                     <Label htmlFor={`condition-${condition.id}`} className="flex-1 cursor-pointer">
-                      <span className="font-semibold text-base flex items-center">
+                      {/* LA CORRECTION EST ICI :
+                        Change 'items-center' en 'items-start' 
+                        pour que l'emoji s'aligne en haut avec la première ligne de texte.
+                      */}
+                      <span className="font-semibold text-base flex items-start">
                         <span className="mr-2 text-xl">{emoji}</span>
                         {title}
                       </span>
