@@ -60,7 +60,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
             📅 Saison de voyage <span className="text-primary">*</span>
           </Label>
           <RadioGroup
-            value={formData.saison || "inconnue"} // <-- CORRECTION: Défaut sur 'inconnue'
+            value={formData.saison}
             onValueChange={(value) => updateFormData({ saison: value as FormData['saison'] })}
             className="grid grid-cols-2 gap-3"
           >
@@ -95,7 +95,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
             🌡️ Température moyenne sur place <span className="text-primary">*</span>
           </Label>
           <RadioGroup
-            value={formData.temperature || "inconnue"} // <-- CORRECTION: Défaut sur 'inconnue'
+            value={formData.temperature}
             onValueChange={(value) => updateFormData({ temperature: value as FormData['temperature'] })}
             className="grid grid-cols-1 gap-3"
           >
