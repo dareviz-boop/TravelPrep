@@ -18,7 +18,7 @@ const Generator = () => {
     nomVoyage: "",
     dateDepart: "",
     duree: "moyen",
-    localisation: "europe",
+    localisation: "multi-destinations",
     pays: [],
     temperature: "inconnue",
     saison: "inconnue",
