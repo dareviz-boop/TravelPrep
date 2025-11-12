@@ -137,49 +137,46 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                 {groupe.groupe}
               </Label>
               
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {groupe.options.map((condition) => {
-                // Utilise ['aucune'] par défaut si le tableau est undefined ou vide
-                const initialSelection = formData.conditionsClimatiques || ['aucune']; 
-                const isSelected = initialSelection.includes(condition.id);
-                
-                // Extraction de l'emoji et du nom
-                const [emoji, ...labelParts] = condition.nom.split(' ');
-                const title = labelParts.join(' ').trim();
-                
-                return (
-                  <div
-                    key={condition.id}
-                    // items-center aligne le contenu en haut (première ligne)
-                    className={`flex items-center space-x-3 p-3 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
-                        isSelected ? "border-primary bg-primary/5" : "border-border"
-                    }`}
-                    onClick={() => handleConditionToggle(condition.id)}
-                  >
-                    <Checkbox
-                      id={`condition-${condition.id}`}
-                      checked={isSelected}
-                      onCheckedChange={() => {}} 
-                      className="mt-0" // CORRECTION : Supprimer le décalage
-                    />
-                    <Label htmlFor={`condition-${condition.id}`} className="flex-1 cursor-pointer">
-                      {/* LA CORRECTION EST ICI :
-                        Change 'items-center' en 'items-center' 
-                        pour que l'emoji s'aligne en haut avec la première ligne de texte.
-                      */}
-                      <span className="font-semibold text-base flex items-center">
-                        <span className="mr-2 text-xl">{emoji}</span>
-                        {title}
-                      </span>
-                    </Label>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        ))}
-        </div>
-      </div>
-    </div>
-  );
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {groupe.options.map((condition) => {
+                // ... (Logique isSelected inchangée)
+                const initialSelection = formData.conditionsClimatiques || []; // Utilise [] si vide, car on a retiré ['aucune'] dans le générateur
+                const isSelected = initialSelection.includes(condition.id);
+
+                const [emoji, ...labelParts] = condition.nom.split(' ');
+                const title = labelParts.join(' ').trim();
+                
+                return (
+                  <div
+                    key={condition.id}
+                    // ✅ 1. Le DIV parent gère le clic
+                    onClick={() => handleConditionToggle(condition.id)}
+                    className={`flex items-start space-x-3 p-3 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
+                        isSelected ? "border-primary bg-primary/5" : "border-border"
+                    }`}
+                  >
+                    {/* ✅ 2. La Checkbox ne gère pas le clic, mais est affichée */}
+                    <Checkbox
+                      id={`condition-${condition.id}`}
+                      checked={isSelected}
+                      onCheckedChange={() => handleConditionToggle(condition.id)} // Gère le clic du petit carré
+                      className="mt-1" // Ajustement pour centrer verticalement avec le texte
+                    />
+                    {/* ✅ 3. Suppression du Label HTML, remplacé par un simple span */}
+                    <span className="flex-1">
+                      <span className="font-semibold text-base flex items-start">
+                        <span className="mr-2 text-xl">{emoji}</span>
+                        {title}
+                      </span>
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+        </div>
+      </div>
+    </div>
+  );
 };
