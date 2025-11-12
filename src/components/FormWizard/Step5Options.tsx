@@ -290,12 +290,14 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
 
             
             {/* Ligne 6: Profil + détails Famille */}
-            {formData.profil && (
-              <div className="flex justify-between items-start">
-                <span className="text-muted-foreground">Profil :</span>
-                <div className="font-semibold text-right flex flex-col items-end">
-                    {formData.profil.emoji} {formData.profil.nom}
-
+              {formData.profil && (
+                <div className="flex justify-between items-start">
+                  <span className="text-muted-foreground">Profil :</span>
+                  <div className="font-semibold text-right flex flex-col items-end">
+                    {/* ✅ C'est le pluriel qui fonctionne ici */}
+                    {getOptionDetailsFromDict('profils', formData.profil)?.emoji} 
+                    {getOptionDetailsFromDict('profils', formData.profil)?.label || getOptionDetailsFromDict('profils', formData.profil)?.nom || formData.profil}
+                    
                   {/* Détails Famille (si profil est 'famille') */}
                   {formData.profil === 'famille' && (
                     <div className="text-sm text-muted-foreground mt-1 font-normal space-y-0.5">
@@ -331,12 +333,14 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               </div>
             )}
 
-            {/* Ligne : Confort */}
+           {/* Ligne : Confort */}
             {formData.confort && (
               <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Confort :</span>
                 <span className="font-semibold">
-                    {formData.confort.emoji} {formData.confort.nom}
+                    {/* ✅ CORRIGÉ : On utilise getOptionDetailsFromDict */}
+                    {getOptionDetailsFromDict('confort', formData.confort)?.emoji} 
+                    {getOptionDetailsFromDict('confort', formData.confort)?.label || getOptionDetailsFromDict('confort', formData.confort)?.nom || formData.confort}
                 </span>
               </div>
             )}
