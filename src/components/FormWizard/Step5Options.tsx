@@ -45,11 +45,11 @@ const getOptionDetailsFromDict = (groupKey: keyof typeof checklistData, id: stri
 // Fonction pour déterminer le libellé de la durée
 const getDurationLabel = (duree: FormData['duree'] | undefined) => {
   if (!duree) return "Non défini";
-  const map = {
-    courte: "Courte (moins d'une semaine)",
-    moyenne: "Moyenne (1 à 2 semaines)",
-    longue: "Longue (2 à 4 semaines)",
-    tres_longue: "Très longue (plus de 1 mois)",
+  const map: Record<string, string> = { // On utilise string pour la flexibilité en l'absence d'importation de Duree
+    'court': "Courte (moins d'une semaine)",
+    'moyen': "Moyenne (1 à 2 semaines)",
+    'long': "Longue (2 à 4 semaines)",
+    'tres-long': "Très longue (plus de 1 mois)",
   };
   return map[duree] || duree;
 };
