@@ -129,7 +129,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
           <h3 className="text-xl font-bold mb-3">
             Conditions climatiques <span className="text-muted-foreground text-sm font-normal">(choix multiple - optionnel)</span>
           </h3>
-      
+    
           {/* Utilise la structure groupée du JSON */}
           {checklistData.conditionsClimatiques.map((groupe, index) => (
             <div key={index} className="space-y-3 p-4 border rounded-xl bg-card shadow-sm">
@@ -137,45 +137,53 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                 {groupe.groupe}
               </Label>
               
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {groupe.options.map((condition) => {
-                // ... (Logique isSelected inchangée)
-                const initialSelection = formData.conditionsClimatiques || []; // Utilise [] si vide, car on a retiré ['aucune'] dans le générateur
-                const isSelected = initialSelection.includes(condition.id);
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {groupe.options.map((condition) => {
+                  // Utilise [] si formData.conditionsClimatiques est vide
+                  const initialSelection = formData.conditionsClimatiques || []; 
+                  const isSelected = initialSelection.includes(condition.id);
 
-                const [emoji, ...labelParts] = condition.nom.split(' ');
-                const title = labelParts.join(' ').trim();
-                
-                return (
-                  <div
-                    key={condition.id}
-                    // ✅ 1. Le DIV parent gère le clic
-                    onClick={() => handleConditionToggle(condition.id)}
-                    className={`flex items-start space-x-3 p-3 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
-                        isSelected ? "border-primary bg-primary/5" : "border-border"
-                    }`}
-                  >
-                    {/* ✅ 2. La Checkbox ne gère pas le clic, mais est affichée */}
-                    <Checkbox
-                      id={`condition-${condition.id}`}
-                      checked={isSelected}
-                      onCheckedChange={() => handleConditionToggle(condition.id)} // Gère le clic du petit carré
-                      className="mt-1" // Ajustement pour centrer verticalement avec le texte
-                    />
-                    {/* ✅ 3. Suppression du Label HTML, remplacé par un simple span */}
-                    <span className="flex-1">
-                      <span className="font-semibold text-base flex items-start">
-                        <span className="mr-2 text-xl">{emoji}</span>
-                        {title}
-                      </span>
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        ))}
-        </div>
+                  // Extraction de l'emoji et du nom
+                  const [emoji, ...labelParts] = condition.nom.split(' ');
+                  const title = labelParts.join(' ').trim();
+                  
+                  return (
+                    <div key={condition.id}>
+                      {/* 1. L'INPUT Checkbox (invisible) est nécessaire pour l'état */}
+                      <Checkbox
+                        value={condition.id}
+                        id={`condition-${condition.id}`}
+                        // La classe `peer` est essentielle pour que le Label puisse le cibler
+                        className="peer sr-only" 
+                        checked={isSelected}
+                        // Le changement est géré par le Label qui bascule l'état
+                        onCheckedChange={() => handleConditionToggle(condition.id)} 
+                      />
+                      
+                      {/* 2. Le LABEL englobe TOUT le design de la carte et la rend cliquable */}
+                      <Label
+                        htmlFor={`condition-${condition.id}`}
+                        className={cn(
+                          // Styles de la carte (doivent correspondre à votre design d'origine)
+                          "flex flex-col justify-center items-center text-center space-y-2 p-4 min-h-[120px] rounded-xl border-2 transition-all cursor-pointer",
+                          "hover:border-primary/50",
+                          // Styles basés sur l'état 'checked' de l'input caché
+                          "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5",
+                          // Style spécifique pour l'option 'Aucune condition' si nécessaire
+                          condition.id === 'aucune' ? 'bg-secondary/20' : '' 
+                        )}
+                      >
+                        {/* 3. Le contenu de la carte */}
+                        <span className="text-4xl">{emoji}</span>
+                        <p className="font-semibold text-base whitespace-pre-wrap">{title}</p>
+                      </Label>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
