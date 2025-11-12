@@ -150,8 +150,8 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                 return (
                   <div
                     key={condition.id}
-                    // items-start aligne le contenu en haut (première ligne)
-                    className={`flex items-start space-x-3 p-3 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
+                    // items-center aligne le contenu en haut (première ligne)
+                    className={`flex items-center space-x-3 p-3 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 ${
                         isSelected ? "border-primary bg-primary/5" : "border-border"
                     }`}
                     onClick={() => handleConditionToggle(condition.id)}
@@ -164,10 +164,10 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                     />
                     <Label htmlFor={`condition-${condition.id}`} className="flex-1 cursor-pointer">
                       {/* LA CORRECTION EST ICI :
-                        Change 'items-center' en 'items-start' 
+                        Change 'items-center' en 'items-center' 
                         pour que l'emoji s'aligne en haut avec la première ligne de texte.
                       */}
-                      <span className="font-semibold text-base flex items-start">
+                      <span className="font-semibold text-base flex items-center">
                         <span className="mr-2 text-xl">{emoji}</span>
                         {title}
                       </span>
