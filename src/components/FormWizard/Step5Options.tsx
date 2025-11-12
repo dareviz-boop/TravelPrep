@@ -48,8 +48,8 @@ const getDurationLabel = (duree: FormData['duree'] | undefined) => {
   const map: Record<string, string> = { // On utilise string pour la flexibilité en l'absence d'importation de Duree
     'court': "Courte (moins d'une semaine)",
     'moyen': "Moyenne (1 à 2 semaines)",
-    'long': "Longue (2 à 4 semaines)",
-    'tres-long': "Très longue (plus de 1 mois)",
+    'long': "Longue (1 à 3 mois)",
+    'tres-long': "Très longue (plus de 3 mois)",
   };
   return map[duree] || duree;
 };
@@ -337,8 +337,8 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Confort :</span>
                 <span className="font-semibold">
-                  {getOptionDetailsFromDict('conforts', formData.confort)?.emoji} 
-                  {getOptionDetailsFromDict('conforts', formData.confort)?.label || formData.confort}
+                  {getOptionDetailsFromDict('confort', formData.confort)?.emoji} 
+                  {getOptionDetailsFromDict('confort', formData.confort)?.label || formData.confort}
                 </span>
               </div>
             )}
@@ -451,25 +451,6 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               </Label>
             </div>
           </RadioGroup>
-        </div>
-
-        {/* Email optionnel */}
-        <div className="space-y-2">
-          <Label htmlFor="email" className="text-base font-semibold">
-            Email{" "}
-            <span className="text-muted-foreground text-sm font-normal">(optionnel)</span>
-          </Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="votre@email.com"
-            value={formData.email || ''}
-            onChange={(e) => updateFormData({ email: e.target.value })}
-            className="h-12 text-base focus:border-primary"
-          />
-          <p className="text-sm text-muted-foreground">
-            Pour recevoir votre PDF par email
-          </p>
         </div>
       </div>
     </div>
