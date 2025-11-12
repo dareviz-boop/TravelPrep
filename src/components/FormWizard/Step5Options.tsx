@@ -288,17 +288,19 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               </div>
             )}
 
-            
-            {/* Ligne 6: Profil + détails Famille */}
-              {formData.profil && (
-                <div className="flex justify-between items-start">
-                  <span className="text-muted-foreground">Profil :</span>
-                  <div className="font-semibold text-right flex flex-col items-end">
-                    {/* ✅ C'est le pluriel qui fonctionne ici */}
-                    {getOptionDetailsFromDict('profils', formData.profil)?.emoji} 
-                    {getOptionDetailsFromDict('profils', formData.profil)?.label || getOptionDetailsFromDict('profils', formData.profil)?.nom || formData.profil}
-                    
-                  {/* Détails Famille (si profil est 'famille') */}
+              
+        {/* Ligne 6: Profil + détails Famille */}
+            {formData.profil && (
+              <div className="flex justify-between items-start">
+                <span className="text-muted-foreground">Profil :</span>
+                <div className="font-semibold text-right flex flex-col items-end">
+                    {/* ✅ CORRECTION : Utilisation de getOptionDetailsFromDict pour récupérer l'emoji et le nom/label. Clé : 'profils' (pluriel) */}
+                    <span>
+                      {getOptionDetailsFromDict('profils', formData.profil)?.emoji} 
+                      {getOptionDetailsFromDict('profils', formData.profil)?.label || getOptionDetailsFromDict('profils', formData.profil)?.nom || formData.profil}
+                    </span>
+
+                  {/* Détails Famille (si profil est 'famille') - ASSUREZ-VOUS QUE LE RESTE DE CE BLOC EST PRÉSENT */}
                   {formData.profil === 'famille' && (
                     <div className="text-sm text-muted-foreground mt-1 font-normal space-y-0.5">
                       {/* Nombre d'enfants */}
