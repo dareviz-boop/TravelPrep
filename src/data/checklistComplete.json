@@ -314,7 +314,7 @@
   "description": "Durée totale du séjour",
   "options": [
     { "id": "court", "nom": "Court", "description": "2-7 jours (Week-end prolongé)", "emoji": "🏃" },
-    { "id": "moyen", "nom": "Moyen", "description": "1-3 semaines (Séjour standard)", "emoji": "📅" },
+    { "id": "moyen", "nom": "Moyen", "description": "1-4 semaines (Séjour standard)", "emoji": "📅" },
     { "id": "long", "nom": "Long", "description": "1-3 mois (Voyage prolongé)", "emoji": "🗓️" },
     { "id": "tres-long", "nom": "Très long", "description": "3 mois et + (Tour du monde / Gap year)", "emoji": "🌍" }
   ]
