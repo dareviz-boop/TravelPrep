@@ -141,7 +141,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
 
             
             {/* Ligne 1: Nom du voyage */}
-            <div className="flex justify-between">
+            <div className="flex justify-between items-start">
               <span className="text-muted-foreground">Voyage :</span>
               <span className="font-semibold">{formData.nomVoyage || "Non renseigné"}</span>
             </div>
@@ -149,7 +149,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
             
             {/* Ligne 2: Date de départ */}
             {formData.dateDepart && (
-              <div className="flex justify-between">
+              <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Date de départ :</span>
                 <span className="font-semibold">
                   {new Date(formData.dateDepart).toLocaleDateString("fr-FR")}
@@ -159,7 +159,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
             
             {/* Date de retour OU Durée (si date de retour est absente) */}
             {formData.dateRetour ? (
-              <div className="flex justify-between">
+              <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Date de retour :</span>
                 <span className="font-semibold">
                   {new Date(formData.dateRetour).toLocaleDateString("fr-FR")}
@@ -167,7 +167,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               </div>
             ) : (
                 formData.duree && (
-                    <div className="flex justify-between">
+                    <div className="flex justify-between items-start">
                         <span className="text-muted-foreground">Durée estimée :</span>
                         <span className="font-semibold">
                             {getDurationLabel(formData.duree)}
@@ -178,7 +178,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
 
             {/* Durée calculée (si les deux dates sont là) */}
             {durationDays !== null && (
-              <div className="flex justify-between">
+              <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Durée calculée :</span>
                 <span className="font-semibold">{durationDays} jours</span>
               </div>
@@ -208,7 +208,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
             
             {/* Ligne 4: Saison, Température & conditions (inchangées car elles étaient correctes) */}
             {saisonDetails && (
-              <div className="flex justify-between">
+              <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Saison :</span>
                 <span className="font-semibold">
                     {saisonDetails.emoji} {saisonDetails.nom}
@@ -216,7 +216,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               </div>
             )}
             {temperatureDetails && (
-              <div className="flex justify-between">
+              <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Température :</span>
                 <span className="font-semibold">
                     {temperatureDetails.emoji} {temperatureDetails.nom}
@@ -293,7 +293,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
             
              {/* Type de voyage (inchangé car il était correct) */}
             {typeVoyageDetails && (
-              <div className="flex justify-between">
+              <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Type de voyage :</span>
                 <span className="font-semibold">
                     {typeVoyageDetails.emoji} {typeVoyageDetails.nom}
@@ -303,7 +303,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
 
             {/* CORRECTION Ligne : Confort */}
             {formData.confort && (
-              <div className="flex justify-between">
+              <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Confort :</span>
                 <span className="font-semibold">
                   {getOptionDetailsFromDict('conforts', formData.confort)?.emoji} 
