@@ -461,7 +461,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               Durée estimée du voyage <span className="text-primary">*</span>
             </Label>
             <RadioGroup
-              value={formData.duree || "Moyen"} // <-- CORRECTION: Défaut sur 'moyen'
+              value={formData.duree}
               onValueChange={(value) => updateFormData({ duree: value as FormData['duree'] })}
               className="grid grid-cols-2 md:grid-cols-4 gap-3"
             >
