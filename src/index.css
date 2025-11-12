@@ -31,7 +31,7 @@ All colors MUST be HSL.
     --muted-foreground: 217 16% 47%;
 
     /* Vert pour checkmarks */
-    --accent: 14 84% 54%;
+    --accent: 142 76% 36%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
@@ -86,7 +86,7 @@ All colors MUST be HSL.
     --muted: 217 33% 18%;
     --muted-foreground: 217 16% 65%;
 
-    --accent: 14 84% 54%;
+    --accent: 142 76% 36%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 63% 31%;
