@@ -8,33 +8,34 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils"; 
 import { Flag } from "lucide-react"; // Importation pour un drapeau générique si besoin
 
-interface Step5OptionsProps {
-  formData: FormData;
-  updateFormData: (data: Partial<FormData>) => void;
-}
-
-// Fonction utilitaire pour trouver les détails d'une option simple (Type de voyage, Saison, Température)
-const getOptionDetails = (groupKey: keyof typeof checklistData, id: string | undefined) => {
+// Fonction pour trouver les détails dans une liste simple ou dans un groupe avec 'options: []'
+const getOptionDetailsFromList = (groupKey: keyof typeof checklistData, id: string | undefined) => {
   if (!id) return null;
-  const options = (checklistData[groupKey] as { options: any[] })?.options || [];
-  return options.find(option => option.id === id);
+  const group = checklistData[groupKey] as { options?: any[] };
+  return group?.options?.find(option => option.id === id) || null;
 };
 
-// Fonction utilitaire pour trouver les détails d'une option dans un groupe (Conditions climatiques, Activités)
-const getGroupedOptionDetails = (groupKey: keyof typeof checklistData, id: string) => {
+// Fonction pour trouver les détails dans une liste de groupes (ex: conditionsClimatiques)
+const getOptionDetailsFromGroupedList = (groupKey: keyof typeof checklistData, id: string) => {
   const groups = checklistData[groupKey] as any;
-  // Si c'est un tableau de groupes
   if (Array.isArray(groups)) {
     for (const group of groups) {
       const option = group.options?.find((opt: any) => opt.id === id);
       if (option) return option;
     }
-  }
-  // Si c'est une liste plate d'options (comme souvent pour les activités)
+  } 
+  // Gère aussi le cas où 'activites' pourrait être une liste simple d'options sans groupe
   if (groups && Array.isArray(groups.options)) {
-    return groups.options.find((opt: any) => opt.id === id);
+      return groups.options.find((opt: any) => opt.id === id);
   }
   return null;
+};
+
+// Fonction pour trouver les détails dans un objet/dictionnaire (ex: localisations, profils)
+const getOptionDetailsFromDict = (groupKey: keyof typeof checklistData, id: string | undefined) => {
+  if (!id) return null;
+  const dict = checklistData[groupKey] as any;
+  return dict?.[id] || null; 
 };
 
 // Fonction pour déterminer le libellé de la durée
@@ -48,6 +49,11 @@ const getDurationLabel = (duree: FormData['duree'] | undefined) => {
   };
   return map[duree] || duree;
 };
+
+interface Step5OptionsProps {
+  formData: FormData;
+  updateFormData: (data: Partial<FormData>) => void;
+}
 
 export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) => {
   
@@ -82,27 +88,31 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
 
   const durationDays = calculateDuration();
 
-  // --- NOUVEAU: Récupération des détails pour le récapitulatif ---
-  const typeVoyageDetails = getOptionDetails('typeVoyage', formData.typeVoyage);
-  const saisonDetails = getOptionDetails('saisons', formData.saison);
-  const temperatureDetails = getOptionDetails('temperatures', formData.temperature);
-  
-  // Supposons que checklistData.activites est une liste simple, pas groupée
-  const selectedActivitiesEmojis = (formData.activites || [])
-    .map(id => getGroupedOptionDetails('activites', id)?.emoji)
-    .filter(Boolean);
+  // --- NOUVEAU: Récupération des détails pour le récapitulatif ---
+  // Utilisez la fonction adaptée pour les listes d'options
+  const typeVoyageDetails = getOptionDetailsFromList('typeVoyage', formData.typeVoyage);
+  const saisonDetails = getOptionDetailsFromList('saisons', formData.saison);
+  const temperatureDetails = getOptionDetailsFromList('temperatures', formData.temperature);
+  
+  // Localisation utilise le dictionnaire (ajout de la variable qui manque)
+  const localisationDetails = getOptionDetailsFromDict('localisations', formData.localisation);
 
-  // Supposons que checklistData.conditionsClimatiques est un tableau de groupes (comme dans Step2Info)
-  const selectedConditionsEmojis = (formData.conditionsClimatiques || [])
-    .map(id => {
-        // Le nom de l'emoji est encodé dans la propriété 'nom' du JSON (ex: "🌧️ Saison des pluies...")
-        const detail = getGroupedOptionDetails('conditionsClimatiques', id);
-        if (detail && detail.nom) {
-            return detail.nom.split(' ')[0]; // Extrait l'emoji
-        }
-        return null;
-    })
-    .filter(Boolean);
+  // Utilisez la fonction adaptée pour les listes groupées
+  const selectedActivitiesEmojis = (formData.activites || [])
+    .map(id => getOptionDetailsFromGroupedList('activites', id)?.emoji)
+    .filter(Boolean);
+
+  // Utilisez la fonction adaptée pour les listes groupées
+  const selectedConditionsEmojis = (formData.conditionsClimatiques || [])
+    .map(id => {
+        // Le nom de l'emoji est encodé dans la propriété 'nom' du JSON (ex: "🌧️ Saison des pluies...")
+        const detail = getOptionDetailsFromGroupedList('conditionsClimatiques', id);
+        if (detail && detail.nom) {
+            return detail.nom.split(' ')[0]; // Extrait l'emoji
+        }
+        return null;
+    })
+    .filter(Boolean);
 
 
   return (
@@ -131,7 +141,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               <span className="font-semibold">{formData.nomVoyage || "Non renseigné"}</span>
             </div>
 
-            {/* Ligne 2: Date de départ + Durée si pas de date de retour */}
+            {/* Ligne 2: Date de départ */}
             {formData.dateDepart && (
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Départ :</span>
@@ -141,9 +151,8 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               </div>
             )}
             
-            {/* NOUVEAU: Date de retour OU Durée (si date de retour est absente) */}
+            {/* Date de retour OU Durée (si date de retour est absente) */}
             {formData.dateRetour ? (
-                // Date de retour si renseignée
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Retour :</span>
                 <span className="font-semibold">
@@ -151,7 +160,6 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
                 </span>
               </div>
             ) : (
-                // Durée (courte, moyenne...) si date de retour absente
                 formData.duree && (
                     <div className="flex justify-between">
                         <span className="text-muted-foreground">Durée estimée :</span>
@@ -175,24 +183,26 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Destination :</span>
                 <span className="font-semibold flex flex-col items-end">
-                  {(checklistData.localisations as any)[formData.localisation]?.nom || formData.localisation}
+                  {localisationDetails?.nom || formData.localisation}
                     {/* NOUVEAU: Drapeaux des pays sélectionnés */}
                     {formData.pays && formData.pays.length > 0 && (
                         <div className="flex flex-wrap gap-1 mt-1 text-base">
-                            {/* Assumons que formData.pays contient le drapeau direct ou le code à mapper */}
-                            {formData.pays.map(countryCode => (
-                                // Utiliser l'emoji drapeau stocké dans le JSON ou le code (ex: FR) s'il est un emoji
-                                <span key={countryCode} className="text-xl">
-                                    {getGroupedOptionDetails('pays', countryCode)?.emoji || countryCode} 
-                                </span> 
-                            ))}
+                            {/* Utilise getOptionDetailsFromDict car 'pays' semble être un objet/dictionnaire */}
+                            {formData.pays.map(countryCode => {
+                                const countryDetails = getOptionDetailsFromDict('pays', countryCode);
+                                return (
+                                    <span key={countryCode} className="text-xl">
+                                        {countryDetails?.emoji || countryCode} 
+                                    </span> 
+                                );
+                            })}
                         </div>
                     )}
                 </span>
               </div>
             )}
             
-            {/* NOUVEAU: Type de voyage */}
+            {/* Type de voyage */}
             {typeVoyageDetails && (
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Type de voyage :</span>
@@ -208,7 +218,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
                 <span className="text-muted-foreground">Activités :</span>
                 <span className="font-semibold flex flex-col items-end">
                   {formData.activites.length} sélectionnée(s)
-                    {/* NOUVEAU: Emojis des activités */}
+                    {/* Emojis des activités */}
                     <div className="flex flex-wrap gap-1 mt-1 text-base">
                         {selectedActivitiesEmojis.map((emoji, index) => (
                             <span key={index}>{emoji}</span>
@@ -238,7 +248,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               </div>
             )}
             
-            {/* NOUVEAU: Saison et Température */}
+            {/* Saison et Température */}
             {saisonDetails && (
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Saison :</span>
@@ -256,7 +266,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               </div>
             )}
 
-            {/* NOUVEAU: Conditions Climatiques + Emojis */}
+            {/* Conditions Climatiques + Emojis */}
             {selectedConditionsEmojis.length > 0 && (
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Conditions :</span>
