@@ -94,7 +94,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
 
   // --- NOUVEAU: Récupération des détails pour le récapitulatif ---
   // Utilisez la fonction adaptée pour les listes d'options
-  const typeVoyageDetails = getOptionDetailsFromList('typesVoyage', formData.typeVoyage);
+  const typeVoyageDetails = getOptionDetailsFromList('typeVoyage', formData.typeVoyage);
   const saisonDetails = getOptionDetailsFromList('saisons', formData.saison);
   const temperatureDetails = getOptionDetailsFromList('temperatures', formData.temperature);
   
