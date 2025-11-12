@@ -350,7 +350,7 @@
     ]
   },
 
-  "typesVoyage": {
+  "typeVoyage": {
     "description": "Style général du voyage (intensité de planification/budget)",
     "options": [
       { "id": "backpacker", "nom": "Backpacker", "description": "Voyage au rythme local, transports publics, hébergements économiques", "emoji": "🎒" },
