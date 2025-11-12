@@ -430,7 +430,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               <Label
                 htmlFor="format-compact"
                 className={cn(
-                  "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
+                  "flex flex-col p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
                   "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5"
                 )}
               >
@@ -443,7 +443,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               <Label
                 htmlFor="format-detaille"
                 className={cn(
-                  "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
+                  "flex flex-col p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
                   "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5"
                 )}
               >
