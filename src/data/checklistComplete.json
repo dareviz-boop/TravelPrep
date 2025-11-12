@@ -261,7 +261,7 @@
       { "id": "hiver", "nom": "Hiver", "description": "Saison froide", "emoji": "❄️" },
       { "id": "printemps", "nom": "Printemps", "description": "Saison douce", "emoji": "🌸" },
       { "id": "automne", "nom": "Automne", "description": "Saison tempérée", "emoji": "🍂" },
-      { "id": "inconnue", "nom": "Inconnue", "description": "À déterminer", "emoji": "❓" }
+      { "id": "inconnue", "nom": "Inconnue", "description": "Indéterminé", "emoji": "❓" }
     ]
   },
 
@@ -273,7 +273,7 @@
       { "id": "temperee", "nom": "Tempérée", "description": "10°C à 20°C (Climat doux)", "emoji": "🌤️" },
       { "id": "chaude", "nom": "Chaude", "description": "20°C à 30°C (Chaleur modérée)", "emoji": "☀️" },
       { "id": "tres-chaude", "nom": "Très chaude", "description": "> 30°C (Chaleur intense)", "emoji": "🔥" },
-      { "id": "inconnue", "nom": "Je ne sais pas", "description": "À déterminer", "emoji": "❓" }
+      { "id": "inconnue", "nom": "Je ne sais pas", "description": "Indéterminé", "emoji": "❓" }
     ]
   },
 
