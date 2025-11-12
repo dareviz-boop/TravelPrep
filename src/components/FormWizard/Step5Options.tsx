@@ -292,10 +292,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Profil :</span>
                 <div className="font-semibold text-right flex flex-col items-end">
-                  {/* Affichage principal du profil */}
-                  <span className="font-semibold">
                     {formData.profil.emoji} {formData.profil.nom}
-                  </span>
 
                   {/* Détails Famille (si profil est 'famille') */}
                   {formData.profil === 'famille' && (
