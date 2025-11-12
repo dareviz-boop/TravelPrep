@@ -52,13 +52,12 @@ export interface FormData {
   
   // Page 5: Récapitulatif & Options
   // Rendu OPTIONNEL pour correspondre à la logique de la Step 5 (undefined = tout coché)
-  sectionsInclure?: string[]; 
-  
+  sectionsInclure: string[];
   formatPDF: 'compact' | 'detaille';
-  formatFichier: FormatFichier;
+  formatFichier: 'pdf' | 'excel';
   
   // Page 6: Checkout
-  nom?: string;
-  prenom?: string;
-  email?: string;
+  nomClient: string;
+  prenomClient: string;
+  email: string;
 }
