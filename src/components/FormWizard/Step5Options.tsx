@@ -117,8 +117,9 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
     // Cas 1 : Seulement "aucune" sélectionnée
     if (formData.conditionsClimatiques.length === 1 && formData.conditionsClimatiques[0] === 'aucune') {
       return (
-        <span className="text-base flex items-center gap-1">
-          ❌ Aucune condition particulière
+        <span className="flex items-center gap-1">
+          ❌
+          <span className="text-sm">Aucune condition particulière</span>
         </span>
       );
     }
@@ -292,10 +293,9 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
                 <span className="text-muted-foreground">Profil :</span>
                 <div className="font-semibold text-right flex flex-col items-end">
                   {/* Affichage principal du profil */}
-                  <span>
-                    {getOptionDetailsFromDict('profils', formData.profil)?.emoji} 
-                    {getOptionDetailsFromDict('profils', formData.profil)?.label || formData.profil}
-                  </span>
+                  <span className="font-semibold">
+                    {formData.profil.emoji} {formData.profil.nom}
+                  </span>
 
                   {/* Détails Famille (si profil est 'famille') */}
                   {formData.profil === 'famille' && (
@@ -337,8 +337,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Confort :</span>
                 <span className="font-semibold">
-                  {getOptionDetailsFromDict('confort', formData.confort)?.emoji} 
-                  {getOptionDetailsFromDict('confort', formData.confort)?.label || formData.confort}
+                    {formData.confort.emoji} {formData.confort.nom}
                 </span>
               </div>
             )}
