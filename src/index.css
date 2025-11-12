@@ -120,3 +120,18 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+@layer components {
+  /* Surcharge les styles par défaut du CommandItem (liste déroulante pays) */
+  /* Cible le survol (data-highlighted) et l'état sélectionné (data-selected) */
+  .cmdk-item[data-highlighted='true'], 
+  .cmdk-item[data-selected='true'] {
+    /* Forcer le fond en Orange très pâle (primary/10) */
+    background-color: hsl(var(--primary) / 0.1) !important; 
+    color: hsl(var(--foreground)) !important; /* Garder le texte foncé */
+  }
+
+  /* Force la coche (Check) à être Orange vif pour la sélection */
+  .cmdk-item[data-selected='true'] svg {
+    color: hsl(var(--primary)) !important;
+  }
+}
