@@ -91,7 +91,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
                 id="nombreEnfants"
                 type="number"
                 min="1"
-                max="6"
+                max="10"
                 value={formData.nombreEnfants || ''}
                 onChange={(e) => updateFormData({ nombreEnfants: parseInt(e.target.value) || undefined })}
                 className="h-12 text-base max-w-xs focus:border-primary"
