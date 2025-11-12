@@ -361,7 +361,7 @@
     ]
   },
 
-  "conforts": {
+  "confort": {
     "description": "Niveau de confort et de budget souhaité",
     "options": [
       { "id": "economique", "nom": "Économique", "description": "Auberges, dortoirs, cuisine partagée, transports locaux", "emoji": "🏕️" },
