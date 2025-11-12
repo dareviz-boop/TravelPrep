@@ -51,7 +51,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
             Type de voyageur <span className="text-primary">*</span>
           </Label>
           <RadioGroup
-            value={formData.profil || "seul"} // Défaut sur 'seul' pour ne pas laisser le champ vide
+            value={formData.profil}
             onValueChange={(value) => updateFormData({ profil: value as Profil })}
             className="grid grid-cols-1 md:grid-cols-2 gap-3"
           >
