@@ -261,7 +261,7 @@
       { "id": "hiver", "nom": "Hiver", "description": "Saison froide", "emoji": "❄️" },
       { "id": "printemps", "nom": "Printemps", "description": "Saison douce", "emoji": "🌸" },
       { "id": "automne", "nom": "Automne", "description": "Saison tempérée", "emoji": "🍂" },
-      { "id": "inconnue", "nom": "Inconnue", "description": "Indéterminé", "emoji": "❓" }
+      { "id": "inconnue", "nom": "Je ne sais pas", "description": "Indéterminé", "emoji": "❓" }
     ]
   },
 
