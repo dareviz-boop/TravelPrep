@@ -174,7 +174,7 @@
       ]
     },
     "amerique-nord": {
-      "nom": "🌎 Amérique du Nord",
+      "nom": "🗽 Amérique du Nord",
       "code": "amerique-nord",
       "pays": [
         {"code": "US", "nom": "États-Unis", "nomEn": "United States", "flag": "🇺🇸"},
@@ -208,7 +208,7 @@
       ]
     },
     "amerique-sud": {
-      "nom": "🌎 Amérique du Sud",
+      "nom": "🦙 Amérique du Sud",
       "code": "amerique-sud",
       "pays": [
         {"code": "BR", "nom": "Brésil", "nomEn": "Brazil", "flag": "🇧🇷"},
