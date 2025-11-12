@@ -481,9 +481,8 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                     htmlFor={option.value}
                     className={cn(
                       "flex flex-col items-center justify-center rounded-xl border-2 border-border bg-card p-4 hover:bg-accent/5 cursor-pointer transition-all",
-                      // 🟢 CORRECTION: Utilisation de 'accent' (vert) pour la sélection 🟢
-                      "hover:border-primary/50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10"
-                    )}
+// ✅ CORRECTION : Remplacement de 'accent' par 'primary' pour le survol et l'état checked
+                      "hover:bg-primary/5 hover:border-primary/50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10"
                   >
                     <span className="text-sm font-bold text-foreground">{option.label}</span>
                     <span className="text-xs text-muted-foreground mt-1">{option.desc}</span>
