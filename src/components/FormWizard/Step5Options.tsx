@@ -88,9 +88,9 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
 
   const durationDays = calculateDuration();
 
-  // --- NOUVEAU: Récupération des détails pour le récapitulatif ---
-  // Utilisez la fonction adaptée pour les listes d'options
-  const typeVoyageDetails = getOptionDetailsFromList('typeVoyage', formData.typeVoyage);
+  // --- NOUVEAU: Récupération des détails pour le récapitulatif ---
+  // Utilisez la fonction adaptée pour les listes d'options
+  const typeVoyageDetails = getOptionDetailsFromList('typesVoyage', formData.typeVoyage);
   const saisonDetails = getOptionDetailsFromList('saisons', formData.saison);
   const temperatureDetails = getOptionDetailsFromList('temperatures', formData.temperature);
   
@@ -183,19 +183,15 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Destination :</span>
                 <span className="font-semibold flex flex-col items-end">
-                  {localisationDetails?.nom || formData.localisation}
+                  {localisationDetails?.nom || formData.localisation}
                     {/* NOUVEAU: Drapeaux des pays sélectionnés */}
                     {formData.pays && formData.pays.length > 0 && (
                         <div className="flex flex-wrap gap-1 mt-1 text-base">
-                            {/* Utilise getOptionDetailsFromDict car 'pays' semble être un objet/dictionnaire */}
-                            {formData.pays.map(countryCode => {
-                                const countryDetails = getOptionDetailsFromDict('pays', countryCode);
-                                return (
-                                    <span key={countryCode} className="text-xl">
-                                        {countryDetails?.emoji || countryCode} 
-                                    </span> 
-                                );
-                            })}
+                            {formData.pays.map((pays) => (
+                                <span key={pays.code} className="text-xl" title={pays.nom}>
+                                    {pays.flag}
+                                </span> 
+                            ))}
                         </div>
                     )}
                 </span>

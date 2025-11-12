@@ -11,7 +11,7 @@ import { ArrowLeft, ArrowRight, Download } from "lucide-react";
 import { toast } from "sonner";
 import { checklistData } from "@/utils/checklistUtils";
 
-const ALL_SECTION_CODES = Object.keys(checklistData.sections || {});
+const ALL_SECTION_CODES = checklistData.categories.options.map((cat: any) => cat.id);
 const Generator = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<FormData>({
@@ -26,7 +26,7 @@ const Generator = () => {
     activites: [],
     profil: "couple",
     agesEnfants: [],
-    typeVoyage: "flexible",
+    typeVoyage: "equilibre",
     confort: "standard",
     sectionsInclure: ALL_SECTION_CODES as string[],
     formatPDF: "detaille",
