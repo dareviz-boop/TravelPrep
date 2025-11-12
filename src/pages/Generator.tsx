@@ -6,6 +6,7 @@ import { Step2Info } from '@/components/FormWizard/Step2Info';
 import { Step3Activites } from "@/components/FormWizard/Step3Activites";
 import { Step4Profil } from "@/components/FormWizard/Step4Profil";
 import { Step5Options } from "@/components/FormWizard/Step5Options";
+import { Step6Checkout } from "@/components/FormWizard/Step6Checkout";
 import { FormData } from "@/types/form";
 import { ArrowLeft, ArrowRight, Download } from "lucide-react";
 import { toast } from "sonner";
@@ -31,10 +32,13 @@ const Generator = () => {
     sectionsInclure: ALL_SECTION_CODES as string[],
     formatPDF: "detaille",
     formatFichier: "pdf",
+    nomClient: "", 
+    prenomClient: "",
+    email: "",
   });
 
-  const stepTitles = ["Destination", "Activités", "Profil", "Récapitulatif", "Checkout"];
-
+  const stepTitles = ["Destination", "Informations", "Activités", "Profil", "Récapitulatif", "Checkout"];
+  
   const updateFormData = (data: Partial<FormData>) => {
     setFormData((prev) => ({ ...prev, ...data }));
   };
@@ -52,7 +56,7 @@ const Generator = () => {
         }
         return true;
 
-      case 1: // Étape 2 : Infos (Saison & Température)
+      case 1: // Étape 2 : Informationss (Saison & Température)
         // L'ancienne validation qui posait problème est corrigée ici
         if (!formData.temperature || !formData.saison) { 
           toast.error("Veuillez sélectionner la température moyenne et la saison de votre voyage.");
@@ -94,12 +98,17 @@ const Generator = () => {
         }
         return true;
 
-      case 5: // Page de Checkout/Génération
-        if (formData.email && !/^\S+@\S+\.\S+$/.test(formData.email)) {
-          toast.error("Veuillez entrer une adresse email valide.");
-          return false;
-        }
-  return true;
+      case 5: // Étape 6 : Page de Checkout/Génération
+        if (!formData.nomClient || !formData.prenomClient) {
+        toast.error("Veuillez renseigner votre nom et votre prénom.");
+        return false;
+            }
+            if (!formData.email || !/^\S+@\S+\.\S+$/.test(formData.email)) {
+              toast.error("Veuillez entrer une adresse email valide.");
+              return false;
+            }
+            // Validation finale avant la génération (HandleGeneratePDF)
+            return true;
         
       default:
         return true;
@@ -163,9 +172,9 @@ const Generator = () => {
       case 4:
         return <Step5Options formData={formData} updateFormData={updateFormData} />;
       case 5:
-        return <div className="text-center">Page de résumé/génération ou checkout page à venir</div>;
-      default:
-        return null;
+        return <Step6Checkout formData={formData} updateFormData={updateFormData} />; 
+        default:
+            return null;
     }
   };
 
