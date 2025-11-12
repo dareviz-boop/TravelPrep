@@ -467,8 +467,8 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
             >
               {[
                 { value: 'court', label: 'Court', desc: '≤ 7 jours' },
-                { value: 'moyen', label: 'Moyen', desc: '8-21 jours' },
-                { value: 'long', label: 'Long', desc: '22-90 jours' },
+                { value: 'moyen', label: 'Moyen', desc: '8-29 jours' },
+                { value: 'long', label: 'Long', desc: '30-90 jours' },
                 { value: 'tres-long', label: 'Très long', desc: '> 90 jours' },
               ].map((option) => (
                 <div key={option.value}>
