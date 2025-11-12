@@ -303,7 +303,7 @@
       {   "groupe": "Autres",
           "options": [
               { "id": "brouillard_brume", "nom": "🌫️ Brouillard / Brume fréquents" },
-              { "id": "uv_eleves", "nom": "☀️ Ensoleillement extrême / UV élevés" },
+              { "id": "uv_eleves", "nom": "☀️ Soleil extrême / UV élevés" },
               { "id": "forte_humidite", "nom": "💧 Forte humidité" },
               { "id": "aucune", "nom": "❌ Aucune condition particulière" }
           ]
