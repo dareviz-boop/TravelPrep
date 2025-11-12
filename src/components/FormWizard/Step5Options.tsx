@@ -5,49 +5,53 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FormData } from "@/types/form";
 import { checklistData } from "@/utils/checklistUtils";
 import { Card } from "@/components/ui/card";
-import { cn } from "@/lib/utils"; 
+import { cn } from "@/lib/utils"; 
 import { Flag } from "lucide-react"; // Importation pour un drapeau générique si besoin
+
+// ----------------------------------------------------------------------
+// Fonctions d'aide (inchangées)
+// ----------------------------------------------------------------------
 
 // Fonction pour trouver les détails dans une liste simple ou dans un groupe avec 'options: []'
 const getOptionDetailsFromList = (groupKey: keyof typeof checklistData, id: string | undefined) => {
-  if (!id) return null;
-  const group = checklistData[groupKey] as { options?: any[] };
-  return group?.options?.find(option => option.id === id) || null;
+  if (!id) return null;
+  const group = checklistData[groupKey] as { options?: any[] };
+  return group?.options?.find(option => option.id === id) || null;
 };
 
 // Fonction pour trouver les détails dans une liste de groupes (ex: conditionsClimatiques)
 const getOptionDetailsFromGroupedList = (groupKey: keyof typeof checklistData, id: string) => {
-  const groups = checklistData[groupKey] as any;
-  if (Array.isArray(groups)) {
-    for (const group of groups) {
-      const option = group.options?.find((opt: any) => opt.id === id);
-      if (option) return option;
-    }
-  } 
-  // Gère aussi le cas où 'activites' pourrait être une liste simple d'options sans groupe
-  if (groups && Array.isArray(groups.options)) {
-      return groups.options.find((opt: any) => opt.id === id);
-  }
-  return null;
+  const groups = checklistData[groupKey] as any;
+  if (Array.isArray(groups)) {
+    for (const group of groups) {
+      const option = group.options?.find((opt: any) => opt.id === id);
+      if (option) return option;
+    }
+  } 
+  // Gère aussi le cas où 'activites' pourrait être une liste simple d'options sans groupe
+  if (groups && Array.isArray(groups.options)) {
+      return groups.options.find((opt: any) => opt.id === id);
+  }
+  return null;
 };
 
 // Fonction pour trouver les détails dans un objet/dictionnaire (ex: localisations, profils)
 const getOptionDetailsFromDict = (groupKey: keyof typeof checklistData, id: string | undefined) => {
-  if (!id) return null;
-  const dict = checklistData[groupKey] as any;
-  return dict?.[id] || null; 
+  if (!id) return null;
+  const dict = checklistData[groupKey] as any;
+  return dict?.[id] || null; 
 };
 
 // Fonction pour déterminer le libellé de la durée
 const getDurationLabel = (duree: FormData['duree'] | undefined) => {
-  if (!duree) return "Non défini";
-  const map = {
-    courte: "Courte (moins d'une semaine)",
-    moyenne: "Moyenne (1 à 2 semaines)",
-    longue: "Longue (2 à 4 semaines)",
-    tres_longue: "Très longue (plus de 1 mois)",
-  };
-  return map[duree] || duree;
+  if (!duree) return "Non défini";
+  const map = {
+    courte: "Courte (moins d'une semaine)",
+    moyenne: "Moyenne (1 à 2 semaines)",
+    longue: "Longue (2 à 4 semaines)",
+    tres_longue: "Très longue (plus de 1 mois)",
+  };
+  return map[duree] || duree;
 };
 
 interface Step5OptionsProps {
@@ -88,14 +92,14 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
 
   const durationDays = calculateDuration();
 
-  // --- NOUVEAU: Récupération des détails pour le récapitulatif ---
-  // Utilisez la fonction adaptée pour les listes d'options
-  const typeVoyageDetails = getOptionDetailsFromList('typesVoyage', formData.typeVoyage);
+  // --- NOUVEAU: Récupération des détails pour le récapitulatif ---
+  // Utilisez la fonction adaptée pour les listes d'options
+  const typeVoyageDetails = getOptionDetailsFromList('typesVoyage', formData.typeVoyage);
   const saisonDetails = getOptionDetailsFromList('saisons', formData.saison);
   const temperatureDetails = getOptionDetailsFromList('temperatures', formData.temperature);
   
-  // Localisation utilise le dictionnaire (ajout de la variable qui manque)
-  const localisationDetails = getOptionDetailsFromDict('localisations', formData.localisation);
+  // Localisation utilise le dictionnaire (ajout de la variable qui manque)
+  const localisationDetails = getOptionDetailsFromDict('localisations', formData.localisation);
 
   // Utilisez la fonction adaptée pour les listes groupées
   const selectedActivitiesEmojis = (formData.activites || [])
@@ -135,15 +139,15 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
           </h3>
           <div className="space-y-2 text-sm">
 
-            
+            
             {/* Ligne 1: Nom du voyage */}
             <div className="flex justify-between">
               <span className="text-muted-foreground">Voyage :</span>
               <span className="font-semibold">{formData.nomVoyage || "Non renseigné"}</span>
             </div>
 
-            
-            {/* Ligne 2: Date de départ */}
+            
+            {/* Ligne 2: Date de départ */}
             {formData.dateDepart && (
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Date de départ :</span>
@@ -152,25 +156,25 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
                 </span>
               </div>
             )}
-            
-            {/* Date de retour OU Durée (si date de retour est absente) */}
-            {formData.dateRetour ? (
+            
+            {/* Date de retour OU Durée (si date de retour est absente) */}
+            {formData.dateRetour ? (
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Date de retour :</span>
                 <span className="font-semibold">
                   {new Date(formData.dateRetour).toLocaleDateString("fr-FR")}
                 </span>
               </div>
-            ) : (
-                formData.duree && (
-                    <div className="flex justify-between">
-                        <span className="text-muted-foreground">Durée estimée :</span>
-                        <span className="font-semibold">
-                            {getDurationLabel(formData.duree)}
-                        </span>
-                    </div>
-                )
-            )}
+            ) : (
+                formData.duree && (
+                    <div className="flex justify-between">
+                        <span className="text-muted-foreground">Durée estimée :</span>
+                        <span className="font-semibold">
+                            {getDurationLabel(formData.duree)}
+                        </span>
+                    </div>
+                )
+            )}
 
             {/* Durée calculée (si les deux dates sont là) */}
             {durationDays !== null && (
@@ -180,99 +184,131 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               </div>
             )}
 
-            
+            
             {/* Ligne 3: Destination et Pays */}
             {formData.localisation && (
               <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Destination :</span>
                 <span className="font-semibold flex flex-col items-end">
-                  {localisationDetails?.nom || formData.localisation}
-                    {/* NOUVEAU: Drapeaux des pays sélectionnés */}
-                    {formData.pays && formData.pays.length > 0 && (
-                        <div className="flex flex-wrap gap-1 mt-1 text-base">
-                            {formData.pays.map((pays) => (
-                                <span key={pays.code} className="text-xl" title={pays.nom}>
-                                    {pays.flag}
-                                </span> 
-                            ))}
-                        </div>
-                    )}
+                  {localisationDetails?.nom || formData.localisation}
+                    {/* CORRECTION: Affichage des Drapeaux des pays sélectionnés */}
+                    {formData.pays && formData.pays.length > 0 && (
+                        <div className="flex flex-wrap gap-1 mt-1 text-base">
+                            {formData.pays.map((countryCode) => {
+                                // Utilise getOptionDetailsFromDict pour récupérer l'emoji et le nom
+                                const countryDetails = getOptionDetailsFromDict('pays', countryCode);
+                                return (
+                                    <span key={countryCode} className="text-xl" title={countryDetails?.nom || countryCode}>
+                                        {countryDetails?.flag || countryCode}
+                                    </span> 
+                                );
+                            })}
+                        </div>
+                    )}
                 </span>
               </div>
             )}
 
-            
-            {/* Ligne 4: Saison, Température & conditions */}
-            {saisonDetails && (
+            
+            {/* Ligne 4: Saison, Température & conditions (inchangées car elles étaient correctes) */}
+            {saisonDetails && (
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Saison :</span>
                 <span className="font-semibold">
-                    {saisonDetails.emoji} {saisonDetails.nom}
+                    {saisonDetails.emoji} {saisonDetails.nom}
                 </span>
               </div>
-            )}
-            {temperatureDetails && (
+            )}
+            {temperatureDetails && (
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Température :</span>
                 <span className="font-semibold">
-                    {temperatureDetails.emoji} {temperatureDetails.nom}
+                    {temperatureDetails.emoji} {temperatureDetails.nom}
                 </span>
               </div>
-            )}
-            {/* Conditions Climatiques + Emojis */}
-            {selectedConditionsEmojis.length > 0 && (
+            )}
+            {/* Conditions Climatiques + Emojis */}
+            {selectedConditionsEmojis.length > 0 && (
               <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Conditions :</span>
                 <span className="font-semibold flex flex-col items-end">
-                    <div className="flex flex-wrap gap-1 mt-1 text-base">
-                        {selectedConditionsEmojis.map((emoji, index) => (
-                            <span key={index}>{emoji}</span>
-                        ))}
-                    </div>
+                    <div className="flex flex-wrap gap-1 mt-1 text-base">
+                        {selectedConditionsEmojis.map((emoji, index) => (
+                            <span key={index}>{emoji}</span>
+                        ))}
+                    </div>
                 </span>
               </div>
-            )}
+            )}
 
 
-            {/* Ligne 5: Activités + Emojis */}
+            {/* Ligne 5: Activités + Emojis (inchangée car elle était correcte) */}
             {formData.activites && formData.activites.length > 0 && (
               <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Activités :</span>
                 <span className="font-semibold flex flex-col items-end">
                   {formData.activites.length} sélectionnée(s)
-                    {/* Emojis des activités */}
-                    <div className="flex flex-wrap gap-1 mt-1 text-base">
-                        {selectedActivitiesEmojis.map((emoji, index) => (
-                            <span key={index}>{emoji}</span>
-                        ))}
-                    </div>
+                    {/* Emojis des activités */}
+                    <div className="flex flex-wrap gap-1 mt-1 text-base">
+                        {selectedActivitiesEmojis.map((emoji, index) => (
+                            <span key={index}>{emoji}</span>
+                        ))}
+                    </div>
                 </span>
               </div>
             )}
 
-            
-            {/* Ligne 6: Profil, type voyage & confort */}
+            
+            {/* CORRECTION Ligne 6: Profil + détails Famille */}
             {formData.profil && (
-              <div className="flex justify-between">
+              <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Profil :</span>
-                <span className="font-semibold">
-                  {getOptionDetailsFromDict('profils', formData.profil)?.emoji} 
-                  {getOptionDetailsFromDict('profils', formData.profil)?.label || formData.profil}
-                </span>
+                <div className="font-semibold text-right flex flex-col items-end">
+                  {/* Affichage principal du profil */}
+                  <span>
+                    {getOptionDetailsFromDict('profils', formData.profil)?.emoji} 
+                    {getOptionDetailsFromDict('profils', formData.profil)?.label || formData.profil}
+                  </span>
+
+                  {/* Détails Famille (si profil est 'famille') */}
+                  {formData.profil === 'famille' && (
+                    <div className="text-sm text-muted-foreground mt-1 font-normal space-y-0.5">
+                      {/* Nombre d'enfants */}
+                      {formData.nombreEnfants && formData.nombreEnfants > 0 && (
+                        <p>{formData.nombreEnfants} enfant(s)</p>
+                      )}
+                      
+                      {/* Détail des âges des enfants */}
+                      {formData.agesEnfants && formData.agesEnfants.length > 0 && (
+                        <p className="flex flex-wrap justify-end items-center">
+                          Âges :{' '}
+                          {formData.agesEnfants.map(ageKey => {
+                            const ageDetails = getOptionDetailsFromDict('agesEnfants', ageKey); // Supposition de la clé 'agesEnfants'
+                            return (
+                              <span key={ageKey} className="ml-1 font-semibold text-base text-foreground">
+                                {ageDetails?.emoji || '👶'} {ageKey}
+                              </span>
+                            );
+                          })}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
             )}
-            
-             {/* Type de voyage */}
-            {typeVoyageDetails && (
+            
+             {/* Type de voyage (inchangé car il était correct) */}
+            {typeVoyageDetails && (
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Type de voyage :</span>
                 <span className="font-semibold">
-                    {typeVoyageDetails.emoji} {typeVoyageDetails.nom}
+                    {typeVoyageDetails.emoji} {typeVoyageDetails.nom}
                 </span>
               </div>
-            )}
+            )}
 
-            {/* Ligne : Confort */}
+            {/* CORRECTION Ligne : Confort */}
             {formData.confort && (
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Confort :</span>
