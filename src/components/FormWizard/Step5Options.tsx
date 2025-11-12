@@ -335,18 +335,18 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               </div>
             )}
 
-           {/* Ligne : Confort */}
+          {/* Ligne : Confort */}
             {formData.confort && (
               <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Confort :</span>
                 <span className="font-semibold">
-                    {/* ✅ CORRIGÉ : On utilise getOptionDetailsFromDict */}
-                    {getOptionDetailsFromDict('confort', formData.confort)?.emoji} 
-                    {getOptionDetailsFromDict('confort', formData.confort)?.label || getOptionDetailsFromDict('confort', formData.confort)?.nom || formData.confort}
+                  {/* ✅ CORRECTION : Utilisation de getOptionDetailsFromDict pour récupérer l'emoji et le nom/label. Clé : 'confort' (singulier) */}
+                  {getOptionDetailsFromDict('confort', formData.confort)?.emoji} 
+                  {getOptionDetailsFromDict('confort', formData.confort)?.label || getOptionDetailsFromDict('confort', formData.confort)?.nom || formData.confort}
                 </span>
               </div>
             )}
-
+                  
           </div>
         </Card>
 
