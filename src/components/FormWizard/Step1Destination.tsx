@@ -423,11 +423,6 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                   return;
                 }
                 
-                // 🛑 CORRECTION MAJEURE: Si la chaîne de date n'est pas complète (YYYY-MM-DD = 10 caractères)
-                // on met à jour la valeur MAIS on SAUTE la validation pour éviter l'erreur.
-                // Note : Certains navigateurs comme Safari peuvent ne pas fournir la date dans le format YYYY-MM-DD
-                // tant qu'elle n'est pas complète.
-
                 const isDateComplete = value.length === 10;
                 
                 // On met TOUJOURS à jour la valeur
@@ -487,7 +482,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                     className={cn(
                       "flex flex-col items-center justify-center rounded-xl border-2 border-border bg-card p-4 hover:bg-accent/5 cursor-pointer transition-all",
                       // 🟢 CORRECTION: Utilisation de 'accent' (vert) pour la sélection 🟢
-                      "hover:border-accent/50 peer-data-[state=checked]:border-accent peer-data-[state=checked]:bg-accent/10" 
+                      "hover:border-primary/50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10"
                     )}
                   >
                     <span className="text-sm font-bold text-foreground">{option.label}</span>
