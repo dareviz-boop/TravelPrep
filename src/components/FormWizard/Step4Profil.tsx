@@ -14,7 +14,7 @@ interface Step4ProfilProps {
 export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
   // L'objet checklistData a été mis à jour pour inclure les options des profils et conforts.
   const profils = checklistData.profils;
-  const conforts = checklistData.conforts;
+  const confort = checklistData.confort;
   const typeVoyage = checklistData.typeVoyage.options;
 
   const agesEnfants = [
@@ -178,7 +178,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
             onValueChange={(value) => updateFormData({ confort: value as Confort })}
             className="grid grid-cols-1 gap-3"
           >
-            {conforts.options.map((confort: any) => (
+            {confort.options.map((confort: any) => (
               <div key={confort.id}>
                 <RadioGroupItem value={confort.id} id={`confort-${confort.id}`} className="peer sr-only" />
                 <Label
