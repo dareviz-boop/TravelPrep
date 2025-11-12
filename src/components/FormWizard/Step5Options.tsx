@@ -118,8 +118,10 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
     if (formData.conditionsClimatiques.length === 1 && formData.conditionsClimatiques[0] === 'aucune') {
       return (
         <span className="flex items-center gap-1">
-          ❌
-          <span className="text-sm">Aucune condition particulière</span>
+          {/* ✅ CORRECTION TAILLE EMOJI : Ajout de la classe text-base pour réduire la taille du "X" */}
+          <span className="text-base">❌</span>
+          {/* Le texte est déjà réduit à text-sm */}
+          <span className="text-sm">Aucune condition particulière</span>
         </span>
       );
     }
