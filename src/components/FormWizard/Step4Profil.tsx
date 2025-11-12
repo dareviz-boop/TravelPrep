@@ -15,7 +15,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
   // L'objet checklistData a été mis à jour pour inclure les options des profils et conforts.
   const profils = checklistData.profils;
   const conforts = checklistData.conforts;
-  const typesVoyage = checklistData.typesVoyage.options;
+  const typeVoyage = checklistData.typeVoyage.options;
 
   const agesEnfants = [
     { key: '0-2-ans', label: '0-2 ans (bébé)', emoji: '🍼' },
@@ -143,7 +143,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
             onValueChange={(value) => updateFormData({ typeVoyage: value as FormData['typeVoyage'] })}
             className="grid grid-cols-1 gap-3"
           >
-            {typesVoyage.map((type: any) => (
+            {typeVoyage.map((type: any) => (
               <div key={type.id}>
                 <RadioGroupItem value={type.id} id={`typeVoyage-${type.id}`} className="peer sr-only" />
                 <Label
