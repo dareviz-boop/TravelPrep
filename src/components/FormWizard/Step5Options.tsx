@@ -185,29 +185,25 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
             )}
 
             
-            {/* Ligne 3: Destination et Pays */}
-            {formData.localisation && (
-              <div className="flex justify-between items-start">
-                <span className="text-muted-foreground">Destination :</span>
-                <span className="font-semibold flex flex-col items-end">
-                  {localisationDetails?.nom || formData.localisation}
-                    {/* CORRECTION: Affichage des Drapeaux des pays sélectionnés */}
-                    {formData.pays && formData.pays.length > 0 && (
-                        <div className="flex flex-wrap gap-1 mt-1 text-base">
-                            {formData.pays.map((countryCode) => {
-                                // Utilise getOptionDetailsFromDict pour récupérer l'emoji et le nom
-                                const countryDetails = getOptionDetailsFromDict('pays', countryCode);
-                                return (
-                                    <span key={countryCode} className="text-xl" title={countryDetails?.nom || countryCode}>
-                                        {countryDetails?.flag || countryCode}
-                                    </span> 
-                                );
-                            })}
-                        </div>
-                    )}
-                </span>
-              </div>
-            )}
+            {/* Ligne 3: Destination et Pays */}
+            {formData.localisation && (
+              <div className="flex justify-between items-start">
+                <span className="text-muted-foreground">Destination :</span>
+                <span className="font-semibold flex flex-col items-end">
+                  {localisationDetails?.nom || formData.localisation}
+                    {/* Affichage des Drapeaux des pays sélectionnés */}
+                    {formData.pays && formData.pays.length > 0 && (
+                        <div className="flex flex-wrap gap-1 mt-1 text-base">
+                            {formData.pays.map((country) => (
+                                <span key={country.code} className="text-xl" title={country.nom}>
+                                    {country.flag}
+                                </span> 
+                            ))}
+                        </div>
+                    )}
+                </span>
+              </div>
+            )}
 
             
             {/* Ligne 4: Saison, Température & conditions (inchangées car elles étaient correctes) */}
@@ -278,20 +274,17 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
                         <p>{formData.nombreEnfants} enfant(s)</p>
                       )}
                       
-                      {/* Détail des âges des enfants */}
-                      {formData.agesEnfants && formData.agesEnfants.length > 0 && (
-                        <p className="flex flex-wrap justify-end items-center">
-                          Âges :{' '}
-                          {formData.agesEnfants.map(ageKey => {
-                            const ageDetails = getOptionDetailsFromDict('agesEnfants', ageKey); // Supposition de la clé 'agesEnfants'
-                            return (
-                              <span key={ageKey} className="ml-1 font-semibold text-base text-foreground">
-                                {ageDetails?.emoji || '👶'} {ageKey}
-                              </span>
-                            );
-                          })}
-                        </p>
-                      )}
+                      {/* Détail des âges des enfants */}
+                      {formData.agesEnfants && formData.agesEnfants.length > 0 && (
+                        <p className="flex flex-wrap justify-end items-center">
+                          Âges :{' '}
+                          {formData.agesEnfants.map(ageKey => (
+                            <span key={ageKey} className="ml-1 font-semibold text-base text-foreground">
+                              👶 {ageKey}
+                            </span>
+                          ))}
+                        </p>
+                      )}
                     </div>
                   )}
                 </div>
