@@ -22,7 +22,7 @@ const Generator = () => {
     pays: [],
     temperature: "inconnue",
     saison: "inconnue",
-    conditionsClimatiques: "aucune",
+    conditionsClimatiques: [],
     activites: [],
     profil: "couple",
     agesEnfants: [],
