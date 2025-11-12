@@ -180,7 +180,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
 
             {/* Ligne 3: Destination et Pays */}
             {formData.localisation && (
-              <div className="flex justify-between">
+              <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Destination :</span>
                 <span className="font-semibold flex flex-col items-end">
                   {localisationDetails?.nom || formData.localisation}
@@ -210,7 +210,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
 
             {/* Ligne 4: Activités + Emojis */}
             {formData.activites && formData.activites.length > 0 && (
-              <div className="flex justify-between">
+              <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Activités :</span>
                 <span className="font-semibold flex flex-col items-end">
                   {formData.activites.length} sélectionnée(s)
@@ -264,7 +264,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
 
             {/* Conditions Climatiques + Emojis */}
             {selectedConditionsEmojis.length > 0 && (
-              <div className="flex justify-between">
+              <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Conditions :</span>
                 <span className="font-semibold flex flex-col items-end">
                     <div className="flex flex-wrap gap-1 mt-1 text-base">
