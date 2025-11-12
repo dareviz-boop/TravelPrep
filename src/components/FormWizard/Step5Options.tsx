@@ -135,16 +135,18 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
           </h3>
           <div className="space-y-2 text-sm">
 
+            
             {/* Ligne 1: Nom du voyage */}
             <div className="flex justify-between">
               <span className="text-muted-foreground">Voyage :</span>
               <span className="font-semibold">{formData.nomVoyage || "Non renseigné"}</span>
             </div>
 
-            {/* Ligne 2: Date de départ */}
+            
+            {/* Ligne 2: Date de départ */}
             {formData.dateDepart && (
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Départ :</span>
+                <span className="text-muted-foreground">Date de départ :</span>
                 <span className="font-semibold">
                   {new Date(formData.dateDepart).toLocaleDateString("fr-FR")}
                 </span>
@@ -154,7 +156,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
             {/* Date de retour OU Durée (si date de retour est absente) */}
             {formData.dateRetour ? (
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Retour :</span>
+                <span className="text-muted-foreground">Date de retour :</span>
                 <span className="font-semibold">
                   {new Date(formData.dateRetour).toLocaleDateString("fr-FR")}
                 </span>
@@ -178,6 +180,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               </div>
             )}
 
+            
             {/* Ligne 3: Destination et Pays */}
             {formData.localisation && (
               <div className="flex justify-between items-start">
@@ -197,54 +200,9 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
                 </span>
               </div>
             )}
+
             
-            {/* Type de voyage */}
-            {typeVoyageDetails && (
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Type de voyage :</span>
-                <span className="font-semibold">
-                    {typeVoyageDetails.emoji} {typeVoyageDetails.nom}
-                </span>
-              </div>
-            )}
-
-            {/* Ligne 4: Activités + Emojis */}
-            {formData.activites && formData.activites.length > 0 && (
-              <div className="flex justify-between items-start">
-                <span className="text-muted-foreground">Activités :</span>
-                <span className="font-semibold flex flex-col items-end">
-                  {formData.activites.length} sélectionnée(s)
-                    {/* Emojis des activités */}
-                    <div className="flex flex-wrap gap-1 mt-1 text-base">
-                        {selectedActivitiesEmojis.map((emoji, index) => (
-                            <span key={index}>{emoji}</span>
-                        ))}
-                    </div>
-                </span>
-              </div>
-            )}
-
-            {/* Ligne 5: Profil */}
-            {formData.profil && (
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Profil :</span>
-                <span className="font-semibold">
-                  {(checklistData.profils as any)[formData.profil]?.label || formData.profil}
-                </span>
-              </div>
-            )}
-
-            {/* Ligne 6: Confort */}
-            {formData.confort && (
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Confort :</span>
-                <span className="font-semibold">
-                  {(checklistData.conforts as any)[formData.confort]?.label || formData.confort}
-                </span>
-              </div>
-            )}
-            
-            {/* Saison et Température */}
+            {/* Ligne 4: Saison, Température & conditions */}
             {saisonDetails && (
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Saison :</span>
@@ -261,7 +219,6 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
                 </span>
               </div>
             )}
-
             {/* Conditions Climatiques + Emojis */}
             {selectedConditionsEmojis.length > 0 && (
               <div className="flex justify-between items-start">
@@ -276,9 +233,60 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               </div>
             )}
 
+
+            {/* Ligne 5: Activités + Emojis */}
+            {formData.activites && formData.activites.length > 0 && (
+              <div className="flex justify-between items-start">
+                <span className="text-muted-foreground">Activités :</span>
+                <span className="font-semibold flex flex-col items-end">
+                  {formData.activites.length} sélectionnée(s)
+                    {/* Emojis des activités */}
+                    <div className="flex flex-wrap gap-1 mt-1 text-base">
+                        {selectedActivitiesEmojis.map((emoji, index) => (
+                            <span key={index}>{emoji}</span>
+                        ))}
+                    </div>
+                </span>
+              </div>
+            )}
+
+            
+            {/* Ligne 6: Profil, type voyage & confort */}
+            {formData.profil && (
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Profil :</span>
+                <span className="font-semibold">
+                  {getOptionDetailsFromDict('profils', formData.profil)?.emoji} 
+                  {getOptionDetailsFromDict('profils', formData.profil)?.label || formData.profil}
+                </span>
+              </div>
+            )}
+            
+             {/* Type de voyage */}
+            {typeVoyageDetails && (
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Type de voyage :</span>
+                <span className="font-semibold">
+                    {typeVoyageDetails.emoji} {typeVoyageDetails.nom}
+                </span>
+              </div>
+            )}
+
+            {/* Ligne : Confort */}
+            {formData.confort && (
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Confort :</span>
+                <span className="font-semibold">
+                  {getOptionDetailsFromDict('conforts', formData.confort)?.emoji} 
+                  {getOptionDetailsFromDict('conforts', formData.confort)?.label || formData.confort}
+                </span>
+              </div>
+            )}
+
           </div>
         </Card>
 
+        
         {/* Sections à inclure */}
         <div className="space-y-4">
           
