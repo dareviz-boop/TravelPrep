@@ -26,7 +26,7 @@ const Generator = () => {
     activites: [],
     profil: "couple",
     agesEnfants: [],
-    typeVoyage: "equilibre",
+    typeVoyage: "flexible",
     confort: "standard",
     sectionsInclure: ALL_SECTION_CODES as string[],
     formatPDF: "detaille",
