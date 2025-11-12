@@ -179,7 +179,7 @@
       "pays": [
         {"code": "US", "nom": "États-Unis", "nomEn": "United States", "flag": "🇺🇸"},
         {"code": "CA", "nom": "Canada", "nomEn": "Canada", "flag": "🇨🇦"},
-        {"code": "MX", "nom": "Mexique", "nomEn": "Mexico", "flag": "🇲🇽"},
+        {"code": "MX", "nom": "Mexique", "nomEn": "Mexico", "flag": "🇲🇽"}
       ]
     },
     "amerique-centrale-caraibes": {
