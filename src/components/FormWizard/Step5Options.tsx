@@ -106,17 +106,51 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
     .map(id => getOptionDetailsFromGroupedList('activites', id)?.emoji)
     .filter(Boolean);
 
-  // Utilisez la fonction adaptée pour les listes groupées
-  const selectedConditionsEmojis = (formData.conditionsClimatiques || [])
-    .map(id => {
-        // Le nom de l'emoji est encodé dans la propriété 'nom' du JSON (ex: "🌧️ Saison des pluies...")
+  // ----------------------------------------------------------------
+  // ✅ CORRECTION : Logique unifiée pour l'affichage des Conditions Climatiques
+  // ----------------------------------------------------------------
+  const selectedConditionsDisplay = (() => {
+    if (!formData.conditionsClimatiques || formData.conditionsClimatiques.length === 0) {
+      return null;
+    }
+
+    // Cas 1 : Seulement "aucune" sélectionnée
+    if (formData.conditionsClimatiques.length === 1 && formData.conditionsClimatiques[0] === 'aucune') {
+      return (
+        <span className="text-base flex items-center gap-1">
+          ❌ Aucune condition particulière
+        </span>
+      );
+    }
+
+    // Cas 2 : Une ou plusieurs conditions réelles sélectionnées (affichage d'emojis)
+    const selectedEmojis = formData.conditionsClimatiques
+      .filter(id => id !== 'aucune') // Ignore 'aucune' s'il est sélectionné avec d'autres
+      .map(id => {
         const detail = getOptionDetailsFromGroupedList('conditionsClimatiques', id);
         if (detail && detail.nom) {
-            return detail.nom.split(' ')[0]; // Extrait l'emoji
+          return detail.nom.split(' ')[0]; // Extrait l'emoji
         }
         return null;
-    })
-    .filter(Boolean);
+      })
+      .filter(Boolean);
+
+    if (selectedEmojis.length > 0) {
+      return (
+        // Utilise justify-end pour aligner les émojis à droite, même s'ils sont sur plusieurs lignes
+        <div className="flex flex-wrap gap-1 mt-1 text-base justify-end"> 
+          {selectedEmojis.map((emoji, index) => (
+            <span key={index}>{emoji}</span>
+          ))}
+        </div>
+      );
+    }
+    
+    return null; 
+  })();
+  // ----------------------------------------------------------------
+  // Fin de la logique unifiée
+  // ----------------------------------------------------------------
 
 
   return (
@@ -185,28 +219,28 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
             )}
 
             
-            {/* Ligne 3: Destination et Pays */}
-            {formData.localisation && (
-              <div className="flex justify-between items-start">
-                <span className="text-muted-foreground">Destination :</span>
-                <span className="font-semibold flex flex-col items-end">
-                  {localisationDetails?.nom || formData.localisation}
-                    {/* Affichage des Drapeaux des pays sélectionnés */}
-                    {formData.pays && formData.pays.length > 0 && (
-                        <div className="flex flex-wrap gap-1 mt-1 text-base">
-                            {formData.pays.map((country) => (
-                                <span key={country.code} className="text-xl" title={country.nom}>
-                                    {country.flag}
-                                </span> 
-                            ))}
-                        </div>
-                    )}
-                </span>
-              </div>
-            )}
+            {/* Ligne 3: Destination et Pays */}
+            {formData.localisation && (
+              <div className="flex justify-between items-start">
+                <span className="text-muted-foreground">Destination :</span>
+                <span className="font-semibold flex flex-col items-end">
+                  {localisationDetails?.nom || formData.localisation}
+                    {/* Affichage des Drapeaux des pays sélectionnés */}
+                    {formData.pays && formData.pays.length > 0 && (
+                        <div className="flex flex-wrap gap-1 mt-1 text-base">
+                            {formData.pays.map((country) => (
+                                <span key={country.code} className="text-xl" title={country.nom}>
+                                    {country.flag}
+                                </span> 
+                            ))}
+                        </div>
+                    )}
+                </span>
+              </div>
+            )}
 
             
-            {/* Ligne 4: Saison, Température & conditions (inchangées car elles étaient correctes) */}
+            {/* Ligne 4: Saison, Température & conditions */}
             {saisonDetails && (
               <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Saison :</span>
@@ -223,16 +257,13 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
                 </span>
               </div>
             )}
-            {/* Conditions Climatiques + Emojis */}
-            {selectedConditionsEmojis.length > 0 && (
+            
+            {/* ✅ CORRECTION : Conditions Climatiques (Utilise l'élément JSX calculé) */}
+            {selectedConditionsDisplay && (
               <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Conditions :</span>
                 <span className="font-semibold flex flex-col items-end">
-                    <div className="flex flex-wrap gap-1 mt-1 text-base">
-                        {selectedConditionsEmojis.map((emoji, index) => (
-                            <span key={index}>{emoji}</span>
-                        ))}
-                    </div>
+                  {selectedConditionsDisplay}
                 </span>
               </div>
             )}
@@ -255,7 +286,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
             )}
 
             
-            {/* CORRECTION Ligne 6: Profil + détails Famille */}
+            {/* Ligne 6: Profil + détails Famille */}
             {formData.profil && (
               <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Profil :</span>
@@ -273,18 +304,18 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
                       {formData.nombreEnfants && formData.nombreEnfants > 0 && (
                         <p>{formData.nombreEnfants} enfant(s)</p>
                       )}
-                      
-                      {/* Détail des âges des enfants */}
-                      {formData.agesEnfants && formData.agesEnfants.length > 0 && (
-                        <p className="flex flex-wrap justify-end items-center">
-                          Âges :{' '}
-                          {formData.agesEnfants.map(ageKey => (
-                            <span key={ageKey} className="ml-1 font-semibold text-base text-foreground">
-                              👶 {ageKey}
-                            </span>
-                          ))}
-                        </p>
-                      )}
+                      
+                      {/* Détail des âges des enfants */}
+                      {formData.agesEnfants && formData.agesEnfants.length > 0 && (
+                        <p className="flex flex-wrap justify-end items-center">
+                          Âges :{' '}
+                          {formData.agesEnfants.map(ageKey => (
+                            <span key={ageKey} className="ml-1 font-semibold text-base text-foreground">
+                              👶 {ageKey}
+                            </span>
+                          ))}
+                        </p>
+                      )}
                     </div>
                   )}
                 </div>
@@ -301,7 +332,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
               </div>
             )}
 
-            {/* CORRECTION Ligne : Confort */}
+            {/* Ligne : Confort */}
             {formData.confort && (
               <div className="flex justify-between items-start">
                 <span className="text-muted-foreground">Confort :</span>
@@ -315,132 +346,132 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
           </div>
         </Card>
 
-        
-        {/* Sections à inclure */}
-        <div className="space-y-4">
-          
-          <Label className="text-base font-semibold">
-            Sections à inclure
-          </Label>
+        
+        {/* Sections à inclure */}
+        <div className="space-y-4">
+          
+          <Label className="text-base font-semibold">
+            Sections à inclure
+          </Label>
 
-          {/* Bouton Tout Sélectionner / Tout Désélectionner */}
-          <div className="flex justify-end">
-              <button
-                  type="button"
-                  onClick={() => {
-                      const allIds = sectionsData.map(s => s.id);
-                      const currentSelected = formData.sectionsInclure || allIds;
-                      const shouldSelectAll = currentSelected.length !== allIds.length;
-                      
-                      updateFormData({ 
-                          // Si on sélectionne tout, on envoie undefined. Si on désélectionne tout, on envoie une liste vide.
-                          sectionsInclure: shouldSelectAll ? undefined : [] 
-                      });
-                  }}
-                  className="text-sm text-primary hover:underline font-semibold"
-              >
-                  {(formData.sectionsInclure === undefined || formData.sectionsInclure.length === sectionsData.length)
-                      ? 'Tout dé-sélectionner'
-                      : 'Tout sélectionner'
-                  }
-              </button>
-          </div>
+          {/* Bouton Tout Sélectionner / Tout Désélectionner */}
+          <div className="flex justify-end">
+              <button
+                  type="button"
+                  onClick={() => {
+                      const allIds = sectionsData.map(s => s.id);
+                      const currentSelected = formData.sectionsInclure || allIds;
+                      const shouldSelectAll = currentSelected.length !== allIds.length;
+                      
+                      updateFormData({ 
+                          // Si on sélectionne tout, on envoie undefined. Si on désélectionne tout, on envoie une liste vide.
+                          sectionsInclure: shouldSelectAll ? undefined : [] 
+                      });
+                  }}
+                  className="text-sm text-primary hover:underline font-semibold"
+              >
+                  {(formData.sectionsInclure === undefined || formData.sectionsInclure.length === sectionsData.length)
+                      ? 'Tout dé-sélectionner'
+                      : 'Tout sélectionner'
+                  }
+              </button>
+          </div>
 
-          <div className="grid grid-cols-1 gap-3">
-            {sectionsData.map((section) => {
-              // Vérifie si la section est incluse (si sectionsInclure est undefined, tout est coché)
-              const isSelected = formData.sectionsInclure === undefined || formData.sectionsInclure.includes(section.id);
-                
-              return (
-                  <div
-                    key={section.id}
-                    className={cn(
-                      "flex items-start space-x-3 p-3 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                      isSelected ? "border-primary bg-primary/5" : "border-border"
-                    )}
-                    onClick={() => handleSectionToggle(section.id)}
-                  >
-                    <Checkbox
-                      id={`section-${section.id}`}
-                      checked={isSelected}
-                      // OnCheckedChange est retiré car le onClick du div parent gère le basculement.
-                      onCheckedChange={() => {}} 
-                      className="mt-1"
-                    />
-                    <Label className="flex-1 cursor-pointer">
-                        <div className="font-semibold text-base mb-1 flex items-center">
-                            {section.label}
-                        </div>
-                        <div className="text-sm text-muted-foreground">
-                            {section.desc}
-                        </div>
-                    </Label>
-                  </div>
-              );
-            })}
-          </div>
-        </div>
+          <div className="grid grid-cols-1 gap-3">
+            {sectionsData.map((section) => {
+              // Vérifie si la section est incluse (si sectionsInclure est undefined, tout est coché)
+              const isSelected = formData.sectionsInclure === undefined || formData.sectionsInclure.includes(section.id);
+                
+              return (
+                  <div
+                    key={section.id}
+                    className={cn(
+                      "flex items-start space-x-3 p-3 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
+                      isSelected ? "border-primary bg-primary/5" : "border-border"
+                    )}
+                    onClick={() => handleSectionToggle(section.id)}
+                  >
+                    <Checkbox
+                      id={`section-${section.id}`}
+                      checked={isSelected}
+                      // OnCheckedChange est retiré car le onClick du div parent gère le basculement.
+                      onCheckedChange={() => {}} 
+                      className="mt-1"
+                    />
+                    <Label className="flex-1 cursor-pointer">
+                        <div className="font-semibold text-base mb-1 flex items-center">
+                            {section.label}
+                        </div>
+                        <div className="text-sm text-muted-foreground">
+                            {section.desc}
+                        </div>
+                    </Label>
+                  </div>
+              );
+            })}
+          </div>
+        </div>
 
-        {/* Format PDF (Harmonisation avec peer sr-only et cn) */}
-        <div className="space-y-4">
-          <Label className="text-base font-semibold">
-            Format du PDF <span className="text-primary">*</span>
-          </Label>
-          <RadioGroup
-            value={formData.formatPDF}
-            onValueChange={(value) => updateFormData({ formatPDF: value as 'compact' | 'detaille' })}
-            className="grid grid-cols-1 gap-3"
-          >
-            <div>
-              <RadioGroupItem value="compact" id="format-compact" className="peer sr-only" />
-              <Label
-                htmlFor="format-compact"
-                className={cn(
-                  "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                  "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5"
-                )}
-              >
-                <div className="font-semibold text-base mb-1">📄 Format compact</div>
-                <div className="text-sm text-muted-foreground">Checklist simple et essentielle</div>
-              </Label>
-            </div>
-            <div>
-              <RadioGroupItem value="detaille" id="format-detaille" className="peer sr-only" />
-              <Label
-                htmlFor="format-detaille"
-                className={cn(
-                  "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                  "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5"
-                )}
-              >
-                <div className="font-semibold text-base mb-1">📋 Format détaillé</div>
-                <div className="text-sm text-muted-foreground">
-                  Avec conseils et délais recommandés
-                </div>
-              </Label>
-            </div>
-          </RadioGroup>
-        </div>
+        {/* Format PDF (Harmonisation avec peer sr-only et cn) */}
+        <div className="space-y-4">
+          <Label className="text-base font-semibold">
+            Format du PDF <span className="text-primary">*</span>
+          </Label>
+          <RadioGroup
+            value={formData.formatPDF}
+            onValueChange={(value) => updateFormData({ formatPDF: value as 'compact' | 'detaille' })}
+            className="grid grid-cols-1 gap-3"
+          >
+            <div>
+              <RadioGroupItem value="compact" id="format-compact" className="peer sr-only" />
+              <Label
+                htmlFor="format-compact"
+                className={cn(
+                  "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
+                  "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5"
+                )}
+              >
+                <div className="font-semibold text-base mb-1">📄 Format compact</div>
+                <div className="text-sm text-muted-foreground">Checklist simple et essentielle</div>
+              </Label>
+            </div>
+            <div>
+              <RadioGroupItem value="detaille" id="format-detaille" className="peer sr-only" />
+              <Label
+                htmlFor="format-detaille"
+                className={cn(
+                  "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
+                  "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5"
+                )}
+              >
+                <div className="font-semibold text-base mb-1">📋 Format détaillé</div>
+                <div className="text-sm text-muted-foreground">
+                  Avec conseils et délais recommandés
+                </div>
+              </Label>
+            </div>
+          </RadioGroup>
+        </div>
 
-        {/* Email optionnel */}
-        <div className="space-y-2">
-          <Label htmlFor="email" className="text-base font-semibold">
-            Email{" "}
-            <span className="text-muted-foreground text-sm font-normal">(optionnel)</span>
-          </Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="votre@email.com"
-            value={formData.email || ''}
-            onChange={(e) => updateFormData({ email: e.target.value })}
-            className="h-12 text-base focus:border-primary"
-          />
-          <p className="text-sm text-muted-foreground">
-            Pour recevoir votre PDF par email
-          </p>
-        </div>
-      </div>
-    </div>
-  );
+        {/* Email optionnel */}
+        <div className="space-y-2">
+          <Label htmlFor="email" className="text-base font-semibold">
+            Email{" "}
+            <span className="text-muted-foreground text-sm font-normal">(optionnel)</span>
+          </Label>
+          <Input
+            id="email"
+            type="email"
+            placeholder="votre@email.com"
+            value={formData.email || ''}
+            onChange={(e) => updateFormData({ email: e.target.value })}
+            className="h-12 text-base focus:border-primary"
+          />
+          <p className="text-sm text-muted-foreground">
+            Pour recevoir votre PDF par email
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 };
