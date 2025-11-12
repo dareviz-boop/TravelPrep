@@ -297,7 +297,7 @@
           "options": [
               { "id": "canicule", "nom": "🌡️ Canicule / Vague de chaleur" },
               { "id": "froid_intense", "nom": "🧊 Grand froid / Gel intense" },
-              { "id": "amplitude_thermique", "nom": "🌓 Amplitude thermique jour/nuit importante" }
+              { "id": "amplitude_thermique", "nom": "🌓 Amplitude thermique élevée" }
           ]
       },
       {   "groupe": "Autres",
