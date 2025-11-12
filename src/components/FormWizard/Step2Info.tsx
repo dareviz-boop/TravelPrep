@@ -149,14 +149,12 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                   
                   return (
                     <div key={condition.id}>
-                      {/* 1. L'INPUT Checkbox (invisible) est nécessaire pour l'état */}
+                      {/* 1. L'INPUT Checkbox (invisible) */}
                       <Checkbox
                         value={condition.id}
                         id={`condition-${condition.id}`}
-                        // La classe `peer` est essentielle pour que le Label puisse le cibler
                         className="peer sr-only" 
                         checked={isSelected}
-                        // Le changement est géré par le Label qui bascule l'état
                         onCheckedChange={() => handleConditionToggle(condition.id)} 
                       />
                       
@@ -164,18 +162,21 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                       <Label
                         htmlFor={`condition-${condition.id}`}
                         className={cn(
-                          // Styles de la carte (doivent correspondre à votre design d'origine)
-                          "flex flex-col justify-center items-center text-center space-y-2 p-4 min-h-[120px] rounded-xl border-2 transition-all cursor-pointer",
+                          // ✅ CORRECTION du style pour des cases plus petites et alignées
+                          "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer",
                           "hover:border-primary/50",
-                          // Styles basés sur l'état 'checked' de l'input caché
                           "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5",
                           // Style spécifique pour l'option 'Aucune condition' si nécessaire
                           condition.id === 'aucune' ? 'bg-secondary/20' : '' 
                         )}
                       >
                         {/* 3. Le contenu de la carte */}
-                        <span className="text-4xl">{emoji}</span>
-                        <p className="font-semibold text-base whitespace-pre-wrap">{title}</p>
+                        <span className="flex-1 cursor-pointer">
+                            <p className="font-semibold text-base flex items-center">
+                                <span className="mr-2">{emoji}</span>
+                                {title}
+                            </p>
+                        </span>
                       </Label>
                     </div>
                   );
