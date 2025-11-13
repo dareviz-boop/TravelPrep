@@ -11,9 +11,53 @@ interface Step2InfoProps {
 }
 
 export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
+
+  /**
+   * Fonction générique pour gérer la bascule (toggle) de la sélection multiple pour saison et temperature.
+   * Elle applique les contraintes d'exclusivité de 'inconnue' et de non-vide.
+   */
+  const handleToggle = (field: 'saison' | 'temperature', itemId: string) => {
+    // NOTE: On suppose que saison et temperature sont de type string[] dans FormData
+    const current = formData[field] as string[] || [];
+    const isCurrentlySelected = current.includes(itemId);
+    
+    // --- Logique Spéciale pour l'option "inconnue" ---
+    if (itemId === 'inconnue') {
+        const newState = isCurrentlySelected ? [] : ['inconnue'];
+        
+        // Si on décoche 'inconnue', on force la validation au prochain clic sur le bouton Suivant (mais on permet l'état vide temporaire)
+        // Sinon, on sélectionne uniquement 'inconnue', retirant tout le reste.
+        updateFormData({ [field]: newState } as Partial<FormData>);
+        return;
+    }
+
+    // --- Pour toute autre option ---
+    
+    // 1. S'assurer de retirer 'inconnue' si elle était sélectionnée (car on choisit autre chose).
+    let updated = current.filter(id => id !== 'inconnue');
+
+    // 2. Basculer l'option cliquée
+    if (isCurrentlySelected) {
+        updated = updated.filter(id => id !== itemId); // Retirer l'élément
+    } else {
+        updated = [...updated, itemId]; // Ajouter l'élément
+    }
+
+    // 3. Contrainte: S'assurer qu'il y a toujours au moins une réponse
+    // Si la liste est vide après bascule, on revient à ['inconnue'] (pour une valeur par défaut cohérente, bien que la validation dans Generator.tsx soit plus stricte).
+    if (updated.length === 0) {
+        updated = ['inconnue'];
+    }
+
+    updateFormData({ [field]: updated } as Partial<FormData>);
+  };
+
+
+  /**
+   * Logique pour les conditions climatiques spéciales (Inchangé)
+   */
   const handleConditionToggle = (conditionId: string) => {
-    // 1. Définir l'état actuel. Si vide, on commence avec ['aucune'] pour la cohérence visuelle.
-    // NOTE: Le changement d'état se fait sur formData, qui est ensuite reflété par isSelected.
+    // 1. Définir l'état actuel.
     const current = formData.conditionsClimatiques || []; 
     
     // --- Logique Spéciale pour l'option "aucune" ---
@@ -37,7 +81,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
         ? filteredCurrent.filter((id) => id !== conditionId)
         : [...filteredCurrent, conditionId];
 
-    // Si la liste est vide après bascule (très rare), on revient à ['aucune']
+    // Si la liste est vide après bascule, on revient à ['aucune']
     updateFormData({ conditionsClimatiques: updated.length > 0 ? updated : ['aucune'] });
   };
 
@@ -54,77 +98,87 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
       <div className="space-y-8 max-w-2xl mx-auto">
         
-        {/* Saison de voyage */}
+        {/* Saison de voyage (Maintenant avec Checkbox pour Multi-sélection) */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
-            📅 Saison de voyage <span className="text-primary">*</span>
+            📅 Saisons de voyage <span className="text-primary">*</span>
           </Label>
-          <RadioGroup
-            value={formData.saison}
-            onValueChange={(value) => updateFormData({ saison: value as FormData['saison'] })}
-            className="grid grid-cols-2 gap-3"
-          >
-            {checklistData.saisons.options.map((saison: any) => (
-              <div key={saison.id}>
-                <RadioGroupItem value={saison.id} id={`saison-${saison.id}`} className="peer sr-only" />
-                <Label
-                  htmlFor={`saison-${saison.id}`}
-                  className={cn(
-                    "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                    "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5",
-                  )}
-                >
-                  <span className="flex-1 cursor-pointer">
-                    <p className="font-semibold text-base flex items-center">
-                        <span className="mr-2">{saison.emoji}</span>
-                        {saison.nom}
-                    </p>
-                    <p className="text-muted-foreground text-sm font-normal mt-1">
-                        {saison.description}
-                    </p>
-                  </span>
-                </Label>
-              </div>
-            ))}
-          </RadioGroup>
+          <div className="grid grid-cols-2 gap-3"> {/* Remplacement de RadioGroup par un simple div */}
+            {checklistData.saisons.options.map((saison: any) => {
+                // NOTE: formData.saison est maintenant traité comme string[]
+                const isSelected = (formData.saison as string[] || []).includes(saison.id);
+                return (
+                    <div key={saison.id}>
+                        <Checkbox 
+                            id={`saison-${saison.id}`} 
+                            className="peer sr-only"
+                            checked={isSelected}
+                            onCheckedChange={() => handleToggle('saison', saison.id)} // Utilisation du nouveau handler
+                        />
+                        <Label
+                            htmlFor={`saison-${saison.id}`}
+                            className={cn(
+                                "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
+                                "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5",
+                            )}
+                        >
+                            <span className="flex-1 cursor-pointer">
+                                <p className="font-semibold text-base flex items-center">
+                                    <span className="mr-2">{saison.emoji}</span>
+                                    {saison.nom}
+                                </p>
+                                <p className="text-muted-foreground text-sm font-normal mt-1">
+                                    {saison.description}
+                                </p>
+                            </span>
+                        </Label>
+                    </div>
+                );
+            })}
+          </div>
         </div>
 
-        {/* Température moyenne */}
+        {/* Température moyenne (Maintenant avec Checkbox pour Multi-sélection) */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
-            🌡️ Température moyenne sur place <span className="text-primary">*</span>
+            🌡️ Températures moyennes sur place <span className="text-primary">*</span>
           </Label>
-          <RadioGroup
-            value={formData.temperature}
-            onValueChange={(value) => updateFormData({ temperature: value as FormData['temperature'] })}
-            className="grid grid-cols-1 gap-3"
-          >
-            {checklistData.temperatures.options.map((temp: any) => (
-              <div key={temp.id}>
-                <RadioGroupItem value={temp.id} id={`temp-${temp.id}`} className="peer sr-only" />
-                <Label
-                  htmlFor={`temp-${temp.id}`}
-                  className={cn(
-                    "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                    "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5",
-                  )}
-                >
-                  <span className="flex-1 cursor-pointer">
-                    <p className="font-semibold text-base flex items-center">
-                        <span className="mr-2">{temp.emoji}</span>
-                        {temp.nom}
-                    </p>
-                    <p className="text-muted-foreground text-sm font-normal mt-1">
-                        {temp.description}
-                    </p>
-                  </span>
-                </Label>
-              </div>
-            ))}
-          </RadioGroup>
+          <div className="grid grid-cols-1 gap-3"> {/* Remplacement de RadioGroup par un simple div */}
+            {checklistData.temperatures.options.map((temp: any) => {
+                // NOTE: formData.temperature est maintenant traité comme string[]
+                const isSelected = (formData.temperature as string[] || []).includes(temp.id);
+                return (
+                    <div key={temp.id}>
+                        <Checkbox 
+                            id={`temp-${temp.id}`} 
+                            className="peer sr-only"
+                            checked={isSelected}
+                            onCheckedChange={() => handleToggle('temperature', temp.id)} // Utilisation du nouveau handler
+                        />
+                        <Label
+                            htmlFor={`temp-${temp.id}`}
+                            className={cn(
+                                "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
+                                "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5",
+                            )}
+                        >
+                            <span className="flex-1 cursor-pointer">
+                                <p className="font-semibold text-base flex items-center">
+                                    <span className="mr-2">{temp.emoji}</span>
+                                    {temp.nom}
+                                </p>
+                                <p className="text-muted-foreground text-sm font-normal mt-1">
+                                    {temp.description}
+                                </p>
+                            </span>
+                        </Label>
+                    </div>
+                );
+            })}
+          </div>
         </div>
 
-        {/* Conditions climatiques spéciales */}
+        {/* Conditions climatiques spéciales (Inchangement - utilise déjà la Checkbox) */}
         <div className="space-y-6">
           <h3 className="text-xl font-bold mb-3">
             Conditions climatiques <span className="text-muted-foreground text-sm font-normal">(choix multiple - optionnel)</span>
