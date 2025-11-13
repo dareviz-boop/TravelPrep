@@ -1,5 +1,7 @@
+// Step 2 Info.tsx
+
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"; 
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormData } from "@/types/form";
 import { checklistData } from "@/utils/checklistUtils";
@@ -17,23 +19,28 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
    * Elle applique les contraintes d'exclusivité de 'inconnue' et de non-vide.
    */
   const handleToggle = (field: 'saison' | 'temperature', itemId: string) => {
-    // NOTE: On suppose que saison et temperature sont de type string[] dans FormData
-    const current = formData[field] as string[] || [];
+    const current = (formData[field] as string[] || []);
     const isCurrentlySelected = current.includes(itemId);
     
     // --- Logique Spéciale pour l'option "inconnue" ---
     if (itemId === 'inconnue') {
-        const newState = isCurrentlySelected ? [] : ['inconnue'];
+        let newState: string[];
+
+        if (isCurrentlySelected) {
+             // Si 'inconnue' est décochée, on passe à un état vide (validé par Generator.tsx)
+             newState = []; 
+        } else {
+             // Si 'inconnue' est cochée, elle est exclusive
+             newState = ['inconnue']; 
+        }
         
-        // Si on décoche 'inconnue', on force la validation au prochain clic sur le bouton Suivant (mais on permet l'état vide temporaire)
-        // Sinon, on sélectionne uniquement 'inconnue', retirant tout le reste.
         updateFormData({ [field]: newState } as Partial<FormData>);
         return;
     }
 
     // --- Pour toute autre option ---
     
-    // 1. S'assurer de retirer 'inconnue' si elle était sélectionnée (car on choisit autre chose).
+    // 1. S'assurer de retirer 'inconnue' si elle était sélectionnée.
     let updated = current.filter(id => id !== 'inconnue');
 
     // 2. Basculer l'option cliquée
@@ -43,8 +50,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
         updated = [...updated, itemId]; // Ajouter l'élément
     }
 
-    // 3. Contrainte: S'assurer qu'il y a toujours au moins une réponse
-    // Si la liste est vide après bascule, on revient à ['inconnue'] (pour une valeur par défaut cohérente, bien que la validation dans Generator.tsx soit plus stricte).
+    // 3. S'assurer qu'il y a toujours au moins une réponse
     if (updated.length === 0) {
         updated = ['inconnue'];
     }
@@ -54,34 +60,24 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
 
   /**
-   * Logique pour les conditions climatiques spéciales (Inchangé)
+   * Logique pour les conditions climatiques spéciales (Inchangement)
    */
   const handleConditionToggle = (conditionId: string) => {
-    // 1. Définir l'état actuel.
     const current = formData.conditionsClimatiques || []; 
     
-    // --- Logique Spéciale pour l'option "aucune" ---
     if (conditionId === 'aucune') {
         const isCurrentlyNone = current.includes('aucune');
-        // Si 'aucune' est déjà cochée -> on la décoche (état vide), 
-        // sinon -> on sélectionne uniquement 'aucune'.
         updateFormData({ conditionsClimatiques: isCurrentlyNone ? [] : ['aucune'] });
         return;
     }
     
-    // --- Pour toute autre option ---
-    
-    // 1. S'assurer de retirer 'aucune' si elle était sélectionnée (car on choisit autre chose).
     const filteredCurrent = current.filter(id => id !== 'aucune');
-    
-    // 2. Basculer l'option cliquée
     const isSelected = filteredCurrent.includes(conditionId);
 
     const updated = isSelected
         ? filteredCurrent.filter((id) => id !== conditionId)
         : [...filteredCurrent, conditionId];
 
-    // Si la liste est vide après bascule, on revient à ['aucune']
     updateFormData({ conditionsClimatiques: updated.length > 0 ? updated : ['aucune'] });
   };
 
@@ -98,23 +94,24 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
       <div className="space-y-8 max-w-2xl mx-auto">
         
-        {/* Saison de voyage (Maintenant avec Checkbox pour Multi-sélection) */}
+        {/* Saison de voyage (CORRIGÉ: Utilise Checkbox/Label pour Multi-sélection) */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
             📅 Saisons de voyage <span className="text-primary">*</span>
           </Label>
-          <div className="grid grid-cols-2 gap-3"> {/* Remplacement de RadioGroup par un simple div */}
+          <div className="grid grid-cols-2 gap-3"> 
             {checklistData.saisons.options.map((saison: any) => {
-                // NOTE: formData.saison est maintenant traité comme string[]
                 const isSelected = (formData.saison as string[] || []).includes(saison.id);
                 return (
                     <div key={saison.id}>
+                        {/* 1. INPUT Checkbox invisible */}
                         <Checkbox 
                             id={`saison-${saison.id}`} 
                             className="peer sr-only"
                             checked={isSelected}
-                            onCheckedChange={() => handleToggle('saison', saison.id)} // Utilisation du nouveau handler
+                            onCheckedChange={() => handleToggle('saison', saison.id)} 
                         />
+                        {/* 2. LABEL qui sert de carte cliquable */}
                         <Label
                             htmlFor={`saison-${saison.id}`}
                             className={cn(
@@ -138,23 +135,24 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
           </div>
         </div>
 
-        {/* Température moyenne (Maintenant avec Checkbox pour Multi-sélection) */}
+        {/* Température moyenne (CORRIGÉ: Utilise Checkbox/Label pour Multi-sélection) */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
             🌡️ Températures moyennes sur place <span className="text-primary">*</span>
           </Label>
-          <div className="grid grid-cols-1 gap-3"> {/* Remplacement de RadioGroup par un simple div */}
+          <div className="grid grid-cols-1 gap-3"> 
             {checklistData.temperatures.options.map((temp: any) => {
-                // NOTE: formData.temperature est maintenant traité comme string[]
                 const isSelected = (formData.temperature as string[] || []).includes(temp.id);
                 return (
                     <div key={temp.id}>
+                         {/* 1. INPUT Checkbox invisible */}
                         <Checkbox 
                             id={`temp-${temp.id}`} 
                             className="peer sr-only"
                             checked={isSelected}
-                            onCheckedChange={() => handleToggle('temperature', temp.id)} // Utilisation du nouveau handler
+                            onCheckedChange={() => handleToggle('temperature', temp.id)} 
                         />
+                         {/* 2. LABEL qui sert de carte cliquable */}
                         <Label
                             htmlFor={`temp-${temp.id}`}
                             className={cn(
@@ -193,11 +191,9 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {groupe.options.map((condition) => {
-                  // Utilise [] si formData.conditionsClimatiques est vide
                   const initialSelection = formData.conditionsClimatiques || []; 
                   const isSelected = initialSelection.includes(condition.id);
 
-                  // Extraction de l'emoji et du nom
                   const [emoji, ...labelParts] = condition.nom.split(' ');
                   const title = labelParts.join(' ').trim();
                   
@@ -216,11 +212,9 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                       <Label
                         htmlFor={`condition-${condition.id}`}
                         className={cn(
-                          // ✅ CORRECTION du style pour des cases plus petites et alignées
                           "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer",
                           "hover:border-primary/50",
                           "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5",
-                          // Style spécifique pour l'option 'Aucune condition' si nécessaire
                           condition.id === 'aucune' ? 'bg-secondary/20' : '' 
                         )}
                       >
