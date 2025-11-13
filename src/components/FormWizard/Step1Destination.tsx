@@ -351,7 +351,10 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
             </p>
           </div>
         )}
-          
+
+        
+{/* CONTENU A NE PAS SUPPRIMER, les prochaines lignes sont mises en commentaires en vue d'être utilisé plus tard
+
         {/* Villes / Étapes importantes (Inchangé) */}
         <div className="space-y-3 bg-card p-6 rounded-xl border-2 border-border shadow-sm hover:shadow-md transition-shadow">
           <Label htmlFor="villesEtapes" className="text-lg font-bold text-foreground">
@@ -368,6 +371,9 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
             Séparez les villes/étapes par une virgule pour adapter certaines recommandations (ex: transport).
           </p>
         </div>
+        
+FIN DU CONTENU A NE PAS SUPPRIMER */}
+
         
         {/* Dates (Inchangé) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
