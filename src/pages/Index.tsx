@@ -13,7 +13,7 @@ const Index = () => {
         <div className="container mx-auto px-4 py-20 md:py-32 relative">
           <div className="text-center max-w-4xl mx-auto animate-fade-in">
             <div className="mb-6">
-              <span className="inline-block text-6xl mb-4">🗒️</span>
+              <span className="inline-block text-6xl mb-4">📋</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-travel bg-clip-text text-transparent">
               TravelPrep
