@@ -1,1 +1,401 @@
 {/* En stand-by, non utilisé actuellement */}
+
+
+// ---------------------------------------------------------------------------------------
+// PROFIL DE VOYAGEUR
+// (valeur existant dans le formulaire : Solo, couple, famille, groupe d'amis, voyage professionnel)
+
+
+  "voyageProfessionnel": {
+    "description": "Section Voyage Professionnel (18 items COMPLETS)",
+    "filtres": {"typeVoyageur": ["professionnel"]},
+    "items": [
+      {
+        "id": "PRO001",
+        "item": "Costume / Tailleur professionnel",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "quantite": "1-2",
+        "specifications": ["Tissu anti-froissage", "Couleurs sobres", "Housse protection"],
+        "conseils": "Pli valise. Défroisseur voyage essentiel. Costume backup si long séjour. Nettoyage pressing sur place"
+      },
+      {
+        "id": "PRO002",
+        "item": "Chemises professionnelles",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "quantite": "3-5",
+        "specifications": ["Sans repassage", "Couleurs neutres", "Coupe ajustée"],
+        "conseils": "1 chemise/jour. Tissu easy-care. Blanc + 2 couleurs. Lessive hôtel possible"
+      },
+      {
+        "id": "PRO003",
+        "item": "Chaussures cuir ville",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "quantite": "1 paire + 1 backup",
+        "specifications": ["Confortables marche", "Cirées récemment", "Semelles neuves"],
+        "conseils": "Journées debout. Confort essentiel. Chaussettes fines x5. Paire backup si dîner client"
+      },
+      {
+        "id": "PRO004",
+        "item": "Cartes de visite (100+)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-14",
+        "quantite": "100-200",
+        "conseils": "Networking. Impression qualité. Porte-cartes élégant. Stock large (imprévus)"
+      },
+      {
+        "id": "PRO005",
+        "item": "Ordinateur portable professionnel",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "specifications": ["Chargé à 100%", "Backup cloud récent", "VPN configuré", "Antivirus à jour"],
+        "conseils": "Sacoche rembourrée. Adaptateur électrique universel. Câbles spare. Encryption disque"
+      },
+      {
+        "id": "PRO006",
+        "item": "Documents professionnels",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "specifications": ["Présentations imprimées", "Contrats signés", "Dossiers clients", "Classeur organisé"],
+        "conseils": "Copies papier + digital. Pochettes plastique (protection). Organisation claire"
+      },
+      {
+        "id": "PRO007",
+        "item": "Lettre de mission employeur",
+        "priorite": "⭐⭐",
+        "delai": "J-14",
+        "specifications": ["En-tête entreprise", "Signée directeur", "Anglais + français", "Dates précises"],
+        "conseils": "Certaines douanes exigent justificatif. Invitation client si applicable. Tampon entreprise"
+      },
+      {
+        "id": "PRO008",
+        "item": "Adaptateur présentations (HDMI, VGA, USB-C)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "quantite": "Kit complet",
+        "specifications": ["HDMI vers VGA", "USB-C vers HDMI", "Clé USB backup"],
+        "conseils": "Salles réunion = connectique variée. Murphy's law. Clé USB backup présentation"
+      },
+      {
+        "id": "PRO009",
+        "item": "Pointeur laser / Télécommande présentation",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Portée 30m", "Piles spare", "Compact"],
+        "conseils": "Professionnalisme. Autonomie présentation. Logitech Spotlight = référence"
+      },
+      {
+        "id": "PRO010",
+        "item": "Cahier notes professionnel + stylos",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "quantite": "1 cahier + 3 stylos",
+        "specifications": ["Moleskine ou équivalent", "Stylos qualité", "Marque-page"],
+        "conseils": "Impression professionnelle. Notes réunions. Stylos backup. Éviter électronique réunions sensibles"
+      },
+      {
+        "id": "PRO011",
+        "item": "Enregistreur vocal (si autorisé)",
+        "priorite": "⭐",
+        "delai": "J-7",
+        "conseils": "Réunions complexes. Demander autorisation. Alternative: app smartphone"
+      },
+      {
+        "id": "PRO012",
+        "item": "Cadeau d'entreprise / Souvenirs pays",
+        "priorite": "⭐⭐",
+        "delai": "J-14",
+        "quantite": "3-5 articles",
+        "specifications": ["Emballage soigné", "Valeur <50€", "Représentatif région"],
+        "conseils": "Courtoisie professionnelle. Spécialités locales. Éviter alcool (religion). Carte manuscrite"
+      },
+      {
+        "id": "PRO013",
+        "item": "Traducteur poche / App traduction offline",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Télécharger langues avant", "Fonctionne sans internet"],
+        "conseils": "Google Translate mode offline. Phrases business essentielles. Carte hôtel langue locale"
+      },
+      {
+        "id": "PRO014",
+        "item": "Agenda papier ou digital synchronisé",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "specifications": ["Meetings confirmés", "Adresses exactes", "Contacts téléphone"],
+        "conseils": "Coordination équipe. Fuseaux horaires. Backup papier si digital"
+      },
+      {
+        "id": "PRO015",
+        "item": "Mallette / Porte-documents cuir",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Professionnel sobre", "Compartiments organisés", "Antivol câble"],
+        "conseils": "Première impression compte. Organisation visible. Samsonite, Tumi = références"
+      },
+      {
+        "id": "PRO016",
+        "item": "Carte Amex Corporate / Visa Business",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-30",
+        "specifications": ["Plafond augmenté", "Assurances voyages", "Lounge accès"],
+        "conseils": "Frais professionnels. Notes de frais. Assurance incluse. Services concierge"
+      },
+      {
+        "id": "PRO017",
+        "item": "Trousse de secours jet lag",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Mélatonine", "Caféine", "Masque yeux", "Bouchons oreilles"],
+        "conseils": "Performance professionnelle. Adaptation rapide. Hydratation ++. Sieste stratégique"
+      },
+      {
+        "id": "PRO018",
+        "item": "Abonnement lounge aéroport (Priority Pass)",
+        "priorite": "⭐",
+        "delai": "J-60",
+        "conseils": "Confort attente. Wifi fiable. Travail serein. Buffet inclus. Douches. 99$/an"
+      }
+    ]
+  },
+    },
+  }
+}
+
+
+
+## 👨‍👩‍👧‍👦 5. FAMILLE & ENFANTS (35 items)
+### A. BÉBÉ 0-2 ANS (20 items) ✅ COMPLET
+- BEBE001: Porte-bébé ergonomique (Ergobaby/BabyBjörn 0-3 ans)
+- BEBE002: Poussette canne ultra-légère <6kg (Babyzen Yoyo/Pockit cabine OK)
+- BEBE003: Couches stock 1 semaine + lingettes (qualité variable destinations)
+- BEBE004: Biberons x3 + tétines rechange (Dr Brown's anti-coliques)
+- BEBE005: Lait infantile stock 2 semaines si marque spécifique
+- BEBE006: Doseur lait + brosse biberon
+- BEBE007: Chauffe-biberon portable 12V/USB
+- BEBE008: Bavoirs x5-7 (plastique imperméables pliables)
+- BEBE009: Bodies + pyjamas x7-10 (changements fréquents)
+- BEBE010: Gigoteuse/turbulette (TOG adapté: 0,5 été / 2,5 hiver)
+- BEBE011: Lit parapluie léger <6kg (Babybjörn Travel Light)
+- BEBE012: Drap housse lit parapluie 60x120cm + alèse
+- BEBE013: Doudou + tétine x2 backup (CRITIQUE - perte = drame!)
+- BEBE014: Thermomètre bébé frontal/oreille (Braun ThermoScan)
+- BEBE015: Paracétamol bébé Doliprane + pipette (dosage poids)
+- BEBE016: Sérum physiologique unidoses x20
+- BEBE017: Crème change + liniment (Mustela)
+- BEBE018: Protection solaire bébé SPF 50+ minérale (dès 6 mois)
+- BEBE019: Chapeau/casquette bébé large bord avec cordon
+- BEBE020: Moustiquaire poussette/lit (zones tropicales - dengue, paludisme)
+### B. ENFANTS 3-12 ANS (15 items) ✅ COMPLET
+- ENF001: Sac à dos enfant ergonomique 10-15L (Deuter/Osprey)
+- ENF002: Gourde incassable 500ml paille/sport cap (Contigo/CamelBak)
+- ENF003: Snacks favoris stock conséquent (compotes, biscuits, fruits secs)
+- ENF004: Tablette + films/dessins animés téléchargés offline (Netflix/Disney+)
+- ENF005: Livres/cahiers activités x3-5 (coloriage, autocollants, cherche-et-trouve)
+- ENF006: Jeux cartes compacts (Uno, 7 familles)
+- ENF007: Jouets/peluche doudou préférés x2-3 petits (limiter quantité)
+- ENF008: Veilleuse portable USB rechargeable (rassure lieux inconnus)
+- ENF009: Bracelet identification nom + téléphone local (lieux bondés)
+- ENF010: Crème solaire enfant SPF 50+ x2 tubes (peau sensible waterproof)
+- ENF011: Casquette/chapeau enfant avec cordon anti-perte
+- ENF012: Lunettes soleil enfant UV400 incassables avec cordon
+- ENF013: Paracétamol/Ibuprofène enfant (dosage âge/poids)
+- ENF014: Spray/stick anti-moustiques enfant (DEET max 30% ou IR3535 dès 6 mois)
+- ENF015: Petits cadeaux surprise voyage x3-5 (motivation trajets)
+
+
+💑 COUPLE ROMANTIQUE
+Items
+Ambiance Playlist, Mini enceinte Bluetooth, Appareil photo + trépied, polaroid ou appareil photo jetable, liste de sujets à aborder
+Adaptateur multi-USB, Écouteurs splitter, Oreillers gonflables x2, petit jeu à deux (devinette, quizz, etc...), liste de films à voir
+
+👥 GROUPE AMIS
+Items
+Organisation Cagnotte (Tricount/Splitwise), Talkie-walkies, Jeux société
+Cadenas différenciés, Batterie externe perso, Trousse toilette compacte
+
+
+// ---------------------------------------------------------------------------------------
+// TYPE DE VOYAGE
+// (valeur existant dans le formulaire : backpacker, immersion locale, flexibilite, confort organise, luxe & prestige)
+
+
+
+
+// ---------------------------------------------------------------------------------------
+// NIVEAU DE CONFORT
+// (valeur existant dans le formulaire : economique, confortable, standard, premium, luxe)
+
+
+"confortBienEtre": {
+"description": "Section Confort & Bien-être (20 items COMPLETS)",
+"items": [
+{
+"id": "CONF001",
+"item": "Oreiller voyage ergonomique",
+"priorite": "⭐⭐",
+"delai": "J-7",
+"specifications": ["Mémoire forme", "Housse lavable", "Compact"],
+"conseils": "Sommeil avion/bus. Cervicales. Cabeau, Trtl = références. Transforme trajet"
+},
+{
+"id": "CONF002",
+"item": "Masque yeux 3D + bouchons oreilles",
+"priorite": "⭐⭐⭐",
+"delai": "J-3",
+"quantite": "Masque + 3 paires bouchons",
+"specifications": ["Masque 3D (pas pression yeux)", "Bouchons mousse -33dB", "Étui transport"],
+"conseils": "Sommeil auberges, transports. Indispensable backpackers. Bouchons cire > mousse (confort)"
+},
+{
+"id": "CONF003",
+"item": "Chaussons / Sandales confort intérieur",
+"priorite": "⭐⭐",
+"delai": "J-3",
+"specifications": ["Légers pliables", "Semelle antidérapante", "Séchage rapide"],
+"conseils": "Hôtels, auberges, avion. Hygiène douches collectives. Eviter pieds nus (champignons)"
+},
+{
+"id": "CONF004",
+"item": "Couverture polaire ultra-légère",
+"priorite": "⭐",
+"delai": "J-7",
+"specifications": ["200g maximum", "Compressible", "Sac de rangement"],
+"conseils": "Avion, bus climatisés. Camping fraîcheur. Decathlon 5€. Confort psychologique"
+},
+{
+"id": "CONF005",
+"item": "Diffuseur huiles essentielles portable",
+"priorite": "⭐",
+"delai": "J-7",
+"specifications": ["USB rechargeable", "Silencieux", "30ml capacité"],
+"conseils": "Odeurs hôtels/auberges. Relaxation. Lavande sommeil. Eucalyptus respiration"
+},
+{
+"id": "CONF006",
+"item": "Huiles essentielles voyage (4-5 fioles)",
+"priorite": "⭐",
+"delai": "J-7",
+"quantite": "5ml chaque",
+"specifications": ["Lavande (sommeil)", "Menthe poivrée (nausées)", "Tea tree (désinfectant)", "Eucalyptus (respiration)"],
+"conseils": "Bien-être naturel. Flacons 10ml. Étanche (sac zip). Dilution huile végétale"
+},
+{
+"id": "CONF007",
+"item": "Boules Quies / Bouchons anti-bruit -33dB",
+"priorite": "⭐⭐⭐",
+"delai": "J-3",
+"quantite": "10 paires",
+"conseils": "Dortoirs auberges. Voisins bruyants. Transports. Stock large (perdent facilité)"
+},
+{
+"id": "CONF008",
+"item": "Sachet lavande / Spray oreiller",
+"priorite": "⭐",
+"delai": "J-7",
+"conseils": "Sommeil réparateur. Environnement inconnu. Rituel coucher. Calme anxiété"
+},
+{
+"id": "CONF009",
+"item": "Crème pieds réparatrice",
+"priorite": "⭐⭐",
+"delai": "J-7",
+"quantite": "Tube 75ml",
+"specifications": ["Urée 10%", "Réparation intensive"],
+"conseils": "Marche quotidienne. Crevasses. Application soir. Chaussettes coton"
+},
+{
+"id": "CONF010",
+"item": "Baume musculaire / Arnica",
+"priorite": "⭐⭐",
+"delai": "J-7",
+"quantite": "Tube 50ml",
+"conseils": "Courbatures randonnée. Massage soir. Arnica = anti-inflammatoire naturel"
+},
+{
+"id": "CONF011",
+"item": "Sels bain relaxants (sachets individuels)",
+"priorite": "⭐",
+"delai": "J-7",
+"quantite": "5 sachets",
+"filtres": {"niveauConfort": ["premium", "luxe"]},
+"conseils": "Hôtels avec baignoire. Détente musculaire. Rituel soir"
+},
+{
+"id": "CONF012",
+"item": "Livre papier / Kindle",
+"priorite": "⭐⭐",
+"delai": "J-3",
+"quantite": "2-3 livres OU Kindle chargé",
+"conseils": "Transports longs. Attentes. Relaxation soir. Kindle = 1000 livres 200g"
+},
+{
+"id": "CONF013",
+"item": "Journal intime / Carnet voyage",
+"priorite": "⭐⭐",
+"delai": "J-7",
+"specifications": ["Moleskine ou équivalent", "Stylo qualité"],
+"conseils": "Souvenirs détaillés. Thérapie écriture. Photos + texte = mémoire complète"
+},
+{
+"id": "CONF014",
+"item": "Jeu cartes compact",
+"priorite": "⭐",
+"delai": "J-3",
+"conseils": "Socialisation auberges. Attentes aéroport. Soirées. Uno, 6 qui prend"
+},
+{
+"id": "CONF015",
+"item": "Thermos / Bouteille isotherme",
+"priorite": "⭐⭐",
+"delai": "J-7",
+"quantite": "500ml",
+"specifications": ["Maintien température 12h", "Étanche", "Couvercle tasse"],
+"conseils": "Thé/café matinal. Économie. Écologie. Remplissage hôtel gratuit"
+},
+{
+"id": "CONF016",
+"item": "Sachets tisanes variées",
+"priorite": "⭐",
+"delai": "J-3",
+"quantite": "20 sachets",
+"specifications": ["Verveine (sommeil)", "Gingembre (digestion)", "Menthe (fraîcheur)"],
+"conseils": "Rituel soir. Eau chaude hôtel. Digestion après repas épicés"
+},
+{
+"id": "CONF017",
+"item": "Couteau suisse / Multi-tool Leatherman",
+"priorite": "⭐⭐",
+"delai": "J-7",
+"specifications": ["Victorinox ou Leatherman", "10-15 fonctions", "Qualité acier"],
+"conseils": "BAGAGE SOUTE uniquement. Couteau, ciseaux, ouvre-bouteille, tournevis. Polyvalent"
+},
+{
+"id": "CONF018",
+"item": "Corde à linge rétractable + pinces",
+"priorite": "⭐⭐",
+"delai": "J-3",
+"quantite": "3m corde + 6 pinces",
+"conseils": "Lessive main. Séchage rapide. Auberges. Indispensable backpackers. Économie"
+},
+{
+"id": "CONF019",
+"item": "Lessive voyage (sachets ou feuillets)",
+"priorite": "⭐⭐",
+"delai": "J-7",
+"quantite": "10 sachets / 20 feuillets",
+"specifications": ["Biodégradable", "Toutes températures", "Sans rinçage"],
+"conseils": "Autonomie longue durée. Lavabos hôtel. Feuillets = ultra-compact. Économie"
+},
+{
+"id": "CONF020",
+"item": "Sac compression vêtements (voyage retour)",
+"priorite": "⭐⭐",
+"delai": "J-3",
+"quantite": "2-3 sacs",
+"specifications": ["Vacuum ou roll-up", "Tailles variées", "Réutilisables"],
+"conseils": "Gain place 50%. Souvenirs retour. Organisation. Vêtements sales séparés"
+}
+]
