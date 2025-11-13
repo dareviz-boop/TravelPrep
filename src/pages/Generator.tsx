@@ -21,8 +21,8 @@ const Generator = () => {
     duree: "moyen",
     localisation: "multi-destinations",
     pays: [],
-    temperature: "inconnue",
-    saison: "inconnue",
+    temperature: ["inconnue"],
+    saison: ["inconnue"],
     conditionsClimatiques: [],
     activites: [],
     profil: "couple",
@@ -65,25 +65,25 @@ const Generator = () => {
         return true;
 
       case 1: // Étape 2 : Informationss (Saison & Température)
-        // L'ancienne validation qui posait problème est corrigée ici
-        if (!formData.temperature || !formData.saison) { 
-          toast.error("Veuillez sélectionner la température moyenne et la saison de votre voyage.");
-          return false;
-        }
-        return true;
+          // L'ancienne validation qui posait problème est corrigée ici
+          if (!formData.temperature || !formData.saison) { 
+                    toast.error("Veuillez sélectionner la température moyenne et la saison de votre voyage.");
+                    return false;
+          }
+    return true;
         
       case 2: // Étape 3 : Activités/Thèmes
-        if (!formData.activites || formData.activites.length === 0) {
-           toast.error("Veuillez choisir au moins un thème d'activités pour générer la checklist.");
-           return false;
-    }
+          if (formData.temperature.length === 0 || formData.saison.length === 0) { 
+                    toast.error("Veuillez sélectionner au moins une température et une saison pour votre voyage.");
+                    return false;
+          }
     return true;
         
       // Dans Generator.tsx, à l'intérieur de la fonction validateStep
       case 3: // Étape 4 : Profils et Confort
           if (!formData.profil || !formData.typeVoyage || !formData.confort) { 
-            toast.error("Veuillez sélectionner le type de voyageur, le type de voyage et le niveau de confort.");
-            return false;
+                    toast.error("Veuillez sélectionner le type de voyageur, le type de voyage et le niveau de confort.");
+                    return false;
           }
           
           // Validation conditionnelle pour les familles
@@ -97,7 +97,7 @@ const Generator = () => {
                    return false;
               }
           }
-          return true;
+    return true;
 
       case 4: // Étape 5 : Options
         if (!formData.formatPDF) {
