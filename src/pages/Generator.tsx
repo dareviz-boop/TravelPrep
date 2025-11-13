@@ -199,10 +199,8 @@ const validateStep = (step: number): boolean => {
       <div className="max-w-5xl mx-auto">
         {/* Header Dareviz */}
         <div className="text-center mb-12 animate-fade-in">
-          <div className="mb-6">
-            <span className="inline-block text-6xl mb-4">🌍</span>
-          </div>
           <h1 className="text-6xl font-bold mb-2 text-primary">
+            <span className="inline-block text-6xl mb-4">🌍</span>
             TravelPrep
           </h1>
           <p className="text-sm text-foreground/60 mb-4">by Dareviz</p>
