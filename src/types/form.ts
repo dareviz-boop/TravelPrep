@@ -20,8 +20,9 @@ export interface FormData {
   // Page 1: Informations du Voyage & Destination (Étape 1)
   nomVoyage: string;
   
+  // STAND BY POUR LE MOMENT CAR INUTILISÉ MAIS A NE PAS SUPPRIMER 
   // AJOUT NÉCESSAIRE: Champ de texte pour les villes/étapes
-  villesEtapes?: string; 
+  // villesEtapes?: string; 
   
   // DATES
   dateDepart: string;
