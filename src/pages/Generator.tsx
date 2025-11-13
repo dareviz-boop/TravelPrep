@@ -51,7 +51,7 @@ const Generator = () => {
     setFormData((prev) => ({ ...prev, ...data }));
   };
 
-  const validateStep = (step: number): boolean => {
+const validateStep = (step: number): boolean => {
     switch (step) {
       case 0: // Étape 1 : Destinations (Nom, Localisation, Dates/Durée)
         if (!formData.nomVoyage || !formData.dateDepart || !formData.localisation) {
@@ -64,40 +64,49 @@ const Generator = () => {
         }
         return true;
 
-      case 1: // Étape 2 : Informationss (Saison & Température)
-          // L'ancienne validation qui posait problème est corrigée ici
-          if (!formData.temperature || !formData.saison) { 
-                    toast.error("Veuillez sélectionner la température moyenne et la saison de votre voyage.");
-                    return false;
-          }
-    return true;
+      case 1: // Étape 2 : Informations (Saison & Température) 💥 CORRECTION MULTI-SÉLECTION
+        const selectedTemperatures = formData.temperature as string[] || [];
+        const selectedSaisons = formData.saison as string[] || [];
+
+        // 1. Validation de non-vide (au moins un élément doit être sélectionné)
+        if (selectedTemperatures.length === 0 || selectedSaisons.length === 0) {
+            toast.error("Veuillez sélectionner au moins une température et une saison pour votre voyage.");
+            return false;
+        }
+
+        // 2. Validation de l'exclusivité de 'inconnue'
+        if ((selectedTemperatures.includes('inconnue') && selectedTemperatures.length > 1) ||
+            (selectedSaisons.includes('inconnue') && selectedSaisons.length > 1)) {
+            toast.error("L'option 'Inconnue' est exclusive et ne peut être sélectionnée avec d'autres saisons ou températures.");
+            return false;
+        }
+        return true;
         
-      case 2: // Étape 3 : Activités/Thèmes
-          if (formData.temperature.length === 0 || formData.saison.length === 0) { 
-                    toast.error("Veuillez sélectionner au moins une température et une saison pour votre voyage.");
-                    return false;
-          }
-    return true;
+      case 2: // Étape 3 : Activités/Thèmes 💥 CORRECTION DE LA LOGIQUE
+        if (!formData.activites || formData.activites.length === 0) {
+           toast.error("Veuillez choisir au moins un thème d'activités pour générer la checklist.");
+           return false;
+        }
+        return true;
         
-      // Dans Generator.tsx, à l'intérieur de la fonction validateStep
-      case 3: // Étape 4 : Profils et Confort
-          if (!formData.profil || !formData.typeVoyage || !formData.confort) { 
-                    toast.error("Veuillez sélectionner le type de voyageur, le type de voyage et le niveau de confort.");
-                    return false;
-          }
+      case 3: // Étape 4 : Profils et Confort (Validations existantes conservées)
+        if (!formData.profil || !formData.typeVoyage || !formData.confort) { 
+          toast.error("Veuillez sélectionner le type de voyageur, le type de voyage et le niveau de confort.");
+          return false;
+        }
           
-          // Validation conditionnelle pour les familles
-          if (formData.profil === 'famille') {
-              if (!formData.nombreEnfants || formData.nombreEnfants <= 0) {
-                   toast.error("Veuillez indiquer le nombre d'enfants.");
-                   return false;
-              }
-              if (!formData.agesEnfants || formData.agesEnfants.length === 0) {
-                   toast.error("Veuillez sélectionner au moins une catégorie d'âge pour vos enfants.");
-                   return false;
-              }
-          }
-    return true;
+        // Validation conditionnelle pour les familles
+        if (formData.profil === 'famille') {
+            if (!formData.nombreEnfants || formData.nombreEnfants <= 0) {
+                 toast.error("Veuillez indiquer le nombre d'enfants.");
+                 return false;
+            }
+            if (!formData.agesEnfants || formData.agesEnfants.length === 0) {
+                 toast.error("Veuillez sélectionner au moins une catégorie d'âge pour vos enfants.");
+                 return false;
+            }
+        }
+        return true;
 
       case 4: // Étape 5 : Options
         if (!formData.formatPDF) {
@@ -115,7 +124,6 @@ const Generator = () => {
               toast.error("Veuillez entrer une adresse email valide.");
               return false;
             }
-            // Validation finale avant la génération (HandleGeneratePDF)
             return true;
         
       default:
