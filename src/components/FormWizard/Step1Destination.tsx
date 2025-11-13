@@ -113,7 +113,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
   return (
     <div className="space-y-8 animate-fade-in">
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold mb-3 text-primary">
+        <h2 className="text-3xl font-bold mb-3 bg-gradient-travel bg-clip-text text-transparent">
           🌍 Où pars-tu en voyage ?
         </h2>
         <p className="text-foreground/70 text-lg">
