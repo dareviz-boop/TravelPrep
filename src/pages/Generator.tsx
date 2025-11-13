@@ -29,7 +29,7 @@ const Generator = () => {
     agesEnfants: [],
     typeVoyage: "flexible",
     confort: "standard",
-    sectionsInclure: ALL_SECTION_CODES as string[],
+    sectionsInclure: ['essentiels'],
     formatPDF: "detaille",
     formatFichier: "pdf",
     nomClient: "", 
