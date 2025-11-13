@@ -1,1 +1,1921 @@
-
+{
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2025-11-13",
+    "total_items": 231,
+    "description": "Base de données des articles de checklist par activité - TravelPrep",
+    "total_activities": 13
+  },
+  "activites": [
+    {
+      "activity_id": "randonnee",
+      "nom": "⛰️ Randonnée / Trekking",
+      "items": [
+        {
+          "id": "RAND001",
+          "item": "Bâtons de marche télescopiques réglables",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "quantite": "1 paire",
+          "conseils": "Soulage genoux de 25% en descente ! Black Diamond recommandé"
+        },
+        {
+          "id": "RAND002",
+          "item": "Sac à dos technique 30-40L avec ventilation dorsale",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-21",
+          "conseils": "Osprey, Deuter, Gregory. Tester avec charge avant départ"
+        },
+        {
+          "id": "RAND003",
+          "item": "Poche à eau 2-3L (système hydratation Camelbak)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Permet boire sans s'arrêter. Nettoyer avant et après usage"
+        },
+        {
+          "id": "RAND004",
+          "item": "Gourde isotherme 1L acier inoxydable",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Garde froid 24h, chaud 12h. Hydroflask, Klean Kanteen"
+        },
+        {
+          "id": "RAND005",
+          "item": "Purificateur eau portable (Lifestraw ou Sawyer Mini)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Filtre 99.99% bactéries. Indispensable zones reculées"
+        },
+        {
+          "id": "RAND006",
+          "item": "Pastilles purification eau x50 (Micropur Forte)",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Backup si filtre casse. 1 pastille = 1L eau potable en 30min"
+        },
+        {
+          "id": "RAND007",
+          "item": "Chaussettes randonnée mérinos x3-4 paires",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Anti-ampoules. Darn Tough garantie à vie !"
+        },
+        {
+          "id": "RAND008",
+          "item": "Guêtres imperméables (boue, neige, insectes)",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "filtres": {
+            "destinations": [
+              "montagne",
+              "jungle"
+            ]
+          },
+          "conseils": "Protection pieds/mollets. Indispensables mousson"
+        },
+        {
+          "id": "RAND009",
+          "item": "Couteau multifonction Victorinox (EN SOUTE !)",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "JAMAIS en cabine. Indispensable camping/randonnée"
+        },
+        {
+          "id": "RAND010",
+          "item": "Trousse premiers secours randonnée complète",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Pansements ampoules, élastique, désinfectant, antidouleur"
+        },
+        {
+          "id": "RAND011",
+          "item": "Sifflet survie 120dB avec attache mousqueton",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "3 coups courts = signal SOS international. Portée 1km+"
+        },
+        {
+          "id": "RAND012",
+          "item": "Couverture survie thermique x2 (dorée/argentée)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Hypothermie prévention. Pèse 50g, tient dans poche"
+        },
+        {
+          "id": "RAND013",
+          "item": "Boussole orientation + carte topographique zone",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Backup si GPS/téléphone HS. Apprendre utilisation avant"
+        },
+        {
+          "id": "RAND014",
+          "item": "Réchaud camping portable + cartouches gaz x2",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "filtres": {
+            "duree": [
+              "moyen",
+              "long"
+            ]
+          },
+          "conseils": "MSR PocketRocket. Vérifier autorisations avion (soute)"
+        },
+        {
+          "id": "RAND015",
+          "item": "Gamelle camping titane + couverts pliables",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Léger, incassable, chauffe rapide. Sea to Summit"
+        },
+        {
+          "id": "RAND016",
+          "item": "Lunettes soleil catégorie 3-4 montagne UV400",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Protection latérale. Réverbération neige/altitude dangereux"
+        },
+        {
+          "id": "RAND017",
+          "item": "Crème solaire visage SPF 50+ format stick",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Montagne = UV++ (10% par 1000m). Stick pratique rando"
+        },
+        {
+          "id": "RAND018",
+          "item": "Lampe frontale LED 200+ lumens avec mode rouge",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Petzl Tikka. Mode rouge = préserve vision nocturne"
+        },
+        {
+          "id": "RAND019",
+          "item": "Piles rechange lampe frontale (lithium longue durée)",
+          "priorite": "⭐⭐",
+          "delai": "J-3",
+          "conseils": "Froid réduit autonomie. Lithium résiste mieux"
+        },
+        {
+          "id": "RAND020",
+          "item": "Sac bivouac / sursac étanche (si nuit dehors)",
+          "priorite": "⭐⭐",
+          "delai": "J-21",
+          "filtres": {
+            "activites": [
+              "camping"
+            ]
+          },
+          "conseils": "Protection tente/duvet humidité. Sea to Summit eVent"
+        },
+        {
+          "id": "RAND021",
+          "item": "Bâche/tarp léger 2x3m multi-usages",
+          "priorite": "⭐",
+          "delai": "J-14",
+          "conseils": "Abri pluie, tapis sol, protection matériel. 300g"
+        },
+        {
+          "id": "RAND022",
+          "item": "Paracorde 20m (diamètre 4mm)",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "1001 usages : tendre bâche, sécher vêtements, réparations"
+        },
+        {
+          "id": "RAND023",
+          "item": "Veste hardshell Gore-Tex imperméable respirante",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-21",
+          "conseils": "Investissement crucial. Arc'teryx, Patagonia, Marmot"
+        },
+        {
+          "id": "RAND024",
+          "item": "Pantalon convertible zip-off (devient short)",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Polyvalent changements météo/altitude. Columbia, Fjällräven"
+        },
+        {
+          "id": "RAND025",
+          "item": "GPS randonnée Garmin OU app offline Maps.me",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Télécharger cartes zones avant départ. Garmin InReach = SOS satellite"
+        }
+      ]
+    },
+    {
+      "activity_id": "plage",
+      "nom": "🏖️ Plage / Mer",
+      "items": [
+        {
+          "id": "PLAGE001",
+          "item": "Maillot de bain x2 (séchage alterné)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "2 maillots = toujours un sec. Séchage rapide 2-3h"
+        },
+        {
+          "id": "PLAGE002",
+          "item": "Serviette microfibre plage XL 90x180cm",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Sèche en 2h vs 12h coton. Compact. PackTowl, Dock & Bay"
+        },
+        {
+          "id": "PLAGE003",
+          "item": "Crème solaire waterproof SPF 50+ x2 tubes 200ml",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "quantite": "1 tube/semaine",
+          "conseils": "Renouveler toutes les 2h ET après baignade !"
+        },
+        {
+          "id": "PLAGE004",
+          "item": "Lunettes soleil polarisées UV400 catégorie 3",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Polarisées = supprime réverbération eau. Oakley, Ray-Ban"
+        },
+        {
+          "id": "PLAGE005",
+          "item": "Chapeau/casquette large bord avec cordon",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Protection nuque essentielle. Cordon anti-perte vent"
+        },
+        {
+          "id": "PLAGE006",
+          "item": "Tongs/sandales plage confortables qualité",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Havaianas, Birkenstock waterproof. Éviter bas de gamme = ampoules"
+        },
+        {
+          "id": "PLAGE007",
+          "item": "Sac plage étanche avec fermeture zip",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Protège électronique/documents. 20-30L capacité"
+        },
+        {
+          "id": "PLAGE008",
+          "item": "Pochette étanche smartphone transparente tactile",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Utilisable dans eau. Photos sous-marines possibles"
+        },
+        {
+          "id": "PLAGE009",
+          "item": "Baume lèvres SPF 30+ waterproof",
+          "priorite": "⭐⭐",
+          "delai": "J-3",
+          "conseils": "Lèvres = peau fragile. Gerçures douloureuses"
+        },
+        {
+          "id": "PLAGE010",
+          "item": "Masque + tuba snorkeling (si pas location)",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "filtres": {
+            "activites": [
+              "sports-nautiques"
+            ]
+          },
+          "conseils": "Hygiène. Décathlon Easybreath = respiration facile"
+        },
+        {
+          "id": "PLAGE011",
+          "item": "Crème après-soleil/aloe vera 200ml",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Apaise peau. Indispensable premiers jours exposition"
+        },
+        {
+          "id": "PLAGE012",
+          "item": "Parasol/tente plage anti-UV (familles)",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "filtres": {
+            "profil": [
+              "famille"
+            ]
+          },
+          "conseils": "Protection bébés/enfants. Pop-up facile Pacific Breeze"
+        },
+        {
+          "id": "PLAGE013",
+          "item": "Glacière souple 15-20L (pique-niques plage)",
+          "priorite": "⭐",
+          "delai": "J-7",
+          "filtres": {
+            "duree": [
+              "moyen",
+              "long"
+            ]
+          },
+          "conseils": "Boissons fraîches. Pain de glace réutilisable"
+        },
+        {
+          "id": "PLAGE014",
+          "item": "Jeux plage (frisbee, raquettes, ballon)",
+          "priorite": "⭐",
+          "delai": "J-3",
+          "filtres": {
+            "profil": [
+              "famille",
+              "groupe-amis"
+            ]
+          },
+          "conseils": "Ambiance. Compact = Aerobie Sprint"
+        },
+        {
+          "id": "PLAGE015",
+          "item": "Livre/liseuse Kindle waterproof",
+          "priorite": "⭐⭐",
+          "delai": "J-3",
+          "conseils": "Kindle Paperwhite = lisible plein soleil + étanche"
+        }
+      ]
+    },
+    {
+      "activity_id": "sports-nautiques",
+      "nom": "🏄 Sports nautiques",
+      "items": [
+        {
+          "id": "NAUT001",
+          "item": "Lycra/rashguard anti-UV manches longues",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Protection soleil + irritations combinaison. UPF 50+"
+        },
+        {
+          "id": "NAUT002",
+          "item": "Shorty/combinaison néoprène 2-3mm (eaux fraîches)",
+          "priorite": "⭐⭐",
+          "delai": "J-21",
+          "filtres": {
+            "destinations": [
+              "oceanie",
+              "europe"
+            ]
+          },
+          "conseils": "Eau <20°C. Location possible stations balnéaires"
+        },
+        {
+          "id": "NAUT003",
+          "item": "Chaussures aquatiques semelle épaisse antidérapante",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Protection coraux/oursins/rochers. Indispensables !"
+        },
+        {
+          "id": "NAUT004",
+          "item": "Masque + tuba qualité avec jupe silicone",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Hygiène location douteuse. Cressi, Mares professionnels"
+        },
+        {
+          "id": "NAUT005",
+          "item": "Palmes courtes ajustables (snorkeling/plongée)",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Transport facile. Location alternative possible"
+        },
+        {
+          "id": "NAUT006",
+          "item": "GoPro/caméra action étanche + accessoires",
+          "priorite": "⭐⭐",
+          "delai": "J-21",
+          "conseils": "Souvenirs sous-marins. Hero 11 = stabilisation parfaite"
+        },
+        {
+          "id": "NAUT007",
+          "item": "Flotteur étanche 20L sécurité (eau libre)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Visibilité bateaux. Rangement clés/téléphone. Obligatoire certains lieux"
+        },
+        {
+          "id": "NAUT008",
+          "item": "Crème solaire minérale coraux-safe SPF 50+",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Chimique = détruit coraux. Stream2Sea, Raw Elements"
+        },
+        {
+          "id": "NAUT009",
+          "item": "Lunettes natation antibuée (piscine/entraînement)",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Confort yeux. Speedo Vanquisher technologie antibuée"
+        },
+        {
+          "id": "NAUT010",
+          "item": "Pochette étanche flottante (téléphone + clés)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Flotte = retrouvable si lâchée. Tactile utilisable"
+        },
+        {
+          "id": "NAUT011",
+          "item": "Serviette chamois sport séchage ultra-rapide",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Sèche en 30min. Absorbe 10x son poids. PackTowl"
+        },
+        {
+          "id": "NAUT012",
+          "item": "Bouchons oreilles natation moulables",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Prévention otites. Mack's Pillow Soft silicone"
+        },
+        {
+          "id": "NAUT013",
+          "item": "Spray/gouttes oreilles après baignade",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Assèche conduits. Prévient otites nageur"
+        },
+        {
+          "id": "NAUT014",
+          "item": "Bonnet néoprène (eaux froides <18°C)",
+          "priorite": "⭐",
+          "delai": "J-14",
+          "filtres": {
+            "destinations": [
+              "europe",
+              "amerique-nord"
+            ]
+          },
+          "conseils": "30% chaleur perdue par tête. Confort crucial"
+        },
+        {
+          "id": "NAUT015",
+          "item": "Carnet plongée certifié PADI/SSI (si plongeur)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-30",
+          "conseils": "Carte certification + assurance DAN obligatoires clubs"
+        },
+        {
+          "id": "NAUT016",
+          "item": "Ordinateur plongée personnel (plongeurs confirmés)",
+          "priorite": "⭐⭐",
+          "delai": "J-21",
+          "conseils": "Sécurité. Suunto, Garmin Descent. Location alternative"
+        },
+        {
+          "id": "NAUT017",
+          "item": "Gants néoprène 2mm (plongée/snorkeling)",
+          "priorite": "⭐",
+          "delai": "J-14",
+          "conseils": "Protection coraux/méduses. Certains sites interdisent"
+        },
+        {
+          "id": "NAUT018",
+          "item": "Tablette immergeable identification poissons/coraux",
+          "priorite": "⭐",
+          "delai": "J-7",
+          "conseils": "Reconnaissance espèces. Fishcard plastifiée pratique"
+        }
+      ]
+    },
+    {
+      "activity_id": "city-trip",
+      "nom": "🏙️ City-trip / Visites culturelles",
+      "items": [
+        {
+          "id": "CITY001",
+          "item": "Sac à dos urbain anti-vol avec compartiments",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Pacsafe Venturesafe. Fermetures cachées, tissu anti-coupure"
+        },
+        {
+          "id": "CITY002",
+          "item": "Chaussures marche urbaine confortables rodées",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-21",
+          "conseils": "10-20km/jour courant ! Baskets type running. RODER 30km avant"
+        },
+        {
+          "id": "CITY003",
+          "item": "Batterie externe 20000mAh (photos/GPS intensifs)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Anker PowerCore. EN CABINE obligatoire (pas soute)"
+        },
+        {
+          "id": "CITY004",
+          "item": "Guide papier ville Lonely Planet/Routard",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Backup si téléphone volé/déchargé. Plans hors-ligne"
+        },
+        {
+          "id": "CITY005",
+          "item": "Carte transports locaux/pass journée",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-3",
+          "conseils": "Pass illimités économiques. London Oyster, Paris Navigo"
+        },
+        {
+          "id": "CITY006",
+          "item": "Application transports ville téléchargée",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-3",
+          "conseils": "Citymapper = THE app multivilles. Plans offline essentiels"
+        },
+        {
+          "id": "CITY007",
+          "item": "Tenue correcte lieux culte (épaules/genoux couverts)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Églises/temples/mosquées = code vestimentaire strict"
+        },
+        {
+          "id": "CITY008",
+          "item": "Appareil photo ou bon smartphone (souvenirs)",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "iPhone/Pixel suffisent. Réflex = lourd city-trip"
+        },
+        {
+          "id": "CITY009",
+          "item": "Parapluie compact léger (<200g)",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Météo urbaine capricieuse. Repel Windproof 96g"
+        },
+        {
+          "id": "CITY010",
+          "item": "Bouteille eau réutilisable pliable 500ml",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Compacte vide. Vapur Anti-Bottle, Platypus SoftBottle"
+        },
+        {
+          "id": "CITY011",
+          "item": "Snacks barres céréales (musées/longues visites)",
+          "priorite": "⭐⭐",
+          "delai": "J-3",
+          "conseils": "Évite hypoglycémie entre repas. 5-10 barres"
+        },
+        {
+          "id": "CITY012",
+          "item": "Carte musées/monuments pass (si disponible)",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Paris Museum Pass, Roma Pass = économies + coupe-files"
+        },
+        {
+          "id": "CITY013",
+          "item": "Liste adresses restaurants/bars recommandés",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Google Maps = sauvegarder favoris offline. Tripadvisor"
+        },
+        {
+          "id": "CITY014",
+          "item": "Tote bag/sac shopping pliable",
+          "priorite": "⭐",
+          "delai": "J-3",
+          "conseils": "Courses, souvenirs imprévus. Baggu ultra-compact"
+        },
+        {
+          "id": "CITY015",
+          "item": "Cahier notes/carnet voyage (souvenirs écrits)",
+          "priorite": "⭐",
+          "delai": "J-7",
+          "conseils": "Impressions quotidiennes. Moleskine City Notebooks"
+        }
+      ]
+    },
+    {
+      "activity_id": "backpacking",
+      "nom": "🎒 Backpacking / Aventure",
+      "items": [
+        {
+          "id": "BACK001",
+          "item": "Sac à dos voyage 50-65L avec housse pluie",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-30",
+          "conseils": "Osprey Farpoint/Fairview, Deuter Traveller. Tester avec charge 15kg"
+        },
+        {
+          "id": "BACK002",
+          "item": "Cadenas TSA x3 (casiers, fermetures sac)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Auberges. Combinaison > clés (perte impossible)"
+        },
+        {
+          "id": "BACK003",
+          "item": "Sac compression étanche 20-30L",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Sépare propre/sale. Sea to Summit eVent compression"
+        },
+        {
+          "id": "BACK004",
+          "item": "Drap sac soie ou coton (hygiène auberges)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Cocoon silk = 150g, compressible. Hygiène draps douteux"
+        },
+        {
+          "id": "BACK005",
+          "item": "Tongs douches obligatoires (mycoses prévention)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Douches collectives = champignons garantis sans"
+        },
+        {
+          "id": "BACK006",
+          "item": "Bouchons oreilles mousse x10 paires",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Dortoirs bruyants. 3M E-A-R Classic = -33dB"
+        },
+        {
+          "id": "BACK007",
+          "item": "Masque sommeil occultant léger",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Lumières dortoirs. Jersey Slumber = confortable"
+        },
+        {
+          "id": "BACK008",
+          "item": "Trousse toilette suspendue compacte",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Crochets = gain place douches communes. Sea to Summit"
+        },
+        {
+          "id": "BACK009",
+          "item": "Lessive liquide sachets individuels x20",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Lavage régulier = peu de vêtements. 1 sachet = 1 lavabo"
+        },
+        {
+          "id": "BACK010",
+          "item": "Corde à linge élastique avec pinces x8",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Séchage dortoirs. 3m suffisants. Sea to Summit Clothesline"
+        },
+        {
+          "id": "BACK011",
+          "item": "Couteau suisse léger Victorinox Classic (EN SOUTE)",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "1001 usages. JAMAIS cabine. Alternative : couteau plastique"
+        },
+        {
+          "id": "BACK012",
+          "item": "Lampe lecture clip LED (dortoirs)",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Lire sans déranger. Mighty Bright XtraFlex2 souple"
+        },
+        {
+          "id": "BACK013",
+          "item": "Sac banane/pochette tour de cou sécurité",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Passeport, cash, cartes. Sous vêtements = discret"
+        },
+        {
+          "id": "BACK014",
+          "item": "Câble antivol portable 2m avec cadenas",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Attacher sac à lit/fixe. Pacsafe = acier tressé"
+        },
+        {
+          "id": "BACK015",
+          "item": "Carte SIM internationale/eSIM (Airalo, Holafly)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Multi-pays. eSIM = pas changement physique. 5-15$/semaine"
+        },
+        {
+          "id": "BACK016",
+          "item": "Application hostel Hostelworld + réservations",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Booking = hôtels. Hostelworld = auberges meilleur"
+        },
+        {
+          "id": "BACK017",
+          "item": "Couverture polaire compacte (bus/avion froids)",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Transports nuit glacials. 300g suffisant"
+        },
+        {
+          "id": "BACK018",
+          "item": "Sacs congélation zip multi-tailles x15",
+          "priorite": "⭐⭐",
+          "delai": "J-3",
+          "conseils": "Organisation, étanchéité, compression. Indispensables"
+        },
+        {
+          "id": "BACK019",
+          "item": "Appareil photo compact/GoPro (pas réflex lourd)",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Léger = essentiel backpacking. Smartphone suffit souvent"
+        },
+        {
+          "id": "BACK020",
+          "item": "Journal voyage cahier/app (souvenirs écrits)",
+          "priorite": "⭐",
+          "delai": "J-7",
+          "conseils": "Moleskine, app Journey. Moments précieux immortalisés"
+        }
+      ]
+    },
+    {
+      "activity_id": "camping",
+      "nom": "🏕️ Camping / Nature",
+      "items": [
+        {
+          "id": "CAMP001",
+          "item": "Tente 2-3 personnes légère imperméable",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-30",
+          "conseils": "MSR, Big Agnes, Nemo. <2kg idéal. Tester montage avant !"
+        },
+        {
+          "id": "CAMP002",
+          "item": "Sac couchage adapté température zone",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-30",
+          "conseils": "Confort = Tempmin -5°C. Duvet >-10°C, synthétique humidité"
+        },
+        {
+          "id": "CAMP003",
+          "item": "Matelas gonflable isolant R-value 3+ avec pompe",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-21",
+          "conseils": "Therm-a-Rest NeoAir. R-value = isolation sol froid crucial"
+        },
+        {
+          "id": "CAMP004",
+          "item": "Oreiller camping gonflable ergonomique",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Sea to Summit Aeros. Confort sommeil = récupération"
+        },
+        {
+          "id": "CAMP005",
+          "item": "Réchaud camping gaz avec cartouches x3",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-21",
+          "conseils": "MSR PocketRocket 2. Compact, léger. Vérifier autorisations transport"
+        },
+        {
+          "id": "CAMP006",
+          "item": "Gamelle camping + couverts titane pliables",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Sea to Summit X-Set. Pliables = gain 70% volume"
+        },
+        {
+          "id": "CAMP007",
+          "item": "Allumettes tempête étanches + briquet backup",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "UCO Stormproof. Vent 80km/h, pluie, altitude. Briquet = toujours backup"
+        },
+        {
+          "id": "CAMP008",
+          "item": "Lampe camping LED suspendable 200+ lumens",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Black Diamond Moji. Éclaire tente entière. Autonomie 70h"
+        },
+        {
+          "id": "CAMP009",
+          "item": "Lampe frontale 300+ lumens avec mode rouge",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Petzl Actik Core. Mains libres indispensable nuit"
+        },
+        {
+          "id": "CAMP010",
+          "item": "Cordelette/paracorde 30m diamètre 5mm",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Tendre tente, sécher linge, hauban, réparations. 1001 usages"
+        },
+        {
+          "id": "CAMP011",
+          "item": "Bâche/tarp 3x3m multi-usages",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Abri pluie, tapis sol, protection tente. Aqua Quest 400g"
+        },
+        {
+          "id": "CAMP012",
+          "item": "Sac étanche 40L (vêtements/duvet)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Sea to Summit Big River. Duvet mouillé = inutilisable"
+        },
+        {
+          "id": "CAMP013",
+          "item": "Purificateur eau portable 2L/min",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Sawyer Squeeze, Katadyn BeFree. Essentiel autonomie"
+        },
+        {
+          "id": "CAMP014",
+          "item": "Couteau camping fixe robuste (EN SOUTE)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Mora Companion. Couper bois, préparer nourriture, urgences"
+        },
+        {
+          "id": "CAMP015",
+          "item": "Hachette/hache camping légère (bois chauffage)",
+          "priorite": "⭐⭐",
+          "delai": "J-21",
+          "filtres": {
+            "destinations": [
+              "forets-froides"
+            ]
+          },
+          "conseils": "Fiskars X7. EN SOUTE uniquement. Alternative = scie pliante"
+        },
+        {
+          "id": "CAMP016",
+          "item": "Sacs poubelle biodégradables x10 (Leave No Trace)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Éthique camping = ramener TOUS déchets. 50-60L"
+        },
+        {
+          "id": "CAMP017",
+          "item": "Kit réparation camping (tente, matelas, sac)",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Patchs, aiguille, fil, colle. Gear Aid Seam Grip"
+        },
+        {
+          "id": "CAMP018",
+          "item": "Gants travail camping (bois, pierres chaudes)",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Protection mains. Décathlon 5€ suffisants"
+        },
+        {
+          "id": "CAMP019",
+          "item": "Spray/crème anti-moustiques DEET 50%",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "filtres": {
+            "destinations": [
+              "tropiques",
+              "forets"
+            ]
+          },
+          "conseils": "Forêts/lacs = moustiques infernaux. Sawyer Premium"
+        },
+        {
+          "id": "CAMP020",
+          "item": "Hamac camping avec moustiquaire intégrée",
+          "priorite": "⭐",
+          "delai": "J-14",
+          "conseils": "ENO Guardian. Alternative tente zones moustiques intenses"
+        }
+      ]
+    },
+    {
+      "activity_id": "sports-hiver",
+      "nom": "⛷️ Sports d'hiver",
+      "items": [
+        {
+          "id": "HIVER001",
+          "item": "Veste ski/snow imperméable respirante Gore-Tex",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-30",
+          "conseils": "Arc'teryx, Patagonia, The North Face. 20000mm imperméabilité min"
+        },
+        {
+          "id": "HIVER002",
+          "item": "Pantalon ski/snow imperméable avec guêtres",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-30",
+          "conseils": "Bretelles confort. Guêtres = empêche neige rentrer bottes"
+        },
+        {
+          "id": "HIVER003",
+          "item": "Sous-vêtements thermiques haut + bas mérinos",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-21",
+          "quantite": "x2 sets",
+          "conseils": "Icebreaker, Smartwool. Mérinos > synthétique (pas odeurs)"
+        },
+        {
+          "id": "HIVER004",
+          "item": "Polaire intermédiaire 200g (couche 2)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-21",
+          "conseils": "Patagonia R2. Système 3 couches : base-isolation-protection"
+        },
+        {
+          "id": "HIVER005",
+          "item": "Gants ski imperméables isolés -15°C min",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-21",
+          "conseils": "Hestra recommandés. + sous-gants soie backup"
+        },
+        {
+          "id": "HIVER006",
+          "item": "Moufles grand froid backup -25°C",
+          "priorite": "⭐⭐",
+          "delai": "J-21",
+          "filtres": {
+            "destinations": [
+              "montagne-haute"
+            ]
+          },
+          "conseils": "Moufles > gants grand froid. Doigts ensemble = chaleur"
+        },
+        {
+          "id": "HIVER007",
+          "item": "Bonnet ski technique couvrant oreilles",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Mérinos ou polaire. 30% chaleur perdue par tête !"
+        },
+        {
+          "id": "HIVER008",
+          "item": "Buff/tour de cou cache-nez multifonction",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Protège cou/visage vent. Mérinos respirant"
+        },
+        {
+          "id": "HIVER009",
+          "item": "Masque ski catégorie S2-S3 anti-buée",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-21",
+          "conseils": "Oakley, Smith. Double écran = anti-buée. S2 nuages, S3 soleil"
+        },
+        {
+          "id": "HIVER010",
+          "item": "Lunettes soleil glacier catégorie 4 UV400",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Backup masque. Protection latérale obligatoire haute-altitude"
+        },
+        {
+          "id": "HIVER011",
+          "item": "Chaussettes ski thermiques x3 paires",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Smartwool PhD Ski. PAS coton = humidité froid. 1 paire/jour"
+        },
+        {
+          "id": "HIVER012",
+          "item": "Crème solaire visage SPF 50+ stick montagne",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Altitude + réverbération neige = coups soleil sévères garantis"
+        },
+        {
+          "id": "HIVER013",
+          "item": "Baume lèvres SPF 30+ anti-gerçures",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Froid + vent = lèvres gercées douloureuses. Carmex, Burt's Bees"
+        },
+        {
+          "id": "HIVER014",
+          "item": "Chauffe-mains/pieds chimiques x10 paires",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "HotHands. Urgences grand froid. 8h chaleur. Bottes/gants"
+        },
+        {
+          "id": "HIVER015",
+          "item": "Sac à dos avalanche avec ABS (hors-piste)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-30",
+          "filtres": {
+            "activites": [
+              "hors-piste"
+            ]
+          },
+          "conseils": "Ortovox, Mammut. Location stations possible. Formation obligatoire"
+        },
+        {
+          "id": "HIVER016",
+          "item": "DVA (Détecteur Victimes Avalanche) + formation",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-30",
+          "filtres": {
+            "activites": [
+              "hors-piste"
+            ]
+          },
+          "conseils": "OBLIGATOIRE hors-piste + pelle + sonde. Formation 1 jour minimum"
+        },
+        {
+          "id": "HIVER017",
+          "item": "Casque ski certifié EN 1077 (sécurité)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-21",
+          "conseils": "Smith, POC. Protège chutes + collisions. Enfants = OBLIGATOIRE"
+        },
+        {
+          "id": "HIVER018",
+          "item": "Protection dorsale ski (park/vitesse)",
+          "priorite": "⭐⭐",
+          "delai": "J-21",
+          "conseils": "Dainese, POC. Prévient traumatismes colonne. Park/freeride conseillé"
+        }
+      ]
+    },
+    {
+      "activity_id": "road-trip",
+      "nom": "🚗 Road-trip",
+      "items": [
+        {
+          "id": "ROAD001",
+          "item": "Permis conduire international (obligatoire hors UE)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-90",
+          "conseils": "Gratuit en préfecture. Délai 3-8 semaines. Validité 3 ans"
+        },
+        {
+          "id": "ROAD002",
+          "item": "Contrat location voiture imprimé + assurances",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Vérifier franchise, kilométrage, conducteurs supplémentaires"
+        },
+        {
+          "id": "ROAD003",
+          "item": "GPS voiture OU support smartphone + apps offline",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Google Maps offline + Maps.me backup. GPS Garmin = fiable zones blanches"
+        },
+        {
+          "id": "ROAD004",
+          "item": "Chargeur voiture USB multiple ports (3-4 prises)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Anker PowerDrive. Tout le monde charge simultanément"
+        },
+        {
+          "id": "ROAD005",
+          "item": "Glacière électrique 12V (nourriture/boissons)",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "filtres": {
+            "duree": [
+              "moyen",
+              "long"
+            ]
+          },
+          "conseils": "30-40L suffit. Économies restaurants + pique-niques"
+        },
+        {
+          "id": "ROAD006",
+          "item": "Thermos/mugs isothermes café x2",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Contigo Autoseal. Café chaud route = confort. Pas renversement"
+        },
+        {
+          "id": "ROAD007",
+          "item": "Snacks route variés (barres, fruits secs, biscuits)",
+          "priorite": "⭐⭐",
+          "delai": "J-3",
+          "quantite": "Stock 1 semaine",
+          "conseils": "Évite arrêts fréquents onéreux. Grignotage = conducteur éveillé"
+        },
+        {
+          "id": "ROAD008",
+          "item": "Cartes routières papier régions traversées",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Backup GPS/tel HS. Vision globale itinéraire. Michelin, IGN"
+        },
+        {
+          "id": "ROAD009",
+          "item": "Guide routard/Lonely Planet destinations",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Idées détours, hébergements, restaurants chemin"
+        },
+        {
+          "id": "ROAD010",
+          "item": "Playlist musique/podcasts téléchargés (20h+)",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Spotify offline, Audible. Longues routes = divertissement essentiel"
+        },
+        {
+          "id": "ROAD011",
+          "item": "Adaptateur allume-cigare multi-prises (3 USB + 2 12V)",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Recharge multiple. Glacière + téléphones simultanés"
+        },
+        {
+          "id": "ROAD012",
+          "item": "Coussin voyage nuque gonflable (passagers)",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Siestes confortables longs trajets. Cabeau Evolution"
+        },
+        {
+          "id": "ROAD013",
+          "item": "Couverture polaire (clim voiture/bivouac)",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Clim glaciale nuit. Confort passagers. 400g compact"
+        },
+        {
+          "id": "ROAD014",
+          "item": "Kit urgence voiture (triangles, gilet, ampoules)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "OBLIGATOIRE Europe. Souvent fourni location, vérifier"
+        },
+        {
+          "id": "ROAD015",
+          "item": "Câbles démarrage batterie (pannes)",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Batteries fatiguent chaleur/froid. 3m minimum longueur"
+        },
+        {
+          "id": "ROAD016",
+          "item": "Compresseur air portable 12V (pneus)",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Pneus sous-gonflés = surconsommation 15%. Ring RAC610"
+        },
+        {
+          "id": "ROAD017",
+          "item": "Lampe torche puissante + frontale (pannes nuit)",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "300+ lumens. Panne nocturne = visibilité sécurité"
+        },
+        {
+          "id": "ROAD018",
+          "item": "Poubelle voiture pliable avec couvercle",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Propreté habitacle. Drive Bin 3L compact"
+        },
+        {
+          "id": "ROAD019",
+          "item": "Lingettes nettoyantes multi-surfaces x2 paquets",
+          "priorite": "⭐",
+          "delai": "J-3",
+          "conseils": "Pare-brise, tableaux bord, mains. Hygiène route"
+        },
+        {
+          "id": "ROAD020",
+          "item": "Carnet notes/stylo (frais péage, essence, parking)",
+          "priorite": "⭐",
+          "delai": "J-3",
+          "conseils": "Suivi budget. Parking GPS coordonnées (retrouver voiture)"
+        }
+      ]
+    },
+    {
+      "activity_id": "vie-nocturne",
+      "nom": "🌃 Vie nocturne",
+      "items": [
+        {
+          "id": "NUIT001",
+          "item": "Tenue soirée correcte (club/bar chic)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Dress code strict certains lieux. Chemise/robe minimum"
+        },
+        {
+          "id": "NUIT002",
+          "item": "Chaussures ville confortables (longues soirées debout)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Baskets propres acceptées. Éviter tongs = refus entrée"
+        },
+        {
+          "id": "NUIT003",
+          "item": "Pochette/sac banane discret (téléphone + cash + ID)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Pickpockets clubs fréquents. Mains libres = danser sécurisé"
+        },
+        {
+          "id": "NUIT004",
+          "item": "Carte d'identité OU passeport (contrôle âge)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-1",
+          "conseils": "Photocop suffisante souvent. Original sécurisé hôtel"
+        },
+        {
+          "id": "NUIT005",
+          "item": "Cash petites coupures (vestiaire, pourboires, dernier verre)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-1",
+          "quantite": "30-50€ équivalent",
+          "conseils": "Distributeurs rares/chers clubs. Vestiaire = cash uniquement souvent"
+        },
+        {
+          "id": "NUIT006",
+          "item": "Batterie externe chargée (photos/Uber retour)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-1",
+          "conseils": "Téléphone mort 3h matin = galère rentrer. 10000mAh minimum"
+        },
+        {
+          "id": "NUIT007",
+          "item": "Liste bars/clubs/concerts recommandés sauvegardée",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Google Maps favoris + Tripadvisor Nightlife. Adresses + horaires"
+        },
+        {
+          "id": "NUIT008",
+          "item": "Application transport nuit (Uber, Bolt, taxi)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Transports publics arrêtés. Compte créé + carte enregistrée AVANT"
+        },
+        {
+          "id": "NUIT009",
+          "item": "Préservatifs (protection + rencontres)",
+          "priorite": "⭐⭐",
+          "delai": "J-3",
+          "conseils": "Sécurité santé. Qualité variable destinations"
+        },
+        {
+          "id": "NUIT010",
+          "item": "Chewing-gum/bonbons menthe (haleine fraîche)",
+          "priorite": "⭐",
+          "delai": "J-3",
+          "conseils": "Conversations rapprochées. Social + rencontres"
+        },
+        {
+          "id": "NUIT011",
+          "item": "Mini déo format poche (chaleur clubs)",
+          "priorite": "⭐⭐",
+          "delai": "J-3",
+          "conseils": "Clubs bondés = transpiration. Rafraîchissement 3h matin"
+        },
+        {
+          "id": "NUIT012",
+          "item": "Bouchons oreilles concerts/clubs (audition)",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Acouphènes irréversibles. Alpine MusicSafe = -18dB sans déformer"
+        },
+        {
+          "id": "NUIT013",
+          "item": "Veste légère coupe-vent (file attente + sortie)",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Attente dehors. Sortie 5h matin = froid. Vestiaire payant"
+        },
+        {
+          "id": "NUIT014",
+          "item": "Lunettes soleil (sortie 6h matin soleil agressif)",
+          "priorite": "⭐",
+          "delai": "J-3",
+          "conseils": "Yeux fatigués + alcool + soleil levant = douleur"
+        },
+        {
+          "id": "NUIT015",
+          "item": "Bouteille eau 500ml (hydratation alcool)",
+          "priorite": "⭐⭐",
+          "delai": "J-1",
+          "conseils": "Eau clubs 5-10€. Prévention gueule bois. 1 verre eau / 1 alcool"
+        }
+      ]
+    },
+    {
+      "activity_id": "velo",
+      "nom": "🚴 Vélo",
+      "items": [
+        {
+          "id": "VELO001",
+          "item": "Casque vélo certifié EN 1078 obligatoire",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-21",
+          "conseils": "Loi dans plusieurs pays. Giro, POC, Smith ajustables"
+        },
+        {
+          "id": "VELO002",
+          "item": "Cuissard rembourré spécifique cyclisme",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "quantite": "x2 minimum",
+          "conseils": "Confort selle essentiel >20km. Castelli, Assos qualité"
+        },
+        {
+          "id": "VELO003",
+          "item": "Maillot cyclisme respirant séchage rapide",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "quantite": "x2-3",
+          "conseils": "Poches dos pratiques. Laine mérinos > synthétique (odeurs)"
+        },
+        {
+          "id": "VELO004",
+          "item": "Gants cyclisme rembourrés (anti-vibrations)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Prévient engourdissements mains. Essentiels longues distances"
+        },
+        {
+          "id": "VELO005",
+          "item": "Lunettes cyclisme UV400 protection latérale",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Vent, insectes, poussière, UV. Oakley Jawbreaker référence"
+        },
+        {
+          "id": "VELO006",
+          "item": "Veste coupe-vent compressible imperméable",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Castelli Squadra. Descentes = froid même été. 100g poche"
+        },
+        {
+          "id": "VELO007",
+          "item": "Chambre air rechange x2 + démonte-pneus",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Crevaisons fréquentes. Connaître taille valve (Presta/Schrader)"
+        },
+        {
+          "id": "VELO008",
+          "item": "Mini-pompe vélo portable + manomètre",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Lezyne, Topeak. Gonflage précis = performance. 120 PSI min"
+        },
+        {
+          "id": "VELO009",
+          "item": "Multi-tool vélo 15+ fonctions",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Topeak Mini 20 Pro. Clés Allen, tournevis, dérive-chaîne"
+        },
+        {
+          "id": "VELO010",
+          "item": "Rustines/kit réparation + colle",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Backup chambres air. Park Tool Super Patch Kit"
+        },
+        {
+          "id": "VELO011",
+          "item": "Cadenas U robuste homologué SRA",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Kryptonite Evolution. Vols fréquents lieux touristiques"
+        },
+        {
+          "id": "VELO012",
+          "item": "Câble antivol 1.5m secondaire (roues)",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Complément U-lock. Attacher roues + cadre ensemble"
+        },
+        {
+          "id": "VELO013",
+          "item": "Sacoches vélo étanches (avant + arrière)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-21",
+          "conseils": "Ortlieb Back-Roller Classic 40L. Étanchéité totale garantie"
+        },
+        {
+          "id": "VELO014",
+          "item": "Sacoche guidon transparente tactile (GPS/téléphone)",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Navigation facile. Quad Lock système magnétique sécurisé"
+        },
+        {
+          "id": "VELO015",
+          "item": "Gourde vélo 750ml + porte-bidon",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "quantite": "x2 gourdes",
+          "conseils": "Camelbak Podium. 2 bidons = autonomie 3-4h effort"
+        },
+        {
+          "id": "VELO016",
+          "item": "Lampes LED avant/arrière rechargeables USB",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "OBLIGATOIRE circulation. Lezyne 800+ lumens avant, 100 arrière"
+        },
+        {
+          "id": "VELO017",
+          "item": "Brassard/gilet réfléchissant haute visibilité",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Sécurité circulation. OBLIGATOIRE hors agglomération plusieurs pays"
+        },
+        {
+          "id": "VELO018",
+          "item": "Compteur GPS vélo Garmin Edge (si sérieux)",
+          "priorite": "⭐⭐",
+          "delai": "J-21",
+          "conseils": "Navigation + stats. Garmin Edge 530. Alternative smartphone"
+        },
+        {
+          "id": "VELO019",
+          "item": "Crème chamois anti-frottements (longues distances)",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Assos, Chamois Butt'r. Prévient irritations douloureuses"
+        },
+        {
+          "id": "VELO020",
+          "item": "Selle confort adaptée morphologie (si location)",
+          "priorite": "⭐⭐",
+          "delai": "J-21",
+          "conseils": "Selles location = inconfort. Apporter sa selle = game changer"
+        }
+      ]
+    },
+    {
+      "activity_id": "gastronomie",
+      "nom": "🍜 Gastronomie",
+      "items": [
+        {
+          "id": "GASTRO001",
+          "item": "Liste restaurants/marchés recommandés sauvegardée",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Google Maps favoris offline + Tripadvisor + blogs food. Adresses GPS"
+        },
+        {
+          "id": "GASTRO002",
+          "item": "Application traduction menu en temps réel",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Google Translate = photo menu instantané. Evite allergies/surprises"
+        },
+        {
+          "id": "GASTRO003",
+          "item": "Liste allergies/régimes alimentaires traduite",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Carte papier langue locale. Gluten, lactose, végé = essentiel sécurité"
+        },
+        {
+          "id": "GASTRO004",
+          "item": "Phrases bases langue locale (restaurant/marché)",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Bonjour, addition, délicieux, allergies. Respect + immersion"
+        },
+        {
+          "id": "GASTRO005",
+          "item": "Tenue correcte restaurants gastronomiques",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "filtres": {
+            "niveauConfort": [
+              "premium",
+              "luxe"
+            ]
+          },
+          "conseils": "Dress code strict tables étoilées. Chemise/robe minimum"
+        },
+        {
+          "id": "GASTRO006",
+          "item": "Réservations restaurants populaires confirmées",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-30",
+          "filtres": {
+            "niveauConfort": [
+              "premium",
+              "luxe"
+            ]
+          },
+          "conseils": "Tables réputées = réservation 1-3 mois avance obligatoire"
+        },
+        {
+          "id": "GASTRO007",
+          "item": "Budget repas gastronomiques prévu séparément",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Restaurants réputés = onéreux. 50-200€/pers selon standing"
+        },
+        {
+          "id": "GASTRO008",
+          "item": "Appareil photo/smartphone (immortaliser plats)",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Souvenirs culinaires. Mode portrait iPhone = photos pro"
+        },
+        {
+          "id": "GASTRO009",
+          "item": "Carnet notes gastronomique (noms plats, impressions)",
+          "priorite": "⭐",
+          "delai": "J-7",
+          "conseils": "Mémoire saveurs. Recettes locales à refaire. Moleskine Food Journal"
+        },
+        {
+          "id": "GASTRO010",
+          "item": "Probiotiques voyage (préparation flore intestinale)",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "filtres": {
+            "destinations": [
+              "asie",
+              "afrique"
+            ]
+          },
+          "conseils": "Cuisine épicée/différente. Ultra-Levure 1 semaine avant"
+        },
+        {
+          "id": "GASTRO011",
+          "item": "Anti-diarrhéique (turista inévitable découvertes)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "filtres": {
+            "destinations": [
+              "asie",
+              "afrique",
+              "amerique-sud"
+            ]
+          },
+          "conseils": "Imodium backup. Street food = risques. Smecta + SRO"
+        },
+        {
+          "id": "GASTRO012",
+          "item": "Gel hydroalcoolique avant repas (hygiène)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-3",
+          "filtres": {
+            "destinations": [
+              "asie",
+              "afrique"
+            ]
+          },
+          "conseils": "Street food = mains propres essentielles. 100ml format voyage"
+        },
+        {
+          "id": "GASTRO013",
+          "item": "Couverts réutilisables spork titane (street food)",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Hygiène douteuse marchés. Light My Fire Titanium. Écologique"
+        },
+        {
+          "id": "GASTRO014",
+          "item": "Bouteille eau filtrante/purificatrice",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "filtres": {
+            "destinations": [
+              "asie",
+              "afrique",
+              "amerique-sud"
+            ]
+          },
+          "conseils": "Grayl, Lifestraw. Eau robinet = glaçons = turista"
+        },
+        {
+          "id": "GASTRO015",
+          "item": "Tote bag marchés/courses ingrédients locaux",
+          "priorite": "⭐⭐",
+          "delai": "J-3",
+          "conseils": "Épices, sauces, produits locaux. Baggu ultra-compact"
+        },
+        {
+          "id": "GASTRO016",
+          "item": "Application identification plats/ingrédients",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Google Lens = photo plat + identification instantanée"
+        },
+        {
+          "id": "GASTRO017",
+          "item": "Tours gastronomiques guidés réservés",
+          "priorite": "⭐⭐",
+          "delai": "J-21",
+          "conseils": "GetYourGuide, Viator. Food tours = immersion + histoires locales"
+        },
+        {
+          "id": "GASTRO018",
+          "item": "Cours cuisine locale réservé (si intéressé)",
+          "priorite": "⭐",
+          "delai": "J-30",
+          "conseils": "Expérience mémorable. 30-80€. Marché + cuisine = complet"
+        }
+      ]
+    },
+    {
+      "activity_id": "shopping",
+      "nom": "🛍️ Shopping",
+      "items": [
+        {
+          "id": "SHOP001",
+          "item": "Liste souvenirs/cadeaux personnes (tailles, goûts)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Organisé = pas oublis + meilleur budget. Notes smartphone"
+        },
+        {
+          "id": "SHOP002",
+          "item": "Budget shopping défini séparément",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-14",
+          "conseils": "Évite dérives. Cash enveloppe séparée = contrôle. 100-500€ selon"
+        },
+        {
+          "id": "SHOP003",
+          "item": "Sac shopping pliable robuste",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "quantite": "x2-3",
+          "conseils": "Baggu, Envirosax. Compacts = toujours avec soi. Écologiques"
+        },
+        {
+          "id": "SHOP004",
+          "item": "Liste marchés locaux + horaires sauvegardée",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Google Maps favoris. Marchés = authentiques + prix meilleurs"
+        },
+        {
+          "id": "SHOP005",
+          "item": "Cash petites coupures locales (négociation)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-3",
+          "quantite": "100-200€ équivalent",
+          "conseils": "Marchés = cash uniquement souvent. Petites coupures = négocier"
+        },
+        {
+          "id": "SHOP006",
+          "item": "Application conversion devises temps réel",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "XE Currency offline. Évite arnaques. Prix réel instantané"
+        },
+        {
+          "id": "SHOP007",
+          "item": "Phrases négociation langue locale basiques",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Combien?, trop cher, dernier prix, merci. Respect + meilleurs prix"
+        },
+        {
+          "id": "SHOP008",
+          "item": "Limites douanes produits retour notées",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "conseils": "Alcool, tabac, parfums = quotas stricts. 430€ avion, 300€ autre"
+        },
+        {
+          "id": "SHOP009",
+          "item": "Espace bagage retour prévu (vide arrivée)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-3",
+          "conseils": "30-40% valise vide = achats. Alternative sac supplémentaire pliable"
+        },
+        {
+          "id": "SHOP010",
+          "item": "Photos objets/tailles proches (vêtements)",
+          "priorite": "⭐⭐",
+          "delai": "J-3",
+          "conseils": "Tailles locales différentes. Mesures = comparaison précise"
+        },
+        {
+          "id": "SHOP011",
+          "item": "Sac valise pliable extra 40-50L",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "conseils": "Achats imprévus nombreux. Cabaia, Samsonite Foldaway"
+        },
+        {
+          "id": "SHOP012",
+          "item": "Balance bagages portable max 50kg",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "conseils": "Évite surpoids aéroport. Etekcity digital 10€"
+        }
+      ]
+    },
+    {
+      "activity_id": "photographie",
+      "nom": "📸 Photographie",
+      "items": [
+        {
+          "id": "PHOTO001",
+          "item": "Appareil photo hybride / Reflex",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "specifications": [
+            "Capteur nettoyé",
+            "Firmware à jour",
+            "Batterie pleine",
+            "Carte mémoire formatée"
+          ],
+          "conseils": "Sony Alpha, Canon EOS, Nikon Z = références. Assurance vol/casse. Sacoche rembourrée"
+        },
+        {
+          "id": "PHOTO002",
+          "item": "Objectifs variés (grand-angle, télé, 50mm)",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "quantite": "2-3 objectifs",
+          "specifications": [
+            "Grand-angle 16-35mm (paysages)",
+            "Télé 70-200mm (portraits)",
+            "50mm f/1.8 (polyvalent)"
+          ],
+          "conseils": "Poids vs polyvalence. Filtre UV protection. Pare-soleil. Bouchons avant/arrière"
+        },
+        {
+          "id": "PHOTO003",
+          "item": "Batteries spare + chargeur double",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "quantite": "3-4 batteries",
+          "specifications": [
+            "Originales (pas compatibles)",
+            "Chargeur double USB",
+            "Étiquetage dates"
+          ],
+          "conseils": "Autonomie critique. Froid = batterie morte rapide. Rotation. Poche intérieure chaude"
+        },
+        {
+          "id": "PHOTO004",
+          "item": "Cartes mémoire haute capacité",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "quantite": "3-4 cartes 64-128GB",
+          "specifications": [
+            "Vitesse UHS-II minimum",
+            "SanDisk Extreme Pro",
+            "Étui protection"
+          ],
+          "conseils": "Jamais une seule carte (risque total). Backup quotidien. Formatage avant départ"
+        },
+        {
+          "id": "PHOTO005",
+          "item": "Trépied léger carbone",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "specifications": [
+            "Carbone <1.5kg",
+            "Hauteur max 150cm",
+            "Rotule boule",
+            "Sac transport"
+          ],
+          "conseils": "Poses longues. Astrophoto. Autoportraits. Manfrotto Befree, Gitzo Traveler"
+        },
+        {
+          "id": "PHOTO006",
+          "item": "Filtres ND / Polarisant",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "quantite": "ND 1000 + Polarisant",
+          "specifications": [
+            "Taille adaptée objectifs",
+            "B+W, Hoya = qualité"
+          ],
+          "conseils": "ND = poses longues eau. Polarisant = ciel bleu, reflets. Indispensables paysages"
+        },
+        {
+          "id": "PHOTO007",
+          "item": "Sac photo étanche / Insert",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "specifications": [
+            "Compartiments modulables",
+            "Protection pluie",
+            "Accès rapide"
+          ],
+          "conseils": "Lowepro, Peak Design = références. Housse pluie incluse. Confort dos (poids)"
+        },
+        {
+          "id": "PHOTO008",
+          "item": "Drone + batteries spare",
+          "priorite": "⭐⭐",
+          "delai": "J-30",
+          "quantite": "Drone + 3 batteries",
+          "specifications": [
+            "DJI Mini 3/4 Pro",
+            "Hélices spare",
+            "Carte SD dédiée"
+          ],
+          "conseils": "VÉRIFIER RÉGLEMENTATION PAYS. Déclaration douane. Formation pilotage. Assurance RC"
+        },
+        {
+          "id": "PHOTO009",
+          "item": "GoPro / Caméra action + accessoires",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "specifications": [
+            "GoPro Hero 11/12",
+            "Batteries x3",
+            "Fixations variées",
+            "Perche selfie"
+          ],
+          "conseils": "Sports, plongée, POV. Étanche 10m. Stabilisation. TimeWarp. Carte micro SD U3"
+        },
+        {
+          "id": "PHOTO010",
+          "item": "Disque dur externe + câbles",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-3",
+          "quantite": "2TB SSD",
+          "specifications": [
+            "SSD (pas HDD = fragile)",
+            "USB-C",
+            "Résistant chocs"
+          ],
+          "conseils": "Backup QUOTIDIEN. Double backup si critique. Cloud + physique. Samsung T7"
+        },
+        {
+          "id": "PHOTO011",
+          "item": "Lecteur cartes SD USB-C",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "specifications": [
+            "USB-C + USB-A",
+            "SD + microSD",
+            "Vitesse USB 3.0"
+          ],
+          "conseils": "Transfert rapide. Compatible ordi + smartphone. SanDisk, Lexar"
+        },
+        {
+          "id": "PHOTO012",
+          "item": "Kit nettoyage capteur + objectifs",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "specifications": [
+            "Swabs capteur",
+            "Blower",
+            "Lingettes microfibre",
+            "Liquide nettoyage"
+          ],
+          "conseils": "Poussière = taches photos. Changement objectifs = risque. Nettoyage hebdomadaire"
+        },
+        {
+          "id": "PHOTO013",
+          "item": "Powerbank haute capacité 20000mAh",
+          "priorite": "⭐⭐⭐",
+          "delai": "J-7",
+          "specifications": [
+            "20000mAh minimum",
+            "Charge rapide",
+            "Multi-ports USB"
+          ],
+          "conseils": "Recharge batteries, drone, téléphone. Anker, RAVPower = fiables"
+        },
+        {
+          "id": "PHOTO014",
+          "item": "Sacoche étanche pour changement objectif",
+          "priorite": "⭐⭐",
+          "delai": "J-7",
+          "specifications": [
+            "Étanche IP67",
+            "Ouverture latérale",
+            "Compact"
+          ],
+          "conseils": "Changement objectif pluie/sable. Protection boîtier ouvert. Lowepro DryZone"
+        },
+        {
+          "id": "PHOTO015",
+          "item": "Tablette / iPad pour retouche terrain",
+          "priorite": "⭐",
+          "delai": "J-7",
+          "specifications": [
+            "iPad Pro / Surface",
+            "Stylet inclus",
+            "Lightroom mobile"
+          ],
+          "conseils": "Retouche immédiate. Portfolio client. Partage réseaux sociaux. Écran calibré"
+        }
+      ]
+    }
+  ]
+}
