@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ProgressBar } from "@/components/FormWizard/ProgressBar";
 import { Step1Destination } from "@/components/FormWizard/Step1Destination";
@@ -36,6 +36,14 @@ const Generator = () => {
     prenomClient: "",
     email: "",
   });
+  
+  useEffect(() => {
+    // Vérifie si nous sommes dans un environnement de navigateur
+    if (typeof window !== 'undefined') {
+      // Force le défilement instantané vers le haut (0, 0)
+      window.scrollTo(0, 0); 
+    }
+  }, [currentStep]); // Le code s'exécute uniquement lorsque currentStep change.
 
   const stepTitles = ["Destination", "Informations", "Activités", "Profil", "Récapitulatif", "Checkout"];
   
