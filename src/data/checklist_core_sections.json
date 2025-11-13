@@ -1,1 +1,2933 @@
-
+{
+  "metadata": {
+    "nom": "Sections Principales TravelPrep",
+    "version": "1.0",
+    "lastUpdated": "2025-11-12",
+    "totalSections": 13,
+    "totalItems": 158,
+    "description": "Sections obligatoires et optionnelles du parcours principal. 4 sections complètes : Essentiels, Documents, Finances, Santé. 9 sections à compléter."
+  },
+  "hygiene": {
+    "id": "hygiene",
+    "nom": "🧴 Hygiène & Toilette",
+    "description": "Trousse toilette, produits hygiène, serviettes",
+    "obligatoire": false,
+    "items": [
+      {
+        "id": "HYG001",
+        "item": "Trousse toilette suspendue",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Gain place. Accès facile douches communes auberges. Imperméable. Crochet robuste"
+      },
+      {
+        "id": "HYG002",
+        "item": "Shampooing solide ou format voyage (<100ml)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Solide = écologique + économie + dure 2-3 mois. Liquide = max 100ml cabine"
+      },
+      {
+        "id": "HYG003",
+        "item": "Gel douche solide ou format voyage",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Solide = 80-100 douches. Savon Alep, Marseille = naturel. <100ml si liquide"
+      },
+      {
+        "id": "HYG004",
+        "item": "Déodorant stick ou bille (<100ml)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Stick = pas limites liquides. Bille efficace. Éviter aérosols (encombrant + interdit cabine)"
+      },
+      {
+        "id": "HYG005",
+        "item": "Rasoir + lames rechange",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "Rasoir sécurité = lames jetables compactes. 5-10 lames. Gillette, Wilkinson"
+      },
+      {
+        "id": "HYG006",
+        "item": "Mousse/crème à raser format voyage",
+        "priorite": "⭐",
+        "delai": "J-3",
+        "conseils": "<100ml. Savon suffit souvent. Crème + efficace mousse"
+      },
+      {
+        "id": "HYG007",
+        "item": "Coupe-ongles + lime",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "EN SOUTE si couteau intégré. Mains + pieds. Lime émeri ou métal"
+      },
+      {
+        "id": "HYG008",
+        "item": "Pince à épiler",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "Échardes, poils. Acier inox. Tweezerman = qualité"
+      },
+      {
+        "id": "HYG009",
+        "item": "Cotons-tiges/disques démaquillants réutilisables",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "Réutilisables = écologique. Lavables machine. LastObject = référence"
+      },
+      {
+        "id": "HYG010",
+        "item": "Crème hydratante visage 50ml",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "Climat sec, clim avion. SPF intégré = bonus. CeraVe, Neutrogena"
+      },
+      {
+        "id": "HYG011",
+        "item": "Baume lèvres SPF",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "SPF 30 minimum. Soleil + altitude + froid = gerçures. 2 tubes (1 perdu souvent)"
+      },
+      {
+        "id": "HYG012",
+        "item": "Peigne/brosse pliable",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "Compact. Brosse démêlante Tangle Teezer = référence. Peigne bois = naturel"
+      },
+      {
+        "id": "HYG013",
+        "item": "Élastiques cheveux x5-10",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "Se perdent systématiquement. Invisibobble = pas casse cheveux. Spirale pratique"
+      },
+      {
+        "id": "HYG014",
+        "item": "Serviette microfibre corps 80x160cm",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Séchage 2h VS 24h coton. Compacte. Légère. Absorbe 3x poids. Sea to Summit, Décathlon"
+      },
+      {
+        "id": "HYG015",
+        "item": "Petite serviette visage microfibre 30x50cm",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "conseils": "Gym, plage, randonnée. Séchage ultra-rapide. Peu de place"
+      },
+      {
+        "id": "HYG016",
+        "item": "Gel hydroalcoolique 100ml",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "filtres": {
+          "destinations": [
+            "afrique",
+            "asie"
+          ]
+        },
+        "conseils": "Hygiène mains avant repas. Street food. Toilettes sans savon. 70% alcool minimum"
+      },
+      {
+        "id": "HYG017",
+        "item": "Papier toilette compact",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "filtres": {
+          "destinations": [
+            "asie",
+            "afrique"
+          ]
+        },
+        "conseils": "Nombreux pays sans PQ toilettes publiques. 1 rouleau = sécurité. Sac zip étanche"
+      },
+      {
+        "id": "HYG018",
+        "item": "Lessive liquide format voyage ou sachets x10",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "duree": [
+            "moyen",
+            "long",
+            "tres-long"
+          ]
+        },
+        "conseils": "Lessive main. 1 sachet = 1 machine. Dr Bronner's universel. Savon Marseille alternative"
+      },
+      {
+        "id": "HYG019",
+        "item": "Protections périodiques stock complet (1-2 cycles)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Qualité variable destinations. Coupe menstruelle = écologique + économique. Tampons + serviettes secours"
+      },
+      {
+        "id": "HYG020",
+        "item": "Produits spécifiques (lentilles, etc.)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-14",
+        "conseils": "Lentilles: stock complet + lunettes secours. Solution 100ml max cabine. Étui rigide"
+      },
+      {
+        "id": "HYG021",
+        "item": "Sac imperméable affaires mouillées",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "Maillot mouillé, serviette. Évite moisissures valise. Scrubba = lessive portable 2en1"
+      },
+      {
+        "id": "HYG022",
+        "item": "Miroir incassable compact",
+        "priorite": "⭐",
+        "delai": "J-3",
+        "conseils": "Camping, auberges sans miroir. Métal poli ou plastique. Pliable = protection"
+      }
+    ]
+  },
+  "bagages": {
+    "id": "bagages",
+    "nom": "🧳 Bagages & Équipement",
+    "description": "Valises, vêtements",
+    "obligatoire": false,
+    "note": "75 items répartis en 4 sous-catégories : Vêtements (19), Chaussures (8), Sacs (9), Accessoires (39)",
+    "items": [
+      {
+        "id": "BAG001",
+        "item": "T-shirts basiques (quantité selon durée)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "quantite": "3-7 selon durée",
+        "conseils": "Matières respirantes (coton, mérinos). Couleurs neutres = polyvalence. Lavage régulier = moins d'unités"
+      },
+      {
+        "id": "BAG002",
+        "item": "Pantalons/shorts",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "quantite": "2-3 pantalons + 2 shorts",
+        "conseils": "1 technique randonnée + 1 ville + 1 confort. Convertibles = 2en1"
+      },
+      {
+        "id": "BAG003",
+        "item": "Sous-vêtements",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "quantite": "5-7 paires",
+        "conseils": "Séchage rapide indispensable. Éviter coton (garde humidité). Mérinos ou synthétique"
+      },
+      {
+        "id": "BAG004",
+        "item": "Chaussettes",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "quantite": "5-7 paires",
+        "conseils": "Mérinos = anti-odeurs + séchage rapide. Mix courtes/longues selon activités"
+      },
+      {
+        "id": "BAG005",
+        "item": "Veste imperméable/coupe-vent",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "camping"
+          ]
+        },
+        "conseils": "Gore-Tex ou équivalent. Respirante = essentiel. Capuche ajustable. Compressible"
+      },
+      {
+        "id": "BAG006",
+        "item": "Polaire ou doudoune compressible",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "destinations": [
+            "europe",
+            "amerique-nord",
+            "oceanie",
+            "asie"
+          ],
+          "activites": [
+            "randonnee",
+            "camping",
+            "sports-hiver"
+          ]
+        },
+        "conseils": "Isolation légère. Compressible = peu place. Couche intermédiaire système multicouche"
+      },
+      {
+        "id": "BAG007",
+        "item": "Maillot de bain x2",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "filtres": {
+          "activites": [
+            "plage",
+            "sports-nautiques"
+          ]
+        },
+        "conseils": "2 unités = rotation séchage. Séchage rapide. Protection UV si possible"
+      },
+      {
+        "id": "BAG008",
+        "item": "Tenue correcte lieux culte/restaurants",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "Pantalon long + chemise/polo. Épaules couvertes temples. Chaussures fermées"
+      },
+      {
+        "id": "BAG009",
+        "item": "Sweat ou pull léger",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Climatisation avion/bus. Soirées fraîches. Polyvalent toutes destinations"
+      },
+      {
+        "id": "BAG010",
+        "item": "Short confortable (climat chaud)",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "filtres": {
+          "destinations": [
+            "asie",
+            "afrique",
+            "amerique-centrale-caraibes",
+            "amerique-sud",
+            "oceanie"
+          ]
+        },
+        "conseils": "Tissu léger respirant. Poches zippées sécurité"
+      },
+      {
+        "id": "BAG011",
+        "item": "Pantalon technique déperlant",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "camping"
+          ]
+        },
+        "conseils": "Séchage rapide. Stretch = confort. Poches multiples. Renfort genoux/fesses"
+      },
+      {
+        "id": "BAG012",
+        "item": "Leggings/collant thermique",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "destinations": [
+            "europe",
+            "amerique-nord",
+            "asie"
+          ],
+          "activites": [
+            "sports-hiver",
+            "randonnee"
+          ]
+        },
+        "conseils": "Sous-couche chaude. Mérinos > synthétique (anti-odeurs)"
+      },
+      {
+        "id": "BAG013",
+        "item": "Chemise manches longues anti-UV",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "destinations": [
+            "afrique",
+            "asie",
+            "amerique-sud",
+            "oceanie"
+          ],
+          "activites": [
+            "randonnee",
+            "plage"
+          ]
+        },
+        "conseils": "UPF 50+ certifié. Ventilation dos. Couleur claire. Protection soleil > crème"
+      },
+      {
+        "id": "BAG014",
+        "item": "Pyjama/vêtements nuit",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "Léger et confortable. Auberges = décence. T-shirt + short = suffisant"
+      },
+      {
+        "id": "BAG015",
+        "item": "Maillot corps lycra anti-UV",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "activites": [
+            "sports-nautiques",
+            "plage"
+          ]
+        },
+        "conseils": "Protection UV + méduses. Surf, snorkeling, plongée. UPF 50+"
+      },
+      {
+        "id": "BAG016",
+        "item": "Bonnet/chapeau chaud",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "filtres": {
+          "destinations": [
+            "europe",
+            "amerique-nord",
+            "asie"
+          ],
+          "activites": [
+            "sports-hiver",
+            "randonnee"
+          ]
+        },
+        "conseils": "Couvre oreilles. 30% chaleur perdue par tête. Mérinos ou polaire"
+      },
+      {
+        "id": "BAG017",
+        "item": "Gants thermiques",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "filtres": {
+          "destinations": [
+            "europe",
+            "amerique-nord",
+            "asie"
+          ],
+          "activites": [
+            "sports-hiver",
+            "randonnee"
+          ]
+        },
+        "conseils": "Doublés polaire. Tactiles = utilisation smartphone. Étanches si neige"
+      },
+      {
+        "id": "BAG018",
+        "item": "Écharpe/buff multifonction",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "Buff = 12 utilisations : écharpe, bandeau, masque, bonnet. Compact, léger"
+      },
+      {
+        "id": "BAG019",
+        "item": "Chapeau/casquette large bord",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "filtres": {
+          "destinations": [
+            "asie",
+            "afrique",
+            "amerique-sud",
+            "oceanie"
+          ]
+        },
+        "conseils": "Bord 10cm minimum. Ventilé. Cordon sous menton (vent). Protection nuque"
+      },
+      {
+        "id": "BAG020",
+        "item": "Chaussures de marche rodées",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-60",
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "camping"
+          ]
+        },
+        "conseils": "CRITIQUE: rodage 50km AVANT départ. Imperméables mid-cut minimum. Gore-Tex. Ampoules = voyage gâché"
+      },
+      {
+        "id": "BAG021",
+        "item": "Baskets confortables",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Marche urbaine quotidienne. Légères. Aération. Semelle amortissante"
+      },
+      {
+        "id": "BAG022",
+        "item": "Sandales/tongs",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Douches communes auberges. Plage. Aération pieds. Teva/Keen = qualité"
+      },
+      {
+        "id": "BAG023",
+        "item": "Chaussures aquatiques",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "activites": [
+            "plage",
+            "sports-nautiques"
+          ]
+        },
+        "conseils": "Coraux, oursins, rochers glissants. Protection pieds essentielle. Compactes, séchage rapide"
+      },
+      {
+        "id": "BAG024",
+        "item": "Chaussons d'intérieur/claquettes",
+        "priorite": "⭐",
+        "delai": "J-3",
+        "conseils": "Chambre hôtel, hébergement chez habitant. Confort + hygiène"
+      },
+      {
+        "id": "BAG025",
+        "item": "Guêtres imperméables",
+        "priorite": "⭐⭐",
+        "delai": "J-14",
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "camping"
+          ]
+        },
+        "conseils": "Boue, neige, herbe mouillée. Montantes = protection pantalon + chaussures"
+      },
+      {
+        "id": "BAG026",
+        "item": "Semelles orthopédiques personnalisées",
+        "priorite": "⭐",
+        "delai": "J-30",
+        "conseils": "Si problèmes pieds. Confort longues marches. Adapter à chaque paire chaussures"
+      },
+      {
+        "id": "BAG027",
+        "item": "Lacets de rechange",
+        "priorite": "⭐",
+        "delai": "J-3",
+        "filtres": {
+          "activites": [
+            "randonnee"
+          ],
+          "duree": [
+            "long",
+            "tres-long"
+          ]
+        },
+        "conseils": "Lacet cassé = galère. 1 paire rechange = sérénité. Peu de place"
+      },
+      {
+        "id": "BAG040",
+        "item": "Sac à dos 40-60L",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-30",
+        "filtres": {
+          "activites": [
+            "backpacking",
+            "randonnee",
+            "camping"
+          ]
+        },
+        "conseils": "Ajustable morphologie. Ceinture ventrale = répartition poids. Housse pluie intégrée. Osprey, Deuter qualité"
+      },
+      {
+        "id": "BAG041",
+        "item": "Valise cabine 55x40x20cm",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-14",
+        "filtres": {
+          "duree": [
+            "court"
+          ]
+        },
+        "conseils": "Dimensions max avion. 10kg max. 4 roues = maniabilité. Gain temps = pas enregistrement"
+      },
+      {
+        "id": "BAG042",
+        "item": "Valise moyenne/grande 23kg",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-14",
+        "filtres": {
+          "duree": [
+            "moyen",
+            "long",
+            "tres-long"
+          ]
+        },
+        "conseils": "23kg = poids standard compagnies. Solide (ABS/polycarbonate). TSA lock"
+      },
+      {
+        "id": "BAG043",
+        "item": "Sac à dos journée 20-30L (anti-vol recommandé)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Excursions quotidiennes. Pacsafe = anti-vol (fermetures sécurisées). Hydratation + laptop pocket"
+      },
+      {
+        "id": "BAG044",
+        "item": "Sacs compression/cubes rangement",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Gain 30% volume. Organisation = efficacité. 1 cube/catégorie. Eagle Creek, Amazon Basics"
+      },
+      {
+        "id": "BAG045",
+        "item": "Sac étanche 10-20L",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "activites": [
+            "sports-nautiques",
+            "camping"
+          ]
+        },
+        "conseils": "Protection électronique. Roll-top = étanche. Flottant si chute eau"
+      },
+      {
+        "id": "BAG046",
+        "item": "Sac linge sale",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "Séparation propre/sale. Respirant = évite moisissures. Compact, léger"
+      },
+      {
+        "id": "BAG047",
+        "item": "Pochette documents voyage",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Passeport, billets, assurance centralisés. Accès rapide contrôles. RFID blocking"
+      },
+      {
+        "id": "BAG048",
+        "item": "Sac banane/ceinture sécurité cachée",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "profil": [
+            "solo"
+          ]
+        },
+        "conseils": "Cash, carte secours, copie passeport. Sous vêtements = invisible pickpockets"
+      },
+      {
+        "id": "BAG060",
+        "item": "Cadenas TSA x2-3",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "TSA = ouvrables douanes US sans casser. 1 valise + 1 casier auberge + 1 secours"
+      },
+      {
+        "id": "BAG061",
+        "item": "Cadenas câble antivol",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "conseils": "Attacher sac à dos trains/bus. Câble 1.5m flexible. Casiers auberges"
+      },
+      {
+        "id": "BAG062",
+        "item": "Étiquettes bagages x2 par bagage",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Nom + tél + email. 2 = sécurité si 1 arrache. Pas adresse complète (sécurité)"
+      },
+      {
+        "id": "BAG063",
+        "item": "Couteau suisse/multifonction",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "conseils": "EN SOUTE UNIQUEMENT! Victorinox, Leatherman. Ouvre-bouteille, tournevis, ciseaux"
+      },
+      {
+        "id": "BAG064",
+        "item": "Corde à linge + pinces",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "filtres": {
+          "duree": [
+            "moyen",
+            "long",
+            "tres-long"
+          ]
+        },
+        "conseils": "Lessive régulière = économie vêtements. Élastique avec crochets. 10 pinces minimum"
+      },
+      {
+        "id": "BAG065",
+        "item": "Sac shopping pliable réutilisable",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "Courses, souvenirs. Écologique. Ultra-compact. Solide 15kg+"
+      },
+      {
+        "id": "BAG066",
+        "item": "Mousquetons x2-3",
+        "priorite": "⭐",
+        "delai": "J-3",
+        "conseils": "Attacher gourde, chaussures mouillées. Polyvalents. Légers"
+      },
+      {
+        "id": "BAG067",
+        "item": "Élastiques/sandow",
+        "priorite": "⭐",
+        "delai": "J-3",
+        "conseils": "Compression sac. Attacher équipement. Polyvalents. 2-3 unités"
+      },
+      {
+        "id": "BAG068",
+        "item": "Sacs congélation zip multi-tailles x10-15",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Liquides sécurité aéroport. Organisation. Vêtements mouillés. Étanchéité. Indispensables"
+      },
+      {
+        "id": "BAG069",
+        "item": "Sangle bagages colorées",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "Identification rapide tapis bagages. Sécurité fermeture valise. TSA compatible"
+      },
+      {
+        "id": "BAG070",
+        "item": "Housse pluie sac à dos",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "camping",
+            "backpacking"
+          ]
+        },
+        "conseils": "Protection pluie. Intégrée ou séparée. Ajustée taille sac. Compressible"
+      },
+      {
+        "id": "BAG071",
+        "item": "Sac de voyage pliable léger",
+        "priorite": "⭐",
+        "delai": "J-7",
+        "conseils": "Excursions 1-2 jours. Souvenirs retour. Se plie dans valise. 40-50L"
+      },
+      {
+        "id": "BAG072",
+        "item": "Oreiller de voyage gonflable/mémoire forme",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "Longs trajets avion/bus. Confort sommeil. Compact. Gonflable = léger, mémoire = confort"
+      },
+      {
+        "id": "BAG073",
+        "item": "Lingettes humides x2 paquets",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "Hygiène mains sans eau. Rafraîchissement. Trains/bus longs. Biodégradables si possible"
+      },
+      {
+        "id": "BAG074",
+        "item": "Mouchoirs paquets x3",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "Rhumes, climat sec. Toilettes sans PQ. Polyvalents. 1 dans chaque sac"
+      },
+      {
+        "id": "BAG075",
+        "item": "Sac poubelle robuste 50L x2-3",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "Protection pluie valise. Linge sale. Camping. Polyvalents. Épais (30 microns+)"
+      }
+    ]
+  },
+  "tech": {
+    "id": "tech",
+    "nom": "💻 Technologie & Communication",
+    "description": "Téléphone, appareils électroniques, forfait, sauvegardes, matériel",
+    "obligatoire": false,
+    "items": [
+      {
+        "id": "TECH001",
+        "item": "Smartphone chargé + chargeur",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-1",
+        "conseils": "Backup complet avant départ. iCloud/Google Photos auto. Nettoyer stockage"
+      },
+      {
+        "id": "TECH002",
+        "item": "Batterie externe 10000-20000mAh",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "EN CABINE OBLIGATOIRE (interdit soute). 10000mAh = 2-3 charges. Anker, Xiaomi qualité"
+      },
+      {
+        "id": "TECH003",
+        "item": "Câbles chargement x2 de chaque type",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "USB-C, Lightning, Micro-USB selon appareils. 2 = secours si perte/casse. 1m + 2m pratique"
+      },
+      {
+        "id": "TECH004",
+        "item": "Adaptateur universel multi-prises (150+ pays)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Type A/C/G/I couvre 90% destinations. USB intégré = bonus. Skross, Epicka"
+      },
+      {
+        "id": "TECH005",
+        "item": "Multiprise compacte voyage",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "conseils": "3-4 prises + 2-3 USB. Chambre hôtel = 1 prise souvent. Belkin, Anker"
+      },
+      {
+        "id": "TECH006",
+        "item": "Carte SIM locale OU eSIM",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "eSIM = pas changement physique. Airalo, Holafly 5-50€. Aéroport + cher que ville"
+      },
+      {
+        "id": "TECH007",
+        "item": "Carte micro-SD 64-128Go",
+        "priorite": "⭐⭐",
+        "delai": "J-14",
+        "filtres": {
+          "activites": [
+            "photographie"
+          ]
+        },
+        "conseils": "Backup photos appareil. Classe 10 minimum (vitesse). SanDisk Extreme"
+      },
+      {
+        "id": "TECH008",
+        "item": "Clé USB 32-64Go (USB-C + USB-A)",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "conseils": "Backup documents. Double connectique = compatibilité. SanDisk Ultra Dual"
+      },
+      {
+        "id": "TECH009",
+        "item": "Disque dur externe 1-2To SSD",
+        "priorite": "⭐⭐",
+        "delai": "J-14",
+        "filtres": {
+          "activites": [
+            "photographie"
+          ],
+          "duree": [
+            "long",
+            "tres-long"
+          ]
+        },
+        "conseils": "Backup photos/vidéos. SSD = résistant chocs. Samsung T7, SanDisk Extreme"
+      },
+      {
+        "id": "TECH010",
+        "item": "Écouteurs + oreillettes de rechange",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Avion, transports. Filaires = pas batterie. Embouts x2 tailles. Mousse mémoire forme confort"
+      },
+      {
+        "id": "TECH011",
+        "item": "Casque réduction bruit",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "duree": [
+            "moyen",
+            "long",
+            "tres-long"
+          ]
+        },
+        "conseils": "Longs vols, trains bruyants. Sony WH-1000XM5, Bose QC45. Confort + isolation"
+      },
+      {
+        "id": "TECH012",
+        "item": "Appareil photo + accessoires",
+        "priorite": "⭐⭐",
+        "delai": "J-14",
+        "filtres": {
+          "activites": [
+            "photographie"
+          ]
+        },
+        "conseils": "Batterie x2, cartes SD x2, chargeur, housse. Assurance vol recommandée"
+      },
+      {
+        "id": "TECH013",
+        "item": "GoPro/caméra action",
+        "priorite": "⭐⭐",
+        "delai": "J-14",
+        "filtres": {
+          "activites": [
+            "sports-nautiques",
+            "sports-hiver",
+            "randonnee"
+          ]
+        },
+        "conseils": "Étanche, robuste. Accessoires : fixations, perche, batteries x2. GoPro Hero, DJI Osmo"
+      },
+      {
+        "id": "TECH014",
+        "item": "Liseuse électronique (Kindle)",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "conseils": "Bibliothèque complète = 200g. Batterie 6 semaines. Kindle Paperwhite résistant eau"
+      },
+      {
+        "id": "TECH015",
+        "item": "Ordinateur portable + housse",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "profil": [
+            "pro"
+          ],
+          "duree": [
+            "moyen",
+            "long",
+            "tres-long"
+          ]
+        },
+        "conseils": "13-14 pouces = compromis poids/taille. Housse rembourrée. Assurance vol"
+      },
+      {
+        "id": "TECH016",
+        "item": "Souris sans fil compacte",
+        "priorite": "⭐",
+        "delai": "J-3",
+        "filtres": {
+          "profil": [
+            "pro"
+          ]
+        },
+        "conseils": "Confort travail prolongé. Logitech MX Anywhere, Microsoft Arc. Bluetooth = pas dongle"
+      },
+      {
+        "id": "TECH017",
+        "item": "Lampe frontale LED 200+ lumens",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "camping"
+          ]
+        },
+        "conseils": "Mains libres. Mode rouge = vision nocturne. Petzl Actik, Black Diamond. Piles rechange"
+      },
+      {
+        "id": "TECH018",
+        "item": "Lampe torche compacte",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "Coupures électricité. Trouver affaires nuit. LED = autonomie. Smartphone suffit souvent"
+      },
+      {
+        "id": "TECH019",
+        "item": "Réveil voyage",
+        "priorite": "⭐",
+        "delai": "J-3",
+        "conseils": "Si panne smartphone. Compact, lumineux, alarme forte. Smartphone = suffisant généralement"
+      },
+      {
+        "id": "TECH020",
+        "item": "Montre étanche",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "activites": [
+            "sports-nautiques",
+            "plage",
+            "randonnee"
+          ]
+        },
+        "conseils": "Pas sortir téléphone constamment. Chronomètre, alarmes. Casio G-Shock robuste"
+      },
+      {
+        "id": "TECH021",
+        "item": "GPS portable ou app offline",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "road-trip"
+          ]
+        },
+        "conseils": "Maps.me, Osmand gratuits offline. Garmin GPS si zones isolées. Télécharger cartes AVANT"
+      },
+      {
+        "id": "TECH022",
+        "item": "Pochette étanche téléphone",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "activites": [
+            "plage",
+            "sports-nautiques"
+          ]
+        },
+        "conseils": "IPX8 certifié. Testée baignoire AVANT départ. Tour de cou. Photos sous-marines possibles"
+      }
+    ]
+  },
+  "pendant_voyage": {
+    "id": "pendant_apres",
+    "nom": "🔄 Pendant & Après le voyage",
+    "description": "Checklist sur place et retour",
+    "obligatoire": false,
+    "note": "Section divisée en 2 sous-parties : Pendant (25 items) et Après (15 items)",
+    "items": [
+      {
+        "id": "PEND001",
+        "item": "Check-in hébergement (vérifier chambre état)",
+        "priorite": "⭐⭐⭐",
+        "moment": "Arrivée",
+        "conseils": "Photos état lieux. Tester douche, clim, WiFi, coffre avant accepter"
+      },
+      {
+        "id": "PEND002",
+        "item": "Déposer objets valeur coffre hôtel",
+        "priorite": "⭐⭐⭐",
+        "moment": "Arrivée",
+        "conseils": "Passeport, cash excédentaire, bijoux. Photo contenu avant fermer"
+      },
+      {
+        "id": "PEND003",
+        "item": "Repérer sorties secours chambre/hébergement",
+        "priorite": "⭐⭐⭐",
+        "moment": "Arrivée",
+        "conseils": "Sécurité incendie. Plan évacuation porte. Compter portes jusqu'escalier"
+      },
+      {
+        "id": "PEND004",
+        "item": "Acheter carte SIM locale si besoin",
+        "priorite": "⭐⭐⭐",
+        "moment": "J1-J2",
+        "conseils": "Aéroport cher mais pratique. Ville = 30-50% moins cher. Comparer opérateurs"
+      },
+      {
+        "id": "PEND005",
+        "item": "Retirer cash distributeur (éviter aéroport)",
+        "priorite": "⭐⭐⭐",
+        "moment": "J1-J2",
+        "conseils": "Taux aéroport = arnaque. Ville/banque meilleurs taux. Retrait max = économie frais"
+      },
+      {
+        "id": "PEND006",
+        "item": "Check météo quotidien (ajuster activités)",
+        "priorite": "⭐⭐",
+        "moment": "Quotidien",
+        "conseils": "Apps locales > météo France. Flexibilité = confort. Mousson imprévisible"
+      },
+      {
+        "id": "PEND007",
+        "item": "Boire 2-3L eau/jour (hydratation essentielle)",
+        "priorite": "⭐⭐⭐",
+        "moment": "Quotidien",
+        "conseils": "Chaleur + marche = déshydratation rapide. Urine claire = bien hydraté"
+      },
+      {
+        "id": "PEND008",
+        "item": "Appliquer crème solaire matin + midi",
+        "priorite": "⭐⭐⭐",
+        "moment": "Quotidien",
+        "filtres": {
+          "destinations": [
+            "asie",
+            "afrique",
+            "amerique-sud",
+            "oceanie"
+          ],
+          "activites": [
+            "plage",
+            "randonnee"
+          ]
+        },
+        "conseils": "AVANT sortir + renouveler 2h. Zones oubliées: oreilles, pieds, nuque"
+      },
+      {
+        "id": "PEND009",
+        "item": "Sauvegarder photos quotidiennement (cloud + disque)",
+        "priorite": "⭐⭐⭐",
+        "moment": "Soir",
+        "conseils": "Vol/perte téléphone = souvenirs perdus. Google Photos auto, iCloud"
+      },
+      {
+        "id": "PEND010",
+        "item": "Noter dépenses quotidiennes (budget)",
+        "priorite": "⭐⭐",
+        "moment": "Soir",
+        "filtres": {
+          "duree": [
+            "moyen",
+            "long",
+            "tres-long"
+          ]
+        },
+        "conseils": "App Trail Wallet. Suivi = maîtrise. Petites dépenses s'accumulent"
+      },
+      {
+        "id": "PEND011",
+        "item": "Laver vêtements régulièrement (voyager léger)",
+        "priorite": "⭐⭐⭐",
+        "moment": "Tous les 3-5 jours",
+        "filtres": {
+          "typeVoyage": [
+            "backpacker",
+            "immersion"
+          ]
+        },
+        "conseils": "Laverie ou main. Séchage microfibre 2h. Rotation = peu vêtements"
+      },
+      {
+        "id": "PEND012",
+        "item": "Check emails/SMS banque (fraudes)",
+        "priorite": "⭐⭐⭐",
+        "moment": "Quotidien",
+        "conseils": "Détection fraude rapide = blocage limité. Alertes SMS essentielles"
+      },
+      {
+        "id": "PEND013",
+        "item": "Recharger batteries électroniques (soir)",
+        "priorite": "⭐⭐⭐",
+        "moment": "Quotidien soir",
+        "conseils": "Téléphone, batterie externe, appareil photo, montre. Routine = jamais HS"
+      },
+      {
+        "id": "PEND014",
+        "item": "Prendre probiotiques (si zones risque turista)",
+        "priorite": "⭐⭐",
+        "moment": "Quotidien",
+        "filtres": {
+          "destinations": [
+            "asie",
+            "afrique",
+            "amerique-sud"
+          ]
+        },
+        "conseils": "Ultra-Levure quotidien. Protection flore intestinale continue"
+      },
+      {
+        "id": "PEND015",
+        "item": "Appliquer anti-moustiques soir (prévention)",
+        "priorite": "⭐⭐⭐",
+        "moment": "Soir",
+        "filtres": {
+          "destinations": [
+            "asie",
+            "afrique",
+            "amerique-sud"
+          ]
+        },
+        "conseils": "Crépuscule = pics moustiques. Dengue, paludisme, zika prévention"
+      },
+      {
+        "id": "PEND016",
+        "item": "Vérifier fermeture moustiquaire/clim (nuit)",
+        "priorite": "⭐⭐⭐",
+        "moment": "Avant dormir",
+        "filtres": {
+          "destinations": [
+            "asie",
+            "afrique"
+          ]
+        },
+        "conseils": "1 moustique = nuit ruinée. Inspection minutieuse trous"
+      },
+      {
+        "id": "PEND017",
+        "item": "Dormir 7-8h (récupération essentielle)",
+        "priorite": "⭐⭐⭐",
+        "moment": "Quotidien nuit",
+        "conseils": "Fatigue = maladies + accidents. Écouter corps. Sieste OK"
+      },
+      {
+        "id": "PEND018",
+        "item": "Rester flexible itinéraire (opportunités)",
+        "priorite": "⭐⭐",
+        "moment": "Continu",
+        "conseils": "Meilleurs moments = imprévus. Recommandations locaux > guides. S'adapter"
+      },
+      {
+        "id": "PEND019",
+        "item": "Tester spécialités locales (immersion)",
+        "priorite": "⭐⭐",
+        "moment": "Repas",
+        "conseils": "Street food = authentique. Observer queue locaux = bon signe"
+      },
+      {
+        "id": "PEND020",
+        "item": "Apprendre 5 mots langue locale (respect)",
+        "priorite": "⭐⭐",
+        "moment": "Début voyage",
+        "conseils": "Bonjour, merci, au revoir, combien, délicieux. Sourires garantis"
+      },
+      {
+        "id": "PEND021",
+        "item": "Faire copies clé chambre (sécurité)",
+        "priorite": "⭐⭐",
+        "moment": "Arrivée",
+        "conseils": "Perte clé = galère. Copie dans bagage différent"
+      },
+      {
+        "id": "PEND022",
+        "item": "Noter n° téléphone hébergements (papier)",
+        "priorite": "⭐⭐",
+        "moment": "Check-in",
+        "conseils": "Si tel HS/volé. Papier = accessible toujours"
+      },
+      {
+        "id": "PEND023",
+        "item": "Contacter proches régulièrement (rassurer)",
+        "priorite": "⭐⭐",
+        "moment": "Tous les 2-3 jours",
+        "filtres": {
+          "profil": [
+            "solo"
+          ]
+        },
+        "conseils": "WhatsApp, SMS. Famille rassurée = voyage serein"
+      },
+      {
+        "id": "PEND024",
+        "item": "Respecter coutumes locales (observation)",
+        "priorite": "⭐⭐⭐",
+        "moment": "Continu",
+        "conseils": "Vêtements, comportements, photos. Doute = demander. Respect = accueil"
+      },
+      {
+        "id": "PEND025",
+        "item": "Profiter moment présent (déconnexion)",
+        "priorite": "⭐⭐⭐",
+        "moment": "Continu",
+        "conseils": "Moins photos, plus ressenti. Instagram peut attendre. Vivre l'instant"
+      },
+      {
+        "id": "APRES001",
+        "item": "Déballer valises dans 24-48h (organisation)",
+        "priorite": "⭐⭐",
+        "delai": "J+1 à J+2",
+        "conseils": "Évite moisissures vêtements humides. Linge sale direct machine"
+      },
+      {
+        "id": "APRES002",
+        "item": "Laver TOUS vêtements (même propres)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J+1",
+        "conseils": "Punaises lit, parasites. 60°C tue tout. Même non portés = précaution"
+      },
+      {
+        "id": "APRES003",
+        "item": "Inspecter valises punaises/insectes",
+        "priorite": "⭐⭐⭐",
+        "delai": "J+1",
+        "conseils": "Coutures, coins, fermetures. Aspirateur complet. Garage/balcon 48h"
+      },
+      {
+        "id": "APRES004",
+        "item": "Sauvegarder toutes photos (3 emplacements)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J+1 à J+3",
+        "conseils": "Cloud + disque externe + ordinateur. Règle 3-2-1 backup"
+      },
+      {
+        "id": "APRES005",
+        "item": "Trier photos (garder meilleures)",
+        "priorite": "⭐⭐",
+        "delai": "J+7",
+        "conseils": "500 photos → 100 superbes. Qualité > quantité. Lightroom/Photos"
+      },
+      {
+        "id": "APRES006",
+        "item": "Consulter médecin si symptômes (fièvre, diarrhée)",
+        "priorite": "⭐⭐⭐",
+        "delai": "Immédiat si symptômes",
+        "filtres": {
+          "destinations": [
+            "asie",
+            "afrique",
+            "amerique-sud"
+          ]
+        },
+        "conseils": "Paludisme = fièvre 7-30j après. Dengue idem. MENTIONNER voyage récent"
+      },
+      {
+        "id": "APRES007",
+        "item": "Vérifier relevés bancaires (fraudes)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J+1 à J+7",
+        "conseils": "Transactions suspectes. Contester rapidement. 30j max généralement"
+      },
+      {
+        "id": "APRES008",
+        "item": "Désactiver forfait international (facture)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J+1",
+        "conseils": "Évite frais continuation. App opérateur/téléphone"
+      },
+      {
+        "id": "APRES009",
+        "item": "Récupérer courrier/colis voisins",
+        "priorite": "⭐⭐",
+        "delai": "J+1",
+        "conseils": "Remercier voisins/personne confiance. Chocolats/souvenir apprécié"
+      },
+      {
+        "id": "APRES010",
+        "item": "Réactiver services domicile (courrier, etc)",
+        "priorite": "⭐⭐",
+        "delai": "J+1",
+        "conseils": "Poste garde courrier = réactivation auto ou demande. Vérifier"
+      },
+      {
+        "id": "APRES011",
+        "item": "Partager recommandations (aider voyageurs)",
+        "priorite": "⭐",
+        "delai": "J+7",
+        "conseils": "TripAdvisor, Google Reviews. Avis = aide communauté. Constructifs"
+      },
+      {
+        "id": "APRES012",
+        "item": "Créer album photos/vidéo souvenirs",
+        "priorite": "⭐⭐",
+        "delai": "J+14",
+        "conseils": "Google Photos, Apple Memories auto. Ou manuel mixbook.com, shutterfly"
+      },
+      {
+        "id": "APRES013",
+        "item": "Évaluer budget réel vs prévisionnel",
+        "priorite": "⭐⭐",
+        "delai": "J+7",
+        "conseils": "Leçons prochain voyage. Postes dépassés? Économies possibles?"
+      },
+      {
+        "id": "APRES014",
+        "item": "Noter destinations/activités préférées (mémoire)",
+        "priorite": "⭐",
+        "delai": "J+3 à J+7",
+        "conseils": "Carnet voyage. Recommandations amis. Souvenirs s'effacent vite"
+      },
+      {
+        "id": "APRES015",
+        "item": "Planifier prochain voyage (déjà!) 😊",
+        "priorite": "⭐",
+        "delai": "Quand envie",
+        "conseils": "Blues retour = normal. Cure = rêver nouveau voyage. Wanderlust éternel"
+      }
+    ]
+  },
+  "timeline": {
+    "id": "timeline",
+    "nom": "⏰ Timeline Chronologique",
+    "description": "Calendrier J-90 au retour",
+    "obligatoire": false,
+    "note": "Timeline générée automatiquement selon dates départ/retour",
+    "jalons": [
+      {
+        "code": "J-90",
+        "nom": "3 mois avant",
+        "actions_critiques": [
+          "Vérifier validité passeport (+6 mois après retour)",
+          "Demander visa si nécessaire (délais 3-8 semaines)",
+          "Demander permis conduire international (délai 3-8 semaines)",
+          "Premiers vaccins si nécessaires (certains = 2-3 doses espacées)"
+        ],
+        "priorite": "⭐⭐⭐"
+      },
+      {
+        "code": "J-60",
+        "nom": "2 mois avant",
+        "actions_critiques": [
+          "Finaliser visa/autorisations entrée",
+          "Vaccinations suite (rappels si nécessaires)",
+          "Souscrire assurance voyage/rapatriement",
+          "Réserver vols + 2-3 premières nuits hébergement"
+        ],
+        "priorite": "⭐⭐⭐"
+      },
+      {
+        "code": "J-30",
+        "nom": "1 mois avant",
+        "actions_critiques": [
+          "Carte bancaire sans frais étranger (N26, Revolut, Wise)",
+          "Carte Européenne Assurance Maladie si UE (délai 15j)",
+          "Commander matériel manquant (sac, vêtements tech)",
+          "Prévenir banque des dates voyage",
+          "Budget détaillé par catégorie"
+        ],
+        "priorite": "⭐⭐⭐"
+      },
+      {
+        "code": "J-14",
+        "nom": "2 semaines avant",
+        "actions_critiques": [
+          "Constituer trousse pharmacie complète",
+          "Acheter adaptateur électrique + batterie externe",
+          "Photocopies documents (passeport, visa, assurance)",
+          "Scans cloud (Drive, iCloud) tous documents",
+          "Carte SIM internationale/eSIM (Airalo, Holafly)",
+          "Télécharger cartes offline (Google Maps, Maps.me)",
+          "Télécharger apps destination (transports, traduction)"
+        ],
+        "priorite": "⭐⭐⭐"
+      },
+      {
+        "code": "J-7",
+        "nom": "1 semaine avant",
+        "actions_critiques": [
+          "Noter numéros urgence (banque, assurance, ambassade)",
+          "Cash euros + 50-100€ devise locale",
+          "Commencer probiotiques (protection turista)",
+          "Préparation domicile (voisins, courrier, plantes)",
+          "Check météo destination (ajuster bagages)",
+          "Test matériel (sac, tente, réchaud si camping)"
+        ],
+        "priorite": "⭐⭐⭐"
+      },
+      {
+        "code": "J-3",
+        "nom": "3 jours avant",
+        "actions_critiques": [
+          "Faire valises (test poids 23kg soute, 10kg cabine)",
+          "Vérifier billets imprimés + sur smartphone",
+          "Contact personne confiance (itinéraire, dates, check réguliers)",
+          "Vider frigo périssables",
+          "Régler factures échéances pendant absence"
+        ],
+        "priorite": "⭐⭐⭐"
+      },
+      {
+        "code": "J-1",
+        "nom": "Veille départ",
+        "actions_critiques": [
+          "Check-in en ligne vol (H-24 avant)",
+          "Chargement COMPLET tous appareils électroniques",
+          "Gourde vide (remplir après contrôle aéroport)",
+          "Cash séparé portefeuille (50€ backup caché)",
+          "Couper eau + électricité non essentiels",
+          "Baisser chauffage hors-gel (12-15°C)",
+          "Poubelles sorties",
+          "Volets partiellement fermés (pas tous = signe absence)",
+          "Double-check documents main (passeport, billets, assurance)",
+          "Dormir 7-8h (forme optimale départ)"
+        ],
+        "priorite": "⭐⭐⭐"
+      }
+    ],
+    "items": []
+  },
+  "apps": {
+    "id": "apps",
+    "nom": "📱 Applications recommandées",
+    "description": "Apps offline et online essentielles",
+    "obligatoire": false,
+    "note": "41 applications réparties en 10 catégories selon usage",
+    "categories": {
+      "navigation": {
+        "nom": "🗺️ Navigation & Cartes",
+        "apps": [
+          {
+            "nom": "Google Maps",
+            "usage": "Navigation + plans offline",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐⭐",
+            "conseils": "Télécharger zones offline AVANT départ. Fonctionne sans internet"
+          },
+          {
+            "nom": "Maps.me",
+            "usage": "Cartes offline complètes monde",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐⭐",
+            "conseils": "Alternative Google Maps. Randonnée + sentiers détaillés. 100% offline"
+          },
+          {
+            "nom": "Citymapper",
+            "usage": "Transports urbains multivilles",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐",
+            "conseils": "Métro, bus temps réel. Londres, Paris, NYC, Tokyo. Itinéraires optimisés"
+          }
+        ]
+      },
+      "hebergement": {
+        "nom": "🏨 Hébergement",
+        "apps": [
+          {
+            "nom": "Booking.com",
+            "usage": "Hôtels worldwide",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐⭐",
+            "conseils": "Annulation gratuite filtres. Programme fidélité Genius. Avis vérifiés"
+          },
+          {
+            "nom": "Hostelworld",
+            "usage": "Auberges jeunesse backpackers",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐⭐",
+            "conseils": "Référence auberges. Atmosphère, rencontres. Réservation lit dortoir"
+          },
+          {
+            "nom": "Airbnb",
+            "usage": "Appartements, expériences",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐",
+            "conseils": "Séjours longs = réductions. Vérifier frais service. Expériences locales"
+          }
+        ]
+      },
+      "transport": {
+        "nom": "✈️ Transport",
+        "apps": [
+          {
+            "nom": "Skyscanner",
+            "usage": "Comparateur vols",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐⭐",
+            "conseils": "Alertes prix. Mois entier = meilleurs tarifs. Flexible dates"
+          },
+          {
+            "nom": "Rome2Rio",
+            "usage": "Trajets multimodaux",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐",
+            "conseils": "Train + bus + avion combinés. Durées + coûts estimés. Mondial"
+          },
+          {
+            "nom": "Uber",
+            "usage": "VTC urbains",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐",
+            "conseils": "Amérique, Europe, Asie. Prix fixes estimés. Sécurité (trajet partagé)"
+          },
+          {
+            "nom": "Grab",
+            "usage": "Uber Asie Sud-Est",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐",
+            "conseils": "Thaïlande, Vietnam, Indonésie, Malaisie. + livraison repas"
+          },
+          {
+            "nom": "Bolt",
+            "usage": "VTC Europe",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐",
+            "conseils": "Alternative Uber. Europe Est + Afrique. Souvent moins cher"
+          }
+        ]
+      },
+      "traduction": {
+        "nom": "🗣️ Traduction & Langue",
+        "apps": [
+          {
+            "nom": "Google Translate",
+            "usage": "Traduction offline + photo menu",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐⭐",
+            "conseils": "Télécharger langues offline. Photo = traduction instant. Conversation bilatérale"
+          },
+          {
+            "nom": "Duolingo",
+            "usage": "Apprendre bases langue",
+            "prix": "Freemium",
+            "priorite": "⭐⭐",
+            "conseils": "15min/jour avant voyage. Bases survie. Ludique. Gratuit suffisant"
+          }
+        ]
+      },
+      "budget": {
+        "nom": "💰 Budget & Finances",
+        "apps": [
+          {
+            "nom": "Trail Wallet",
+            "usage": "Suivi dépenses voyage",
+            "prix": "5€",
+            "priorite": "⭐⭐",
+            "conseils": "Simple, efficace. Budget quotidien. Graphiques. Pas connexion requise"
+          },
+          {
+            "nom": "Splitwise",
+            "usage": "Partage frais groupes",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐",
+            "conseils": "Voyages groupes/couples. Calcul automatique dettes. Multidevises"
+          },
+          {
+            "nom": "XE Currency",
+            "usage": "Conversion devises offline",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐⭐",
+            "conseils": "Taux jour actualisés auto. Fonctionne offline après sync. Calcul instantané"
+          }
+        ]
+      },
+      "communication": {
+        "nom": "💬 Communication",
+        "apps": [
+          {
+            "nom": "WhatsApp",
+            "usage": "Messagerie internationale",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐⭐",
+            "conseils": "WiFi gratuit partout. Appels vidéo. Groupes famille. Universel"
+          },
+          {
+            "nom": "Airalo",
+            "usage": "eSIM internationale",
+            "prix": "Variable 5-50€",
+            "priorite": "⭐⭐⭐",
+            "conseils": "eSIM = activation instant. Data seule. 190+ pays. Pas changement carte"
+          },
+          {
+            "nom": "Holafly",
+            "usage": "eSIM data illimitée",
+            "prix": "Variable 20-100€",
+            "priorite": "⭐⭐",
+            "conseils": "Data illimitée forfaits. Europe, USA, Asie. Plus cher mais confort"
+          }
+        ]
+      },
+      "restaurants": {
+        "nom": "🍽️ Restaurants & Nourriture",
+        "apps": [
+          {
+            "nom": "TripAdvisor",
+            "usage": "Avis restaurants/attractions",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐⭐",
+            "conseils": "Filtres prix/note. Photos plats. Réservations. Mondial. Vérifié"
+          },
+          {
+            "nom": "Google Maps",
+            "usage": "Avis restaurants + horaires",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐⭐",
+            "conseils": "Avis authentiques locaux. Photos, menus. Popularité temps réel"
+          },
+          {
+            "nom": "TheFork",
+            "usage": "Réservations restaurants réductions",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐",
+            "conseils": "Réductions -50% créneaux creux. Europe. Confirmation instant"
+          }
+        ]
+      },
+      "securite": {
+        "nom": "🔒 Sécurité",
+        "apps": [
+          {
+            "nom": "Find My (iPhone)",
+            "usage": "Localisation appareils",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐⭐",
+            "conseils": "Retrouver iPhone perdu/volé. Partage position famille. Effacement distance"
+          },
+          {
+            "nom": "Life360",
+            "usage": "Partage localisation famille",
+            "prix": "Freemium",
+            "priorite": "⭐⭐",
+            "conseils": "Cercles famille. Alertes arrivée/départ. Historique déplacements. Gratuit OK"
+          }
+        ]
+      },
+      "sante": {
+        "nom": "🏥 Santé",
+        "apps": [
+          {
+            "nom": "TravelSafe",
+            "usage": "Numéros urgence mondiaux",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐",
+            "conseils": "Urgences 190+ pays. Police, pompiers, hôpitaux. Offline"
+          },
+          {
+            "nom": "Medisafe",
+            "usage": "Rappels médicaments",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐",
+            "conseils": "Alarmes prises. Suivi traitement. Interactions médicaments. Essentiel traitements longs"
+          }
+        ]
+      },
+      "photos": {
+        "nom": "📸 Photos & Souvenirs",
+        "apps": [
+          {
+            "nom": "Google Photos",
+            "usage": "Backup auto illimité",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐⭐",
+            "conseils": "Sauvegarde auto WiFi. Illimité qualité haute (compressée). Albums partagés"
+          },
+          {
+            "nom": "Lightroom Mobile",
+            "usage": "Édition photos pro",
+            "prix": "Freemium",
+            "priorite": "⭐⭐",
+            "conseils": "Retouches pro. Presets voyage. Sync Cloud Adobe. Gratuit = basique suffisant"
+          }
+        ]
+      }
+    },
+    "items": []
+  },
+  "urgence": {
+    "id": "urgence",
+    "nom": "🚨 Kit d'urgence",
+    "description": "Ce qu'il faut toujours avoir sur soi",
+    "obligatoire": false,
+    "note": "26 items = fusion Urgences Survie (12 items) + Sécurité Renforcée (14 items)",
+    "items": [
+      {
+        "id": "URG001",
+        "item": "Couverture survie aluminium x3",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "quantite": "3 unités",
+        "specifications": [
+          "210x160cm",
+          "Or/argent recto-verso",
+          "Compact 50g"
+        ],
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "camping",
+            "sports-hiver"
+          ]
+        },
+        "conseils": "Hypothermie, choc. Retient 90% chaleur corporelle. Or vers corps (froid), argent vers corps (chaleur). Indispensable randonnée isolée"
+      },
+      {
+        "id": "URG002",
+        "item": "Sifflet 120dB + miroir signalisation",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": [
+          "120dB minimum",
+          "Sans bille (gel)",
+          "Miroir incassable"
+        ],
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "camping"
+          ],
+          "profil": [
+            "solo"
+          ]
+        },
+        "conseils": "Son porte 1km+ (voix 100m). 3 coups = détresse internationale. Miroir = signalisation hélicoptère 15km. Toujours sur soi"
+      },
+      {
+        "id": "URG003",
+        "item": "Allume-feu multiple (pierre, allumettes, briquet)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": [
+          "Pierre ferrocérium",
+          "Allumettes tempête",
+          "Briquet étanche"
+        ],
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "camping"
+          ]
+        },
+        "conseils": "Feu = chaleur, eau potable, signalisation, moral. 3 méthodes backup. Pierre fonctionne mouillée. EN SOUTE uniquement"
+      },
+      {
+        "id": "URG004",
+        "item": "Couteau survie lame fixe",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": [
+          "Lame 10-12cm",
+          "Acier carbone",
+          "Full tang",
+          "Gaine solide"
+        ],
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "camping"
+          ]
+        },
+        "conseils": "EN SOUTE UNIQUEMENT. Mora, Gerber = fiables. Polyvalent: couper, creuser, défense. Entretien régulier"
+      },
+      {
+        "id": "URG005",
+        "item": "Corde paracorde 550 (20-30m)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "quantite": "30 mètres",
+        "specifications": [
+          "7 brins intérieurs",
+          "Charge 250kg",
+          "Compacte"
+        ],
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "camping"
+          ]
+        },
+        "conseils": "Polyvalence: abri, réparations, pêche (brins), garrot. Bracelet paracorde = 3m toujours sur soi. Apprendre nœuds basiques"
+      },
+      {
+        "id": "URG006",
+        "item": "Purificateur eau portable (Sawyer/LifeStraw)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-14",
+        "specifications": [
+          "Filtre 0.1 micron",
+          "100 000L capacité",
+          "Compact 50g"
+        ],
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "camping"
+          ],
+          "destinations": [
+            "afrique",
+            "asie",
+            "amerique-sud"
+          ]
+        },
+        "conseils": "Eau potable urgence. Rivière, lac = potable instantané. Sawyer Mini = 20€. Survie 3 jours sans eau max"
+      },
+      {
+        "id": "URG007",
+        "item": "Lampe frontale + piles lithium spare",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": [
+          "300+ lumens",
+          "Mode SOS clignotant",
+          "Étanche IPX6",
+          "Piles lithium"
+        ],
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "camping"
+          ]
+        },
+        "conseils": "Mains libres essentiel. Piles lithium = froid. Mode rouge = vision nuit. Black Diamond, Petzl. Pile spare obligatoire"
+      },
+      {
+        "id": "URG008",
+        "item": "Kit premiers secours wilderness",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-14",
+        "specifications": [
+          "Compression hémorragie",
+          "Désinfection",
+          "Suture",
+          "Immobilisation",
+          "Manuel"
+        ],
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "camping"
+          ],
+          "duree": [
+            "long",
+            "tres-long"
+          ]
+        },
+        "conseils": "Zones isolées sans accès médical. Formation premiers secours fortement recommandée. Adventure Medical Kits référence"
+      },
+      {
+        "id": "URG009",
+        "item": "Bâche/Tarp multifonction 3x3m",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": [
+          "Silnylon imperméable",
+          "Œillets renforcés",
+          "3x3m minimum"
+        ],
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "camping"
+          ]
+        },
+        "conseils": "Abri urgence, protection pluie, récupération eau, signal (couleur vive). 300g. Sea to Summit qualité"
+      },
+      {
+        "id": "URG010",
+        "item": "Balise détresse GPS (PLB ou SPOT)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-30",
+        "specifications": [
+          "Signal satellite",
+          "Batterie 5-7 ans",
+          "Étanche",
+          "Enregistrement"
+        ],
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "camping"
+          ],
+          "duree": [
+            "long",
+            "tres-long"
+          ]
+        },
+        "conseils": "Zones isolées obligatoire. SOS localisation exacte secours. ACR ResQLink, SPOT Gen4. Abonnement SPOT annuel"
+      },
+      {
+        "id": "URG011",
+        "item": "Rations survie / Barres énergétiques",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "quantite": "3 jours rations",
+        "specifications": [
+          "2400 kcal/jour",
+          "Conservation 5 ans",
+          "Compact"
+        ],
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "camping"
+          ]
+        },
+        "conseils": "Urgence blocage météo. Rations militaires, SOS Food. Complément: fruits secs, chocolat, noix"
+      },
+      {
+        "id": "URG012",
+        "item": "Manuel survie plastifié poche",
+        "priorite": "⭐",
+        "delai": "J-14",
+        "specifications": [
+          "Format poche",
+          "Plastifié étanche",
+          "Illustré"
+        ],
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "camping"
+          ]
+        },
+        "conseils": "Stress = oubli procédures. Guide: feu, eau, abri, signalisation. SAS Survival Guide référence"
+      },
+      {
+        "id": "URG013",
+        "item": "Ceinture cachette argent discrète",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Cash urgence 100-200€ + copie passeport. Sous vêtements invisible pickpockets. Eagle Creek, Pacsafe"
+      },
+      {
+        "id": "URG014",
+        "item": "Pochette tour de cou sécurité RFID blocking",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Passeport, cartes bancaires. RFID = protection piratage sans contact. Pacsafe CoverSafe. Sous vêtements"
+      },
+      {
+        "id": "URG015",
+        "item": "Câble antivol portable 2m",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "conseils": "Attacher sac/valise à fixe (train, auberge). Câble acier tressé. Combinaison 4 chiffres. Pacsafe Retractasafe"
+      },
+      {
+        "id": "URG016",
+        "item": "Alarme personnelle portable 130dB",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "profil": [
+            "solo"
+          ]
+        },
+        "conseils": "Goupille tirée = 130dB. Dissuasion agression. Porte-clés. Légal partout. 10-15€"
+      },
+      {
+        "id": "URG017",
+        "item": "Lampe torche tactique 500+ lumens",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": [
+          "500+ lumens",
+          "Mode stroboscope",
+          "Aluminium robuste"
+        ],
+        "conseils": "Mode stroboscope = désorientation attaquant. Olight, Fenix. Compacte poche. Défense + éclairage"
+      },
+      {
+        "id": "URG018",
+        "item": "Spray défense (vérifier légalité)",
+        "priorite": "⭐",
+        "delai": "J-14",
+        "filtres": {
+          "profil": [
+            "solo"
+          ]
+        },
+        "conseils": "VÉRIFIER LÉGALITÉ destination. Interdit nombreux pays. EN SOUTE uniquement si autorisé. Alternative: alarme personnelle"
+      },
+      {
+        "id": "URG019",
+        "item": "Porte bloqueur hôtel Addalock",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Sécurité supplémentaire chambre hôtel. 20g, universel. Bloque porte même avec clé extérieure. 15€"
+      },
+      {
+        "id": "URG020",
+        "item": "Photocopies documents séparées",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Passeport, visa, assurance couleur. Bagage différent. Pochette étanche. En cas vol passeport"
+      },
+      {
+        "id": "URG021",
+        "item": "Scans documents cloud sécurisé",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Google Drive, iCloud, Dropbox. Passeport, visa, assurance, billets, ordonnances. Accessible offline smartphone"
+      },
+      {
+        "id": "URG022",
+        "item": "Liste numéros urgence 24/7",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Ambassade, assurance, banque. Sur papier plastifié + smartphone. Format international (+33...)"
+      },
+      {
+        "id": "URG023",
+        "item": "App partage localisation activée",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "filtres": {
+          "profil": [
+            "solo"
+          ]
+        },
+        "conseils": "Find My Friends (iOS), Life360, Google Maps. Famille rassurée. Cercle confiance. Batterie suffisante"
+      },
+      {
+        "id": "URG024",
+        "item": "VPN fiable installé configuré",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "WiFi publics sécurisés. NordVPN, ExpressVPN, Surfshark. Banque online = VPN obligatoire. Abonnement avant départ"
+      },
+      {
+        "id": "URG025",
+        "item": "Assurance voyage rapatriement valide",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-14",
+        "conseils": "Numéro urgence 24/7 mémorisé. Carte papier portefeuille. Email confirmation accessible offline. Vérifier plafonds"
+      },
+      {
+        "id": "URG026",
+        "item": "Application SOS/ICE configurée",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "ICE (In Case Emergency) contacts. Groupe sanguin, allergies, traitements. Écran verrouillé accessible. iPhone = Fiche médicale"
+      }
+    ]
+  },
+  "essentiels": {
+    "id": "essentiels",
+    "nom": "🔑 Essentiels absolus",
+    "description": "Items indispensables pour tout voyage",
+    "obligatoire": true,
+    "items": [
+      {
+        "id": "EA001",
+        "item": "Passeport OU Carte d'identité valide (+6 mois de validité)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-90",
+        "conseils": "Vérifier la date d'expiration. Certains pays exigent 6 mois de validité après la date de retour"
+      },
+      {
+        "id": "EA002",
+        "item": "Billets d'avion/train/bus (papier + digital)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-30",
+        "conseils": "Imprimer ET sauvegarder dans le cloud. Certaines compagnies exigent le papier"
+      },
+      {
+        "id": "EA003",
+        "item": "Réservations hébergements (premières nuits minimum)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-30",
+        "conseils": "Confirmation des 2-3 premières nuits obligatoire pour certaines douanes"
+      },
+      {
+        "id": "EA004",
+        "item": "Assurance voyage/rapatriement",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-14",
+        "conseils": "Numéro d'urgence 24/7 noté sur papier séparé"
+      },
+      {
+        "id": "EA005",
+        "item": "Vaccins obligatoires (selon destination)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-60",
+        "conseils": "Certains vaccins nécessitent plusieurs doses sur 4-8 semaines"
+      },
+      {
+        "id": "EA006",
+        "item": "Ordonnances (si médicaments réguliers)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-14",
+        "conseils": "En anglais si possible, avec DCI (nom molécule)"
+      },
+      {
+        "id": "EA007",
+        "item": "Carte groupe sanguin / Allergies notées",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "conseils": "Dans portefeuille + photo smartphone"
+      },
+      {
+        "id": "EA008",
+        "item": "Carte bancaire principale",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-30",
+        "conseils": "Prévenir votre banque du voyage, vérifier date expiration"
+      },
+      {
+        "id": "EA009",
+        "item": "Espèces (euros + devise locale pour arrivée)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Prévoir 50-100€ en devise locale pour les premiers frais"
+      },
+      {
+        "id": "EA010",
+        "item": "Prévenir votre banque du voyage",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-14",
+        "conseils": "Évite le blocage automatique de carte à l'étranger"
+      },
+      {
+        "id": "EA011",
+        "item": "Téléphone chargé + chargeur",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-1",
+        "conseils": "Backup complet avant départ"
+      },
+      {
+        "id": "EA012",
+        "item": "Adaptateur universel OU adaptateur du pays visité",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Adaptateur universel recommandé (couvre 150+ pays)"
+      },
+      {
+        "id": "EA013",
+        "item": "Batterie externe chargée",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-1",
+        "conseils": "Min 10 000mAh. En cabine obligatoirement (pas en soute)"
+      },
+      {
+        "id": "EA014",
+        "item": "Numéro opposition banque (+33...)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Noter sur papier ET dans téléphone. Accessible offline"
+      },
+      {
+        "id": "EA015",
+        "item": "Numéro assurance voyage (24/7)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Numéro international + numéro local si disponible"
+      },
+      {
+        "id": "EA016",
+        "item": "Contact d'urgence (famille/ami)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Personne de confiance + numéro à jour"
+      },
+      {
+        "id": "EA017",
+        "item": "Voisins/personne de confiance (si nécessaire)",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "conseils": "Pour courrier, plantes, urgence logement"
+      },
+      {
+        "id": "EA018",
+        "item": "Ambassade/Consulat du pays visité",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Adresse + numéro urgence 24/7"
+      },
+      {
+        "id": "EA019",
+        "item": "Brosse à dents + dentifrice",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-1",
+        "conseils": "Format voyage ou mini tube"
+      },
+      {
+        "id": "EA020",
+        "item": "Savon portable (solide ou format voyage)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-1",
+        "conseils": "Savon solide = écologique + pratique. 100ml max liquide"
+      },
+      {
+        "id": "EA021",
+        "item": "Petite serviette de visage (microfibre)",
+        "priorite": "⭐⭐",
+        "delai": "J-1",
+        "conseils": "Séchage rapide, peu de place"
+      },
+      {
+        "id": "EA022",
+        "item": "Protections périodiques (si concerné)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Stock pour 1 cycle complet minimum"
+      },
+      {
+        "id": "EA023",
+        "item": "Papier toilette (petit rouleau pour urgences)",
+        "priorite": "⭐⭐",
+        "delai": "J-1",
+        "conseils": "Indispensable dans certains pays"
+      },
+      {
+        "id": "EA024",
+        "item": "Bouteille d'eau ou gourde réutilisable",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-1",
+        "conseils": "Vide à l'aéroport, remplir après contrôle"
+      },
+      {
+        "id": "EA025",
+        "item": "Copies documents (papier + cloud)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Scan passeport, visa, assurance dans Google Drive/iCloud"
+      },
+      {
+        "id": "EA026",
+        "item": "Contact personne de confiance prévenu",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Itinéraire partagé, check réguliers prévus"
+      },
+      {
+        "id": "EA027",
+        "item": "Cash d'urgence caché (50€ minimum)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-1",
+        "conseils": "Séparé du portefeuille principal"
+      }
+    ]
+  },
+  "documents": {
+    "id": "documents",
+    "nom": "📄 Documents & Administratif",
+    "description": "Passeport, visas, assurances, copies de sécurité",
+    "obligatoire": false,
+    "items": [
+      {
+        "id": "DOC001",
+        "item": "Visa (vérifier délais : 3 semaines à 3 mois)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-60",
+        "filtres": {
+          "destinations": [
+            "asie",
+            "afrique",
+            "amerique-sud"
+          ]
+        },
+        "conseils": "Délais variables selon pays. Faire au moins 2 mois avant"
+      },
+      {
+        "id": "DOC002",
+        "item": "Autorisation ESTA/ETA/e-Visa",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-14",
+        "filtres": {
+          "pays": [
+            "US",
+            "AU",
+            "CA",
+            "NZ"
+          ]
+        },
+        "conseils": "ESTA USA: 21$ valable 2 ans. ETA Australie: 20 AUD"
+      },
+      {
+        "id": "DOC003",
+        "item": "Certificat de vaccination (fièvre jaune, COVID)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-60",
+        "filtres": {
+          "destinations": [
+            "afrique",
+            "amerique-sud"
+          ]
+        },
+        "conseils": "Carnet jaune OMS obligatoire pour certains pays"
+      },
+      {
+        "id": "DOC004",
+        "item": "Carnet de vaccination international",
+        "priorite": "⭐⭐",
+        "delai": "J-60",
+        "filtres": {
+          "destinations": [
+            "afrique",
+            "asie"
+          ],
+          "duree": [
+            "long",
+            "tres-long"
+          ]
+        },
+        "conseils": "Disponible en centre de vaccination agréé"
+      },
+      {
+        "id": "DOC005",
+        "item": "Autorisation sortie territoire (mineurs)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-30",
+        "filtres": {
+          "profil": [
+            "famille"
+          ]
+        },
+        "conseils": "Formulaire Cerfa + copie ID parents obligatoire si enfant voyage sans les 2 parents"
+      },
+      {
+        "id": "DOC006",
+        "item": "Lettre invitation (certains pays)",
+        "priorite": "⭐⭐",
+        "delai": "J-45",
+        "filtres": {
+          "pays": [
+            "RU",
+            "CN",
+            "BY"
+          ]
+        },
+        "conseils": "Obligatoire pour Russie, Chine, Biélorussie"
+      },
+      {
+        "id": "DOC007",
+        "item": "Preuve de fonds (relevés bancaires)",
+        "priorite": "⭐⭐",
+        "delai": "J-14",
+        "filtres": {
+          "destinations": [
+            "asie"
+          ],
+          "pays": [
+            "TH",
+            "MY",
+            "ID"
+          ]
+        },
+        "conseils": "Certains pays demandent preuve solvabilité (environ 3000€)"
+      },
+      {
+        "id": "DOC008",
+        "item": "Itinéraire détaillé (pays stricts)",
+        "priorite": "⭐⭐",
+        "delai": "J-14",
+        "filtres": {
+          "pays": [
+            "CN",
+            "RU",
+            "MM"
+          ]
+        },
+        "conseils": "Chine, Russie, Myanmar demandent parfois itinéraire précis"
+      },
+      {
+        "id": "DOC009",
+        "item": "Attestation d'hébergement",
+        "priorite": "⭐⭐",
+        "delai": "J-14",
+        "filtres": {
+          "confort": [
+            "economique"
+          ]
+        },
+        "conseils": "Réservation Booking annulable suffit souvent"
+      },
+      {
+        "id": "DOC010",
+        "item": "Permis de conduire international",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-90",
+        "filtres": {
+          "activites": [
+            "road-trip"
+          ]
+        },
+        "conseils": "Gratuit en préfecture, validité 3 ans. Délai 3-8 semaines"
+      },
+      {
+        "id": "DOC011",
+        "item": "Carte Européenne d'Assurance Maladie (CEAM)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-30",
+        "filtres": {
+          "destinations": [
+            "europe"
+          ]
+        },
+        "conseils": "Demande gratuite sur ameli.fr, reçue sous 15 jours"
+      },
+      {
+        "id": "DOC012",
+        "item": "Carte d'identité (voyage UE)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-90",
+        "filtres": {
+          "destinations": [
+            "europe"
+          ]
+        },
+        "conseils": "Valide pour Schengen + Suisse. UK exige passeport"
+      },
+      {
+        "id": "DOC013",
+        "item": "Photos d'identité récentes (x6)",
+        "priorite": "⭐⭐",
+        "delai": "J-30",
+        "conseils": "Visas sur place, prolongations. Format 35x45mm"
+      },
+      {
+        "id": "DOC014",
+        "item": "Attestation employeur (voyage professionnel)",
+        "priorite": "⭐⭐",
+        "delai": "J-14",
+        "filtres": {
+          "profil": [
+            "pro"
+          ]
+        },
+        "conseils": "Lettre de mission en anglais. Certaines douanes l'exigent"
+      },
+      {
+        "id": "DOC015",
+        "item": "Billet retour ou continuation",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-30",
+        "conseils": "Obligatoire pour entrée dans nombreux pays. Billet onward accepté"
+      },
+      {
+        "id": "DOC016",
+        "item": "Assurance annulation voyage",
+        "priorite": "⭐⭐",
+        "delai": "J-30",
+        "conseils": "Souscription dans les 48h après achat billets pour couvrir maximum de cas"
+      }
+    ]
+  },
+  "finances": {
+    "id": "finances",
+    "nom": "💳 Finances & Argent",
+    "description": "Cartes bancaires, devises, notifications banque",
+    "obligatoire": false,
+    "items": [
+      {
+        "id": "FIN001",
+        "item": "Carte bancaire sans frais à l'étranger",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-30",
+        "conseils": "Revolut, N26, Wise - 0% frais. N26: 3 retraits gratuits/mois"
+      },
+      {
+        "id": "FIN002",
+        "item": "Carte bancaire de secours",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-14",
+        "conseils": "Dans bagage différent du portefeuille principal"
+      },
+      {
+        "id": "FIN003",
+        "item": "Espèces en euros",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "conseils": "100-200€ en petites coupures (10-20€) pour change initial"
+      },
+      {
+        "id": "FIN004",
+        "item": "Devise locale (aéroport ou avant)",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "filtres": {
+          "destinations": [
+            "asie",
+            "afrique",
+            "amerique-sud"
+          ]
+        },
+        "conseils": "50-100€ équivalent. Taux meilleur en bureau ville qu'aéroport"
+      },
+      {
+        "id": "FIN005",
+        "item": "Traveller's chèques (longs voyages)",
+        "priorite": "⭐",
+        "delai": "J-30",
+        "filtres": {
+          "duree": [
+            "long",
+            "tres-long"
+          ]
+        },
+        "conseils": "Obsolète mais sécurisé, accepté dans grandes villes"
+      },
+      {
+        "id": "FIN006",
+        "item": "Augmenter plafonds temporairement",
+        "priorite": "⭐⭐",
+        "delai": "J-14",
+        "conseils": "Paiement + retrait, durée du voyage. Via app bancaire"
+      },
+      {
+        "id": "FIN007",
+        "item": "Activer notifications SMS",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Alerte temps réel = détection fraude rapide"
+      },
+      {
+        "id": "FIN008",
+        "item": "Noter numéros urgence bancaire",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Opposition carte 24/7: sur papier + smartphone. Numéro international (+33...)"
+      },
+      {
+        "id": "FIN009",
+        "item": "Vérifier dates expiration cartes",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-30",
+        "conseils": "Renouveler si expire pendant voyage + marge 6 mois"
+      },
+      {
+        "id": "FIN010",
+        "item": "Budget prévisionnel détaillé",
+        "priorite": "⭐⭐",
+        "delai": "J-30",
+        "filtres": {
+          "duree": [
+            "moyen",
+            "long",
+            "tres-long"
+          ]
+        },
+        "conseils": "Par catégorie: transport, logement, nourriture, activités. Prévoir 20% marge"
+      },
+      {
+        "id": "FIN011",
+        "item": "Application gestion budget voyage",
+        "priorite": "⭐",
+        "delai": "J-7",
+        "filtres": {
+          "duree": [
+            "moyen",
+            "long",
+            "tres-long"
+          ]
+        },
+        "conseils": "Trail Wallet, TravelSpend, Splitwise (groupe). Suivi dépenses quotidien"
+      }
+    ]
+  },
+  "sante": {
+    "id": "sante",
+    "nom": "🏥 Santé & Pharmacie",
+    "description": "Vaccins, médicaments, pharmacie, traitements, urgences",
+    "obligatoire": false,
+    "items": [
+      {
+        "id": "SAN001",
+        "item": "Paracétamol / Ibuprofène",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "quantite": "1 boîte 20cp",
+        "conseils": "Anti-inflammatoire + antidouleur"
+      },
+      {
+        "id": "SAN002",
+        "item": "Pansements variés (assortiment)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Hydrocolloïdes pour ampoules"
+      },
+      {
+        "id": "SAN003",
+        "item": "Antiseptique (spray ou compresses)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Biseptine spray pratique, ne coule pas"
+      },
+      {
+        "id": "SAN004",
+        "item": "Anti-diarrhéique (Imodium / Smecta)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Indispensable changement alimentation"
+      },
+      {
+        "id": "SAN005",
+        "item": "Antihistaminique (allergies)",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "conseils": "Piqûres, allergies alimentaires, rhume des foins"
+      },
+      {
+        "id": "SAN006",
+        "item": "Antibiotiques large spectre",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-14",
+        "filtres": {
+          "destinations": [
+            "afrique",
+            "asie",
+            "amerique-sud"
+          ]
+        },
+        "conseils": "Ordonnance obligatoire. Amoxicilline"
+      },
+      {
+        "id": "SAN007",
+        "item": "Antipaludiques (zone endémique)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-30",
+        "filtres": {
+          "destinations": [
+            "afrique",
+            "asie"
+          ]
+        },
+        "conseils": "Malarone ou Doxycycline. Débuter 1-2j avant"
+      },
+      {
+        "id": "SAN008",
+        "item": "Sels de réhydratation orale (SRO)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "destinations": [
+            "afrique",
+            "asie",
+            "amerique-sud"
+          ]
+        },
+        "conseils": "Turista = perte hydratation massive. 10 sachets min"
+      },
+      {
+        "id": "SAN009",
+        "item": "Purificateur eau (pastilles/filtre)",
+        "priorite": "⭐⭐",
+        "delai": "J-14",
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "camping"
+          ],
+          "destinations": [
+            "afrique",
+            "asie",
+            "amerique-sud"
+          ]
+        },
+        "conseils": "Micropur: 1 pastille = 1L eau potable en 30min"
+      },
+      {
+        "id": "SAN010",
+        "item": "Crème solaire SPF 50+",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "quantite": "200ml/semaine",
+        "conseils": "Renouveler toutes les 2h"
+      },
+      {
+        "id": "SAN011",
+        "item": "Répulsif moustiques DEET 30-50%",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "destinations": [
+            "afrique",
+            "asie",
+            "amerique-sud"
+          ]
+        },
+        "conseils": "Zones tropicales: dengue, zika, paludisme"
+      },
+      {
+        "id": "SAN012",
+        "item": "Moustiquaire imprégnée",
+        "priorite": "⭐⭐",
+        "delai": "J-14",
+        "filtres": {
+          "destinations": [
+            "afrique",
+            "asie"
+          ],
+          "confort": [
+            "economique"
+          ]
+        },
+        "conseils": "Imprégnation perméthrine dure 6 mois"
+      },
+      {
+        "id": "SAN013",
+        "item": "Thermomètre frontal/digital",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "profil": [
+            "famille"
+          ],
+          "duree": [
+            "moyen",
+            "long",
+            "tres-long"
+          ]
+        },
+        "conseils": "Surveiller température enfants"
+      },
+      {
+        "id": "SAN014",
+        "item": "Contraception (stock complet + marge)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-14",
+        "conseils": "Pilule: ordonnance 6-12 mois. Vigilance décalage horaire"
+      },
+      {
+        "id": "SAN015",
+        "item": "Protections solaires (lunettes UV400 + chapeau)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "activites": [
+            "plage",
+            "randonnee"
+          ]
+        },
+        "conseils": "UV400 = protection 100% UV"
+      },
+      {
+        "id": "SAN016",
+        "item": "Gel hydroalcoolique 100ml",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "filtres": {
+          "destinations": [
+            "afrique",
+            "asie"
+          ]
+        },
+        "conseils": "Hygiène mains avant repas"
+      },
+      {
+        "id": "SAN017",
+        "item": "Kit stérilisation seringues",
+        "priorite": "⭐",
+        "delai": "J-14",
+        "filtres": {
+          "destinations": [
+            "afrique"
+          ],
+          "duree": [
+            "long",
+            "tres-long"
+          ]
+        },
+        "conseils": "Pays infrastructure médicale limitée"
+      },
+      {
+        "id": "SAN018",
+        "item": "Pince à épiler + ciseaux",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "Échardes, ongles, fils"
+      },
+      {
+        "id": "SAN019",
+        "item": "Bandage compressif",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "sports-hiver"
+          ]
+        },
+        "conseils": "Entorses, foulures"
+      },
+      {
+        "id": "SAN020",
+        "item": "Compresses stériles",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "quantite": "10 compresses",
+        "conseils": "Désinfection plaies"
+      },
+      {
+        "id": "SAN021",
+        "item": "Couverture de survie",
+        "priorite": "⭐",
+        "delai": "J-7",
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "camping",
+            "sports-hiver"
+          ]
+        },
+        "conseils": "Hypothermie, choc. Compacte, légère"
+      },
+      {
+        "id": "SAN022",
+        "item": "Kit suture/colle cutanée",
+        "priorite": "⭐",
+        "delai": "J-14",
+        "filtres": {
+          "destinations": [
+            "afrique",
+            "asie"
+          ],
+          "activites": [
+            "randonnee"
+          ],
+          "duree": [
+            "long",
+            "tres-long"
+          ]
+        },
+        "conseils": "Zones isolées. Formation recommandée"
+      },
+      {
+        "id": "SAN023",
+        "item": "Probiotiques (flore intestinale)",
+        "priorite": "⭐⭐",
+        "delai": "J-14",
+        "filtres": {
+          "destinations": [
+            "afrique",
+            "asie"
+          ]
+        },
+        "conseils": "Débuter 1 semaine avant. Protection turista"
+      },
+      {
+        "id": "SAN024",
+        "item": "Électrolytes (déshydratation)",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "filtres": {
+          "activites": [
+            "randonnee",
+            "sports-nautiques"
+          ]
+        },
+        "conseils": "Chaleur, effort intense, diarrhée"
+      },
+      {
+        "id": "SAN025",
+        "item": "Antispasmodique (douleurs abdominales)",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "conseils": "Spasfon. Crampes digestives"
+      },
+      {
+        "id": "SAN026",
+        "item": "Collyre oculaire",
+        "priorite": "⭐",
+        "delai": "J-7",
+        "filtres": {
+          "destinations": [
+            "afrique",
+            "asie"
+          ]
+        },
+        "conseils": "Poussière, sable, climatisation"
+      },
+      {
+        "id": "SAN027",
+        "item": "Spray nasal (rhume, sécheresse)",
+        "priorite": "⭐",
+        "delai": "J-3",
+        "conseils": "Avion = air sec. Décongestionne"
+      },
+      {
+        "id": "SAN028",
+        "item": "Mal des transports (Dramamine, Nausicalm)",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "filtres": {
+          "activites": [
+            "sports-nautiques"
+          ]
+        },
+        "conseils": "Bateau, routes sinueuses"
+      },
+      {
+        "id": "SAN029",
+        "item": "Bouchons oreilles + masque yeux",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "conseils": "Sommeil avion. Auberges. Indispensable backpackers"
+      },
+      {
+        "id": "SAN030",
+        "item": "Préservatifs",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "conseils": "Qualité variable destinations. MST prévention"
+      }
+    ]
+  },
+  "domicile": {
+    "id": "domicile",
+    "nom": "🏠 Avant le départ (Domicile)",
+    "description": "Clés, courrier, plantes, sécurisation maison",
+    "obligatoire": false,
+    "items": []
+  },
+  "transport": {
+    "id": "transport",
+    "nom": "✈️ Transport & Logistique",
+    "description": "Billets, vols, transferts, transports",
+    "obligatoire": false,
+    "items": []
+  },
+  "reservations": {
+    "id": "reservations",
+    "nom": "🎫 Réservations & Activités",
+    "description": "Hébergements, excursions, réservations, confirmations",
+    "obligatoire": false,
+    "items": []
+  },
+  "pendant_apres": {
+    "id": "pendant_apres",
+    "nom": "🔄 Pendant & Après le voyage",
+    "description": "Checklist sur place et retour",
+    "obligatoire": false,
+    "items": []
+  }
+}
