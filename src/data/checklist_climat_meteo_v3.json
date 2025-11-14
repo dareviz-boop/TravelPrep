@@ -10,26 +10,6 @@
     "note": "Destiné à l'intégration avec le système de filtrage automatique"
   },
 
-  "mapping": {
-    "description": "Table de correspondance anciens IDs → nouveaux IDs pour migration",
-    "oldToNew": {
-      "pluies_mousson": "climat_mousson",
-      "sec_aride": "climat_sec_aride",
-      "orages_freq": "climat_orages",
-      "neige_blizzards": "climat_neige",
-      "vents_forts": "climat_vents_forts",
-      "cyclones": "climat_cyclones",
-      "tempete_sable": "climat_tempete_sable",
-      "canicule": "climat_canicule",
-      "froid_intense": "climat_froid_intense",
-      "amplitude_thermique": "climat_amplitude_thermique",
-      "brouillard_brume": "climat_brouillard",
-      "uv_eleves": "climat_uv_eleves",
-      "forte_humidite": "climat_humidite",
-      "aucune": "climat_aucune"
-    }
-  },
-
   "conditionsClimatiques": {
     "description": "Conditions climatiques avec système de filtrage intelligent",
     "categories": [
