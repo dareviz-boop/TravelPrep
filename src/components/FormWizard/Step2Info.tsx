@@ -6,7 +6,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FormData } from "@/types/form";
 import { checklistData } from "@/utils/checklistUtils";
 import { cn } from "@/lib/utils";
-import { SuggestionsPanel } from "@/components/FormWizard/SuggestionsPanel"; 
+import { useEffect } from "react";
+import { generateAutoSuggestions } from "@/utils/checklistFilters"; 
 
 interface Step2InfoProps {
   formData: FormData;
@@ -16,22 +17,37 @@ interface Step2InfoProps {
 export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
   /**
-   * Gestion des suggestions acceptées/refusées
+   * 🔄 Auto-suggestions : Pré-sélectionner automatiquement les conditions recommandées
+   * Déclenché quand destination, température ou saison changent
    */
-  const handleAcceptSuggestion = (conditionId: string) => {
-    const current = formData.conditionsClimatiques || [];
-    // Retirer "climat_aucune" si présent
-    const filtered = current.filter(id => id !== 'climat_aucune');
-    // Ajouter la suggestion si pas déjà présente
-    if (!filtered.includes(conditionId)) {
-      updateFormData({ conditionsClimatiques: [...filtered, conditionId] });
-    }
-  };
+  useEffect(() => {
+    const temperatures = Array.isArray(formData.temperature) ? formData.temperature : [formData.temperature];
+    const saisons = Array.isArray(formData.saison) ? formData.saison : [formData.saison];
 
-  const handleDismissSuggestion = (conditionId: string) => {
-    // Pas besoin de faire quoi que ce soit côté formData
-    // Le composant SuggestionsPanel gère l'état local des suggestions écartées
-  };
+    const hasValidTemp = temperatures.length > 0 && !temperatures.includes('inconnue');
+    const hasValidSaison = saisons.length > 0 && !saisons.includes('inconnue');
+
+    // Ne générer les suggestions que si temp & saison sont valides
+    if (hasValidTemp && hasValidSaison) {
+      const suggestions = generateAutoSuggestions(formData);
+
+      if (suggestions.length > 0) {
+        const current = formData.conditionsClimatiques || [];
+        const filtered = current.filter(id => id !== 'climat_aucune');
+
+        // Ajouter toutes les suggestions qui ne sont pas déjà sélectionnées
+        const newSuggestions = suggestions
+          .map(s => s.conditionId)
+          .filter(id => !filtered.includes(id));
+
+        if (newSuggestions.length > 0) {
+          updateFormData({
+            conditionsClimatiques: [...filtered, ...newSuggestions]
+          });
+        }
+      }
+    }
+  }, [formData.localisation, formData.pays, formData.temperature, formData.saison, formData.dateDepart]);
 
   /**
    * Fonction générique pour gérer la bascule (toggle) de la sélection multiple pour saison et temperature.
@@ -253,28 +269,8 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
           ))}
         </div>
 
-        {/* ✨ Panneau de suggestions automatiques */}
-        {/* Affiché uniquement si température et saison sont renseignées (pas "inconnue") */}
-        {(() => {
-          const temperatures = Array.isArray(formData.temperature) ? formData.temperature : [formData.temperature];
-          const saisons = Array.isArray(formData.saison) ? formData.saison : [formData.saison];
-
-          const hasValidTemp = temperatures.length > 0 && !temperatures.includes('inconnue');
-          const hasValidSaison = saisons.length > 0 && !saisons.includes('inconnue');
-
-          if (hasValidTemp && hasValidSaison) {
-            return (
-              <div className="mt-6">
-                <SuggestionsPanel
-                  formData={formData}
-                  onAcceptSuggestion={handleAcceptSuggestion}
-                  onDismissSuggestion={handleDismissSuggestion}
-                />
-              </div>
-            );
-          }
-          return null;
-        })()}
+        {/* 💡 Les suggestions climatiques sont maintenant pré-cochées automatiquement ! */}
+        {/* Aucun panel à afficher, les conditions sont ajoutées directement via useEffect */}
       </div>
     </div>
   );

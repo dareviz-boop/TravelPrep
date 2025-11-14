@@ -20,8 +20,8 @@
 {
   "destination": "Thaïlande",
   "localisation": "asie",
-  "dateDepart": "2025-07-15",
-  "dateRetour": "2025-07-30",
+  "dateDepart": "2026-07-15",
+  "dateRetour": "2026-07-30",
   "temperature": ["chaude", "tres-chaude"],
   "saison": ["ete"],
   "conditionsClimatiques": ["climat_mousson"]
@@ -51,8 +51,8 @@
 {
   "destination": "Canada",
   "localisation": "amerique-nord",
-  "dateDepart": "2025-01-10",
-  "dateRetour": "2025-01-20",
+  "dateDepart": "2026-01-10",
+  "dateRetour": "2026-01-20",
   "temperature": ["froide", "tres-froide"],
   "saison": ["hiver"],
   "conditionsClimatiques": ["climat_froid_intense", "climat_neige"]
@@ -82,8 +82,8 @@
 {
   "destination": "Maroc",
   "localisation": "afrique",
-  "dateDepart": "2025-08-01",
-  "dateRetour": "2025-08-15",
+  "dateDepart": "2026-08-01",
+  "dateRetour": "2026-08-15",
   "temperature": ["chaude", "tres-chaude"],
   "saison": ["ete"],
   "conditionsClimatiques": ["climat_sec_aride", "climat_uv_eleves", "climat_canicule"]
@@ -143,7 +143,7 @@
 {
   "localisation": "amerique-centrale-caraibes",
   "destination": "Cuba",
-  "dateDepart": "2025-09-15",
+  "dateDepart": "2026-09-15",
   "temperature": ["chaude"],
   "saison": ["automne"]
 }
@@ -158,7 +158,7 @@
 ```json
 {
   "localisation": "amerique-centrale-caraibes",
-  "dateDepart": "2025-02-15", // Février = hors saison cyclonique
+  "dateDepart": "2026-02-15", // Février = hors saison cyclonique
   "temperature": ["temperee"],
   "saison": ["hiver"]
 }
@@ -274,8 +274,8 @@
   "nomVoyage": "Aventure Thaïlande",
   "destination": "Thaïlande",
   "localisation": "asie",
-  "dateDepart": "2025-07-01",
-  "dateRetour": "2025-07-15",
+  "dateDepart": "2026-07-01",
+  "dateRetour": "2026-07-15",
   "temperature": ["chaude"],
   "saison": ["ete"],
   "conditionsClimatiques": ["climat_mousson"],
@@ -358,7 +358,7 @@ const getPriorityStars = (priorite: string) => {
 **Étapes**:
 1. **Step 1 - Destination**
    - Sélectionner "Asie" → "Thaïlande"
-   - Dates : 15 juillet → 30 juillet 2025
+   - Dates : 15 juillet → 30 juillet 2026
    - Type : "Vacances"
 
 2. **Step 2 - Informations voyage**

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { DatePicker } from "@/components/ui/date-picker";
 import { FormData, Localisation, Pays } from "@/types/form";
 import { checklistData, getPaysOptions } from "@/utils/checklistUtils";
 import { Check, ChevronsUpDown, X } from "lucide-react";
@@ -374,23 +375,23 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
 {/*                                    FIN DU CONTENU A NE PAS SUPPRIMER                                                                */}
 
         
-        {/* Dates (Inchangé) */}
+        {/* Dates */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-3 bg-card p-6 rounded-xl border-2 border-border shadow-sm hover:shadow-md transition-shadow">
-            <Label htmlFor="dateDepart" className="text-lg font-bold text-foreground">
+            <Label className="text-lg font-bold text-foreground">
               Date de départ <span className="text-primary">*</span>
             </Label>
-            <Input
-              id="dateDepart"
-              type="date"
-              value={formData.dateDepart}
-              onChange={(e) => {
-                const value = e.target.value;
-                const selectedDate = new Date(value);
+            <DatePicker
+              date={formData.dateDepart ? new Date(formData.dateDepart) : undefined}
+              onSelect={(selectedDate) => {
+                if (!selectedDate) {
+                  updateFormData({ dateDepart: '' });
+                  return;
+                }
+
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
-                
-                // Validation : la date doit être dans le futur
+
                 if (selectedDate <= today) {
                   toast({
                     title: "Date invalide",
@@ -399,12 +400,14 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                   });
                   return;
                 }
-                
-                updateFormData({ dateDepart: value });
+
+                // Format YYYY-MM-DD
+                const dateString = selectedDate.toISOString().split('T')[0];
+                updateFormData({ dateDepart: dateString });
               }}
-              className="h-14 text-base border-2 focus:border-primary"
-              required
-              min={new Date(Date.now() + 86400000).toISOString().split('T')[0]}
+              minDate={new Date(Date.now() + 86400000)}
+              maxDate={new Date('9999-12-31')}
+              placeholder="Choisir la date de départ"
             />
             <p className="text-sm text-muted-foreground">
               On calculera automatiquement tes échéances
@@ -412,44 +415,37 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
           </div>
 
           <div className="space-y-3 bg-card p-6 rounded-xl border-2 border-border shadow-sm hover:shadow-md transition-shadow">
-            <Label htmlFor="dateRetour" className="text-lg font-bold text-foreground">
+            <Label className="text-lg font-bold text-foreground">
               Date de retour <span className="text-muted-foreground text-sm font-normal">(optionnel)</span>
             </Label>
-            <Input
-              id="dateRetour"
-              type="date"
-              value={formData.dateRetour || ''}
-              onChange={(e) => {
-                const value = e.target.value;
-                
-                // Si la valeur est vide, on met à jour et on sort
-                if (!value) {
-                  updateFormData({ dateRetour: value });
+            <DatePicker
+              date={formData.dateRetour ? new Date(formData.dateRetour) : undefined}
+              onSelect={(selectedDate) => {
+                if (!selectedDate) {
+                  updateFormData({ dateRetour: '' });
                   return;
                 }
-                
-                const isDateComplete = value.length === 10;
-                
-                // On met TOUJOURS à jour la valeur
-                updateFormData({ dateRetour: value });
 
-                // On ne valide que si la chaîne est complète ET qu'il existe une date de départ
-                if (isDateComplete && formData.dateDepart) {
-                  const selectedDate = new Date(value);
+                if (formData.dateDepart) {
                   const departDate = new Date(formData.dateDepart);
-                  
-                  // Validation : la date de retour doit être après la date de départ
+
                   if (selectedDate <= departDate) {
                     toast({
                       title: "Date invalide",
                       description: "❌ La date de retour doit être après la date de départ",
                       variant: "destructive"
                     });
+                    return;
                   }
                 }
+
+                // Format YYYY-MM-DD
+                const dateString = selectedDate.toISOString().split('T')[0];
+                updateFormData({ dateRetour: dateString });
               }}
-              className="h-14 text-base border-2 focus:border-primary"
-              min={formData.dateDepart || new Date(Date.now() + 86400000).toISOString().split('T')[0]}
+              minDate={formData.dateDepart ? new Date(formData.dateDepart) : new Date(Date.now() + 86400000)}
+              maxDate={new Date('9999-12-31')}
+              placeholder="Choisir la date de retour"
             />
             {formData.dateDepart && formData.dateRetour && (
               <p className="text-sm text-accent font-bold flex items-center gap-2">
