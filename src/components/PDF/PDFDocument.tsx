@@ -1,5 +1,6 @@
 import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
+import { GeneratedChecklist } from '@/utils/checklistGenerator';
 import { CoverPage } from './CoverPage';
 import { TimelinePage } from './TimelinePage';
 import { CategoryPage } from './CategoryPage';
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
 
 interface PDFDocumentProps {
   formData: FormData;
-  checklistData: any;
+  checklistData: GeneratedChecklist;
 }
 
 export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => {
@@ -34,18 +35,16 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
     <Document>
       <CoverPage formData={formData} checklistData={checklistData} />
       <TimelinePage formData={formData} checklistData={checklistData} />
-      
-      {formData.sectionsInclure.includes('Documents & Administratif') && (
-        <CategoryPage 
-          formData={formData} 
-          category={checklistData.categories.documents}
-          title="Documents & Administratif"
+
+      {/* Render all generated sections */}
+      {checklistData.sections.map((section) => (
+        <CategoryPage
+          key={section.id}
+          formData={formData}
+          category={section}
+          title={section.nom}
         />
-      )}
-      
-      {formData.sectionsInclure.includes('Bagages détaillés') && (
-        <BagagesPage formData={formData} checklistData={checklistData} />
-      )}
+      ))}
     </Document>
   );
 };

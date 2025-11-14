@@ -1,11 +1,11 @@
 {
   "metadata": {
     "version": "3.0",
-    "lastUpdated": "2025-10-12",
+    "lastUpdated": "2025-11-14",
     "totalItems": 750,
-    "totalPays": 263,
+    "totalPays": 212,
     "categories": 20,
-    "noteExpert": "Version complète fusionnée - Parties 1+2+3"
+    "noteExpert": "Version complète - 193 pays ONU + 19 territoires touristiques"
   },
   
   "localisations": {
@@ -32,8 +32,10 @@
         {"code": "HR", "nom": "Croatie", "nomEn": "Croatia", "flag": "🇭🇷"},
         {"code": "DK", "nom": "Danemark", "nomEn": "Denmark", "flag": "🇩🇰"},
         {"code": "EE", "nom": "Estonie", "nomEn": "Estonia", "flag": "🇪🇪"},
+        {"code": "FO", "nom": "Îles Féroé", "nomEn": "Faroe Islands", "flag": "🇫🇴"},
         {"code": "XK", "nom": "Kosovo", "nomEn": "Kosovo", "flag": "🇽🇰"},
         {"code": "FI", "nom": "Finlande", "nomEn": "Finland", "flag": "🇫🇮"},
+        {"code": "GI", "nom": "Gibraltar", "nomEn": "Gibraltar", "flag": "🇬🇮"},
         {"code": "HU", "nom": "Hongrie", "nomEn": "Hungary", "flag": "🇭🇺"},
         {"code": "IE", "nom": "Irlande", "nomEn": "Ireland", "flag": "🇮🇪"},
         {"code": "IS", "nom": "Islande", "nomEn": "Iceland", "flag": "🇮🇸"},
@@ -45,6 +47,8 @@
         {"code": "MD", "nom": "Moldavie", "nomEn": "Moldova", "flag": "🇲🇩"},
         {"code": "MC", "nom": "Monaco", "nomEn": "Monaco", "flag": "🇲🇨"},
         {"code": "ME", "nom": "Monténégro", "nomEn": "Montenegro", "flag": "🇲🇪"},
+        {"code": "MK", "nom": "Macédoine du Nord", "nomEn": "North Macedonia", "flag": "🇲🇰"},
+        {"code": "NO", "nom": "Norvège", "nomEn": "Norway", "flag": "🇳🇴"},
         {"code": "NL", "nom": "Pays-Bas", "nomEn": "Netherlands", "flag": "🇳🇱"},
         {"code": "PL", "nom": "Pologne", "nomEn": "Poland", "flag": "🇵🇱"},
         {"code": "CZ", "nom": "Tchéquie", "nomEn": "Czechia", "flag": "🇨🇿"},
@@ -91,6 +95,7 @@
         {"code": "LB", "nom": "Liban", "nomEn": "Lebanon", "flag": "🇱🇧"},
         {"code": "MY", "nom": "Malaisie", "nomEn": "Malaysia", "flag": "🇲🇾"},
         {"code": "MV", "nom": "Maldives", "nomEn": "Maldives", "flag": "🇲🇻"},
+        {"code": "MO", "nom": "Macao", "nomEn": "Macao", "flag": "🇲🇴"},
         {"code": "MN", "nom": "Mongolie", "nomEn": "Mongolia", "flag": "🇲🇳"},
         {"code": "MM", "nom": "Myanmar", "nomEn": "Myanmar", "flag": "🇲🇲"},
         {"code": "NP", "nom": "Népal", "nomEn": "Nepal", "flag": "🇳🇵"},
@@ -111,6 +116,7 @@
         {"code": "TR", "nom": "Turquie", "nomEn": "Turkey", "flag": "🇹🇷"},
         {"code": "AE", "nom": "Émirats arabes unis", "nomEn": "United Arab Emirates", "flag": "🇦🇪"},
         {"code": "UZ", "nom": "Ouzbékistan", "nomEn": "Uzbekistan", "flag": "🇺🇿"},
+        {"code": "YE", "nom": "Yémen", "nomEn": "Yemen", "flag": "🇾🇪"},
         {"code": "TW", "nom": "Taïwan", "nomEn": "Taiwan", "flag": "🇹🇼"}
       ]
     },
@@ -153,11 +159,13 @@
         {"code": "ML", "nom": "Mali", "nomEn": "Mali", "flag": "🇲🇱"},
         {"code": "MR", "nom": "Mauritanie", "nomEn": "Mauritania", "flag": "🇲🇷"},
         {"code": "MU", "nom": "Maurice", "nomEn": "Mauritius", "flag": "🇲🇺"},
+        {"code": "YT", "nom": "Mayotte", "nomEn": "Mayotte", "flag": "🇾🇹"},
         {"code": "MZ", "nom": "Mozambique", "nomEn": "Mozambique", "flag": "🇲🇿"},
         {"code": "NA", "nom": "Namibie", "nomEn": "Namibia", "flag": "🇳🇦"},
         {"code": "NE", "nom": "Niger", "nomEn": "Niger", "flag": "🇳🇪"},
         {"code": "NG", "nom": "Nigéria", "nomEn": "Nigeria", "flag": "🇳🇬"},
         {"code": "RW", "nom": "Rwanda", "nomEn": "Rwanda", "flag": "🇷🇼"},
+        {"code": "RE", "nom": "La Réunion", "nomEn": "Réunion", "flag": "🇷🇪"},
         {"code": "ST", "nom": "Sao Tomé-et-Principe", "nomEn": "São Tomé and Príncipe", "flag": "🇸🇹"},
         {"code": "SN", "nom": "Sénégal", "nomEn": "Senegal", "flag": "🇸🇳"},
         {"code": "SC", "nom": "Seychelles", "nomEn": "Seychelles", "flag": "🇸🇨"},
@@ -182,7 +190,8 @@
         {"code": "US", "nom": "États-Unis", "nomEn": "United States", "flag": "🇺🇸"},
         {"code": "CA", "nom": "Canada", "nomEn": "Canada", "flag": "🇨🇦"},
         {"code": "GL", "nom": "Groenland", "nomEn": "Greenland", "flag": "🇬🇱"},
-        {"code": "MX", "nom": "Mexique", "nomEn": "Mexico", "flag": "🇲🇽"}
+        {"code": "MX", "nom": "Mexique", "nomEn": "Mexico", "flag": "🇲🇽"},
+        {"code": "PM", "nom": "Saint-Pierre-et-Miquelon", "nomEn": "Saint Pierre and Miquelon", "flag": "🇵🇲"}
       ]
     },
     "amerique-centrale-caraibes": {
@@ -197,15 +206,20 @@
         {"code": "HN", "nom": "Honduras", "nomEn": "Honduras", "flag": "🇭🇳"},
         {"code": "NI", "nom": "Nicaragua", "nomEn": "Nicaragua", "flag": "🇳🇮"},
         {"code": "PA", "nom": "Panama", "nomEn": "Panama", "flag": "🇵🇦"},
+        {"code": "DM", "nom": "Dominique", "nomEn": "Dominica", "flag": "🇩🇲"},
         {"code": "DO", "nom": "République dominicaine", "nomEn": "Dominican Republic", "flag": "🇩🇴"},
+        {"code": "GP", "nom": "Guadeloupe", "nomEn": "Guadeloupe", "flag": "🇬🇵"},
         {"code": "HT", "nom": "Haïti", "nomEn": "Haiti", "flag": "🇭🇹"},
         {"code": "JM", "nom": "Jamaïque", "nomEn": "Jamaica", "flag": "🇯🇲"},
+        {"code": "MQ", "nom": "Martinique", "nomEn": "Martinique", "flag": "🇲🇶"},
         {"code": "AG", "nom": "Antigua-et-Barbuda", "nomEn": "Antigua and Barbuda", "flag": "🇦🇬"},
         {"code": "BS", "nom": "Bahamas", "nomEn": "Bahamas", "flag": "🇧🇸"},
         {"code": "BB", "nom": "Barbade", "nomEn": "Barbados", "flag": "🇧🇧"},
         {"code": "GD", "nom": "Grenade", "nomEn": "Grenada", "flag": "🇬🇩"},
+        {"code": "BL", "nom": "Saint-Barthélemy", "nomEn": "Saint Barthélemy", "flag": "🇧🇱"},
         {"code": "KN", "nom": "Saint-Christophe-et-Niévès", "nomEn": "Saint Kitts and Nevis", "flag": "🇰🇳"},
         {"code": "LC", "nom": "Sainte-Lucie", "nomEn": "Saint Lucia", "flag": "🇱🇨"},
+        {"code": "MF", "nom": "Saint-Martin", "nomEn": "Saint Martin", "flag": "🇲🇫"},
         {"code": "VC", "nom": "Saint-Vincent-et-les-Grenadines", "nomEn": "Saint Vincent and the Grenadines", "flag": "🇻🇨"},
         {"code": "TT", "nom": "Trinité-et-Tobago", "nomEn": "Trinidad and Tobago", "flag": "🇹🇹"}
       ]
@@ -235,7 +249,9 @@
       "pays": [
         {"code": "AU", "nom": "Australie", "nomEn": "Australia", "flag": "🇦🇺"},
         {"code": "NZ", "nom": "Nouvelle-Zélande", "nomEn": "New Zealand", "flag": "🇳🇿"},
+        {"code": "NC", "nom": "Nouvelle-Calédonie", "nomEn": "New Caledonia", "flag": "🇳🇨"},
         {"code": "FJ", "nom": "Fidji", "nomEn": "Fiji", "flag": "🇫🇯"},
+        {"code": "PF", "nom": "Polynésie française", "nomEn": "French Polynesia", "flag": "🇵🇫"},
         {"code": "PG", "nom": "Papouasie-Nouvelle-Guinée", "nomEn": "Papua New Guinea", "flag": "🇵🇬"},
         {"code": "SB", "nom": "Îles Salomon", "nomEn": "Solomon Islands", "flag": "🇸🇧"},
         {"code": "VU", "nom": "Vanuatu", "nomEn": "Vanuatu", "flag": "🇻🇺"},
@@ -283,32 +299,49 @@
   "conditionsClimatiques": [
       {   "groupe": "Précipitations",
           "options": [
-              { "id": "pluies_mousson", "nom": "🌧️ Saison des pluies / Mousson" },
-              { "id": "sec_aride", "nom": "🌵 Saison sèche / Aride" },
-              { "id": "orages_freq", "nom": "⛈️ Orages fréquents" },
-              { "id": "neige_blizzards", "nom": "🌨️ Neige / Blizzards" }
+              { "id": "climat_mousson", "nom": "🌧️ Saison des pluies / Mousson" },
+              { "id": "climat_sec_aride", "nom": "🌵 Saison sèche / Aride" },
+              { "id": "climat_orages", "nom": "⛈️ Orages fréquents" },
+              { "id": "climat_cyclones", "nom": "🌀 Cyclones / Typhons / Ouragans" },
+              { "id": "climat_neige", "nom": "❄️ Neige / Blizzard" }
           ]
       },
       {   "groupe": "Vents & Tempêtes",
           "options": [
-              { "id": "vents_forts", "nom": "💨 Vents forts / Tempêtes" },
-              { "id": "cyclones", "nom": "🌀 Cyclones / Typhons / Ouragans" },
-              { "id": "tempete_sable", "nom": "🏜️ Tempêtes de sable" }
+              { "id": "climat_vents_forts", "nom": "💨 Vents violents / Tempêtes" },
+              { "id": "climat_tempete_sable", "nom": "🏜️ Tempêtes de sable" },
+              { "id": "climat_tornades", "nom": "🌪️ Tornades / Twisters" }
           ]
       },
       {   "groupe": "Températures extrêmes",
           "options": [
-              { "id": "canicule", "nom": "🌡️ Canicule / Vague de chaleur" },
-              { "id": "froid_intense", "nom": "🧊 Grand froid / Gel intense" },
-              { "id": "amplitude_thermique", "nom": "🌓 Amplitude thermique élevée" }
+              { "id": "climat_canicule", "nom": "🔥 Chaleur extrême (>40°C)" },
+              { "id": "climat_froid_intense", "nom": "🥶 Froid polaire (<-20°C)" },
+              { "id": "climat_amplitude_thermique", "nom": "🌡️ Amplitude thermique extrême" },
+              { "id": "climat_desert_extreme", "nom": "🏜️ Canicule désertique (>45°C)" }
+          ]
+      },
+      {   "groupe": "Altitude",
+          "options": [
+              { "id": "climat_altitude_moderee", "nom": "🏔️ Altitude modérée (2500-3500m)" },
+              { "id": "climat_altitude_haute", "nom": "⛰️ Haute altitude (3500-5500m)" },
+              { "id": "climat_altitude_extreme", "nom": "🗻 Très haute altitude (>5500m)" }
+          ]
+      },
+      {   "groupe": "Conditions spéciales",
+          "options": [
+              { "id": "climat_tropical_humide", "nom": "🏝️ Climat tropical humide" },
+              { "id": "climat_marin", "nom": "🌊 Environnement marin" },
+              { "id": "climat_volcanique", "nom": "🌋 Zone volcanique active" }
           ]
       },
       {   "groupe": "Autres",
           "options": [
-              { "id": "brouillard_brume", "nom": "🌫️ Brouillard / Brume fréquents" },
-              { "id": "uv_eleves", "nom": "☀️ Soleil extrême / UV élevés" },
-              { "id": "forte_humidite", "nom": "💧 Forte humidité" },
-              { "id": "aucune", "nom": "❌ Aucune condition particulière" }
+              { "id": "climat_brouillard", "nom": "🌫️ Brouillard / Brume fréquents" },
+              { "id": "climat_uv_eleves", "nom": "☀️ Soleil extrême / UV élevés" },
+              { "id": "climat_humidite", "nom": "💧 Humidité extrême (>85%)" },
+              { "id": "climat_secheresse", "nom": "🏜️ Sécheresse extrême (<20%)" },
+              { "id": "climat_aucune", "nom": "❌ Aucune condition particulière" }
           ]
       }
   ],

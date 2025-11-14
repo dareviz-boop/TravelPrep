@@ -1,11 +1,12 @@
 // Step 2 Info.tsx
 
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"; 
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormData } from "@/types/form";
 import { checklistData } from "@/utils/checklistUtils";
-import { cn } from "@/lib/utils"; 
+import { cn } from "@/lib/utils";
+import { SuggestionsPanel } from "@/components/FormWizard/SuggestionsPanel"; 
 
 interface Step2InfoProps {
   formData: FormData;
@@ -13,6 +14,24 @@ interface Step2InfoProps {
 }
 
 export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
+
+  /**
+   * Gestion des suggestions acceptées/refusées
+   */
+  const handleAcceptSuggestion = (conditionId: string) => {
+    const current = formData.conditionsClimatiques || [];
+    // Retirer "climat_aucune" si présent
+    const filtered = current.filter(id => id !== 'climat_aucune');
+    // Ajouter la suggestion si pas déjà présente
+    if (!filtered.includes(conditionId)) {
+      updateFormData({ conditionsClimatiques: [...filtered, conditionId] });
+    }
+  };
+
+  const handleDismissSuggestion = (conditionId: string) => {
+    // Pas besoin de faire quoi que ce soit côté formData
+    // Le composant SuggestionsPanel gère l'état local des suggestions écartées
+  };
 
   /**
    * Fonction générique pour gérer la bascule (toggle) de la sélection multiple pour saison et temperature.
@@ -233,7 +252,30 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
             </div>
           ))}
         </div>
-      </div>
-    </div>
-  );
+
+        {/* ✨ Panneau de suggestions automatiques */}
+        {/* Affiché uniquement si température et saison sont renseignées (pas "inconnue") */}
+        {(() => {
+          const temperatures = Array.isArray(formData.temperature) ? formData.temperature : [formData.temperature];
+          const saisons = Array.isArray(formData.saison) ? formData.saison : [formData.saison];
+
+          const hasValidTemp = temperatures.length > 0 && !temperatures.includes('inconnue');
+          const hasValidSaison = saisons.length > 0 && !saisons.includes('inconnue');
+
+          if (hasValidTemp && hasValidSaison) {
+            return (
+              <div className="mt-6">
+                <SuggestionsPanel
+                  formData={formData}
+                  onAcceptSuggestion={handleAcceptSuggestion}
+                  onDismissSuggestion={handleDismissSuggestion}
+                />
+              </div>
+            );
+          }
+          return null;
+        })()}
+      </div>
+    </div>
+  );
 };

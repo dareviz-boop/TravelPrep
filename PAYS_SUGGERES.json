@@ -1,0 +1,58 @@
+{
+  "description": "Territoires et destinations touristiques supplémentaires suggérés",
+  "totalSuggere": 14,
+  "totalActuel": 195,
+  "totalAvecSuggestions": 209,
+
+  "amerique-centrale-caraibes": {
+    "ajouts": [
+      {"code": "GP", "nom": "Guadeloupe", "nomEn": "Guadeloupe", "flag": "🇬🇵"},
+      {"code": "MQ", "nom": "Martinique", "nomEn": "Martinique", "flag": "🇲🇶"},
+      {"code": "BL", "nom": "Saint-Barthélemy", "nomEn": "Saint Barthélemy", "flag": "🇧🇱"},
+      {"code": "MF", "nom": "Saint-Martin", "nomEn": "Saint Martin", "flag": "🇲🇫"}
+    ],
+    "justification": "Destinations très populaires pour voyageurs francophones, considérées comme des destinations à part entière"
+  },
+
+  "oceanie": {
+    "ajouts": [
+      {"code": "PF", "nom": "Polynésie française", "nomEn": "French Polynesia", "flag": "🇵🇫"},
+      {"code": "NC", "nom": "Nouvelle-Calédonie", "nomEn": "New Caledonia", "flag": "🇳🇨"}
+    ],
+    "justification": "Tahiti, Bora-Bora, Nouméa sont des destinations majeures très demandées"
+  },
+
+  "afrique": {
+    "ajouts": [
+      {"code": "RE", "nom": "La Réunion", "nomEn": "Réunion", "flag": "🇷🇪"},
+      {"code": "YT", "nom": "Mayotte", "nomEn": "Mayotte", "flag": "🇾🇹"}
+    ],
+    "justification": "Destinations populaires de l'océan Indien, français parlé"
+  },
+
+  "asie": {
+    "ajouts": [
+      {"code": "MO", "nom": "Macao", "nomEn": "Macao", "flag": "🇲🇴"},
+      {"code": "YE", "nom": "Yémen", "nomEn": "Yemen", "flag": "🇾🇪"}
+    ],
+    "justification": "Macao: destination casino/tourisme, Yémen: pays souverain manquant"
+  },
+
+  "amerique-nord": {
+    "ajouts": [
+      {"code": "GL", "nom": "Groenland", "nomEn": "Greenland", "flag": "🇬🇱"},
+      {"code": "PM", "nom": "Saint-Pierre-et-Miquelon", "nomEn": "Saint Pierre and Miquelon", "flag": "🇵🇲"}
+    ],
+    "justification": "Destinations nordiques uniques, tourisme d'aventure"
+  },
+
+  "europe": {
+    "ajouts": [
+      {"code": "GI", "nom": "Gibraltar", "nomEn": "Gibraltar", "flag": "🇬🇮"},
+      {"code": "FO", "nom": "Îles Féroé", "nomEn": "Faroe Islands", "flag": "🇫🇴"}
+    ],
+    "justification": "Destinations européennes touristiques spécifiques"
+  },
+
+  "recommandation": "Option 2 (pragmatique) - Ajouter les 14 territoires suggérés car ce sont des destinations touristiques majeures avec forte demande (Polynésie française, Guadeloupe, Martinique, La Réunion notamment)"
+}
