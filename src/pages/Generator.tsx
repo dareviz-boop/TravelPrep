@@ -11,6 +11,7 @@ import { FormData } from "@/types/form";
 import { ArrowLeft, ArrowRight, Download } from "lucide-react";
 import { toast } from "sonner";
 import { checklistData } from "@/utils/checklistUtils";
+import { generateCompleteChecklist, getChecklistSummary } from "@/utils/checklistGenerator";
 
 const ALL_SECTION_CODES = checklistData.categories.options.map((cat: any) => cat.id);
 const Generator = () => {
@@ -149,12 +150,18 @@ const validateStep = (step: number): boolean => {
     });
 
     try {
+      // ✨ NOUVEAU : Générer la checklist avec le système intelligent
+      const generatedChecklist = generateCompleteChecklist(formData);
+
+      // 📊 Afficher le résumé dans la console (debug)
+      console.log('📋 CHECKLIST GÉNÉRÉE:');
+      console.log(getChecklistSummary(generatedChecklist));
+
       const { pdf } = await import('@react-pdf/renderer');
       const { TravelPrepPDF } = await import('@/components/PDF/PDFDocument');
-      const checklistComplete = await import('@/data/checklistComplete.json');
 
       const blob = await pdf(
-        <TravelPrepPDF formData={formData} checklistData={checklistComplete.default} />
+        <TravelPrepPDF formData={formData} checklistData={generatedChecklist} />
       ).toBlob();
 
       const url = URL.createObjectURL(blob);
@@ -165,7 +172,7 @@ const validateStep = (step: number): boolean => {
       URL.revokeObjectURL(url);
 
       toast.success("PDF généré avec succès !", {
-        description: "Votre checklist est prête à être utilisée",
+        description: `${generatedChecklist.stats.totalItems} items organisés en ${generatedChecklist.stats.totalSections} sections`,
       });
     } catch (error) {
       console.error("Erreur génération PDF:", error);

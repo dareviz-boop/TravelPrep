@@ -1,6 +1,6 @@
 import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
-import { filterItemsByConditions } from '@/utils/filterItems';
+import { GeneratedChecklistSection } from '@/utils/checklistGenerator';
 
 const styles = StyleSheet.create({
   page: {
@@ -52,39 +52,36 @@ const styles = StyleSheet.create({
 
 interface CategoryPageProps {
   formData: FormData;
-  category: any;
+  category: GeneratedChecklistSection;
   title: string;
 }
 
 export const CategoryPage = ({ formData, category, title }: CategoryPageProps) => {
-  if (!category?.items) return null;
+  if (!category?.items || category.items.length === 0) return null;
 
-  const filteredItems = category.items.filter((item: any) =>
-    filterItemsByConditions(item, formData)
-  );
-
-  if (filteredItems.length === 0) return null;
-
-  const getPriorityStars = (priorite: number) => {
-    if (priorite === 3) return '⭐⭐⭐';
-    if (priorite === 2) return '⭐⭐';
-    return '⭐';
+  const getPriorityStars = (priorite: string) => {
+    const p = priorite?.toLowerCase() || '';
+    if (p.includes('haute') || p.includes('⭐⭐⭐')) return '⭐⭐⭐';
+    if (p.includes('moyenne') || p.includes('⭐⭐')) return '⭐⭐';
+    if (p.includes('basse') || p.includes('⭐')) return '⭐';
+    return '⭐⭐'; // Default to medium
   };
 
-  const getPriorityStyle = (priorite: number) => {
-    if (priorite === 3) return styles.priorityHigh;
-    if (priorite === 2) return styles.priorityMedium;
+  const getPriorityStyle = (priorite: string) => {
+    const p = priorite?.toLowerCase() || '';
+    if (p.includes('haute') || p.includes('⭐⭐⭐')) return styles.priorityHigh;
+    if (p.includes('moyenne') || p.includes('⭐⭐')) return styles.priorityMedium;
     return styles.priorityLow;
   };
 
   return (
     <Page size="A4" style={styles.page}>
-      <Text style={styles.title}>📄 {title}</Text>
-      
-      {filteredItems.map((item: any) => (
-        <View style={styles.item} key={item.id}>
+      <Text style={styles.title}>{category.emoji || '📄'} {title}</Text>
+
+      {category.items.map((item, index) => (
+        <View style={styles.item} key={item.id || `item-${index}`}>
           <View style={styles.checkbox} />
-          <Text style={styles.itemText}>{item.nom}</Text>
+          <Text style={styles.itemText}>{item.item}</Text>
           {item.priorite && (
             <Text style={[styles.priority, getPriorityStyle(item.priorite)]}>
               {getPriorityStars(item.priorite)}
