@@ -1,6 +1,7 @@
 import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
-import { filterItemsByConditions, calculateDeadline } from '@/utils/filterItems';
+import { GeneratedChecklist, ChecklistItem } from '@/utils/checklistGenerator';
+import { calculateDeadline } from '@/utils/filterItems';
 
 const styles = StyleSheet.create({
   page: {
@@ -71,44 +72,93 @@ const styles = StyleSheet.create({
 
 interface TimelinePageProps {
   formData: FormData;
-  checklistData: any;
+  checklistData: GeneratedChecklist;
+}
+
+interface TimelineItem extends ChecklistItem {
+  sectionName: string;
+  sectionEmoji?: string;
 }
 
 export const TimelinePage = ({ formData, checklistData }: TimelinePageProps) => {
-  const getPriorityStars = (priorite: number) => {
-    if (priorite === 3) return '⭐⭐⭐';
-    if (priorite === 2) return '⭐⭐';
-    return '⭐';
+  // Organize items by timeline period based on their deadline
+  const organizeItemsByTimeline = () => {
+    const timelines: {
+      j90_j60: TimelineItem[];
+      j30_j14: TimelineItem[];
+      j7_j3: TimelineItem[];
+      j2_j1: TimelineItem[];
+      other: TimelineItem[];
+    } = {
+      j90_j60: [],
+      j30_j14: [],
+      j7_j3: [],
+      j2_j1: [],
+      other: []
+    };
+
+    checklistData.sections.forEach(section => {
+      section.items.forEach(item => {
+        const itemWithSection: TimelineItem = {
+          ...item,
+          sectionName: section.nom,
+          sectionEmoji: section.emoji
+        };
+
+        const delai = item.delai?.toUpperCase() || '';
+
+        // Categorize by deadline
+        if (delai.includes('J-90') || delai.includes('J-60')) {
+          timelines.j90_j60.push(itemWithSection);
+        } else if (delai.includes('J-30') || delai.includes('J-21') || delai.includes('J-14')) {
+          timelines.j30_j14.push(itemWithSection);
+        } else if (delai.includes('J-7') || delai.includes('J-3')) {
+          timelines.j7_j3.push(itemWithSection);
+        } else if (delai.includes('J-2') || delai.includes('J-1')) {
+          timelines.j2_j1.push(itemWithSection);
+        } else if (delai) {
+          timelines.other.push(itemWithSection);
+        }
+      });
+    });
+
+    return timelines;
   };
 
-  const getPriorityStyle = (priorite: number) => {
-    if (priorite === 3) return styles.priorityHigh;
-    if (priorite === 2) return styles.priorityMedium;
-    return styles.priorityLow;
+  const getPriorityStars = (priorite?: string) => {
+    const p = priorite?.toLowerCase() || '';
+    if (p.includes('haute')) return '⭐⭐⭐';
+    if (p.includes('moyenne')) return '⭐⭐';
+    if (p.includes('basse')) return '⭐';
+    return '⭐⭐';
   };
 
-  const renderTimelineSection = (category: any, title: string) => {
-    if (!category?.items) return null;
+  const getPriorityStyle = (priorite?: string) => {
+    const p = priorite?.toLowerCase() || '';
+    if (p.includes('haute')) return styles.priorityHigh;
+    if (p.includes('basse')) return styles.priorityLow;
+    return styles.priorityMedium;
+  };
 
-    const filteredItems = category.items.filter((item: any) =>
-      filterItemsByConditions(item, formData)
-    );
-
-    if (filteredItems.length === 0) return null;
+  const renderTimelineSection = (items: TimelineItem[], title: string) => {
+    if (items.length === 0) return null;
 
     return (
-      <View style={styles.section} key={category.id || title}>
+      <View style={styles.section} key={title}>
         <Text style={styles.sectionTitle}>{title}</Text>
-        {filteredItems.map((item: any) => (
-          <View style={styles.item} key={item.id}>
+        {items.map((item, index) => (
+          <View style={styles.item} key={`${item.id || index}-${item.item}`}>
             <View style={styles.checkbox} />
-            <Text style={styles.itemText}>{item.nom}</Text>
+            <Text style={styles.itemText}>
+              {item.sectionEmoji && `${item.sectionEmoji} `}
+              {item.item}
+            </Text>
             {item.priorite && (
               <Text style={[styles.priority, getPriorityStyle(item.priorite)]}>
                 {getPriorityStars(item.priorite)}
               </Text>
             )}
-            {item.delai && (
+            {item.delai && formData.dateDepart && (
               <Text style={styles.deadline}>
                 {calculateDeadline(formData.dateDepart, item.delai)}
               </Text>
@@ -119,28 +169,35 @@ export const TimelinePage = ({ formData, checklistData }: TimelinePageProps) => 
     );
   };
 
+  const timelines = organizeItemsByTimeline();
+
   return (
     <Page size="A4" style={styles.page}>
       <Text style={styles.title}>📅 Timeline de Préparation</Text>
-      
-      {checklistData.categories.j90_j60 && renderTimelineSection(
-        checklistData.categories.j90_j60,
+
+      {renderTimelineSection(
+        timelines.j90_j60,
         'J-90 à J-60 (3 mois à 2 mois avant)'
       )}
-      
-      {checklistData.categories.j30_j14 && renderTimelineSection(
-        checklistData.categories.j30_j14,
+
+      {renderTimelineSection(
+        timelines.j30_j14,
         'J-30 à J-14 (1 mois à 2 semaines avant)'
       )}
-      
-      {checklistData.categories.j7_j3 && renderTimelineSection(
-        checklistData.categories.j7_j3,
+
+      {renderTimelineSection(
+        timelines.j7_j3,
         'J-7 à J-3 (1 semaine avant)'
       )}
-      
-      {checklistData.categories.j2_j1 && renderTimelineSection(
-        checklistData.categories.j2_j1,
+
+      {renderTimelineSection(
+        timelines.j2_j1,
         'J-2 à J-1 (48h avant le départ)'
+      )}
+
+      {renderTimelineSection(
+        timelines.other,
+        'Autres éléments'
       )}
     </Page>
   );

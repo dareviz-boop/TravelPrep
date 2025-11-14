@@ -36,6 +36,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
   const [showPaysSelector, setShowPaysSelector] = useState(false);
   const [open, setOpen] = useState(false);
   const [paysOptions, setPaysOptions] = useState<Pays[]>([]);
+  const [knowsReturnDate, setKnowsReturnDate] = useState(true);
   
   // NOUVEAU : Récupération dynamique des localisations (Zones Géographiques)
   const localisations: { value: Localisation; label: string; emoji: string }[] = Object.entries(
@@ -374,46 +375,62 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
 {/*         </div>                                                                                                                      */}
 {/*                                    FIN DU CONTENU A NE PAS SUPPRIMER                                                                */}
 
-        
-        {/* Dates */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-3 bg-card p-6 rounded-xl border-2 border-border shadow-sm hover:shadow-md transition-shadow">
-            <Label className="text-lg font-bold text-foreground">
-              Date de départ <span className="text-primary">*</span>
-            </Label>
-            <DatePicker
-              date={formData.dateDepart ? new Date(formData.dateDepart) : undefined}
-              onSelect={(selectedDate) => {
-                if (!selectedDate) {
-                  updateFormData({ dateDepart: '' });
-                  return;
-                }
 
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
+        {/* Date de départ */}
+        <div className="space-y-3 bg-card p-6 rounded-xl border-2 border-border shadow-sm hover:shadow-md transition-shadow">
+          <Label className="text-lg font-bold text-foreground">
+            Date de départ <span className="text-primary">*</span>
+          </Label>
+          <DatePicker
+            date={formData.dateDepart ? new Date(formData.dateDepart) : undefined}
+            onSelect={(selectedDate) => {
+              if (!selectedDate) {
+                updateFormData({ dateDepart: '' });
+                return;
+              }
 
-                if (selectedDate <= today) {
-                  toast({
-                    title: "Date invalide",
-                    description: "❌ La date de départ doit être dans le futur",
-                    variant: "destructive"
-                  });
-                  return;
-                }
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
 
-                // Format YYYY-MM-DD
-                const dateString = selectedDate.toISOString().split('T')[0];
-                updateFormData({ dateDepart: dateString });
+              if (selectedDate <= today) {
+                toast({
+                  title: "Date invalide",
+                  description: "❌ La date de départ doit être dans le futur",
+                  variant: "destructive"
+                });
+                return;
+              }
+
+              // Format YYYY-MM-DD
+              const dateString = selectedDate.toISOString().split('T')[0];
+              updateFormData({ dateDepart: dateString });
+            }}
+            minDate={new Date(Date.now() + 86400000)}
+            maxDate={new Date('9999-12-31')}
+            placeholder="Choisir la date de départ"
+          />
+          <p className="text-sm text-muted-foreground">
+            On calculera automatiquement tes échéances
+          </p>
+
+          {/* Toggle button pour la date de retour */}
+          {formData.dateDepart && knowsReturnDate && !formData.dateRetour && (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                setKnowsReturnDate(false);
+                updateFormData({ dateRetour: '' });
               }}
-              minDate={new Date(Date.now() + 86400000)}
-              maxDate={new Date('9999-12-31')}
-              placeholder="Choisir la date de départ"
-            />
-            <p className="text-sm text-muted-foreground">
-              On calculera automatiquement tes échéances
-            </p>
-          </div>
+              className="w-full mt-3 border-2 hover:bg-primary/5 hover:border-primary/50"
+            >
+              ❓ Je ne connais pas ma date de retour
+            </Button>
+          )}
+        </div>
 
+        {/* Date de retour - conditionnelle */}
+        {knowsReturnDate && formData.dateDepart && (
           <div className="space-y-3 bg-card p-6 rounded-xl border-2 border-border shadow-sm hover:shadow-md transition-shadow">
             <Label className="text-lg font-bold text-foreground">
               Date de retour <span className="text-muted-foreground text-sm font-normal">(optionnel)</span>
@@ -443,24 +460,36 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                 const dateString = selectedDate.toISOString().split('T')[0];
                 updateFormData({ dateRetour: dateString });
               }}
-              minDate={formData.dateDepart ? new Date(formData.dateDepart) : new Date(Date.now() + 86400000)}
-              maxDate={new Date('9999-12-31')}
+              minDate={formData.dateDepart ? new Date(new Date(formData.dateDepart).getTime() + 86400000) : new Date(Date.now() + 86400000)}
               placeholder="Choisir la date de retour"
             />
-            {formData.dateDepart && formData.dateRetour && (
-              <p className="text-sm text-accent font-bold flex items-center gap-2">
+            {formData.dateRetour && formData.dateRetour.length === 10 && (
+              <p className="text-sm text-primary font-bold flex items-center gap-2">
                 ✓ Durée : {Math.ceil((new Date(formData.dateRetour).getTime() - new Date(formData.dateDepart).getTime()) / (1000 * 60 * 60 * 24))} jours
               </p>
             )}
           </div>
-        </div>
+        )}
 
-        {/* Durée si pas de date retour (Bloc corrigé pour la couleur et le défaut) */}
-        {formData.dateDepart && !formData.dateRetour && (
+        {/* Durée estimée - quand on ne connaît pas la date de retour */}
+        {formData.dateDepart && !knowsReturnDate && (
           <div className="space-y-4 bg-card p-6 rounded-xl border-2 border-border shadow-sm">
-            <Label className="text-lg font-bold text-foreground">
-              Durée estimée du voyage <span className="text-primary">*</span>
-            </Label>
+            <div className="flex items-center justify-between mb-2">
+              <Label className="text-lg font-bold text-foreground">
+                Durée estimée du voyage <span className="text-primary">*</span>
+              </Label>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setKnowsReturnDate(true);
+                }}
+                className="text-sm text-primary hover:text-primary hover:bg-primary/10"
+              >
+                📅 Je connais ma date de retour
+              </Button>
+            </div>
             <RadioGroup
               value={formData.duree}
               onValueChange={(value) => updateFormData({ duree: value as FormData['duree'] })}
@@ -481,10 +510,9 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                   <Label
                     htmlFor={option.value}
                     className={cn(
-                      "flex flex-col items-center justify-center rounded-xl border-2 border-border bg-card p-4 hover:bg-accent/5 cursor-pointer transition-all",
-// ✅ CORRECTION : Remplacement de 'accent' par 'primary' pour le survol et l'état checked
+                      "flex flex-col items-center justify-center rounded-xl border-2 border-border bg-card p-4 cursor-pointer transition-all",
                       "hover:bg-primary/5 hover:border-primary/50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10"
-                      )}
+                    )}
                   >
                     <span className="text-sm font-bold text-foreground">{option.label}</span>
                     <span className="text-xs text-muted-foreground mt-1">{option.desc}</span>
