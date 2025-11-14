@@ -2,7 +2,7 @@
   "metadata": {
     "version": "3.0",
     "lastUpdated": "2025-11-14",
-    "totalConditions": 23,
+    "totalConditions": 24,
     "totalDestinationsSpecifiques": 36,
     "description": "Version fusionnée et optimisée - Conditions climatiques + Destinations spécifiques",
     "author": "TravelPrep Team",
@@ -567,6 +567,30 @@
             ]
           },
           "conseils": "Températures -30°C à -60°C. Vent glacial facteur refroidissement extrême. Gelures 5-10 min exposition. Combinaison immersion VITALE (chute eau = mort 15 min). Système 4-5 couches. Moufles changement fréquent (humidité = gel). Balise satellite OBLIGATOIRE (pas réseau). Radio Iridium contact permanent. Guide polaire expérimenté VITAL. Évacuation impossible conditions météo. Autonomie complète 2 semaines. Ours polaires: fusée détresse"
+        },
+        {
+          "id": "climat_brouillard",
+          "nom": "🌫️ Brouillard dense",
+          "emoji": "🌫️",
+          "priorite": "moyenne",
+          "delai": "J-7",
+          "equipement": [
+            "Lampe frontale haute luminosité",
+            "Gilet réfléchissant haute visibilité",
+            "Brassards réfléchissants",
+            "Sifflet 120dB signalisation",
+            "GPS avec waypoints enregistrés",
+            "Boussole backup",
+            "Vêtements imperméables respirants",
+            "Application météo locale",
+            "Powerbank chargé"
+          ],
+          "filtres": {
+            "destinations": ["europe", "asie", "amerique-nord", "oceanie"],
+            "activites": ["randonnee", "road-trip", "backpacking"],
+            "periode": []
+          },
+          "conseils": "Brouillard épais réduit visibilité <50m. Désorientation facile même chemins connus. GPS + waypoints ESSENTIELS. Boussole backup obligatoire. Progression lente prudente. Gilet réfléchissant = visibilité autres randonneurs/véhicules. Lampe frontale même jour. Sifflet signalisation groupe (contact visuel impossible). Routes: phares antibrouillard, distances sécurité doublées. Éviter sommets/falaises (danger chutes). Attendre dissipation si possible"
         }
       ]
     },
