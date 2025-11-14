@@ -32,6 +32,7 @@
         {"code": "HR", "nom": "Croatie", "nomEn": "Croatia", "flag": "🇭🇷"},
         {"code": "DK", "nom": "Danemark", "nomEn": "Denmark", "flag": "🇩🇰"},
         {"code": "EE", "nom": "Estonie", "nomEn": "Estonia", "flag": "🇪🇪"},
+        {"code": "XK", "nom": "Kosovo", "nomEn": "Kosovo", "flag": "🇽🇰"}
         {"code": "FI", "nom": "Finlande", "nomEn": "Finland", "flag": "🇫🇮"},
         {"code": "HU", "nom": "Hongrie", "nomEn": "Hungary", "flag": "🇭🇺"},
         {"code": "IE", "nom": "Irlande", "nomEn": "Ireland", "flag": "🇮🇪"},
