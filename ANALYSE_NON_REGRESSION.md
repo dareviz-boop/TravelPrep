@@ -216,7 +216,7 @@ import { SuggestionsPanel } from "@/components/FormWizard/SuggestionsPanel";
 
 ---
 
-#### ✅ `src/data/checklist_climat_meteo_v3.json`
+#### ✅ `src/data/checklist_climat_meteo.json`
 - ✅ Mapping supprimé (stabilisation demandée)
 - ✅ 23 conditions climatiques avec IDs cohérents (`climat_xxx`)
 - ✅ 36 items destination-spécifiques (desert, jungle, montagne)
@@ -250,12 +250,12 @@ npx tsc --noEmit
 Step2Info.tsx
   └─> SuggestionsPanel.tsx
        └─> checklistFilters.ts (generateAutoSuggestions, getSuggestionDetails)
-            └─> checklist_climat_meteo_v3.json
+            └─> checklist_climat_meteo.json
 
 Generator.tsx
   └─> checklistGenerator.ts (generateCompleteChecklist, getChecklistSummary)
        ├─> checklistFilters.ts (getClimatEquipment)
-       │    └─> checklist_climat_meteo_v3.json
+       │    └─> checklist_climat_meteo.json
        └─> checklistComplete.json
 
 PDFDocument.tsx

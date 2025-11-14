@@ -8,7 +8,8 @@
  */
 
 import { FormData } from '@/types/form';
-import climatDataV3 from '@/data/checklist_climat_meteo_v3.json';
+import climatData from '@/data/checklist_climat_meteo.json';
+import checklistCompleteData from '@/data/checklistComplete.json';
 
 // ==========================================
 // TYPES ET INTERFACES
@@ -75,7 +76,7 @@ export interface SuggestionItem {
  * Trouve une condition climatique par son ID dans la structure V3
  */
 function findConditionById(conditionId: string): ClimatItem | null {
-  const data = climatDataV3 as any;
+  const data = climatData as any;
 
   // Cas spécial: climat_aucune
   if (conditionId === 'climat_aucune') {
@@ -450,7 +451,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
  * Logique backend uniquement, pas visible dans le formulaire
  */
 function getDestinationSpecificItems(formData: FormData): DestinationSpecifiqueItem[] {
-  const data = climatDataV3 as any;
+  const data = climatData as any;
   const allItems: DestinationSpecifiqueItem[] = [];
 
   if (!data.destinationsSpecifiques) return allItems;
