@@ -1,0 +1,1024 @@
+{
+  "metadata": {
+    "version": "3.0",
+    "lastUpdated": "2025-11-14",
+    "totalConditions": 23,
+    "totalDestinationsSpecifiques": 36,
+    "description": "Version fusionnée et optimisée - Conditions climatiques + Destinations spécifiques",
+    "author": "TravelPrep Team",
+    "migrationType": "nouveaux IDs cohérents (climat_xxx)",
+    "note": "Destiné à l'intégration avec le système de filtrage automatique"
+  },
+
+  "mapping": {
+    "description": "Table de correspondance anciens IDs → nouveaux IDs pour migration",
+    "oldToNew": {
+      "pluies_mousson": "climat_mousson",
+      "sec_aride": "climat_sec_aride",
+      "orages_freq": "climat_orages",
+      "neige_blizzards": "climat_neige",
+      "vents_forts": "climat_vents_forts",
+      "cyclones": "climat_cyclones",
+      "tempete_sable": "climat_tempete_sable",
+      "canicule": "climat_canicule",
+      "froid_intense": "climat_froid_intense",
+      "amplitude_thermique": "climat_amplitude_thermique",
+      "brouillard_brume": "climat_brouillard",
+      "uv_eleves": "climat_uv_eleves",
+      "forte_humidite": "climat_humidite",
+      "aucune": "climat_aucune"
+    }
+  },
+
+  "conditionsClimatiques": {
+    "description": "Conditions climatiques avec système de filtrage intelligent",
+    "categories": [
+      "precipitations",
+      "temperatures_extremes",
+      "altitude",
+      "conditions_speciales",
+      "vents",
+      "humidite"
+    ],
+
+    "precipitations": {
+      "description": "Adaptations selon régime de précipitations",
+      "items": [
+        {
+          "id": "climat_mousson",
+          "nom": "🌧️ Saison des pluies / Mousson",
+          "emoji": "🌧️",
+          "priorite": "haute",
+          "delai": "J-14",
+          "equipement": [
+            "Poncho pluie léger compressible",
+            "Veste imperméable Gore-Tex respirante",
+            "Pantalon imperméable",
+            "Sac étanche roll-top 20-30L",
+            "Pochettes étanches électronique",
+            "Chaussures imperméables membrane",
+            "Guêtres imperméables montantes",
+            "Sacs congélation XXL vêtements",
+            "Serviette microfibre séchage rapide",
+            "Antifongique pieds (poudre)",
+            "Sachets silice absorbeurs humidité"
+          ],
+          "filtres": {
+            "destinations": ["asie", "amerique-centrale-caraibes", "afrique"],
+            "activites": ["randonnee", "camping", "backpacking"],
+            "periode": [
+              {"debut": 5, "fin": 10, "region": "Asie"},
+              {"debut": 5, "fin": 11, "region": "Caraïbes"},
+              {"debut": 11, "fin": 4, "region": "Afrique Ouest"}
+            ]
+          },
+          "suggestions": {
+            "temperature": ["chaude", "tres-chaude"],
+            "saison": ["ete"],
+            "description": "Suggéré automatiquement pour Asie en été"
+          },
+          "conseils": "Pluies torrentielles quotidiennes 15h-19h. Routes coupées fréquentes. Privilégier activités matinales (sec). Chaussures imperméables ESSENTIELLES. Tout sécher chaque soir sinon moisissure. Antifongique pieds. Humidité 90%+. Vêtements sèchent difficilement. Prévoir 2x plus de sous-vêtements. Sachets silice dans bagages électroniques"
+        },
+        {
+          "id": "climat_sec_aride",
+          "nom": "🌵 Saison sèche / Climat aride",
+          "emoji": "🌵",
+          "priorite": "moyenne",
+          "delai": "J-10",
+          "equipement": [
+            "Vêtements légers respirants (lin/coton)",
+            "Chapeau large bord ventilé",
+            "Foulard/chèche protection poussière",
+            "Protection UV maximale SPF 50+",
+            "Baume lèvres SPF 30 réparateur",
+            "Crème hydratante intensive corps",
+            "Sérum physiologique yeux (poussière)",
+            "Gourde isotherme 1.5L minimum",
+            "Électrolytes en poudre (sachets)",
+            "Lunettes soleil UV400 + étui rigide",
+            "Masque anti-poussière respirant"
+          ],
+          "filtres": {
+            "destinations": ["afrique", "oceanie", "asie"],
+            "activites": ["randonnee", "road-trip", "backpacking"],
+            "periode": [
+              {"debut": 10, "fin": 4, "region": "Afrique australe"},
+              {"debut": 11, "fin": 4, "region": "Australie"}
+            ]
+          },
+          "suggestions": {
+            "temperature": ["chaude", "tres-chaude"],
+            "description": "Suggéré automatiquement pour climat chaud et sec"
+          },
+          "conseils": "Températures 30-45°C. Humidité <20%. Lèvres gercées systématique. Électricité statique importante. Boire 3-4L/jour MINIMUM. Urine foncée = déshydratation dangereuse. Crème hydratante matin ET soir. Électrolytes essentiels (perte sels). Éviter alcool (déshydratation). Ombre 11h-16h obligatoire"
+        },
+        {
+          "id": "climat_orages",
+          "nom": "⛈️ Orages tropicaux fréquents",
+          "emoji": "⛈️",
+          "priorite": "moyenne",
+          "delai": "J-7",
+          "equipement": [
+            "Paratonnerre portable (randonnée altitude)",
+            "Sac étanche roll-top 20-30L",
+            "Lampe frontale haute puissance (coupures)",
+            "Bougies + allumettes étanches",
+            "Powerbank 20000mAh chargé",
+            "Radio à piles (alertes météo)",
+            "Vêtements réfléchissants",
+            "Sifflet d'urgence 120dB"
+          ],
+          "filtres": {
+            "destinations": ["amerique-centrale-caraibes", "afrique", "asie"],
+            "activites": ["randonnee", "camping"],
+            "periode": [
+              {"debut": 3, "fin": 7, "region": "zones tropicales"}
+            ]
+          },
+          "conseils": "Zones tropicales: orages 15h-18h systématiques. Altitude: descendre IMMÉDIATEMENT. Éviter arbres isolés, sommets, lignes crête. Position sécurité: accroupi, pieds joints. Hôtels: coupures électricité fréquentes (lampe frontale). Éviter douche pendant orage. Débrancher appareils"
+        },
+        {
+          "id": "climat_cyclones",
+          "nom": "🌀 Cyclones / Typhons / Ouragans",
+          "emoji": "🌀",
+          "priorite": "haute",
+          "delai": "J-30",
+          "equipement": [
+            "Stock eau potable 5L minimum",
+            "Nourriture non-périssable 3-5 jours",
+            "Lampe frontale + piles rechange",
+            "Radio météo à manivelle/solaire",
+            "Trousse premiers secours complète",
+            "Powerbank 30000mAh",
+            "Sifflet + couverture survie",
+            "Cordes paracorde 20m",
+            "Ruban adhésif renforcé (fenêtres)",
+            "Documents dans pochette étanche"
+          ],
+          "filtres": {
+            "destinations": ["amerique-centrale-caraibes", "asie", "oceanie"],
+            "activites": [],
+            "periode": [
+              {"debut": 6, "fin": 11, "region": "Atlantique"},
+              {"debut": 5, "fin": 11, "region": "Pacifique"},
+              {"debut": 11, "fin": 4, "region": "Océan Indien"}
+            ]
+          },
+          "conseils": "VÉRIFIER calendrier saison cyclonique AVANT réservation. Assurance annulation OBLIGATOIRE. Suivre alertes locales. Évacuation possible (prévoir budget). Hôtels: étages élevés éviter inondations. Kit urgence accessible 24/7. Fenêtres: croix scotch renforcé. Plan évacuation établi. Numéros urgence notés"
+        },
+        {
+          "id": "climat_neige",
+          "nom": "❄️ Neige / Blizzard",
+          "emoji": "❄️",
+          "priorite": "haute",
+          "delai": "J-14",
+          "equipement": [
+            "Vêtements thermiques couches multiples",
+            "Doudoune chaude -20°C",
+            "Pantalon ski imperméable",
+            "Gants hiver doublés + sous-gants",
+            "Bonnet chaud couvre-oreilles",
+            "Cache-cou/tour de cou thermique",
+            "Chaussures hiver crampons amovibles",
+            "Lunettes ski catégorie 4",
+            "Crampons à glace chaussures",
+            "Pelle neige pliable",
+            "Couverture survie thermique",
+            "Chauffe-mains chimiques x10"
+          ],
+          "filtres": {
+            "destinations": ["europe", "amerique-nord", "asie"],
+            "activites": ["sports-hiver", "randonnee"],
+            "periode": [
+              {"debut": 11, "fin": 3, "region": "hémisphère nord"},
+              {"debut": 6, "fin": 9, "region": "hémisphère sud"}
+            ]
+          },
+          "suggestions": {
+            "temperature": ["tres-froide", "froide"],
+            "saison": ["hiver"],
+            "description": "Suggéré automatiquement pour climat hivernal"
+          },
+          "conseils": "Températures -15°C à -40°C possibles. Système 3 couches: base thermique + isolante + coupe-vent. Gants de rechange VITAUX (humides = gelures). Lunettes catégorie 4 obligatoires (cécité des neiges). Crampons chaussures zones verglas. Routes fermées fréquentes. Prévoir 2x temps trajet. Voiture: couvertures, nourriture, eau. Gelures 10-15 min exposition"
+        }
+      ]
+    },
+
+    "temperatures_extremes": {
+      "description": "Adaptations températures extrêmes",
+      "items": [
+        {
+          "id": "climat_canicule",
+          "nom": "🔥 Chaleur extrême (>40°C)",
+          "emoji": "🔥",
+          "priorite": "haute",
+          "delai": "J-14",
+          "equipement": [
+            "Vêtements légers clairs anti-UV",
+            "Chapeau ventilé large bord 10cm+",
+            "Lunettes soleil UV400 catégorie 3-4",
+            "Crème solaire SPF 50+ minérale",
+            "Gourde isotherme 2L + réserve",
+            "Électrolytes poudre/pastilles",
+            "Ventilateur portable USB rechargeable",
+            "Brumisateur eau 200ml",
+            "Serviette rafraîchissante PVA",
+            "Parasol compact anti-UV",
+            "Thermomètre digital",
+            "Sels réhydratation orale"
+          ],
+          "filtres": {
+            "destinations": ["afrique", "asie", "oceanie", "amerique-nord"],
+            "activites": [],
+            "periode": [
+              {"debut": 6, "fin": 9, "region": "hémisphère nord"},
+              {"debut": 12, "fin": 2, "region": "hémisphère sud"}
+            ]
+          },
+          "suggestions": {
+            "temperature": ["tres-chaude"],
+            "description": "Ajouté AUTOMATIQUEMENT si température très chaude"
+          },
+          "conseils": "Chaleur 40-50°C. Risque VITAL insolation/déshydratation. Boire 5-6L/jour. Urine claire = bonne hydratation. Activités 5h-10h et 18h-21h UNIQUEMENT. Repos 11h-17h climatisé obligatoire. Électrolytes toutes les 2h effort. Signes alerte: vertiges, nausées, confusion, peau sèche = URGENCE. Crème solaire toutes les 2h. Vêtements longs PARADOXALEMENT plus frais. Éviter alcool/café (déshydratation)"
+        },
+        {
+          "id": "climat_froid_intense",
+          "nom": "🥶 Froid polaire (<-20°C)",
+          "emoji": "🥶",
+          "priorite": "haute",
+          "delai": "J-21",
+          "equipement": [
+            "Doudoune grand froid -40°C (Canada Goose/Arc'teryx)",
+            "Sous-vêtements thermiques Merino Wool",
+            "Couche intermédiaire polaire 300g",
+            "Pantalon grand froid doublé",
+            "Moufles grand froid -40°C + sous-gants",
+            "Bonnet cagoule intégrale couvre-visage",
+            "Cache-cou thermique Merino",
+            "Chaussettes thermiques hautes x5",
+            "Bottes grand froid -60°C (Sorel/Kamik)",
+            "Lunettes ski catégorie 4 + masque",
+            "Chauffe-mains/pieds chimiques x20",
+            "Thermos isotherme 1L (boissons chaudes)",
+            "Baume lèvres réparateur intensif",
+            "Crème anti-gerçures mains/visage"
+          ],
+          "filtres": {
+            "destinations": ["europe", "amerique-nord", "asie"],
+            "activites": ["randonnee", "sports-hiver", "camping"],
+            "periode": [
+              {"debut": 11, "fin": 3, "region": "arctique"},
+              {"debut": 5, "fin": 9, "region": "antarctique"}
+            ]
+          },
+          "suggestions": {
+            "temperature": ["tres-froide"],
+            "saison": ["hiver"],
+            "description": "Ajouté AUTOMATIQUEMENT si température très froide"
+          },
+          "conseils": "TEMPÉRATURES -20°C à -60°C. Gelures en <10 minutes exposition peau. SYSTÈME 3 COUCHES VITAL: base thermique évacuation transpiration + isolante chaleur + externe coupe-vent imperméable. JAMAIS coton (retient humidité = hypothermie). Privilégier Merino Wool. Moufles > gants (-10°C chaleur). Chauffe-mains/pieds poches/chaussures. Thermos boissons chaudes = moral + chaleur interne. Boire 3-4L/jour (déshydratation sournoise froid). Couvrir 100% peau exposée. Respirer par nez (filtre air froid). Signes hypothermie: frissons, confusion, somnolence = URGENCE"
+        },
+        {
+          "id": "climat_amplitude_thermique",
+          "nom": "🌡️ Amplitude thermique extrême",
+          "emoji": "🌡️",
+          "priorite": "moyenne",
+          "delai": "J-10",
+          "equipement": [
+            "Vêtements modulables (zip/manches amovibles)",
+            "Polaire légère compressible",
+            "Doudoune fine 100g compressible",
+            "T-shirts techniques respirants x3",
+            "Shorts + pantalons convertibles",
+            "Buff multifonction (froid/soleil)",
+            "Gants légers + bonnet fin",
+            "Sac compression vêtements",
+            "Chaussettes mi-saison x4"
+          ],
+          "filtres": {
+            "destinations": ["afrique", "amerique-sud", "asie"],
+            "activites": ["randonnee", "camping", "backpacking"],
+            "periode": []
+          },
+          "conseils": "Déserts/montagnes: 40°C jour → 0°C nuit (Δ40°C!). Système oignon 5-6 couches modulables. Matin/soir: froid. Midi: chaleur. Doudoune fine compressible indispensable soir. Sac couchage -5°C minimum (déserts altitude). Prévoir crème solaire ET protection froid. Hydratation constante malgré froid nuit"
+        },
+        {
+          "id": "climat_desert_extreme",
+          "nom": "🏜️ Canicule désertique (>45°C)",
+          "emoji": "🏜️",
+          "priorite": "haute",
+          "delai": "J-14",
+          "equipement": [
+            "Chèche/turban protection totale",
+            "Vêtements longs blancs/clairs",
+            "Tunique ample manches longues",
+            "Pantalon lin/coton léger",
+            "Lunettes enveloppantes catégorie 4",
+            "Gourde 3L + réserve eau 5L",
+            "Comprimés purification eau",
+            "Électrolytes concentration double",
+            "Pastilles sel",
+            "Crème solaire + stick lèvres",
+            "Ventilateur solaire portable"
+          ],
+          "filtres": {
+            "destinations": ["afrique", "asie", "oceanie"],
+            "activites": ["randonnee", "road-trip", "backpacking"],
+            "periode": [
+              {"debut": 5, "fin": 9, "region": "Sahara"},
+              {"debut": 11, "fin": 3, "region": "Australie centre"}
+            ]
+          },
+          "conseils": "45-55°C sol. Déshydratation FOUDROYANTE. Boire 8-10L/jour. Électrolytes x2 dose. Marche 5h-9h et 17h-20h UNIQUEMENT. Repos ombre/climatisé 10h-17h OBLIGATOIRE. Vêtements longs protègent mieux que courts. Chèche protège visage sable/soleil. Pastilles sel préviennent crampes. Urine foncée = danger immédiat"
+        }
+      ]
+    },
+
+    "altitude": {
+      "description": "Adaptations en altitude",
+      "items": [
+        {
+          "id": "climat_altitude_moderee",
+          "nom": "🏔️ Altitude modérée (2500-3500m)",
+          "emoji": "🏔️",
+          "priorite": "moyenne",
+          "delai": "J-14",
+          "equipement": [
+            "Oxymètre de pouls (SpO2)",
+            "Aspirine 100mg (fluidifiant)",
+            "Coca tea / Sorochi pills (locaux)",
+            "Gingko biloba 120mg/j (circulation)",
+            "Crème solaire SPF 50+ haute altitude",
+            "Baume lèvres SPF 30",
+            "Lunettes catégorie 3-4",
+            "Vêtements chauds (nuits froides)",
+            "Thermos boissons chaudes"
+          ],
+          "filtres": {
+            "destinations": ["amerique-sud", "asie", "afrique"],
+            "activites": ["city-trip", "randonnee"],
+            "periode": []
+          },
+          "conseils": "Altitude 2500-3500m (ex: Cusco 3400m, La Paz 3640m, Quito 2850m). Mal aigu montagnes (MAM) fréquent: maux tête, nausées, fatigue, insomnie. ACCLIMATATION PROGRESSIVE VITALE: 2-3 jours repos arrivée. Coca tea local efficace. Éviter alcool 48h. Boire 3-4L/jour. Manger léger. Aspirine 100mg matin prévention. Montée progressive altitude. Nuit altitude < journée. Signes alerte: maux tête persistants, vomissements = DESCENDRE"
+        },
+        {
+          "id": "climat_altitude_haute",
+          "nom": "⛰️ Haute altitude (3500-5500m)",
+          "emoji": "⛰️",
+          "priorite": "haute",
+          "delai": "J-30",
+          "equipement": [
+            "Acétazolamide Diamox 125mg x2/j",
+            "Dexaméthasone 4mg (urgence)",
+            "Oxymètre SpO2 continu",
+            "Oxygène portable 2L (secours)",
+            "Caisson hyperbare portable (groupe)",
+            "Vêtements grand froid",
+            "Lunettes catégorie 4 obligatoires",
+            "Crème solaire indice 50+ minérale",
+            "Thermos isotherme 1.5L",
+            "Nourriture haute énergie"
+          ],
+          "filtres": {
+            "destinations": ["asie", "amerique-sud", "afrique"],
+            "activites": ["randonnee", "backpacking"],
+            "periode": []
+          },
+          "conseils": "Haute altitude 3500-5500m (ex: Everest Base Camp 5364m). RISQUES VITAUX: Œdème cérébral (OCHA), œdème pulmonaire (OPA). ACCLIMATATION STRICTE: +300m dénivelé nuit/jour MAX. Nuit altitudes basses. Diamox prophylaxie J-1 début. SpO2 >85% impératif (descendre si <80%). Signes OCHA: maux tête violents + ataxie/confusion = DESCENDRE IMMÉDIATEMENT + Dexaméthasone. Signes OPA: toux + crachats roses = URGENCE VITALE descente. Hydratation 4-5L/jour. Calories doubles (6000 kcal/j). UV intenses (crème solaire)"
+        },
+        {
+          "id": "climat_altitude_extreme",
+          "nom": "🗻 Très haute altitude (>5500m)",
+          "emoji": "🗻",
+          "priorite": "haute",
+          "delai": "J-60",
+          "equipement": [
+            "Bouteilles oxygène 4L x2",
+            "Masque oxygène",
+            "Régulateur débit oxygène",
+            "Médicaments altitude (Diamox, Dexa)",
+            "Caisson hyperbare portable",
+            "Radio satellite Garmin InReach",
+            "Assurance évacuation hélico",
+            "Équipement alpinisme complet",
+            "Duvet -25°C extrême",
+            "Réchaud altitude",
+            "Nourriture lyophilisée",
+            "SpO2 monitoring continu"
+          ],
+          "filtres": {
+            "destinations": ["asie", "amerique-sud"],
+            "activites": ["randonnee"],
+            "periode": []
+          },
+          "conseils": "Très haute altitude >5500m. ZONE DE MORT >7500m. Corps se dégrade. Acclimatation progressive 6-8 semaines OBLIGATOIRE. Rotations altitude (camps successifs). Oxygène supplémentaire souvent nécessaire >6500m. Risques vitaux: OCHA, OPA, gelures, hypothermie. Guide expérimenté OBLIGATOIRE. Assurance évacuation $50,000+ VITALE. Radio satellite contact permanent. Météo imprévisible. Fenêtres sommet 48h. Demi-tour obligatoire heure fixée. 50% accidents descente"
+        }
+      ]
+    },
+
+    "conditions_speciales": {
+      "description": "Conditions environnementales spécifiques",
+      "items": [
+        {
+          "id": "climat_tropical_humide",
+          "nom": "🏝️ Climat tropical humide",
+          "emoji": "🏝️",
+          "priorite": "haute",
+          "delai": "J-14",
+          "equipement": [
+            "Vêtements légers respirants séchage rapide",
+            "Anti-moustiques DEET 50%",
+            "Moustiquaire imprégnée perméthrine",
+            "Antipaludiques Malarone/Doxycycline",
+            "Répulsif vêtements perméthrine",
+            "Spirales anti-moustiques",
+            "Ventilateur portable",
+            "Poudre talc anti-frottements",
+            "Antifongique (mycoses pieds)",
+            "Sachets silice anti-humidité",
+            "Pochettes étanches",
+            "Déshumidificateur portable"
+          ],
+          "filtres": {
+            "destinations": ["amerique-sud", "afrique", "asie", "oceanie"],
+            "activites": ["backpacking", "randonnee", "camping"],
+            "periode": []
+          },
+          "conseils": "Humidité 80-95% constante. Température 28-35°C. Maladies tropicales: paludisme, dengue, zika, fièvre jaune. Anti-moustiques DEET 50% appliqué 4x/jour. Moustiquaire imprégnée VITALE sommeil. Antipaludiques prophylaxie selon zone. Vêtements longs clairs crépuscule/nuit (moustiques). Mycoses pieds fréquentes: chaussures séchage rapide, poudre antifongique. Tout sécher chaque soir. Sachets silice dans électronique"
+        },
+        {
+          "id": "climat_marin",
+          "nom": "🌊 Environnement marin",
+          "emoji": "🌊",
+          "priorite": "moyenne",
+          "delai": "J-10",
+          "equipement": [
+            "Crème solaire waterproof SPF 50+",
+            "Lycra anti-UV manches longues",
+            "Chapeau large bord cordon",
+            "Lunettes soleil polarisées flottantes",
+            "Chaussures aquatiques semelle épaisse",
+            "Gants néoprène (corail/méduses)",
+            "Sac étanche 20L flottant",
+            "Pochette étanche téléphone",
+            "Vinagre blanc 500ml (méduses)",
+            "Antihistaminique crème",
+            "Pince à échardes (oursins)",
+            "Eau douce rinçage sel"
+          ],
+          "filtres": {
+            "destinations": ["amerique-centrale-caraibes", "oceanie", "asie", "afrique"],
+            "activites": ["plage", "sports-nautiques"],
+            "periode": []
+          },
+          "conseils": "Réverbération eau = coups soleil violents. Crème waterproof réapplication 60-90min. Lycra UV protection optimale snorkeling. Lunettes polarisées réduisent reflets. Méduses: vinaigre blanc neutralise. NE PAS frotter. Antihistaminique. Oursins: retirer épines pince. Tremper eau chaude 45°C. Corail: gants néoprène protection. Laver plaies eau douce savon. Sel abîme équipement: rincer systématiquement"
+        },
+        {
+          "id": "climat_desert_aride",
+          "nom": "🐫 Désert aride",
+          "emoji": "🐫",
+          "priorite": "haute",
+          "delai": "J-14",
+          "equipement": [
+            "Chèche/turban protection intégrale",
+            "Tunique ample manches longues",
+            "Pantalon ample aéré",
+            "Lunettes enveloppantes catégorie 4",
+            "Masque anti-sable respirant",
+            "Gourde 3L + réserve 10L",
+            "Pastilles purification eau",
+            "Électrolytes concentration double",
+            "Crème solaire minérale SPF 50+",
+            "Baume lèvres réparateur",
+            "GPS + boussole backup",
+            "Balise Spot/InReach",
+            "Bâche survie réfléchissante"
+          ],
+          "filtres": {
+            "destinations": ["afrique", "asie", "amerique-sud", "oceanie"],
+            "activites": ["randonnee", "road-trip", "backpacking"],
+            "periode": []
+          },
+          "conseils": "Température jour 45-55°C, nuit 5-10°C. Amplitude 40°C. Déshydratation FOUDROYANTE. Boire 8-10L/jour. Sel. Marche aurore/crépuscule UNIQUEMENT. Repos ombre 10h-17h OBLIGATOIRE. Tempêtes sable: chèche protège voies respiratoires. Lunettes catégorie 4 obligatoires (UV + réverbération). Vêtements longs clairs protègent mieux. GPS + backup (désorientation fréquente). Balise satellite VITALE (pas réseau). Prévoir 2x eau nécessaire"
+        },
+        {
+          "id": "climat_volcanique",
+          "nom": "🌋 Zone volcanique active",
+          "emoji": "🌋",
+          "priorite": "moyenne",
+          "delai": "J-14",
+          "equipement": [
+            "Masque respiratoire FFP3",
+            "Lunettes protection hermétiques",
+            "Vêtements couvrants synthétiques",
+            "Chaussures montantes semelle épaisse",
+            "Gants cuir épais",
+            "Lampe frontale haute puissance",
+            "GPS avec waypoints",
+            "Radio VHF",
+            "Trousse premiers secours brûlures",
+            "Eau 3L minimum",
+            "Application alertes volcaniques"
+          ],
+          "filtres": {
+            "destinations": ["asie", "amerique-centrale-caraibes", "europe", "oceanie"],
+            "activites": ["randonnee"],
+            "periode": []
+          },
+          "conseils": "Gaz toxiques: SO2, CO2, H2S. Masque FFP3 filtration obligatoire zones fumerolles. Lunettes hermétiques (projections acides). Vêtements synthétiques résistent mieux chaleur que coton. Semelles épaisses (sol chaud). Respecter périmètres sécurité. Guide local recommandé. Vérifier activité volcanique avant départ. Évacuation rapide si alerte. Application alertes temps réel"
+        },
+        {
+          "id": "climat_jungle_dense",
+          "nom": "🌲 Forêt dense / Jungle",
+          "emoji": "🌲",
+          "priorite": "moyenne",
+          "delai": "J-10",
+          "equipement": [
+            "Machette/parang",
+            "Vêtements anti-sangsues imprégnés",
+            "Bottes caoutchouc montantes",
+            "Guêtres anti-sangsues",
+            "Répulsif DEET 50%",
+            "Moustiquaire hamac",
+            "Pastilles purification eau",
+            "Comprimés sel",
+            "Sifflet 120dB",
+            "Miroir signalisation",
+            "Allume-feu waterproof",
+            "Kit survie jungle",
+            "GPS + boussole",
+            "Radio VHF"
+          ],
+          "filtres": {
+            "destinations": ["amerique-sud", "afrique", "asie", "oceanie"],
+            "activites": ["backpacking", "randonnee", "camping"],
+            "periode": []
+          },
+          "conseils": "Visibilité <50m. Désorientation facile. Guide local OBLIGATOIRE. GPS + boussole backup. Sifflet communication. Sangsues omniprésentes: sel les détache. Bottes montantes + guêtres. Vêtements imprégnés perméthrine. Eau: purifier SYSTÉMATIQUEMENT (parasites). Humidité 90%+: tout mouille. Feu difficile (bois humide). Allume-feu waterproof vital. Sécher chaussettes chaque soir (mycoses)"
+        },
+        {
+          "id": "climat_arctique",
+          "nom": "❄️ Banquise / Arctique",
+          "emoji": "❄️",
+          "priorite": "haute",
+          "delai": "J-30",
+          "equipement": [
+            "Combinaison survie immersion",
+            "Doudoune expédition -60°C",
+            "Sous-vêtements thermiques x3 jeux",
+            "Bottes grand froid -100°C",
+            "Moufles expédition + sous-gants",
+            "Cagoule néoprène",
+            "Lunettes catégorie 4",
+            "Crampons glace professionnels",
+            "Bâtons trekking glace",
+            "Balise Spot/InReach",
+            "Radio satellite Iridium",
+            "Chauffe-mains x50",
+            "Thermos isotherme 2L",
+            "Tente 4 saisons",
+            "Duvet -40°C"
+          ],
+          "filtres": {
+            "destinations": ["europe", "amerique-nord"],
+            "activites": ["backpacking", "randonnee"],
+            "periode": [
+              {"debut": 11, "fin": 3, "region": "arctique"}
+            ]
+          },
+          "conseils": "Températures -30°C à -60°C. Vent glacial facteur refroidissement extrême. Gelures 5-10 min exposition. Combinaison immersion VITALE (chute eau = mort 15 min). Système 4-5 couches. Moufles changement fréquent (humidité = gel). Balise satellite OBLIGATOIRE (pas réseau). Radio Iridium contact permanent. Guide polaire expérimenté VITAL. Évacuation impossible conditions météo. Autonomie complète 2 semaines. Ours polaires: fusée détresse"
+        }
+      ]
+    },
+
+    "vents": {
+      "description": "Conditions venteuses",
+      "items": [
+        {
+          "id": "climat_vents_forts",
+          "nom": "💨 Vents violents / Tempêtes",
+          "emoji": "💨",
+          "priorite": "moyenne",
+          "delai": "J-7",
+          "equipement": [
+            "Coupe-vent imperméable renforcé",
+            "Lunettes protection enveloppantes",
+            "Cordons/clips fixation vêtements",
+            "Tente 4 saisons renforcée",
+            "Sardines longues 25cm",
+            "Haubans supplémentaires",
+            "Pierres lestage",
+            "Chapeau à cordon serrage",
+            "Foulard protection visage",
+            "Lunettes de ski (poussière)",
+            "Application alertes météo"
+          ],
+          "filtres": {
+            "destinations": ["amerique-sud", "europe", "oceanie"],
+            "activites": ["randonnee", "camping", "backpacking"],
+            "periode": []
+          },
+          "conseils": "Vents 100-150 km/h fréquents dans certaines zones. Progression difficile (30% effort supplémentaire). Tente: orientation ouverture dos au vent. Sardines 25cm minimum. Pierres lestage double-toit. Coupe-vent coupe-pluie qualité VITAL. Lunettes protection poussière/sable. Chapeau cordons serrés sinon envol. Marche vent face matinale (force augmente après-midi). Abri naturel (rochers/dépressions) pause"
+        },
+        {
+          "id": "climat_tornades",
+          "nom": "🌪️ Tornades / Twisters",
+          "emoji": "🌪️",
+          "priorite": "haute",
+          "delai": "J-14",
+          "equipement": [
+            "Radio météo NOAA",
+            "Application alertes tornades",
+            "Casque protection",
+            "Lampe frontale",
+            "Sifflet 120dB",
+            "Trousse premiers secours",
+            "Documents pochette étanche",
+            "Powerbank chargé",
+            "Eau 3L",
+            "Nourriture 48h"
+          ],
+          "filtres": {
+            "destinations": ["amerique-nord"],
+            "activites": [],
+            "periode": [
+              {"debut": 4, "fin": 6, "region": "Tornado Alley USA"}
+            ]
+          },
+          "conseils": "Tornado Alley: Oklahoma, Kansas, Texas. Saison avril-juin. ALERTES: suivre NOAA Weather Radio. Tornado Watch = conditions favorables. Tornado Warning = tornade détectée = ABRI IMMÉDIAT. Abri: sous-sol, pièce intérieure sans fenêtre, baignoire. JAMAIS rester voiture ou mobile-home. Position sécurité: recroquevillé, mains sur tête. Débris volants = danger mortel"
+        },
+        {
+          "id": "climat_harmattan",
+          "nom": "🌬️ Harmattan (vent de sable)",
+          "emoji": "🌬️",
+          "priorite": "moyenne",
+          "delai": "J-10",
+          "equipement": [
+            "Masque respiratoire N95",
+            "Lunettes hermétiques",
+            "Foulard/chèche épais",
+            "Baume nasal protection",
+            "Sérum physiologique yeux",
+            "Crème hydratante intensive",
+            "Sacs étanches électronique",
+            "Bâche protection équipement"
+          ],
+          "filtres": {
+            "destinations": ["afrique"],
+            "activites": [],
+            "periode": [
+              {"debut": 11, "fin": 3, "region": "Afrique Ouest"}
+            ]
+          },
+          "conseils": "Harmattan: vent sec Sahara chargé sable fin. Visibilité réduite <100m. Températures chutent 10°C. Poussière fine PARTOUT. Masque N95 protection respiratoire. Lunettes hermétiques (sable yeux irritation). Sérum physiologique rinçage. Peau: déshydratation extrême, crème 3x/jour. Électronique: pochettes étanches (sable infiltre tout). Vols retardés/annulés fréquents"
+        }
+      ]
+    },
+
+    "humidite": {
+      "description": "Conditions d'humidité extrêmes",
+      "items": [
+        {
+          "id": "climat_humidite",
+          "nom": "💧 Humidité extrême (>85%)",
+          "emoji": "💧",
+          "priorite": "moyenne",
+          "delai": "J-7",
+          "equipement": [
+            "Vêtements synthétiques séchage rapide",
+            "Sachets silice gel x20",
+            "Poudre antifongique",
+            "Spray antifongique vêtements",
+            "Pochettes étanches Ziploc",
+            "Déshumidificateur portable",
+            "Ventilateur USB",
+            "Serviette microfibre x2",
+            "Cintre voyage pliable",
+            "Savon antifongique"
+          ],
+          "filtres": {
+            "destinations": ["asie", "amerique-sud", "afrique", "oceanie"],
+            "activites": [],
+            "periode": []
+          },
+          "conseils": "Humidité 85-95%. Rien ne sèche. Moisissures 24-48h. Vêtements: synthétique UNIQUEMENT (sèche 3x plus vite). Coton prohibé (moisit). Sachets silice dans chaque pochette (électronique, vêtements, chaussures). Tout sécher CHAQUE soir (ventilateur/climatisation). Mycoses pieds fréquentes: poudre antifongique quotidienne. Chaussures: alterner paires. Odeurs: spray désinfectant"
+        },
+        {
+          "id": "climat_secheresse",
+          "nom": "🏜️ Sécheresse extrême (<20%)",
+          "emoji": "🏜️",
+          "priorite": "moyenne",
+          "delai": "J-7",
+          "equipement": [
+            "Crème hydratante intensive x2",
+            "Baume lèvres réparateur x3",
+            "Sérum physiologique doses",
+            "Spray nasal humidifiant",
+            "Collyre hydratant",
+            "Huile/baume nez",
+            "Hydratant mains intensif",
+            "Humidificateur portable USB",
+            "Spray brumisateur visage"
+          ],
+          "filtres": {
+            "destinations": ["afrique", "oceanie", "asie"],
+            "activites": ["randonnee", "road-trip"],
+            "periode": []
+          },
+          "conseils": "Humidité <20%. Déshydratation cutanée sévère. Lèvres gercent en 24h. Saignements nez fréquents. Yeux secs irritation. Électricité statique importante. Routine VITALE: crème hydratante matin + soir. Baume lèvres 5-6x/jour. Sérum physiologique nez 3x/jour prévention saignements. Collyre yeux 4x/jour. Boire 4-5L/jour (même sans soif). Humidificateur chambre nuit (si possible)"
+        }
+      ]
+    },
+
+    "aucune_condition": {
+      "id": "climat_aucune",
+      "nom": "❌ Aucune condition particulière",
+      "emoji": "❌",
+      "priorite": "basse",
+      "equipement": [
+        "Équipement standard suffit",
+        "Veste légère pluie (prévention)",
+        "Pull léger (soirées fraîches)"
+      ],
+      "filtres": {
+        "destinations": ["europe"],
+        "activites": []
+      },
+      "conseils": "Climat tempéré stable. Météo prévisible. Équipement basique adapté. Vérifier prévisions 7 jours avant départ. Adaptation mineure selon saison. Confort voyage optimal. Aucune contrainte particulière."
+    }
+  },
+
+  "destinationsSpecifiques": {
+    "description": "Équipements spécifiques selon type d'environnement (non visible dans formulaire, logique backend uniquement)",
+    "note": "Ces items sont ajoutés automatiquement selon la combinaison destination + activités",
+
+    "desert": {
+      "nom": "🏜️ Désert / Zones arides",
+      "trigger": {
+        "destinations": ["afrique", "asie", "oceanie"],
+        "activites": ["randonnee", "road-trip", "backpacking"],
+        "ou_conditions": ["climat_sec_aride", "climat_desert_extreme"]
+      },
+      "items": [
+        {
+          "id": "DEST001",
+          "item": "Chèche / Foulard touareg long (2-3m)",
+          "priorite": "haute",
+          "conseils": "Protection soleil + sable + vent. Multifonction: tête, visage, cou. Coton léger blanc (réflexion chaleur)"
+        },
+        {
+          "id": "DEST002",
+          "item": "Lunettes soleil catégorie 4 + cordon",
+          "priorite": "haute",
+          "conseils": "Protection UV maximale. Catégorie 4 = 97% filtration. Cordon = sécurité vent. Coques latérales (sable)"
+        },
+        {
+          "id": "DEST003",
+          "item": "Gourde isotherme 1.5L + gourde 1L",
+          "priorite": "haute",
+          "quantite": "2 gourdes minimum",
+          "conseils": "Eau tiède > froide (choc thermique). Isotherme garde fraîcheur 24h. Boire 4-5L/jour"
+        },
+        {
+          "id": "DEST004",
+          "item": "Pastilles purification eau (Micropur)",
+          "priorite": "haute",
+          "quantite": "30 pastilles",
+          "conseils": "Eau potable rare. 1 pastille = 1L potable en 30min. Backup essentiel"
+        },
+        {
+          "id": "DEST005",
+          "item": "GPS + cartes papier",
+          "priorite": "haute",
+          "conseils": "Désert = pas de repères. Se perdre = mortel. GPS + backup papier obligatoire"
+        },
+        {
+          "id": "DEST006",
+          "item": "Bâche / Tarp protection soleil",
+          "priorite": "moyenne",
+          "conseils": "Ombre artificielle. Pause midi essentielle. Température -15°C sous bâche"
+        }
+      ]
+    },
+
+    "jungle": {
+      "nom": "🌴 Jungle / Forêt tropicale",
+      "trigger": {
+        "destinations": ["amerique-sud", "afrique", "asie", "oceanie"],
+        "activites": ["randonnee", "camping", "backpacking"],
+        "ou_conditions": ["climat_mousson", "climat_tropical_humide", "climat_jungle_dense"]
+      },
+      "items": [
+        {
+          "id": "DEST011",
+          "item": "Machette / Parang",
+          "priorite": "haute",
+          "specifications": ["Lame 30-40cm", "Acier inoxydable", "Manche antidérapant", "Gaine solide"],
+          "conseils": "Végétation dense = progression lente. Coupe lianes, branches. Outil polyvalent. Affûtage régulier"
+        },
+        {
+          "id": "DEST012",
+          "item": "Répulsif moustiques DEET 50%",
+          "priorite": "haute",
+          "quantite": "3 flacons 100ml",
+          "conseils": "Dengue, paludisme, zika = risques. DEET 50% efficacité maximale. Application toutes les 4h. Zones découvertes + vêtements"
+        },
+        {
+          "id": "DEST013",
+          "item": "Moustiquaire imprégnée permethrin",
+          "priorite": "haute",
+          "specifications": ["Imprégnation dure 6 mois", "Mailles fines (<1mm)", "Suspendre loin corps"],
+          "conseils": "Sommeil sans protection = centaines piqûres. Vérifier déchirures quotidien. Border sous matelas"
+        },
+        {
+          "id": "DEST014",
+          "item": "Vêtements manches longues imprégnés",
+          "priorite": "haute",
+          "quantite": "2-3 tenues",
+          "specifications": ["Traitement permethrin", "Tissu léger respirant", "Couleurs neutres (pas noires = moustiques)"],
+          "conseils": "Peau exposée = vulnérabilité. Imprégnation permethrin tue moustiques au contact. Traiter tous vêtements"
+        },
+        {
+          "id": "DEST015",
+          "item": "Chaussures montantes imperméables",
+          "priorite": "haute",
+          "specifications": ["Tige haute (serpents)", "Gore-Tex étanche", "Semelle crantée adhérente", "Séchage rapide"],
+          "conseils": "Sol constamment humide. Sangsues. Serpents. Protection chevilles essentielle. Guêtres recommandées"
+        },
+        {
+          "id": "DEST016",
+          "item": "Antipaludiques (Malarone/Doxycycline)",
+          "priorite": "haute",
+          "delai": "J-30",
+          "conseils": "Zones endémiques paludisme. Début traitement 1-2j avant entrée zone. Continuer 7j après sortie"
+        },
+        {
+          "id": "DEST017",
+          "item": "Hamac avec moustiquaire intégrée",
+          "priorite": "moyenne",
+          "specifications": ["Moustiquaire 360°", "Charge max 150kg", "Cordes incluses"],
+          "conseils": "Sol humide. Insectes rampants. Hamac = sécurité + confort. Hennessy Hammock référence"
+        },
+        {
+          "id": "DEST018",
+          "item": "Kit extraction sangsues / tiques",
+          "priorite": "moyenne",
+          "specifications": ["Pince tire-tique", "Désinfectant", "Pansements"],
+          "conseils": "Sangsues fréquentes (jambes, entre orteils). Ne JAMAIS arracher (tête reste). Sel/chaleur pour détacher"
+        },
+        {
+          "id": "DEST019",
+          "item": "Sifflet 120dB + miroir signalisation",
+          "priorite": "haute",
+          "conseils": "Jungle = se perdre facilement. Visibilité 5m. Sifflet porte 1km. Miroir = hélicoptère"
+        }
+      ]
+    },
+
+    "montagne_altitude": {
+      "nom": "🏔️ Haute montagne / Altitude",
+      "trigger": {
+        "destinations": ["asie", "amerique-sud", "afrique", "europe"],
+        "activites": ["randonnee", "sports-hiver"],
+        "ou_conditions": ["climat_altitude_moderee", "climat_altitude_haute", "climat_altitude_extreme"]
+      },
+      "items": [
+        {
+          "id": "DEST021",
+          "item": "Crampons acier 12 pointes",
+          "priorite": "haute",
+          "specifications": ["Compatibles chaussures rigides", "Pointes avant verticales", "Réglages précis"],
+          "conseils": "Glacier, névés, pentes glacées = obligatoires. Grivel, Petzl = références. Entraînement technique avant",
+          "filtres": {"activites": ["randonnee"]}
+        },
+        {
+          "id": "DEST022",
+          "item": "Piolet montagne",
+          "priorite": "haute",
+          "specifications": ["Longueur adaptée taille", "Tête acier forgé", "Dragonne", "Protège-pic"],
+          "conseils": "Technique auto-arrêt essentielle. Formation recommandée. Petzl Summit, Grivel",
+          "filtres": {"activites": ["randonnee"]}
+        },
+        {
+          "id": "DEST023",
+          "item": "Corde escalade 50m (si groupe)",
+          "priorite": "haute",
+          "specifications": ["Diamètre 9-10mm", "Dynamique", "Marquage milieu", "Sac corde"],
+          "conseils": "Sécurité passages exposés. Rappels. Norme UIAA. 50m = longueur standard. Vérifier usure",
+          "filtres": {"activites": ["randonnee"]}
+        },
+        {
+          "id": "DEST024",
+          "item": "Baudrier escalade + mousquetons",
+          "priorite": "haute",
+          "quantite": "1 baudrier + 4 mousquetons",
+          "conseils": "Baudrier ajustable. 2 mousquetons vissants + 2 mousquetons snap. Vérifications sécurité",
+          "filtres": {"activites": ["randonnee"]}
+        },
+        {
+          "id": "DEST025",
+          "item": "Lunettes glacier catégorie 4",
+          "priorite": "haute",
+          "specifications": ["Filtration 92-97%", "Coques latérales", "Cordon sécurité", "Protection UV 100%"],
+          "conseils": "Réverbération neige 80%. Ophtalmie des neiges = cécité temporaire. AUCUN compromis qualité"
+        },
+        {
+          "id": "DEST026",
+          "item": "Masque altitude oxygène (>5000m)",
+          "priorite": "moyenne",
+          "delai": "J-30",
+          "conseils": ">5000m: mal aigu montagnes fréquent. Oxygène = sécurité. Location possible sur place"
+        },
+        {
+          "id": "DEST027",
+          "item": "Médicaments altitude (Diamox)",
+          "priorite": "haute",
+          "delai": "J-14",
+          "conseils": "Prévention mal aigu montagnes. Début 24h avant montée. Prescription médicale. Effets secondaires"
+        },
+        {
+          "id": "DEST028",
+          "item": "Duvet grand froid -15°C comfort",
+          "priorite": "haute",
+          "specifications": ["Duvet oie 800+ fill", "Momie", "Capuche ajustable", "Sac compression"],
+          "conseils": "Nuits altitude = froid intense. Température comfort importante (pas extrême). Western Mountaineering"
+        },
+        {
+          "id": "DEST029",
+          "item": "Matelas isolant R-value >5",
+          "priorite": "haute",
+          "specifications": ["R-value 5-6", "Auto-gonflant ou mousse", "Réparation kit"],
+          "conseils": "Sol gelé = déperdition chaleur. R-value = isolation thermique. Therm-a-Rest NeoAir Xtherm"
+        },
+        {
+          "id": "DEST030",
+          "item": "Réchaud essence / gaz multi-combustible",
+          "priorite": "haute",
+          "specifications": ["Fonctionne -20°C", "Essence, gaz, kérosène", "Stable", "Réparation kit"],
+          "conseils": "Altitude = eau bout 85°C (pas 100°C). Gaz ne fonctionne pas froid. MSR WhisperLite"
+        },
+        {
+          "id": "DEST031",
+          "item": "Balise GPS SPOT / InReach",
+          "priorite": "haute",
+          "delai": "J-30",
+          "conseils": "Zones isolées sans réseau. SOS satellite. Localisation exacte secours. Abonnement mensuel",
+          "filtres": {"activites": ["randonnee", "backpacking"]}
+        },
+        {
+          "id": "DEST032",
+          "item": "DVA (Détecteur Victimes Avalanche)",
+          "priorite": "haute",
+          "delai": "J-30",
+          "conseils": "Zones avalanche = DVA + pelle + sonde OBLIGATOIRE. Formation utilisation essentielle",
+          "filtres": {"activites": ["sports-hiver"]}
+        },
+        {
+          "id": "DEST033",
+          "item": "Pelle avalanche aluminium",
+          "priorite": "haute",
+          "conseils": "Creuser neige compactée. Légère. Démontable. BCA, Ortovox",
+          "filtres": {"activites": ["sports-hiver"]}
+        },
+        {
+          "id": "DEST034",
+          "item": "Sonde avalanche 240cm+",
+          "priorite": "haute",
+          "conseils": "Localisation précise victime. 240-300cm longueur. Graduation claire. Black Diamond",
+          "filtres": {"activites": ["sports-hiver"]}
+        }
+      ]
+    }
+  },
+
+  "suggestions_automatiques": {
+    "description": "Règles de suggestions automatiques non forcées",
+    "regles": [
+      {
+        "condition": "temperature inclut 'tres-chaude'",
+        "suggerer": ["climat_canicule", "climat_sec_aride"],
+        "message": "Nous recommandons d'ajouter les équipements pour chaleur extrême"
+      },
+      {
+        "condition": "temperature inclut 'tres-froide'",
+        "suggerer": ["climat_froid_intense", "climat_neige"],
+        "message": "Nous recommandons d'ajouter les équipements pour froid extrême"
+      },
+      {
+        "condition": "saison inclut 'ete' ET destination inclut 'asie'",
+        "suggerer": ["climat_mousson"],
+        "message": "Période de mousson probable en Asie durant l'été"
+      },
+      {
+        "condition": "activites inclut 'randonnee' ET altitude détectée",
+        "suggerer": ["climat_altitude_moderee", "climat_altitude_haute"],
+        "message": "Équipements altitude recommandés pour la randonnée en montagne"
+      },
+      {
+        "condition": "destination inclut 'amerique-centrale-caraibes' ET periode juin-novembre",
+        "suggerer": ["climat_cyclones"],
+        "message": "Saison cyclonique active - prévoir équipements d'urgence"
+      }
+    ]
+  }
+}
