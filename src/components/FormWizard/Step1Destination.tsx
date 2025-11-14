@@ -386,25 +386,35 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               value={formData.dateDepart}
               onChange={(e) => {
                 const value = e.target.value;
-                const selectedDate = new Date(value);
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                
-                // Validation : la date doit être dans le futur
-                if (selectedDate <= today) {
-                  toast({
-                    title: "Date invalide",
-                    description: "❌ La date de départ doit être dans le futur",
-                    variant: "destructive"
-                  });
-                  return;
+
+                // Empêcher la saisie d'années > 4 chiffres
+                const year = value.split('-')[0];
+                if (year && year.length > 4) {
+                  return; // Bloquer la saisie
                 }
-                
+
+                // Toujours mettre à jour la valeur
                 updateFormData({ dateDepart: value });
+
+                // Ne valider que si la date est complète (YYYY-MM-DD = 10 caractères)
+                if (value.length === 10) {
+                  const selectedDate = new Date(value);
+                  const today = new Date();
+                  today.setHours(0, 0, 0, 0);
+
+                  if (selectedDate <= today) {
+                    toast({
+                      title: "Date invalide",
+                      description: "❌ La date de départ doit être dans le futur",
+                      variant: "destructive"
+                    });
+                  }
+                }
               }}
               className="h-14 text-base border-2 focus:border-primary"
               required
               min={new Date(Date.now() + 86400000).toISOString().split('T')[0]}
+              max="9999-12-31"
             />
             <p className="text-sm text-muted-foreground">
               On calculera automatiquement tes échéances
@@ -421,23 +431,27 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               value={formData.dateRetour || ''}
               onChange={(e) => {
                 const value = e.target.value;
-                
+
                 // Si la valeur est vide, on met à jour et on sort
                 if (!value) {
                   updateFormData({ dateRetour: value });
                   return;
                 }
-                
-                const isDateComplete = value.length === 10;
-                
+
+                // Empêcher la saisie d'années > 4 chiffres
+                const year = value.split('-')[0];
+                if (year && year.length > 4) {
+                  return; // Bloquer la saisie
+                }
+
                 // On met TOUJOURS à jour la valeur
                 updateFormData({ dateRetour: value });
 
-                // On ne valide que si la chaîne est complète ET qu'il existe une date de départ
-                if (isDateComplete && formData.dateDepart) {
+                // On ne valide que si la date est complète (10 caractères) ET qu'il existe une date de départ
+                if (value.length === 10 && formData.dateDepart) {
                   const selectedDate = new Date(value);
                   const departDate = new Date(formData.dateDepart);
-                  
+
                   // Validation : la date de retour doit être après la date de départ
                   if (selectedDate <= departDate) {
                     toast({
@@ -450,8 +464,9 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               }}
               className="h-14 text-base border-2 focus:border-primary"
               min={formData.dateDepart || new Date(Date.now() + 86400000).toISOString().split('T')[0]}
+              max="9999-12-31"
             />
-            {formData.dateDepart && formData.dateRetour && (
+            {formData.dateDepart && formData.dateRetour && formData.dateRetour.length === 10 && (
               <p className="text-sm text-accent font-bold flex items-center gap-2">
                 ✓ Durée : {Math.ceil((new Date(formData.dateRetour).getTime() - new Date(formData.dateDepart).getTime()) / (1000 * 60 * 60 * 24))} jours
               </p>
