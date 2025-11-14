@@ -309,7 +309,7 @@ PDFDocument.tsx
 
 **Parcours** :
 1. Step 1 : Choisir "Asie" → "Thaïlande"
-2. Dates : 15 juillet → 30 juillet 2025
+2. Dates : 15 juillet → 30 juillet 2026
 3. Step 2 :
    - Température : "Chaude" + "Très chaude"
    - Saison : "Été"
