@@ -78,6 +78,7 @@
         {"code": "KH", "nom": "Cambodge", "nomEn": "Cambodia", "flag": "🇰🇭"},
         {"code": "GE", "nom": "Géorgie", "nomEn": "Georgia", "flag": "🇬🇪"},
         {"code": "HK", "nom": "Hong Kong", "nomEn": "Hong Kong", "flag": "🇭🇰"},
+        {"code": "MO", "nom": "Macao", "nomEn": "Macau", "flag": "🇲🇴"}
         {"code": "ID", "nom": "Indonésie", "nomEn": "Indonesia", "flag": "🇮🇩"},
         {"code": "IR", "nom": "Iran", "nomEn": "Iran", "flag": "🇮🇷"},
         {"code": "IQ", "nom": "Irak", "nomEn": "Iraq", "flag": "🇮🇶"},
@@ -180,7 +181,7 @@
       "pays": [
         {"code": "US", "nom": "États-Unis", "nomEn": "United States", "flag": "🇺🇸"},
         {"code": "CA", "nom": "Canada", "nomEn": "Canada", "flag": "🇨🇦"},
-        {"code": "GL", "nom": "Groenland", "nomEn": "Greenland", "flag": "🇬🇱",
+        {"code": "GL", "nom": "Groenland", "nomEn": "Greenland", "flag": "🇬🇱"},
         {"code": "MX", "nom": "Mexique", "nomEn": "Mexico", "flag": "🇲🇽"}
       ]
     },
