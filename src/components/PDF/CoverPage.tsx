@@ -105,49 +105,49 @@ export const CoverPage = ({ formData, checklistData }: CoverPageProps) => {
 
   return (
     <Page size="A4" style={styles.page}>
-      <Text style={styles.title}>🌍 TRAVELPREP</Text>
+      <Text style={styles.title}>TRAVELPREP</Text>
       <Text style={styles.subtitle}>Votre Guide de Préparation au Voyage</Text>
-      
+
       <Text style={styles.tripName}>{formData.nomVoyage}</Text>
-      
+
       <View style={styles.infoBox}>
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>📅 Départ :</Text>
+          <Text style={styles.infoLabel}>Départ :</Text>
           <Text style={styles.infoValue}>{formatDate(formData.dateDepart)}</Text>
         </View>
-        
+
         {formData.dateRetour && (
           <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>📅 Retour :</Text>
+            <Text style={styles.infoLabel}>Retour :</Text>
             <Text style={styles.infoValue}>{formatDate(formData.dateRetour)}</Text>
           </View>
         )}
-        
+
         {duration && (
           <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>⏱️ Durée :</Text>
+            <Text style={styles.infoLabel}>Durée :</Text>
             <Text style={styles.infoValue}>{duration} jours</Text>
           </View>
         )}
-        
+
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>📍 Destination :</Text>
+          <Text style={styles.infoLabel}>Destination :</Text>
           <Text style={styles.infoValue}>{getLocalisationLabel()}</Text>
         </View>
 
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>👥 Profil :</Text>
+          <Text style={styles.infoLabel}>Profil :</Text>
           <Text style={styles.infoValue}>{getProfilLabel()}</Text>
         </View>
-        
+
         {formData.activites.length > 0 && (
           <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>🎯 Activités :</Text>
+            <Text style={styles.infoLabel}>Activités :</Text>
             <Text style={styles.infoValue}>{getActivitesLabels()}</Text>
           </View>
         )}
       </View>
-      
+
       <Text style={styles.footer}>
         Généré le {new Date().toLocaleDateString('fr-FR')} avec TravelPrep
       </Text>

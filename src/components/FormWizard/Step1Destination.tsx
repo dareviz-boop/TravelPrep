@@ -36,7 +36,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
   const [showPaysSelector, setShowPaysSelector] = useState(false);
   const [open, setOpen] = useState(false);
   const [paysOptions, setPaysOptions] = useState<Pays[]>([]);
-  const [knowsReturnDate, setKnowsReturnDate] = useState(true);
+  const [knowsReturnDate, setKnowsReturnDate] = useState(false); // Par défaut, afficher la durée estimée
   
   // NOUVEAU : Récupération dynamique des localisations (Zones Géographiques)
   const localisations: { value: Localisation; label: string; emoji: string }[] = Object.entries(
@@ -448,28 +448,41 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
             On calculera automatiquement tes échéances
           </p>
 
-          {/* Toggle button pour la date de retour */}
-          {formData.dateDepart && knowsReturnDate && !formData.dateRetour && (
+          {/* Bouton pour afficher la durée estimée */}
+          {formData.dateDepart && !knowsReturnDate && (
             <Button
               type="button"
               variant="outline"
               onClick={() => {
-                setKnowsReturnDate(false);
-                updateFormData({ dateRetour: '' });
+                setKnowsReturnDate(true);
               }}
               className="w-full mt-3 border-2 hover:bg-primary/5 hover:border-primary/50"
             >
-              ❓ Je ne connais pas ma date de retour
+              📅 Je connais ma date de retour
             </Button>
           )}
         </div>
 
-        {/* Date de retour - conditionnelle */}
+        {/* Date de retour - seulement si l'utilisateur connaît la date */}
         {knowsReturnDate && formData.dateDepart && (
           <div className="space-y-3 bg-card p-6 rounded-xl border-2 border-border shadow-sm hover:shadow-md transition-shadow">
-            <Label className="text-lg font-bold text-foreground">
-              Date de retour <span className="text-muted-foreground text-sm font-normal">(optionnel)</span>
-            </Label>
+            <div className="flex items-center justify-between mb-2">
+              <Label className="text-lg font-bold text-foreground">
+                Date de retour <span className="text-muted-foreground text-sm font-normal">(optionnel)</span>
+              </Label>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setKnowsReturnDate(false);
+                  updateFormData({ dateRetour: '' });
+                }}
+                className="text-sm text-primary hover:text-primary hover:bg-primary/10"
+              >
+                ❓ Je ne connais pas ma date de retour
+              </Button>
+            </div>
             <DatePicker
               date={formData.dateRetour ? new Date(formData.dateRetour) : undefined}
               onSelect={(selectedDate) => {
@@ -511,25 +524,12 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
           </div>
         )}
 
-        {/* Durée estimée - quand on ne connaît pas la date de retour */}
+        {/* Durée estimée - affichée par défaut */}
         {formData.dateDepart && !knowsReturnDate && (
           <div className="space-y-4 bg-card p-6 rounded-xl border-2 border-border shadow-sm">
-            <div className="flex items-center justify-between mb-2">
-              <Label className="text-lg font-bold text-foreground">
-                Durée estimée du voyage <span className="text-primary">*</span>
-              </Label>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  setKnowsReturnDate(true);
-                }}
-                className="text-sm text-primary hover:text-primary hover:bg-primary/10"
-              >
-                📅 Je connais ma date de retour
-              </Button>
-            </div>
+            <Label className="text-lg font-bold text-foreground">
+              Durée estimée du voyage <span className="text-primary">*</span>
+            </Label>
             <RadioGroup
               value={formData.duree}
               onValueChange={(value) => updateFormData({ duree: value as FormData['duree'] })}
