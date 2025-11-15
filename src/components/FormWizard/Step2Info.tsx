@@ -375,7 +375,10 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
           <h3 className="text-xl font-bold mb-3">
             Conditions climatiques <span className="text-muted-foreground text-sm font-normal">(choix multiple - optionnel)</span>
           </h3>
-    
+
+          {/* 🔧 LOG: Vérification du nombre de groupes */}
+          {console.log(`📊 Nombre de groupes de conditions climatiques : ${checklistData.conditionsClimatiques.length}`, checklistData.conditionsClimatiques.map((g: any) => g.groupe))}
+
           {/* Utilise la structure groupée du JSON */}
           {checklistData.conditionsClimatiques.map((groupe, index) => (
             <div key={index} className="space-y-3 p-4 border rounded-xl bg-card shadow-sm">

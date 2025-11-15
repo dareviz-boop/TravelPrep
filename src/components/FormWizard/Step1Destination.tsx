@@ -40,10 +40,9 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
   const [searchValue, setSearchValue] = useState(""); // État pour le texte de recherche
 
   // Synchroniser knowsReturnDate avec formData.dateRetour
+  // 🔧 FIX: Synchronisation complète au montage et lors des changements
   useEffect(() => {
-    if (formData.dateRetour && !knowsReturnDate) {
-      setKnowsReturnDate(true);
-    }
+    setKnowsReturnDate(!!formData.dateRetour);
   }, [formData.dateRetour]);
   
   // NOUVEAU : Récupération dynamique des localisations (Zones Géographiques)

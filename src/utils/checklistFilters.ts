@@ -363,7 +363,7 @@ export function autoDetectSeasons(formData: FormData): string[] {
 /**
  * Détermine automatiquement les plages de température appropriées selon les pays et les dates de voyage
  * @param formData - Données du formulaire
- * @returns Array de températures applicables (tres-froide, froide, moderee, chaude, tres-chaude)
+ * @returns Array de températures applicables (tres-froide, froide, temperee, chaude, tres-chaude)
  */
 export function autoDetectTemperatures(formData: FormData): string[] {
   if (!formData.dateDepart) return [];
@@ -383,9 +383,9 @@ export function autoDetectTemperatures(formData: FormData): string[] {
         temps.push('froide');
       } else if (month >= 4 && month <= 5) {
         temps.push('froide');
-        temps.push('moderee');
+        temps.push('temperee');
       } else {
-        temps.push('moderee'); // Été arctique
+        temps.push('temperee'); // Été arctique
       }
     }
 
@@ -397,7 +397,7 @@ export function autoDetectTemperatures(formData: FormData): string[] {
         temps.push('chaude');
       } else {
         temps.push('chaude');
-        temps.push('moderee');
+        temps.push('temperee');
       }
     }
 
@@ -418,7 +418,7 @@ export function autoDetectTemperatures(formData: FormData): string[] {
       if (month >= 3 && month <= 10) {
         temps.push('tres-chaude');
       } else {
-        temps.push('moderee');
+        temps.push('temperee');
       }
     }
 
@@ -434,16 +434,16 @@ export function autoDetectTemperatures(formData: FormData): string[] {
       // Été austral (décembre-février)
       if (month >= 12 || month <= 2) {
         temps.push('chaude');
-        temps.push('moderee');
+        temps.push('temperee');
       }
       // Hiver austral (juin-août)
       else if (month >= 6 && month <= 8) {
         temps.push('froide');
-        temps.push('moderee');
+        temps.push('temperee');
       }
       // Printemps/Automne
       else {
-        temps.push('moderee');
+        temps.push('temperee');
       }
     }
 
@@ -454,16 +454,16 @@ export function autoDetectTemperatures(formData: FormData): string[] {
       if (month >= 12 || month <= 2) {
         temps.push('chaude');
         if (code.includes('australie')) temps.push('tres-chaude');
-        temps.push('moderee');
+        temps.push('temperee');
       }
       // Hiver austral (juin-août)
       else if (month >= 6 && month <= 8) {
         temps.push('froide');
-        temps.push('moderee');
+        temps.push('temperee');
       }
       // Printemps/Automne
       else {
-        temps.push('moderee');
+        temps.push('temperee');
       }
     }
 
@@ -474,11 +474,11 @@ export function autoDetectTemperatures(formData: FormData): string[] {
         temps.push('tres-chaude');
         temps.push('chaude');
       } else if (month >= 11 || month <= 2) {
-        temps.push('moderee');
+        temps.push('temperee');
         temps.push('froide');
       } else {
         temps.push('chaude');
-        temps.push('moderee');
+        temps.push('temperee');
       }
     }
 
@@ -489,11 +489,11 @@ export function autoDetectTemperatures(formData: FormData): string[] {
         temps.push('tres-froide');
         temps.push('froide');
       } else if (month >= 6 && month <= 8) {
-        temps.push('moderee');
+        temps.push('temperee');
         temps.push('chaude');
       } else {
         temps.push('froide');
-        temps.push('moderee');
+        temps.push('temperee');
       }
     }
 
@@ -501,13 +501,13 @@ export function autoDetectTemperatures(formData: FormData): string[] {
     if (northAmericaTemperate.some(c => code.includes(c))) {
       if (month >= 12 || month <= 2) {
         temps.push('froide');
-        temps.push('moderee');
+        temps.push('temperee');
       } else if (month >= 6 && month <= 8) {
         temps.push('chaude');
         if (code.includes('mexique')) temps.push('tres-chaude');
-        temps.push('moderee');
+        temps.push('temperee');
       } else {
-        temps.push('moderee');
+        temps.push('temperee');
       }
     }
 
@@ -518,12 +518,12 @@ export function autoDetectTemperatures(formData: FormData): string[] {
     if (europeCountries.some(c => code.includes(c))) {
       if (month >= 12 || month <= 2) {
         temps.push('froide');
-        temps.push('moderee');
+        temps.push('temperee');
       } else if (month >= 6 && month <= 8) {
         temps.push('chaude');
-        temps.push('moderee');
+        temps.push('temperee');
       } else {
-        temps.push('moderee');
+        temps.push('temperee');
       }
     }
 
@@ -532,13 +532,13 @@ export function autoDetectTemperatures(formData: FormData): string[] {
     if (asiaTemperate.some(c => code.includes(c))) {
       if (month >= 12 || month <= 2) {
         temps.push('froide');
-        temps.push('moderee');
+        temps.push('temperee');
       } else if (month >= 6 && month <= 8) {
         temps.push('chaude');
         temps.push('tres-chaude');
-        temps.push('moderee');
+        temps.push('temperee');
       } else {
-        temps.push('moderee');
+        temps.push('temperee');
       }
     }
 
@@ -549,13 +549,13 @@ export function autoDetectTemperatures(formData: FormData): string[] {
         temps.push('tres-chaude');
         temps.push('chaude');
       } else if (month >= 12 || month <= 2) {
-        temps.push('moderee');
+        temps.push('temperee');
         if (code.includes('nepal') || code.includes('bhoutan')) {
           temps.push('froide');
         }
       } else {
         temps.push('chaude');
-        temps.push('moderee');
+        temps.push('temperee');
       }
     }
 
@@ -575,17 +575,17 @@ export function autoDetectTemperatures(formData: FormData): string[] {
   // Si aucun pays sélectionné, utiliser des températures par défaut basées sur la zone
   if (!formData.pays || formData.pays.length === 0) {
     const zoneTemps: Record<string, string[]> = {
-      'europe': ['moderee', 'froide'],
-      'asie': ['chaude', 'moderee'],
+      'europe': ['temperee', 'froide'],
+      'asie': ['chaude', 'temperee'],
       'afrique': ['tres-chaude', 'chaude'],
-      'amerique-nord': ['moderee', 'froide'],
-      'amerique-sud': ['chaude', 'moderee'],
+      'amerique-nord': ['temperee', 'froide'],
+      'amerique-sud': ['chaude', 'temperee'],
       'amerique-centrale-caraibes': ['tres-chaude', 'chaude'],
-      'oceanie': ['chaude', 'moderee'],
-      'multi-destinations': ['moderee', 'chaude', 'froide']
+      'oceanie': ['chaude', 'temperee'],
+      'multi-destinations': ['temperee', 'chaude', 'froide']
     };
 
-    const defaultTemps = zoneTemps[formData.localisation] || ['moderee'];
+    const defaultTemps = zoneTemps[formData.localisation] || ['temperee'];
     defaultTemps.forEach(t => temperatures.add(t));
   } else {
     // Analyser chaque pays pour chaque mois du voyage
@@ -597,9 +597,9 @@ export function autoDetectTemperatures(formData: FormData): string[] {
     });
   }
 
-  // Si aucune température détectée, utiliser 'moderee' par défaut
+  // Si aucune température détectée, utiliser 'temperee' par défaut
   if (temperatures.size === 0) {
-    temperatures.add('moderee');
+    temperatures.add('temperee');
   }
 
   return Array.from(temperatures);
@@ -808,7 +808,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
     if (applicableRegions.some(r => ['amerique-sud', 'asie', 'afrique'].includes(r))) {
       if (!formData.conditionsClimatiques?.some(c => c.startsWith('climat_altitude_'))) {
         suggestions.push({
-          conditionId: 'climat_altitude_moderee',
+          conditionId: 'climat_altitude_temperee',
           nom: '🏔️ Altitude modérée (2500-3500m)',
           emoji: '🏔️',
           raison: 'Randonnée dans une région avec possibilité d\'altitude significative',

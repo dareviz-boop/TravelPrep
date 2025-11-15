@@ -1,7 +1,7 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { FormData } from "@/types/form";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { generateCompleteChecklist } from '@/utils/checklistGenerator';
 
 interface Step6CheckoutProps {
@@ -12,25 +12,34 @@ interface Step6CheckoutProps {
 export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) => {
   const [showPDF, setShowPDF] = useState(false);
   const [PDFComponents, setPDFComponents] = useState<any>(null);
-  const generatedChecklist = generateCompleteChecklist(formData);
+  const [pdfError, setPdfError] = useState<string | null>(null);
+
+  // 🔧 FIX: Utiliser useMemo pour éviter de recalculer la checklist à chaque render
+  const generatedChecklist = useMemo(() => generateCompleteChecklist(formData), [formData]);
 
   // Charger les composants PDF de manière dynamique
   useEffect(() => {
     const loadPDF = async () => {
       try {
+        console.log('📥 Chargement des composants PDF...');
         const { PDFViewer } = await import('@react-pdf/renderer');
         const { TravelPrepPDF } = await import('@/components/PDF/PDFDocument');
         setPDFComponents({ PDFViewer, TravelPrepPDF });
+        setPdfError(null);
+        console.log('✅ Composants PDF chargés avec succès');
 
+        // 🔧 FIX: Réinitialiser l'état du PDF quand formData change
+        setShowPDF(false);
         // Afficher le PDF après un court délai
         setTimeout(() => setShowPDF(true), 500);
       } catch (error) {
-        console.error('Erreur lors du chargement du PDF:', error);
+        console.error('❌ Erreur lors du chargement du PDF:', error);
+        setPdfError(error instanceof Error ? error.message : 'Erreur inconnue');
       }
     };
 
     loadPDF();
-  }, []);
+  }, [formData]); // 🔧 FIX: Ajouter formData dans les dépendances
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Titre de l'étape */}
@@ -99,12 +108,22 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
         <p className="text-sm text-muted-foreground text-center mb-4">
           Vérifiez votre PDF avant de le télécharger
         </p>
-        {!PDFComponents && (
+        {/* 🔧 FIX: Afficher les erreurs de chargement */}
+        {pdfError && (
+          <div className="w-full h-[600px] border-2 border-destructive rounded-lg overflow-hidden shadow-lg flex items-center justify-center">
+            <div className="text-center p-8">
+              <p className="text-destructive font-bold mb-2">❌ Erreur de chargement du PDF</p>
+              <p className="text-sm text-muted-foreground">{pdfError}</p>
+              <p className="text-xs text-muted-foreground mt-4">Consultez la console pour plus de détails</p>
+            </div>
+          </div>
+        )}
+        {!PDFComponents && !pdfError && (
           <div className="w-full h-[600px] border-2 border-border rounded-lg overflow-hidden shadow-lg flex items-center justify-center">
             <p className="text-muted-foreground">Chargement de l'aperçu PDF...</p>
           </div>
         )}
-        {showPDF && PDFComponents && (
+        {showPDF && PDFComponents && !pdfError && (
           <div className="w-full h-[600px] border-2 border-border rounded-lg overflow-hidden shadow-lg">
             <PDFComponents.PDFViewer width="100%" height="100%" showToolbar={true}>
               <PDFComponents.TravelPrepPDF formData={formData} checklistData={generatedChecklist} />

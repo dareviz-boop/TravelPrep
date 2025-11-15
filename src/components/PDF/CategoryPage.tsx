@@ -3,25 +3,35 @@ import { FormData } from '@/types/form';
 import { GeneratedChecklistSection } from '@/utils/checklistGenerator';
 
 // Fonction utilitaire pour nettoyer les emojis et caractères spéciaux
+// 🔧 FIX: Nettoyage amélioré pour éviter les erreurs d'encodage de glyphes
 const cleanTextForPDF = (text: string): string => {
   if (!text) return '';
-  // Remplace les emojis et autres caractères spéciaux par des équivalents texte ou les supprime
   return text
-    .replace(/[\u{1F300}-\u{1F9FF}]/gu, '') // Supprime les emojis
-    .replace(/[\u{2600}-\u{26FF}]/gu, '')   // Supprime les symboles divers
-    .replace(/[\u{2700}-\u{27BF}]/gu, '')   // Supprime les dingbats
-    .replace(/[\u{FE00}-\u{FE0F}]/gu, '')   // Supprime les sélecteurs de variation
-    .replace(/[\u{1F900}-\u{1F9FF}]/gu, '') // Supprime les emojis supplémentaires
-    .replace(/[\u{1F600}-\u{1F64F}]/gu, '') // Supprime les emoticons
-    .replace(/[\u{1F680}-\u{1F6FF}]/gu, '') // Supprime les symboles de transport
-    .replace(/[\u{E000}-\u{F8FF}]/gu, '')   // Supprime les caractères de la zone privée
-    .replace(/[\u{2190}-\u{21FF}]/gu, '')   // Supprime les flèches
+    // Normaliser les guillemets typographiques
+    .replace(/[""]/g, '"')
+    .replace(/['']/g, "'")
+    .replace(/[«»]/g, '"')
+    // Normaliser les tirets
+    .replace(/[–—]/g, '-')
+    .replace(/…/g, '...')
+    // Supprimer les emojis et caractères spéciaux
+    .replace(/[\u{1F300}-\u{1F9FF}]/gu, '')
+    .replace(/[\u{2600}-\u{26FF}]/gu, '')
+    .replace(/[\u{2700}-\u{27BF}]/gu, '')
+    .replace(/[\u{FE00}-\u{FE0F}]/gu, '')
+    .replace(/[\u{1F900}-\u{1F9FF}]/gu, '')
+    .replace(/[\u{1F600}-\u{1F64F}]/gu, '')
+    .replace(/[\u{1F680}-\u{1F6FF}]/gu, '')
+    .replace(/[\u{E000}-\u{F8FF}]/gu, '')
+    .replace(/[\u{2190}-\u{21FF}]/gu, '')
+    // Supprimer tout caractère non-ASCII restant sauf les lettres accentuées
+    .replace(/[^\x00-\x7F\u00C0-\u00FF]/g, '')
     .trim();
 };
 
 const styles = StyleSheet.create({
   page: {
-    fontFamily: 'Inter',
+    fontFamily: 'Helvetica', // 🔧 FIX: Utiliser Helvetica au lieu d'Inter
     fontSize: 10,
     padding: 40,
     backgroundColor: '#FFFFFF'
