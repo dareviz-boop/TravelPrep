@@ -1,5 +1,6 @@
 import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
+import checklistCompleteData from '@/data/checklistComplete.json';
 
 const styles = StyleSheet.create({
   page: {
@@ -83,11 +84,21 @@ export const CoverPage = ({ formData, checklistData }: CoverPageProps) => {
   };
 
   const getActivitesLabels = () => {
-    if (!checklistData.activites) return '';
+    const activitesMap: any = checklistCompleteData.activites || {};
     return formData.activites
-      .map(act => checklistData.activites[act]?.label)
+      .map(actId => activitesMap[actId]?.label || actId)
       .filter(Boolean)
       .join(', ');
+  };
+
+  const getLocalisationLabel = () => {
+    const localisations: any = checklistCompleteData.localisations || {};
+    return localisations[formData.localisation]?.nom || formData.localisation;
+  };
+
+  const getProfilLabel = () => {
+    const profils: any = checklistCompleteData.profils || {};
+    return profils[formData.profil]?.label || formData.profil;
   };
 
   const duration = calculateDuration();
@@ -121,12 +132,12 @@ export const CoverPage = ({ formData, checklistData }: CoverPageProps) => {
         
         <View style={styles.infoRow}>
           <Text style={styles.infoLabel}>📍 Destination :</Text>
-          <Text style={styles.infoValue}>{checklistData.localisations?.[formData.localisation]?.nom || formData.localisation}</Text>
+          <Text style={styles.infoValue}>{getLocalisationLabel()}</Text>
         </View>
-        
+
         <View style={styles.infoRow}>
           <Text style={styles.infoLabel}>👥 Profil :</Text>
-          <Text style={styles.infoValue}>{checklistData.profils?.[formData.profil]?.label || formData.profil}</Text>
+          <Text style={styles.infoValue}>{getProfilLabel()}</Text>
         </View>
         
         {formData.activites.length > 0 && (
