@@ -61,10 +61,10 @@ export const CategoryPage = ({ formData, category, title }: CategoryPageProps) =
 
   const getPriorityStars = (priorite: string) => {
     const p = priorite?.toLowerCase() || '';
-    if (p.includes('haute') || p.includes('⭐⭐⭐')) return '⭐⭐⭐';
-    if (p.includes('moyenne') || p.includes('⭐⭐')) return '⭐⭐';
-    if (p.includes('basse') || p.includes('⭐')) return '⭐';
-    return '⭐⭐'; // Default to medium
+    if (p.includes('haute')) return 'HAUTE';
+    if (p.includes('moyenne')) return 'MOY';
+    if (p.includes('basse')) return 'BASSE';
+    return 'MOY'; // Default to medium
   };
 
   const getPriorityStyle = (priorite: string) => {
@@ -76,7 +76,7 @@ export const CategoryPage = ({ formData, category, title }: CategoryPageProps) =
 
   return (
     <Page size="A4" style={styles.page}>
-      <Text style={styles.title}>{category.emoji || '📄'} {title}</Text>
+      <Text style={styles.title}>{title}</Text>
 
       {category.items.map((item, index) => (
         <View style={styles.item} key={item.id || `item-${index}`}>

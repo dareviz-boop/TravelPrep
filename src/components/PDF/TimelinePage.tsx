@@ -127,10 +127,10 @@ export const TimelinePage = ({ formData, checklistData }: TimelinePageProps) => 
 
   const getPriorityStars = (priorite?: string) => {
     const p = priorite?.toLowerCase() || '';
-    if (p.includes('haute')) return '⭐⭐⭐';
-    if (p.includes('moyenne')) return '⭐⭐';
-    if (p.includes('basse')) return '⭐';
-    return '⭐⭐';
+    if (p.includes('haute')) return 'HAUTE';
+    if (p.includes('moyenne')) return 'MOY';
+    if (p.includes('basse')) return 'BASSE';
+    return 'MOY';
   };
 
   const getPriorityStyle = (priorite?: string) => {
@@ -150,7 +150,6 @@ export const TimelinePage = ({ formData, checklistData }: TimelinePageProps) => 
           <View style={styles.item} key={`${item.id || index}-${item.item}`}>
             <View style={styles.checkbox} />
             <Text style={styles.itemText}>
-              {item.sectionEmoji && `${item.sectionEmoji} `}
               {item.item}
             </Text>
             {item.priorite && (
@@ -173,7 +172,7 @@ export const TimelinePage = ({ formData, checklistData }: TimelinePageProps) => 
 
   return (
     <Page size="A4" style={styles.page}>
-      <Text style={styles.title}>📅 Timeline de Préparation</Text>
+      <Text style={styles.title}>Timeline de Préparation</Text>
 
       {renderTimelineSection(
         timelines.j90_j60,
