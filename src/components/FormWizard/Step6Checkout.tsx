@@ -15,7 +15,27 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
   const [pdfError, setPdfError] = useState<string | null>(null);
 
   // 🔧 FIX: Utiliser useMemo pour éviter de recalculer la checklist à chaque render
-  const generatedChecklist = useMemo(() => generateCompleteChecklist(formData), [formData]);
+  // Ne recalculer QUE si les données de voyage changent (pas les infos de contact)
+  const generatedChecklist = useMemo(() => {
+    return generateCompleteChecklist(formData);
+  }, [
+    formData.nomVoyage,
+    formData.dateDepart,
+    formData.dateRetour,
+    formData.duree,
+    formData.localisation,
+    formData.pays,
+    formData.temperature,
+    formData.saison,
+    formData.conditionsClimatiques,
+    formData.activites,
+    formData.profil,
+    formData.agesEnfants,
+    formData.typeVoyage,
+    formData.confort,
+    formData.sectionsInclure,
+    formData.formatPDF
+  ]);
 
   // Charger les composants PDF de manière dynamique
   useEffect(() => {
@@ -28,10 +48,8 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
         setPdfError(null);
         console.log('✅ Composants PDF chargés avec succès');
 
-        // 🔧 FIX: Réinitialiser l'état du PDF quand formData change
-        setShowPDF(false);
-        // Afficher le PDF après un court délai
-        setTimeout(() => setShowPDF(true), 500);
+        // ✅ FIX: Afficher le PDF une seule fois au chargement initial
+        setShowPDF(true);
       } catch (error) {
         console.error('❌ Erreur lors du chargement du PDF:', error);
         setPdfError(error instanceof Error ? error.message : 'Erreur inconnue');
@@ -39,7 +57,7 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
     };
 
     loadPDF();
-  }, [formData]); // 🔧 FIX: Ajouter formData dans les dépendances
+  }, []); // 🔧 FIX: Ne charger qu'une seule fois au montage du composant
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Titre de l'étape */}
