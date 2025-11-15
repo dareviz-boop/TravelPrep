@@ -8,6 +8,7 @@ import { FormData } from "@/types/form";
 import { checklistData } from "@/utils/checklistUtils";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
+import { generateAutoSuggestions, autoDetectSeasons, autoDetectTemperatures } from "@/utils/checklistFilters"; 
 import { generateAutoSuggestions, autoDetectSeasons, autoDetectTemperatures } from "@/utils/checklistFilters";
 import { Card } from "@/components/ui/card"; 
 
@@ -58,6 +59,8 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
    * 🌍 Auto-détection des saisons : Attribution automatique selon pays et date
    * Déclenché quand date de départ ou pays changent
    * ✨ TOUJOURS actualiser automatiquement pour refléter les changements de destination
+   * 🌍 Auto-détection des saisons : Attribution automatique selon pays, date et durée
+   * Déclenché quand date de départ, date de retour, durée ou pays changent
    */
   useEffect(() => {
     if (formData.dateDepart && formData.pays && formData.pays.length > 0) {
@@ -69,6 +72,42 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
       }
     }
   }, [formData.dateDepart, formData.dateRetour, formData.pays]);
+        // Ne mettre à jour que si actuellement "inconnue"
+        const currentSaisons = Array.isArray(formData.saison) ? formData.saison : [formData.saison];
+        const isCurrentlyUnknown = currentSaisons.length === 0 ||
+                                   currentSaisons.includes('inconnue') ||
+                                   currentSaisons[0] === 'inconnue';
+
+        // Auto-attribuer uniquement si la valeur actuelle est "inconnue"
+        if (isCurrentlyUnknown) {
+          updateFormData({ saison: detectedSeasons });
+        }
+      }
+    }
+  }, [formData.dateDepart, formData.dateRetour, formData.duree, formData.pays]);
+
+  /**
+   * 🌡️ Auto-détection des températures : Attribution automatique selon pays et date
+   * Déclenché quand date de départ ou pays changent
+   */
+  useEffect(() => {
+    if (formData.dateDepart && formData.pays && formData.pays.length > 0) {
+      const detectedTemps = autoDetectTemperatures(formData);
+
+      if (detectedTemps.length > 0) {
+        // Ne mettre à jour que si actuellement "inconnue"
+        const currentTemps = Array.isArray(formData.temperature) ? formData.temperature : [formData.temperature];
+        const isCurrentlyUnknown = currentTemps.length === 0 ||
+                                   currentTemps.includes('inconnue') ||
+                                   currentTemps[0] === 'inconnue';
+
+        // Auto-attribuer uniquement si la valeur actuelle est "inconnue"
+        if (isCurrentlyUnknown) {
+          updateFormData({ temperature: detectedTemps });
+        }
+      }
+    }
+  }, [formData.dateDepart, formData.pays]);
 
   /**
    * 🌡️ Auto-détection des températures : Attribution automatique selon pays et date
@@ -90,6 +129,20 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
    * 🔄 Auto-suggestions : Pré-sélectionner automatiquement les conditions recommandées
    * Déclenché quand destination, température ou saison changent
    *
+   * IMPORTANT: Cet useEffect s'exécute APRÈS les auto-détections de saison/température
+   * grâce à ses dépendances sur formData.temperature et formData.saison
+   */
+  useEffect(() => {
+    // Attendre que les données essentielles soient disponibles
+    if (!formData.pays || formData.pays.length === 0 || !formData.dateDepart) {
+      return;
+    }
+
+    const temperatures = Array.isArray(formData.temperature) ? formData.temperature : [formData.temperature];
+    const saisons = Array.isArray(formData.saison) ? formData.saison : [formData.saison];
+
+    const hasValidTemp = temperatures.length > 0 && !temperatures.includes('inconnue');
+    const hasValidSaison = saisons.length > 0 && !saisons.includes('inconnue');
    * Note : Les suggestions sont générées dès qu'on a une destination et des dates,
    * même si température/saison ne sont pas encore renseignées (certaines suggestions
    * dépendent uniquement de la destination et de la période)

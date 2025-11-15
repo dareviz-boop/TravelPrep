@@ -256,6 +256,8 @@ export function getClimatEquipment(formData: FormData): ChecklistSection[] {
 // ==========================================
 
 /**
+ * Détermine automatiquement les saisons appropriées selon les pays et la période du voyage
+ * Prend en compte toute la durée du voyage pour détecter plusieurs saisons
  * Détermine automatiquement les saisons appropriées selon les pays et les dates de voyage
  * Prend en compte toute la période du voyage (pas juste la date de départ)
  * @param formData - Données du formulaire
@@ -302,6 +304,60 @@ export function autoDetectSeasons(formData: FormData): string[] {
     }
   };
 
+  // Calculer la période du voyage
+  const departDate = new Date(formData.dateDepart);
+  let endDate: Date;
+
+  if (formData.dateRetour) {
+    endDate = new Date(formData.dateRetour);
+  } else if (formData.duree) {
+    // Estimer une date de fin basée sur la durée
+    const durationDays = {
+      'court': 7,
+      'moyen': 21,
+      'long': 60,
+      'tres-long': 120
+    }[formData.duree] || 7;
+
+    endDate = new Date(departDate);
+    endDate.setDate(endDate.getDate() + durationDays);
+  } else {
+    // Pas de durée définie, utiliser juste la date de départ
+    endDate = departDate;
+  }
+
+  // Collecter tous les mois couverts par le voyage
+  const monthsCovered: Set<number> = new Set();
+  const currentDate = new Date(departDate);
+
+  while (currentDate <= endDate) {
+    monthsCovered.add(currentDate.getMonth() + 1); // 1-12
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    currentDate.setDate(1); // Début du mois suivant
+  }
+
+  // Déterminer l'hémisphère prédominant
+  let predominantHemisphere: 'north' | 'south' | 'both' = 'north';
+
+  if (formData.pays && formData.pays.length > 0) {
+    const hemispheres = formData.pays.map((pays: any) => getHemisphere(pays.code));
+
+    if (hemispheres.includes('both')) {
+      predominantHemisphere = 'both';
+    } else if (hemispheres.filter(h => h === 'south').length > hemispheres.filter(h => h === 'north').length) {
+      predominantHemisphere = 'south';
+    }
+  } else {
+    predominantHemisphere = formData.localisation === 'oceanie' ? 'south' : 'north';
+  }
+
+  // Ajouter les saisons pour chaque mois couvert
+  if (predominantHemisphere === 'both') {
+    // Pays équatorial : toujours été
+    seasons.add('ete');
+  } else {
+    monthsCovered.forEach(month => {
+      seasons.add(getSeasonForHemisphere(month, predominantHemisphere as 'north' | 'south'));
   // Générer tous les mois couverts par le voyage
   const tripMonths = new Set<number>();
   let currentDate = new Date(formData.dateDepart);
@@ -601,6 +657,71 @@ export function autoDetectTemperatures(formData: FormData): string[] {
   if (temperatures.size === 0) {
     temperatures.add('temperee');
   }
+
+  return Array.from(temperatures);
+}
+
+// ==========================================
+// AUTO-ATTRIBUTION DES TEMPÉRATURES
+// ==========================================
+
+/**
+ * Détermine automatiquement les températures probables selon les pays, saisons et date
+ * @param formData - Données du formulaire
+ * @returns Array de températures applicables (tres-froide, froide, temperee, chaude, tres-chaude)
+ */
+export function autoDetectTemperatures(formData: FormData): string[] {
+  if (!formData.pays || formData.pays.length === 0 || !formData.dateDepart) return [];
+
+  const temperatures: Set<string> = new Set();
+  const month = new Date(formData.dateDepart).getMonth() + 1; // 1-12
+
+  // Pays très froids (arctiques/polaires)
+  const coldCountries = ['groenland', 'islande', 'finlande', 'norvege', 'suede', 'alaska', 'canada'];
+
+  // Pays très chauds (désertiques/tropicaux)
+  const hotCountries = ['arabie', 'emirats', 'qatar', 'egypte', 'libye', 'niger', 'tchad', 'soudan', 'australie', 'inde'];
+
+  // Pays tropicaux chauds
+  const tropicalCountries = ['thailande', 'vietnam', 'indonesie', 'philippines', 'malaisie', 'singapour', 'bresil', 'colombie'];
+
+  formData.pays.forEach((pays: any) => {
+    const code = pays.code.toLowerCase();
+
+    // Pays très froids
+    if (coldCountries.some(cc => code.includes(cc))) {
+      if (month >= 11 || month <= 3) {
+        temperatures.add('tres-froide'); // Hiver arctique
+      } else if (month >= 4 && month <= 5 || month >= 9 && month <= 10) {
+        temperatures.add('froide'); // Printemps/automne
+      } else {
+        temperatures.add('temperee'); // Été court
+      }
+    }
+    // Pays très chauds (déserts)
+    else if (hotCountries.some(hc => code.includes(hc))) {
+      if (month >= 5 && month <= 9) {
+        temperatures.add('tres-chaude'); // Été désertique
+      } else {
+        temperatures.add('chaude'); // Hiver plus doux
+      }
+    }
+    // Pays tropicaux
+    else if (tropicalCountries.some(tc => code.includes(tc))) {
+      temperatures.add('chaude'); // Toute l'année chaud
+      if (month >= 3 && month <= 5) {
+        temperatures.add('tres-chaude'); // Saison chaude
+      }
+    }
+    // Hémisphère nord tempéré (Europe, Amérique du Nord, Asie tempérée)
+    else if (month >= 6 && month <= 8) {
+      temperatures.add('chaude'); // Été
+    } else if (month >= 12 || month <= 2) {
+      temperatures.add('froide'); // Hiver
+    } else {
+      temperatures.add('temperee'); // Printemps/automne
+    }
+  });
 
   return Array.from(temperatures);
 }
@@ -1218,6 +1339,7 @@ export default {
   getClimatEquipment,
   generateAutoSuggestions,
   autoDetectSeasons,
+  autoDetectTemperatures,
   getSuggestionDetails,
   acceptSuggestion,
   getFilterSummary
