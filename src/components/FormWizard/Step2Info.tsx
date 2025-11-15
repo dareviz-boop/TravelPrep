@@ -119,22 +119,22 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
    * Logique pour les conditions climatiques spéciales (Inchangement)
    */
   const handleConditionToggle = (conditionId: string) => {
-    const current = formData.conditionsClimatiques || []; 
-    
-    if (conditionId === 'aucune') {
-        const isCurrentlyNone = current.includes('aucune');
-        updateFormData({ conditionsClimatiques: isCurrentlyNone ? [] : ['aucune'] });
+    const current = formData.conditionsClimatiques || [];
+
+    if (conditionId === 'climat_aucune') {
+        const isCurrentlyNone = current.includes('climat_aucune');
+        updateFormData({ conditionsClimatiques: isCurrentlyNone ? [] : ['climat_aucune'] });
         return;
     }
-    
-    const filteredCurrent = current.filter(id => id !== 'aucune');
+
+    const filteredCurrent = current.filter(id => id !== 'climat_aucune');
     const isSelected = filteredCurrent.includes(conditionId);
 
     const updated = isSelected
         ? filteredCurrent.filter((id) => id !== conditionId)
         : [...filteredCurrent, conditionId];
 
-    updateFormData({ conditionsClimatiques: updated.length > 0 ? updated : ['aucune'] });
+    updateFormData({ conditionsClimatiques: updated });
   };
 
   return (
@@ -271,7 +271,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                           "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer",
                           "hover:border-primary/50",
                           "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5",
-                          condition.id === 'aucune' ? 'bg-secondary/20' : '' 
+                          condition.id === 'climat_aucune' ? 'bg-secondary/20' : ''
                         )}
                       >
                         {/* 3. Le contenu de la carte */}

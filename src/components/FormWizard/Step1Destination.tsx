@@ -95,7 +95,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
     updateFormData({ pays: formData.pays.filter(p => p.code !== code) });
   };
   
-  // Fonctions de validation (laissé inchangé)
+  // Fonctions de validation et utilitaires
   const validateYear = (dateString: string): boolean => {
     if (!dateString) return true;
     const year = dateString.split('-')[0];
@@ -108,6 +108,18 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     return selected >= today;
+  };
+
+  /**
+   * Convertit une Date en string YYYY-MM-DD sans problème de fuseau horaire
+   * @param date - La date à convertir
+   * @returns String au format YYYY-MM-DD
+   */
+  const formatDateToString = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   };
   // Fin Fonctions de validation
 
@@ -233,10 +245,8 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                               value={`${pays.nom} ${pays.nomEn}`}
                               onSelect={() => {
                                 handlePaysSelect(pays);
-                                // On ferme la popover si on a atteint 3 pays pour cette zone
-                                if (formData.pays.length >= 2) { 
-                                  setOpen(false);
-                                }
+                                // Fermer la popover après chaque sélection pour effacer le texte de recherche
+                                setOpen(false);
                               }}
                             >
                               <Check
@@ -319,7 +329,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                       <CommandEmpty>Aucun pays trouvé.</CommandEmpty>
                       <CommandGroup>
                         {/* Utilisation de la liste complète des pays (maintenant triée) */}
-                        {allPaysOptions.map((pays) => {  
+                        {allPaysOptions.map((pays) => {
                           const isSelected = formData.pays.find(p => p.code === pays.code);
                           return (
                             <CommandItem
@@ -327,7 +337,8 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                               value={`${pays.nom} ${pays.nomEn}`}
                               onSelect={() => {
                                 handlePaysSelect(pays);
-                                // On ne ferme PAS la popover pour permettre la multi-sélection rapide
+                                // Fermer la popover après chaque sélection pour effacer le texte de recherche
+                                setOpen(false);
                               }}
                             >
                               <Check
@@ -401,8 +412,23 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                 return;
               }
 
-              // Format YYYY-MM-DD
-              const dateString = selectedDate.toISOString().split('T')[0];
+              // Format YYYY-MM-DD sans problème de fuseau horaire
+              const dateString = formatDateToString(selectedDate);
+
+              // Vérifier si la nouvelle date de départ est après la date de retour
+              if (formData.dateRetour) {
+                const returnDate = new Date(formData.dateRetour);
+                if (selectedDate >= returnDate) {
+                  // Effacer la date de retour si elle devient invalide
+                  updateFormData({ dateDepart: dateString, dateRetour: '' });
+                  toast({
+                    title: "Date de retour effacée",
+                    description: "La date de retour a été effacée car elle est antérieure à la nouvelle date de départ",
+                  });
+                  return;
+                }
+              }
+
               updateFormData({ dateDepart: dateString });
             }}
             minDate={new Date(Date.now() + 86400000)}
@@ -456,8 +482,8 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                   }
                 }
 
-                // Format YYYY-MM-DD
-                const dateString = selectedDate.toISOString().split('T')[0];
+                // Format YYYY-MM-DD sans problème de fuseau horaire
+                const dateString = formatDateToString(selectedDate);
                 updateFormData({ dateRetour: dateString });
               }}
               minDate={formData.dateDepart ? new Date(new Date(formData.dateDepart).getTime() + 86400000) : new Date(Date.now() + 86400000)}
