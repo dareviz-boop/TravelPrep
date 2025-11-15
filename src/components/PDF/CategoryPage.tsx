@@ -2,6 +2,23 @@ import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
 import { GeneratedChecklistSection } from '@/utils/checklistGenerator';
 
+// Fonction utilitaire pour nettoyer les emojis et caractères spéciaux
+const cleanTextForPDF = (text: string): string => {
+  if (!text) return '';
+  // Remplace les emojis et autres caractères spéciaux par des équivalents texte ou les supprime
+  return text
+    .replace(/[\u{1F300}-\u{1F9FF}]/gu, '') // Supprime les emojis
+    .replace(/[\u{2600}-\u{26FF}]/gu, '')   // Supprime les symboles divers
+    .replace(/[\u{2700}-\u{27BF}]/gu, '')   // Supprime les dingbats
+    .replace(/[\u{FE00}-\u{FE0F}]/gu, '')   // Supprime les sélecteurs de variation
+    .replace(/[\u{1F900}-\u{1F9FF}]/gu, '') // Supprime les emojis supplémentaires
+    .replace(/[\u{1F600}-\u{1F64F}]/gu, '') // Supprime les emoticons
+    .replace(/[\u{1F680}-\u{1F6FF}]/gu, '') // Supprime les symboles de transport
+    .replace(/[\u{E000}-\u{F8FF}]/gu, '')   // Supprime les caractères de la zone privée
+    .replace(/[\u{2190}-\u{21FF}]/gu, '')   // Supprime les flèches
+    .trim();
+};
+
 const styles = StyleSheet.create({
   page: {
     fontFamily: 'Inter',
@@ -76,12 +93,12 @@ export const CategoryPage = ({ formData, category, title }: CategoryPageProps) =
 
   return (
     <Page size="A4" style={styles.page}>
-      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.title}>{cleanTextForPDF(title)}</Text>
 
       {category.items.map((item, index) => (
         <View style={styles.item} key={item.id || `item-${index}`}>
           <View style={styles.checkbox} />
-          <Text style={styles.itemText}>{item.item}</Text>
+          <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
           {item.priorite && (
             <Text style={[styles.priority, getPriorityStyle(item.priorite)]}>
               {getPriorityStars(item.priorite)}

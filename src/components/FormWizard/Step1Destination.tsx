@@ -36,8 +36,15 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
   const [showPaysSelector, setShowPaysSelector] = useState(false);
   const [open, setOpen] = useState(false);
   const [paysOptions, setPaysOptions] = useState<Pays[]>([]);
-  const [knowsReturnDate, setKnowsReturnDate] = useState(false); // Par défaut, afficher la durée estimée
+  const [knowsReturnDate, setKnowsReturnDate] = useState(!!formData.dateRetour); // Initialise à true si dateRetour existe
   const [searchValue, setSearchValue] = useState(""); // État pour le texte de recherche
+
+  // Synchroniser knowsReturnDate avec formData.dateRetour
+  useEffect(() => {
+    if (formData.dateRetour && !knowsReturnDate) {
+      setKnowsReturnDate(true);
+    }
+  }, [formData.dateRetour]);
   
   // NOUVEAU : Récupération dynamique des localisations (Zones Géographiques)
   const localisations: { value: Localisation; label: string; emoji: string }[] = Object.entries(
