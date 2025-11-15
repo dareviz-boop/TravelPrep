@@ -4,9 +4,18 @@ import { GeneratedChecklist, ChecklistItem } from '@/utils/checklistGenerator';
 import { calculateDeadline } from '@/utils/filterItems';
 
 // Fonction utilitaire pour nettoyer les emojis et caractères spéciaux
+// 🔧 FIX: Nettoyage amélioré pour éviter les erreurs d'encodage de glyphes
 const cleanTextForPDF = (text: string): string => {
   if (!text) return '';
   return text
+    // Normaliser les guillemets typographiques
+    .replace(/[""]/g, '"')
+    .replace(/['']/g, "'")
+    .replace(/[«»]/g, '"')
+    // Normaliser les tirets
+    .replace(/[–—]/g, '-')
+    .replace(/…/g, '...')
+    // Supprimer les emojis et caractères spéciaux
     .replace(/[\u{1F300}-\u{1F9FF}]/gu, '')
     .replace(/[\u{2600}-\u{26FF}]/gu, '')
     .replace(/[\u{2700}-\u{27BF}]/gu, '')
@@ -16,12 +25,14 @@ const cleanTextForPDF = (text: string): string => {
     .replace(/[\u{1F680}-\u{1F6FF}]/gu, '')
     .replace(/[\u{E000}-\u{F8FF}]/gu, '')
     .replace(/[\u{2190}-\u{21FF}]/gu, '')
+    // Supprimer tout caractère non-ASCII restant sauf les lettres accentuées
+    .replace(/[^\x00-\x7F\u00C0-\u00FF]/g, '')
     .trim();
 };
 
 const styles = StyleSheet.create({
   page: {
-    fontFamily: 'Inter',
+    fontFamily: 'Helvetica', // 🔧 FIX: Utiliser Helvetica au lieu d'Inter
     fontSize: 10,
     padding: 40,
     backgroundColor: '#FFFFFF'

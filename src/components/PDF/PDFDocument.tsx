@@ -6,19 +6,13 @@ import { TimelinePage } from './TimelinePage';
 import { CategoryPage } from './CategoryPage';
 import { BagagesPage } from './BagagesPage';
 
-// Register fonts
-Font.register({
-  family: 'Inter',
-  fonts: [
-    { src: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2' },
-    { src: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYAZ9hiA.woff2', fontWeight: 600 },
-    { src: 'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuFuYAZ9hiA.woff2', fontWeight: 700 }
-  ]
-});
+// 🔧 FIX: Ne pas charger de polices externes pour éviter les erreurs d'encodage
+// Utiliser Helvetica qui est toujours disponible dans les PDFs
+// Font.register() commenté car causait : RangeError: Offset is outside the bounds of the DataView
 
 const styles = StyleSheet.create({
   page: {
-    fontFamily: 'Inter',
+    fontFamily: 'Helvetica', // 🔧 FIX: Utiliser Helvetica au lieu d'Inter
     fontSize: 10,
     padding: 30,
     backgroundColor: '#FFFFFF'
