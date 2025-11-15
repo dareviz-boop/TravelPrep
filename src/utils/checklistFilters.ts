@@ -357,6 +357,255 @@ export function autoDetectSeasons(formData: FormData): string[] {
 }
 
 // ==========================================
+// AUTO-ATTRIBUTION DES TEMPÉRATURES
+// ==========================================
+
+/**
+ * Détermine automatiquement les plages de température appropriées selon les pays et les dates de voyage
+ * @param formData - Données du formulaire
+ * @returns Array de températures applicables (tres-froide, froide, moderee, chaude, tres-chaude)
+ */
+export function autoDetectTemperatures(formData: FormData): string[] {
+  if (!formData.dateDepart) return [];
+
+  const temperatures: Set<string> = new Set();
+
+  // Helper pour obtenir la température selon le pays et le mois
+  const getTemperatureForCountry = (countryCode: string, month: number): string[] => {
+    const code = countryCode.toLowerCase();
+    const temps: string[] = [];
+
+    // Pays très froids (arctiques/subarctiques)
+    const arcticCountries = ['groenland', 'islande', 'norvege', 'finlande', 'suede'];
+    if (arcticCountries.some(c => code.includes(c))) {
+      if (month >= 11 || month <= 3) {
+        temps.push('tres-froide'); // Hiver arctique
+        temps.push('froide');
+      } else if (month >= 4 && month <= 5) {
+        temps.push('froide');
+        temps.push('moderee');
+      } else {
+        temps.push('moderee'); // Été arctique
+      }
+    }
+
+    // Pays très chauds (désertiques/tropicaux)
+    const veryHotCountries = ['egypte', 'arabie-saoudite', 'emirats', 'qatar', 'koweit', 'oman', 'yemen'];
+    if (veryHotCountries.some(c => code.includes(c))) {
+      if (month >= 5 && month <= 9) {
+        temps.push('tres-chaude'); // Été désertique
+        temps.push('chaude');
+      } else {
+        temps.push('chaude');
+        temps.push('moderee');
+      }
+    }
+
+    // Pays tropicaux (chauds toute l'année)
+    const tropicalCountries = ['thailande', 'vietnam', 'cambodge', 'laos', 'philippines', 'indonesie',
+                              'malaisie', 'singapour', 'sri-lanka', 'maldives', 'maurice', 'seychelles',
+                              'nouvelle-caledonie', 'polynesie', 'martinique', 'guadeloupe', 'reunion'];
+    if (tropicalCountries.some(c => code.includes(c))) {
+      temps.push('chaude');
+      temps.push('tres-chaude');
+    }
+
+    // Pays d'Afrique subsaharienne
+    const africanCountries = ['kenya', 'tanzanie', 'ouganda', 'rwanda', 'malawi', 'zambie', 'zimbabwe',
+                             'mozambique', 'madagascar', 'senegal', 'mali', 'niger', 'tchad', 'ethiopie'];
+    if (africanCountries.some(c => code.includes(c))) {
+      temps.push('chaude');
+      if (month >= 3 && month <= 10) {
+        temps.push('tres-chaude');
+      } else {
+        temps.push('moderee');
+      }
+    }
+
+    // Pays d'Amérique du Sud (varie selon latitude)
+    const southAmericaTropical = ['colombie', 'equateur', 'perou', 'bresil', 'venezuela', 'guyane'];
+    if (southAmericaTropical.some(c => code.includes(c))) {
+      temps.push('chaude');
+      temps.push('tres-chaude');
+    }
+
+    const southAmericaTemperate = ['argentine', 'chili', 'uruguay', 'paraguay'];
+    if (southAmericaTemperate.some(c => code.includes(c))) {
+      // Été austral (décembre-février)
+      if (month >= 12 || month <= 2) {
+        temps.push('chaude');
+        temps.push('moderee');
+      }
+      // Hiver austral (juin-août)
+      else if (month >= 6 && month <= 8) {
+        temps.push('froide');
+        temps.push('moderee');
+      }
+      // Printemps/Automne
+      else {
+        temps.push('moderee');
+      }
+    }
+
+    // Pays d'Océanie
+    const oceaniaHot = ['australie', 'nouvelle-zelande'];
+    if (oceaniaHot.some(c => code.includes(c))) {
+      // Été austral (décembre-février)
+      if (month >= 12 || month <= 2) {
+        temps.push('chaude');
+        if (code.includes('australie')) temps.push('tres-chaude');
+        temps.push('moderee');
+      }
+      // Hiver austral (juin-août)
+      else if (month >= 6 && month <= 8) {
+        temps.push('froide');
+        temps.push('moderee');
+      }
+      // Printemps/Automne
+      else {
+        temps.push('moderee');
+      }
+    }
+
+    // Pays du Moyen-Orient (chauds)
+    const middleEastCountries = ['israel', 'jordanie', 'liban', 'syrie', 'irak', 'iran', 'turquie'];
+    if (middleEastCountries.some(c => code.includes(c))) {
+      if (month >= 6 && month <= 9) {
+        temps.push('tres-chaude');
+        temps.push('chaude');
+      } else if (month >= 11 || month <= 2) {
+        temps.push('moderee');
+        temps.push('froide');
+      } else {
+        temps.push('chaude');
+        temps.push('moderee');
+      }
+    }
+
+    // Amérique du Nord
+    const northAmericaCold = ['canada', 'alaska'];
+    if (northAmericaCold.some(c => code.includes(c))) {
+      if (month >= 11 || month <= 3) {
+        temps.push('tres-froide');
+        temps.push('froide');
+      } else if (month >= 6 && month <= 8) {
+        temps.push('moderee');
+        temps.push('chaude');
+      } else {
+        temps.push('froide');
+        temps.push('moderee');
+      }
+    }
+
+    const northAmericaTemperate = ['etats-unis', 'mexique'];
+    if (northAmericaTemperate.some(c => code.includes(c))) {
+      if (month >= 12 || month <= 2) {
+        temps.push('froide');
+        temps.push('moderee');
+      } else if (month >= 6 && month <= 8) {
+        temps.push('chaude');
+        if (code.includes('mexique')) temps.push('tres-chaude');
+        temps.push('moderee');
+      } else {
+        temps.push('moderee');
+      }
+    }
+
+    // Europe
+    const europeCountries = ['france', 'espagne', 'italie', 'portugal', 'grece', 'croatie', 'allemagne',
+                            'autriche', 'suisse', 'belgique', 'pays-bas', 'royaume-uni', 'irlande',
+                            'pologne', 'republique-tcheque', 'hongrie', 'roumanie', 'bulgarie'];
+    if (europeCountries.some(c => code.includes(c))) {
+      if (month >= 12 || month <= 2) {
+        temps.push('froide');
+        temps.push('moderee');
+      } else if (month >= 6 && month <= 8) {
+        temps.push('chaude');
+        temps.push('moderee');
+      } else {
+        temps.push('moderee');
+      }
+    }
+
+    // Asie tempérée
+    const asiaTemperate = ['japon', 'coree', 'chine'];
+    if (asiaTemperate.some(c => code.includes(c))) {
+      if (month >= 12 || month <= 2) {
+        temps.push('froide');
+        temps.push('moderee');
+      } else if (month >= 6 && month <= 8) {
+        temps.push('chaude');
+        temps.push('tres-chaude');
+        temps.push('moderee');
+      } else {
+        temps.push('moderee');
+      }
+    }
+
+    // Inde et sous-continent indien
+    const indiaCountries = ['inde', 'pakistan', 'bangladesh', 'nepal', 'bhoutan'];
+    if (indiaCountries.some(c => code.includes(c))) {
+      if (month >= 4 && month <= 6) {
+        temps.push('tres-chaude');
+        temps.push('chaude');
+      } else if (month >= 12 || month <= 2) {
+        temps.push('moderee');
+        if (code.includes('nepal') || code.includes('bhoutan')) {
+          temps.push('froide');
+        }
+      } else {
+        temps.push('chaude');
+        temps.push('moderee');
+      }
+    }
+
+    return temps;
+  };
+
+  // Générer tous les mois couverts par le voyage
+  const tripMonths = new Set<number>();
+  let currentDate = new Date(formData.dateDepart);
+  const endDate = formData.dateRetour ? new Date(formData.dateRetour) : new Date(formData.dateDepart);
+
+  while (currentDate <= endDate) {
+    tripMonths.add(currentDate.getMonth() + 1); // 1-12
+    currentDate.setMonth(currentDate.getMonth() + 1);
+  }
+
+  // Si aucun pays sélectionné, utiliser des températures par défaut basées sur la zone
+  if (!formData.pays || formData.pays.length === 0) {
+    const zoneTemps: Record<string, string[]> = {
+      'europe': ['moderee', 'froide'],
+      'asie': ['chaude', 'moderee'],
+      'afrique': ['tres-chaude', 'chaude'],
+      'amerique-nord': ['moderee', 'froide'],
+      'amerique-sud': ['chaude', 'moderee'],
+      'amerique-centrale-caraibes': ['tres-chaude', 'chaude'],
+      'oceanie': ['chaude', 'moderee'],
+      'multi-destinations': ['moderee', 'chaude', 'froide']
+    };
+
+    const defaultTemps = zoneTemps[formData.localisation] || ['moderee'];
+    defaultTemps.forEach(t => temperatures.add(t));
+  } else {
+    // Analyser chaque pays pour chaque mois du voyage
+    formData.pays.forEach((pays: any) => {
+      tripMonths.forEach(month => {
+        const temps = getTemperatureForCountry(pays.code, month);
+        temps.forEach(t => temperatures.add(t));
+      });
+    });
+  }
+
+  // Si aucune température détectée, utiliser 'moderee' par défaut
+  if (temperatures.size === 0) {
+    temperatures.add('moderee');
+  }
+
+  return Array.from(temperatures);
+}
+
+// ==========================================
 // SUGGESTIONS AUTOMATIQUES (NON FORCÉES)
 // ==========================================
 

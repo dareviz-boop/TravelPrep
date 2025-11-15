@@ -2,6 +2,22 @@ import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
 import checklistCompleteData from '@/data/checklistComplete.json';
 
+// Fonction utilitaire pour nettoyer les emojis et caractères spéciaux
+const cleanTextForPDF = (text: string): string => {
+  if (!text) return '';
+  return text
+    .replace(/[\u{1F300}-\u{1F9FF}]/gu, '')
+    .replace(/[\u{2600}-\u{26FF}]/gu, '')
+    .replace(/[\u{2700}-\u{27BF}]/gu, '')
+    .replace(/[\u{FE00}-\u{FE0F}]/gu, '')
+    .replace(/[\u{1F900}-\u{1F9FF}]/gu, '')
+    .replace(/[\u{1F600}-\u{1F64F}]/gu, '')
+    .replace(/[\u{1F680}-\u{1F6FF}]/gu, '')
+    .replace(/[\u{E000}-\u{F8FF}]/gu, '')
+    .replace(/[\u{2190}-\u{21FF}]/gu, '')
+    .trim();
+};
+
 const styles = StyleSheet.create({
   page: {
     fontFamily: 'Inter',
@@ -85,20 +101,22 @@ export const CoverPage = ({ formData, checklistData }: CoverPageProps) => {
 
   const getActivitesLabels = () => {
     const activitesMap: any = checklistCompleteData.activites || {};
-    return formData.activites
-      .map(actId => activitesMap[actId]?.label || actId)
-      .filter(Boolean)
-      .join(', ');
+    return cleanTextForPDF(
+      formData.activites
+        .map(actId => activitesMap[actId]?.label || actId)
+        .filter(Boolean)
+        .join(', ')
+    );
   };
 
   const getLocalisationLabel = () => {
     const localisations: any = checklistCompleteData.localisations || {};
-    return localisations[formData.localisation]?.nom || formData.localisation;
+    return cleanTextForPDF(localisations[formData.localisation]?.nom || formData.localisation);
   };
 
   const getProfilLabel = () => {
     const profils: any = checklistCompleteData.profils || {};
-    return profils[formData.profil]?.label || formData.profil;
+    return cleanTextForPDF(profils[formData.profil]?.label || formData.profil);
   };
 
   const duration = calculateDuration();
@@ -106,9 +124,9 @@ export const CoverPage = ({ formData, checklistData }: CoverPageProps) => {
   return (
     <Page size="A4" style={styles.page}>
       <Text style={styles.title}>TRAVELPREP</Text>
-      <Text style={styles.subtitle}>Votre Guide de Préparation au Voyage</Text>
+      <Text style={styles.subtitle}>Votre Guide de Preparation au Voyage</Text>
 
-      <Text style={styles.tripName}>{formData.nomVoyage}</Text>
+      <Text style={styles.tripName}>{cleanTextForPDF(formData.nomVoyage)}</Text>
 
       <View style={styles.infoBox}>
         <View style={styles.infoRow}>

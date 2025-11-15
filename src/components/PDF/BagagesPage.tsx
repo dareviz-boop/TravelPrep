@@ -2,6 +2,22 @@ import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
 import { filterItemsByConditions } from '@/utils/filterItems';
 
+// Fonction utilitaire pour nettoyer les emojis et caractères spéciaux
+const cleanTextForPDF = (text: string): string => {
+  if (!text) return '';
+  return text
+    .replace(/[\u{1F300}-\u{1F9FF}]/gu, '')
+    .replace(/[\u{2600}-\u{26FF}]/gu, '')
+    .replace(/[\u{2700}-\u{27BF}]/gu, '')
+    .replace(/[\u{FE00}-\u{FE0F}]/gu, '')
+    .replace(/[\u{1F900}-\u{1F9FF}]/gu, '')
+    .replace(/[\u{1F600}-\u{1F64F}]/gu, '')
+    .replace(/[\u{1F680}-\u{1F6FF}]/gu, '')
+    .replace(/[\u{E000}-\u{F8FF}]/gu, '')
+    .replace(/[\u{2190}-\u{21FF}]/gu, '')
+    .trim();
+};
+
 const styles = StyleSheet.create({
   page: {
     fontFamily: 'Inter',
@@ -90,28 +106,28 @@ export const BagagesPage = ({ formData, checklistData }: BagagesPageProps) => {
 
     return (
       <View style={styles.section} key={sectionTitle}>
-        <Text style={styles.sectionTitle}>🎒 {sectionTitle}</Text>
-        
+        <Text style={styles.sectionTitle}>{cleanTextForPDF(sectionTitle)}</Text>
+
         <View style={styles.tableHeader}>
           <Text style={styles.colItem}>Article</Text>
-          <Text style={styles.colQuantity}>Quantité</Text>
-          <Text style={styles.colPriority}>Priorité</Text>
-          <Text style={styles.colCheckbox}>À prendre</Text>
+          <Text style={styles.colQuantity}>Quantite</Text>
+          <Text style={styles.colPriority}>Priorite</Text>
+          <Text style={styles.colCheckbox}>A prendre</Text>
         </View>
-        
+
         {filteredItems.map(item => {
           const quantity = item.quantite?.[duree] || 1;
           const pertinence = item.pertinence || {};
-          
+
           // Determine priority symbol
-          let prioritySymbol = '○';
+          let prioritySymbol = 'o';
           if (pertinence.randonnee === '●' || pertinence.plage === '●' || pertinence.ville === '●') {
-            prioritySymbol = '●';
+            prioritySymbol = 'x';
           }
-          
+
           return (
             <View style={styles.tableRow} key={item.id}>
-              <Text style={styles.colItem}>{item.nom}</Text>
+              <Text style={styles.colItem}>{cleanTextForPDF(item.nom)}</Text>
               <Text style={styles.colQuantity}>{quantity}</Text>
               <Text style={styles.colPriority}>{prioritySymbol}</Text>
               <View style={styles.colCheckbox}>
@@ -126,23 +142,23 @@ export const BagagesPage = ({ formData, checklistData }: BagagesPageProps) => {
 
   return (
     <Page size="A4" style={styles.page}>
-      <Text style={styles.title}>🧳 Bagages Détaillés</Text>
+      <Text style={styles.title}>Bagages Detailles</Text>
       <Text style={styles.subtitle}>
-        Pour votre voyage : {formData.duree ? `${formData.duree}` : 'Durée non spécifiée'} / {checklistData.localisations?.[formData.localisation]?.nom || formData.localisation}
+        Pour votre voyage : {formData.duree ? `${formData.duree}` : 'Duree non specifiee'} / {cleanTextForPDF(checklistData.localisations?.[formData.localisation]?.nom || formData.localisation)}
       </Text>
-      
+
       {checklistData.bagages?.vetements && renderBagageSection(
         checklistData.bagages.vetements,
-        'Vêtements'
+        'Vetements'
       )}
-      
+
       {checklistData.bagages?.equipement && renderBagageSection(
         checklistData.bagages.equipement,
-        'Équipement'
+        'Equipement'
       )}
-      
+
       <Text style={styles.legend}>
-        ● = Indispensable  |  ○ = Recommandé  |  - = Non nécessaire
+        x = Indispensable  |  o = Recommande  |  - = Non necessaire
       </Text>
     </Page>
   );
