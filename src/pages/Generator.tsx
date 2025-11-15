@@ -145,24 +145,35 @@ const validateStep = (step: number): boolean => {
   const handleGeneratePDF = async () => {
     if (!validateStep(currentStep)) return;
 
+    console.log('🚀 Début de la génération du PDF');
+    console.log('📋 FormData:', formData);
+
     toast.success("Génération du PDF en cours...", {
       description: "Votre checklist personnalisée est en cours de création",
     });
 
     try {
       // ✨ NOUVEAU : Générer la checklist avec le système intelligent
+      console.log('📦 Génération de la checklist...');
       const generatedChecklist = generateCompleteChecklist(formData);
 
       // 📊 Afficher le résumé dans la console (debug)
       console.log('📋 CHECKLIST GÉNÉRÉE:');
       console.log(getChecklistSummary(generatedChecklist));
+      console.log('📊 Stats:', generatedChecklist.stats);
 
+      console.log('📥 Import de @react-pdf/renderer...');
       const { pdf } = await import('@react-pdf/renderer');
+
+      console.log('📥 Import du composant TravelPrepPDF...');
       const { TravelPrepPDF } = await import('@/components/PDF/PDFDocument');
 
-      const blob = await pdf(
-        <TravelPrepPDF formData={formData} checklistData={generatedChecklist} />
-      ).toBlob();
+      console.log('🎨 Création du document PDF...');
+      const pdfDoc = <TravelPrepPDF formData={formData} checklistData={generatedChecklist} />;
+
+      console.log('📄 Conversion en blob...');
+      const blob = await pdf(pdfDoc).toBlob();
+      console.log('✅ Blob créé:', blob.size, 'bytes');
 
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -171,13 +182,15 @@ const validateStep = (step: number): boolean => {
       link.click();
       URL.revokeObjectURL(url);
 
+      console.log('✅ PDF téléchargé avec succès !');
       toast.success("PDF généré avec succès !", {
         description: `${generatedChecklist.stats.totalItems} items organisés en ${generatedChecklist.stats.totalSections} sections`,
       });
     } catch (error) {
-      console.error("Erreur génération PDF:", error);
+      console.error("❌ Erreur génération PDF:", error);
+      console.error("❌ Stack:", (error as Error).stack);
       toast.error("Erreur lors de la génération du PDF", {
-        description: "Veuillez réessayer",
+        description: error instanceof Error ? error.message : "Veuillez réessayer",
       });
     }
   };

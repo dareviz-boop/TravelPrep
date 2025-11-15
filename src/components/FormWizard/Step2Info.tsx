@@ -1,5 +1,6 @@
 // Step 2 Info.tsx
 
+import React from "react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -14,6 +15,42 @@ interface Step2InfoProps {
   formData: FormData;
   updateFormData: (data: Partial<FormData>) => void;
 }
+
+/**
+ * Convertit un texte markdown simple en JSX
+ * Supporte **texte** pour le gras et \n pour les retours à la ligne
+ */
+const renderMarkdown = (text: string) => {
+  const parts = text.split('\n');
+  return parts.map((line, lineIndex) => {
+    const segments: React.ReactNode[] = [];
+    const boldRegex = /\*\*(.*?)\*\*/g;
+    let lastIndex = 0;
+    let match;
+
+    while ((match = boldRegex.exec(line)) !== null) {
+      // Ajouter le texte avant le match
+      if (match.index > lastIndex) {
+        segments.push(line.substring(lastIndex, match.index));
+      }
+      // Ajouter le texte en gras
+      segments.push(<strong key={`bold-${lineIndex}-${match.index}`}>{match[1]}</strong>);
+      lastIndex = boldRegex.lastIndex;
+    }
+
+    // Ajouter le reste du texte
+    if (lastIndex < line.length) {
+      segments.push(line.substring(lastIndex));
+    }
+
+    return (
+      <span key={`line-${lineIndex}`}>
+        {segments}
+        {lineIndex < parts.length - 1 && <br />}
+      </span>
+    );
+  });
+};
 
 export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
@@ -182,12 +219,12 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
     // Condition 1 : Multi-destination/Amérique centrale + < 3 mois
     if (isMultiHemisphere && !isLongTrip) {
-      return `**Attention :** comme tu as sélectionné **${locLabel}**, tu pourrais changer d'hémisphère et donc rencontrer un **basculement de saison**.\nNous avons présélectionné ci-dessous les champs liés à la **saisonnalité** et au **climat** selon tes dates.`;
+      return `**Attention :** comme tu as sélectionné **${locLabel}**, tu pourrais changer d'hémisphère et donc rencontrer un **basculement de saison**. Nous avons présélectionné ci-dessous les champs liés à la **saisonnalité** et au **climat** selon tes dates.`;
     }
 
     // Condition 2 : Multi-destination/Amérique centrale + > 3 mois
     if (isMultiHemisphere && isLongTrip) {
-      return `**Attention :** avec **${locLabel}** et un séjour de plus de **3 mois**, tu risques de traverser **plusieurs saisons** en changeant d'hémisphère.\nLes champs liés à la **saisonnalité** et au **climat** ont été présélectionnés pour toi.`;
+      return `**Attention :** avec **${locLabel}** et un séjour de plus de **3 mois**, tu risques de traverser **plusieurs saisons** en changeant d'hémisphère. \nLes champs liés à la **saisonnalité** et au **climat** ont été présélectionnés pour toi.`;
     }
 
     // Condition 3 : Autre zone + < 3 mois
@@ -197,7 +234,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
     // Condition 4 : Autre zone + > 3 mois
     if (!isMultiHemisphere && isLongTrip) {
-      return `Comme tu as sélectionné **${locLabel}** et que ton voyage dure plus de **3 mois**, tu rencontreras sans doute **plusieurs variations de températures et de saisons**.\nLes champs concernant la **saisonnalité** et le **climat** ont été présélectionnés pour toi.`;
+      return `Comme tu as sélectionné **${locLabel}** et que ton voyage dure plus de **3 mois**, tu rencontreras sans doute **plusieurs variations de températures et de saisons**. \nLes champs concernant la **saisonnalité** et le **climat** ont été présélectionnés pour toi.`;
     }
 
     return null;
@@ -224,9 +261,9 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
             <h3 className="font-bold text-xl mb-4 flex items-center gap-2 text-primary">
               📌 Petite note sur le climat et la saisonnalité
             </h3>
-            <p className="text-sm text-foreground leading-relaxed">
-              {disclaimerMessage}
-            </p>
+            <div className="text-sm text-foreground leading-relaxed">
+              {renderMarkdown(disclaimerMessage)}
+            </div>
           </Card>
         )}
 
