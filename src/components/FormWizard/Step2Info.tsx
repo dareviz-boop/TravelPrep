@@ -56,6 +56,9 @@ const renderMarkdown = (text: string) => {
 export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
   /**
+   * 🌍 Auto-détection des saisons : Attribution automatique selon pays et date
+   * Déclenché quand date de départ ou pays changent
+   * ✨ TOUJOURS actualiser automatiquement pour refléter les changements de destination
    * 🌍 Auto-détection des saisons : Attribution automatique selon pays, date et durée
    * Déclenché quand date de départ, date de retour, durée ou pays changent
    */
@@ -64,6 +67,11 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
       const detectedSeasons = autoDetectSeasons(formData);
 
       if (detectedSeasons.length > 0) {
+        // 🔧 FIX: Toujours mettre à jour pour refléter les changements de pays/dates
+        updateFormData({ saison: detectedSeasons });
+      }
+    }
+  }, [formData.dateDepart, formData.dateRetour, formData.pays]);
         // Ne mettre à jour que si actuellement "inconnue"
         const currentSaisons = Array.isArray(formData.saison) ? formData.saison : [formData.saison];
         const isCurrentlyUnknown = currentSaisons.length === 0 ||
@@ -104,23 +112,18 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   /**
    * 🌡️ Auto-détection des températures : Attribution automatique selon pays et date
    * Déclenché quand date de départ ou pays changent
+   * ✨ TOUJOURS actualiser automatiquement pour refléter les changements de destination
    */
   useEffect(() => {
     if (formData.dateDepart && formData.pays && formData.pays.length > 0) {
       const detectedTemperatures = autoDetectTemperatures(formData);
 
       if (detectedTemperatures.length > 0) {
-        // Ne mettre à jour que si différent de "inconnue" et si pas déjà renseigné manuellement
-        const currentTemperatures = Array.isArray(formData.temperature) ? formData.temperature : [formData.temperature];
-        const hasManualSelection = currentTemperatures.length > 0 && !currentTemperatures.includes('inconnue');
-
-        // Auto-attribuer seulement si pas déjà sélectionné manuellement
-        if (!hasManualSelection) {
-          updateFormData({ temperature: detectedTemperatures });
-        }
+        // 🔧 FIX: Toujours mettre à jour pour refléter les changements de pays/dates
+        updateFormData({ temperature: detectedTemperatures });
       }
     }
-  }, [formData.dateDepart, formData.pays, formData.dateRetour]);
+  }, [formData.dateDepart, formData.dateRetour, formData.pays]);
 
   /**
    * 🔄 Auto-suggestions : Pré-sélectionner automatiquement les conditions recommandées

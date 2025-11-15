@@ -2,8 +2,8 @@ import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
 import { GeneratedChecklistSection } from '@/utils/checklistGenerator';
 
-// Fonction utilitaire pour nettoyer les emojis et caractères spéciaux
-// 🔧 FIX: Nettoyage amélioré pour éviter les erreurs d'encodage de glyphes
+// Fonction utilitaire pour nettoyer certains caractères spéciaux problématiques
+// ✨ GARDONS les emojis pour plus de personnalité dans le PDF !
 const cleanTextForPDF = (text: string): string => {
   if (!text) return '';
   return text
@@ -14,18 +14,9 @@ const cleanTextForPDF = (text: string): string => {
     // Normaliser les tirets
     .replace(/[–—]/g, '-')
     .replace(/…/g, '...')
-    // Supprimer les emojis et caractères spéciaux
-    .replace(/[\u{1F300}-\u{1F9FF}]/gu, '')
-    .replace(/[\u{2600}-\u{26FF}]/gu, '')
-    .replace(/[\u{2700}-\u{27BF}]/gu, '')
+    // 🎨 Les emojis sont maintenant CONSERVÉS !
+    // Seulement supprimer les variation selectors qui peuvent causer des problèmes
     .replace(/[\u{FE00}-\u{FE0F}]/gu, '')
-    .replace(/[\u{1F900}-\u{1F9FF}]/gu, '')
-    .replace(/[\u{1F600}-\u{1F64F}]/gu, '')
-    .replace(/[\u{1F680}-\u{1F6FF}]/gu, '')
-    .replace(/[\u{E000}-\u{F8FF}]/gu, '')
-    .replace(/[\u{2190}-\u{21FF}]/gu, '')
-    // Supprimer tout caractère non-ASCII restant sauf les lettres accentuées
-    .replace(/[^\x00-\x7F\u00C0-\u00FF]/g, '')
     .trim();
 };
 
@@ -39,7 +30,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 700,
-    color: '#2563eb',
+    color: '#E85D2A', // 🎨 Orange Dareviz
     marginBottom: 30
   },
   item: {
