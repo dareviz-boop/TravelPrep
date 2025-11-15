@@ -7,7 +7,8 @@ import { FormData } from "@/types/form";
 import { checklistData } from "@/utils/checklistUtils";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
-import { generateAutoSuggestions, autoDetectSeasons } from "@/utils/checklistFilters"; 
+import { generateAutoSuggestions, autoDetectSeasons } from "@/utils/checklistFilters";
+import { Card } from "@/components/ui/card"; 
 
 interface Step2InfoProps {
   formData: FormData;
@@ -137,6 +138,80 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
     updateFormData({ conditionsClimatiques: updated });
   };
 
+  /**
+   * Calculer la durée du voyage en mois
+   */
+  const getTripDurationInMonths = (): number => {
+    if (formData.dateDepart && formData.dateRetour) {
+      const days = Math.ceil(
+        (new Date(formData.dateRetour).getTime() - new Date(formData.dateDepart).getTime()) /
+          (1000 * 60 * 60 * 24)
+      );
+      return days / 30; // Approximation : 1 mois = 30 jours
+    }
+
+    // Sinon utiliser formData.duree
+    const durationMap: Record<string, number> = {
+      'court': 0.25,      // ~7 jours = 0.25 mois
+      'moyen': 0.75,      // ~22 jours = 0.75 mois
+      'long': 2,          // ~60 jours = 2 mois
+      'tres-long': 6      // > 90 jours = 6+ mois
+    };
+
+    return durationMap[formData.duree] || 0;
+  };
+
+  /**
+   * Obtenir le label de la localisation
+   */
+  const getLocalisationLabel = (): string => {
+    const localisations: any = checklistData.localisations || {};
+    const localisation = localisations[formData.localisation];
+    if (localisation && localisation.nom) {
+      // Retirer l'emoji si présent (ex: "🇪🇺 Europe" → "Europe")
+      return localisation.nom.split(' ').slice(1).join(' ');
+    }
+    return formData.localisation;
+  };
+
+  /**
+   * Générer le message du disclaimer climat
+   */
+  const getClimateDisclaimerMessage = (): string | null => {
+    if (!formData.localisation || !formData.dateDepart) {
+      return null;
+    }
+
+    const durationMonths = getTripDurationInMonths();
+    const isMultiHemisphere = ['multi-destinations', 'amerique-centrale-caraibes'].includes(formData.localisation);
+    const locLabel = getLocalisationLabel();
+    const isLongTrip = durationMonths >= 3;
+
+    // Condition 1 : Multi-destination/Amérique centrale + < 3 mois
+    if (isMultiHemisphere && !isLongTrip) {
+      return `Attention, comme tu as ${locLabel} de sélectionné comme zone géographique, cela implique que tu risques de changer d'hémisphère et donc d'être confronté à des changements de saisons. Nous avons présélectionné les champs ci-dessous traitant le sujet de la saisonnalité et du climat selon les dates que tu as renseignées.`;
+    }
+
+    // Condition 2 : Multi-destination/Amérique centrale + ≥ 3 mois
+    if (isMultiHemisphere && isLongTrip) {
+      return `Attention, comme tu as ${locLabel} de sélectionné comme zone géographique et que tu prévois de partir au moins plus de 3 mois, cela implique que tu risques d'être confronté à toutes les saisons au cours de ton voyage via le changement d'hémisphère. Nous avons présélectionné les champs ci-dessous traitant le sujet de la saisonnalité et du climat selon les dates que tu as renseignées.`;
+    }
+
+    // Condition 3 : Autre zone + < 3 mois
+    if (!isMultiHemisphere && !isLongTrip) {
+      return `Comme tu as sélectionné ${locLabel} comme zone géographique, nous avons présélectionné les champs ci-dessous traitant le sujet de la saisonnalité et du climat selon les dates que tu as renseignées.`;
+    }
+
+    // Condition 4 : Autre zone + ≥ 3 mois
+    if (!isMultiHemisphere && isLongTrip) {
+      return `Comme tu as sélectionné ${locLabel} comme zone géographique et que tu prévois de partir au moins plus de 3 mois, tu rencontreras plusieurs variations de températures et de saisons. Nous avons présélectionné les champs ci-dessous traitant le sujet de la saisonnalité et du climat selon les dates que tu as renseignées.`;
+    }
+
+    return null;
+  };
+
+  const disclaimerMessage = getClimateDisclaimerMessage();
+
   return (
     <div className="space-y-8 animate-fade-in">
       <div className="text-center mb-12">
@@ -149,7 +224,19 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
       </div>
 
       <div className="space-y-8 max-w-2xl mx-auto">
-        
+
+        {/* Disclaimer climatique */}
+        {disclaimerMessage && (
+          <Card className="p-6 bg-muted/30 border-2 border-primary/20 shadow-lg">
+            <h3 className="font-bold text-xl mb-4 flex items-center gap-2 text-primary">
+              📌 Petite note sur le climat et la saisonnalité
+            </h3>
+            <p className="text-sm text-foreground leading-relaxed">
+              {disclaimerMessage}
+            </p>
+          </Card>
+        )}
+
         {/* Saison de voyage (CORRIGÉ: Utilise Checkbox/Label pour Multi-sélection) */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
