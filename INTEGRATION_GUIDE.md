@@ -2,7 +2,7 @@
 
 ## ✅ CE QUI EST DÉJÀ FAIT
 
-1. ✅ **JSON V3 créé** (`checklist_climat_meteo_v3.json`)
+1. ✅ **JSON V3 créé** (`checklist_climat_meteo.json`)
 2. ✅ **Types TypeScript corrigés** (`form.ts`)
 3. ✅ **Système de filtrage implémenté** (`checklistFilters.ts`)
 4. ✅ **Composant suggestions intégré** (`SuggestionsPanel.tsx` dans Step2Info)

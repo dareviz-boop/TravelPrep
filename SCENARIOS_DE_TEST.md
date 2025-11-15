@@ -456,7 +456,7 @@ Avant de merger sur `main`, valider :
 
 ### ✅ Données
 - [ ] `checklistComplete.json` : metadata correcte (195 pays)
-- [ ] `checklist_climat_meteo_v3.json` : mapping supprimé ✅
+- [ ] `checklist_climat_meteo.json` : mapping supprimé ✅
 - [ ] Tous les IDs utilisent le format `climat_xxx`
 
 ### ✅ Git
