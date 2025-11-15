@@ -7,7 +7,7 @@ import { FormData } from "@/types/form";
 import { checklistData } from "@/utils/checklistUtils";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
-import { generateAutoSuggestions, autoDetectSeasons } from "@/utils/checklistFilters"; 
+import { generateAutoSuggestions, autoDetectSeasons, autoDetectTemperatures } from "@/utils/checklistFilters"; 
 
 interface Step2InfoProps {
   formData: FormData;
@@ -17,8 +17,8 @@ interface Step2InfoProps {
 export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
   /**
-   * 🌍 Auto-détection des saisons : Attribution automatique selon pays et date
-   * Déclenché quand date de départ ou pays changent
+   * 🌍 Auto-détection des saisons : Attribution automatique selon pays, date et durée
+   * Déclenché quand date de départ, date de retour, durée ou pays changent
    */
   useEffect(() => {
     if (formData.dateDepart && formData.pays && formData.pays.length > 0) {
@@ -32,6 +32,27 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
         // Auto-attribuer seulement si pas déjà sélectionné manuellement
         if (!hasManualSelection) {
           updateFormData({ saison: detectedSeasons });
+        }
+      }
+    }
+  }, [formData.dateDepart, formData.dateRetour, formData.duree, formData.pays]);
+
+  /**
+   * 🌡️ Auto-détection des températures : Attribution automatique selon pays et date
+   * Déclenché quand date de départ ou pays changent
+   */
+  useEffect(() => {
+    if (formData.dateDepart && formData.pays && formData.pays.length > 0) {
+      const detectedTemps = autoDetectTemperatures(formData);
+
+      if (detectedTemps.length > 0) {
+        // Ne mettre à jour que si différent de "inconnue" et si pas déjà renseigné manuellement
+        const currentTemps = Array.isArray(formData.temperature) ? formData.temperature : [formData.temperature];
+        const hasManualSelection = currentTemps.length > 0 && !currentTemps.includes('inconnue');
+
+        // Auto-attribuer seulement si pas déjà sélectionné manuellement
+        if (!hasManualSelection) {
+          updateFormData({ temperature: detectedTemps });
         }
       }
     }

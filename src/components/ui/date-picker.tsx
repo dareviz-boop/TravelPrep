@@ -33,6 +33,17 @@ export function DatePicker({
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
 
+  // Calculer le mois à afficher par défaut
+  const getDefaultMonth = () => {
+    if (date) {
+      return date; // Si date sélectionnée, afficher son mois
+    }
+    if (minDate) {
+      return minDate; // Sinon afficher le mois de la date minimale
+    }
+    return new Date(); // Par défaut, mois actuel
+  };
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -53,6 +64,7 @@ export function DatePicker({
         <Calendar
           mode="single"
           selected={date}
+          defaultMonth={getDefaultMonth()}
           onSelect={(selectedDate) => {
             onSelect?.(selectedDate);
             setOpen(false);
