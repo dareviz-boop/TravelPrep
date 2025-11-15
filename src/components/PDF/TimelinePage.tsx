@@ -3,9 +3,36 @@ import { FormData } from '@/types/form';
 import { GeneratedChecklist, ChecklistItem } from '@/utils/checklistGenerator';
 import { calculateDeadline } from '@/utils/filterItems';
 
+// Fonction utilitaire pour nettoyer les emojis et caractères spéciaux
+// 🔧 FIX: Nettoyage amélioré pour éviter les erreurs d'encodage de glyphes
+const cleanTextForPDF = (text: string): string => {
+  if (!text) return '';
+  return text
+    // Normaliser les guillemets typographiques
+    .replace(/[""]/g, '"')
+    .replace(/['']/g, "'")
+    .replace(/[«»]/g, '"')
+    // Normaliser les tirets
+    .replace(/[–—]/g, '-')
+    .replace(/…/g, '...')
+    // Supprimer les emojis et caractères spéciaux
+    .replace(/[\u{1F300}-\u{1F9FF}]/gu, '')
+    .replace(/[\u{2600}-\u{26FF}]/gu, '')
+    .replace(/[\u{2700}-\u{27BF}]/gu, '')
+    .replace(/[\u{FE00}-\u{FE0F}]/gu, '')
+    .replace(/[\u{1F900}-\u{1F9FF}]/gu, '')
+    .replace(/[\u{1F600}-\u{1F64F}]/gu, '')
+    .replace(/[\u{1F680}-\u{1F6FF}]/gu, '')
+    .replace(/[\u{E000}-\u{F8FF}]/gu, '')
+    .replace(/[\u{2190}-\u{21FF}]/gu, '')
+    // Supprimer tout caractère non-ASCII restant sauf les lettres accentuées
+    .replace(/[^\x00-\x7F\u00C0-\u00FF]/g, '')
+    .trim();
+};
+
 const styles = StyleSheet.create({
   page: {
-    fontFamily: 'Inter',
+    fontFamily: 'Helvetica', // 🔧 FIX: Utiliser Helvetica au lieu d'Inter
     fontSize: 10,
     padding: 40,
     backgroundColor: '#FFFFFF'
@@ -127,10 +154,10 @@ export const TimelinePage = ({ formData, checklistData }: TimelinePageProps) => 
 
   const getPriorityStars = (priorite?: string) => {
     const p = priorite?.toLowerCase() || '';
-    if (p.includes('haute')) return '⭐⭐⭐';
-    if (p.includes('moyenne')) return '⭐⭐';
-    if (p.includes('basse')) return '⭐';
-    return '⭐⭐';
+    if (p.includes('haute')) return 'HAUTE';
+    if (p.includes('moyenne')) return 'MOY';
+    if (p.includes('basse')) return 'BASSE';
+    return 'MOY';
   };
 
   const getPriorityStyle = (priorite?: string) => {
@@ -145,13 +172,12 @@ export const TimelinePage = ({ formData, checklistData }: TimelinePageProps) => 
 
     return (
       <View style={styles.section} key={title}>
-        <Text style={styles.sectionTitle}>{title}</Text>
+        <Text style={styles.sectionTitle}>{cleanTextForPDF(title)}</Text>
         {items.map((item, index) => (
           <View style={styles.item} key={`${item.id || index}-${item.item}`}>
             <View style={styles.checkbox} />
             <Text style={styles.itemText}>
-              {item.sectionEmoji && `${item.sectionEmoji} `}
-              {item.item}
+              {cleanTextForPDF(item.item)}
             </Text>
             {item.priorite && (
               <Text style={[styles.priority, getPriorityStyle(item.priorite)]}>
@@ -173,7 +199,7 @@ export const TimelinePage = ({ formData, checklistData }: TimelinePageProps) => 
 
   return (
     <Page size="A4" style={styles.page}>
-      <Text style={styles.title}>📅 Timeline de Préparation</Text>
+      <Text style={styles.title}>Timeline de Preparation</Text>
 
       {renderTimelineSection(
         timelines.j90_j60,

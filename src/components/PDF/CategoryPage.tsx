@@ -2,9 +2,36 @@ import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
 import { GeneratedChecklistSection } from '@/utils/checklistGenerator';
 
+// Fonction utilitaire pour nettoyer les emojis et caractères spéciaux
+// 🔧 FIX: Nettoyage amélioré pour éviter les erreurs d'encodage de glyphes
+const cleanTextForPDF = (text: string): string => {
+  if (!text) return '';
+  return text
+    // Normaliser les guillemets typographiques
+    .replace(/[""]/g, '"')
+    .replace(/['']/g, "'")
+    .replace(/[«»]/g, '"')
+    // Normaliser les tirets
+    .replace(/[–—]/g, '-')
+    .replace(/…/g, '...')
+    // Supprimer les emojis et caractères spéciaux
+    .replace(/[\u{1F300}-\u{1F9FF}]/gu, '')
+    .replace(/[\u{2600}-\u{26FF}]/gu, '')
+    .replace(/[\u{2700}-\u{27BF}]/gu, '')
+    .replace(/[\u{FE00}-\u{FE0F}]/gu, '')
+    .replace(/[\u{1F900}-\u{1F9FF}]/gu, '')
+    .replace(/[\u{1F600}-\u{1F64F}]/gu, '')
+    .replace(/[\u{1F680}-\u{1F6FF}]/gu, '')
+    .replace(/[\u{E000}-\u{F8FF}]/gu, '')
+    .replace(/[\u{2190}-\u{21FF}]/gu, '')
+    // Supprimer tout caractère non-ASCII restant sauf les lettres accentuées
+    .replace(/[^\x00-\x7F\u00C0-\u00FF]/g, '')
+    .trim();
+};
+
 const styles = StyleSheet.create({
   page: {
-    fontFamily: 'Inter',
+    fontFamily: 'Helvetica', // 🔧 FIX: Utiliser Helvetica au lieu d'Inter
     fontSize: 10,
     padding: 40,
     backgroundColor: '#FFFFFF'
@@ -61,10 +88,10 @@ export const CategoryPage = ({ formData, category, title }: CategoryPageProps) =
 
   const getPriorityStars = (priorite: string) => {
     const p = priorite?.toLowerCase() || '';
-    if (p.includes('haute') || p.includes('⭐⭐⭐')) return '⭐⭐⭐';
-    if (p.includes('moyenne') || p.includes('⭐⭐')) return '⭐⭐';
-    if (p.includes('basse') || p.includes('⭐')) return '⭐';
-    return '⭐⭐'; // Default to medium
+    if (p.includes('haute')) return 'HAUTE';
+    if (p.includes('moyenne')) return 'MOY';
+    if (p.includes('basse')) return 'BASSE';
+    return 'MOY'; // Default to medium
   };
 
   const getPriorityStyle = (priorite: string) => {
@@ -76,12 +103,12 @@ export const CategoryPage = ({ formData, category, title }: CategoryPageProps) =
 
   return (
     <Page size="A4" style={styles.page}>
-      <Text style={styles.title}>{category.emoji || '📄'} {title}</Text>
+      <Text style={styles.title}>{cleanTextForPDF(title)}</Text>
 
       {category.items.map((item, index) => (
         <View style={styles.item} key={item.id || `item-${index}`}>
           <View style={styles.checkbox} />
-          <Text style={styles.itemText}>{item.item}</Text>
+          <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
           {item.priorite && (
             <Text style={[styles.priority, getPriorityStyle(item.priorite)]}>
               {getPriorityStars(item.priorite)}

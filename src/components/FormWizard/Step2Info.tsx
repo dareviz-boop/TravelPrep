@@ -1,5 +1,6 @@
 // Step 2 Info.tsx
 
+import React from "react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -8,11 +9,49 @@ import { checklistData } from "@/utils/checklistUtils";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
 import { generateAutoSuggestions, autoDetectSeasons, autoDetectTemperatures } from "@/utils/checklistFilters"; 
+import { generateAutoSuggestions, autoDetectSeasons, autoDetectTemperatures } from "@/utils/checklistFilters";
+import { Card } from "@/components/ui/card"; 
 
 interface Step2InfoProps {
   formData: FormData;
   updateFormData: (data: Partial<FormData>) => void;
 }
+
+/**
+ * Convertit un texte markdown simple en JSX
+ * Supporte **texte** pour le gras et \n pour les retours à la ligne
+ */
+const renderMarkdown = (text: string) => {
+  const parts = text.split('\n');
+  return parts.map((line, lineIndex) => {
+    const segments: React.ReactNode[] = [];
+    const boldRegex = /\*\*(.*?)\*\*/g;
+    let lastIndex = 0;
+    let match;
+
+    while ((match = boldRegex.exec(line)) !== null) {
+      // Ajouter le texte avant le match
+      if (match.index > lastIndex) {
+        segments.push(line.substring(lastIndex, match.index));
+      }
+      // Ajouter le texte en gras
+      segments.push(<strong key={`bold-${lineIndex}-${match.index}`}>{match[1]}</strong>);
+      lastIndex = boldRegex.lastIndex;
+    }
+
+    // Ajouter le reste du texte
+    if (lastIndex < line.length) {
+      segments.push(line.substring(lastIndex));
+    }
+
+    return (
+      <span key={`line-${lineIndex}`}>
+        {segments}
+        {lineIndex < parts.length - 1 && <br />}
+      </span>
+    );
+  });
+};
 
 export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
@@ -63,6 +102,27 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   }, [formData.dateDepart, formData.pays]);
 
   /**
+   * 🌡️ Auto-détection des températures : Attribution automatique selon pays et date
+   * Déclenché quand date de départ ou pays changent
+   */
+  useEffect(() => {
+    if (formData.dateDepart && formData.pays && formData.pays.length > 0) {
+      const detectedTemperatures = autoDetectTemperatures(formData);
+
+      if (detectedTemperatures.length > 0) {
+        // Ne mettre à jour que si différent de "inconnue" et si pas déjà renseigné manuellement
+        const currentTemperatures = Array.isArray(formData.temperature) ? formData.temperature : [formData.temperature];
+        const hasManualSelection = currentTemperatures.length > 0 && !currentTemperatures.includes('inconnue');
+
+        // Auto-attribuer seulement si pas déjà sélectionné manuellement
+        if (!hasManualSelection) {
+          updateFormData({ temperature: detectedTemperatures });
+        }
+      }
+    }
+  }, [formData.dateDepart, formData.pays, formData.dateRetour]);
+
+  /**
    * 🔄 Auto-suggestions : Pré-sélectionner automatiquement les conditions recommandées
    * Déclenché quand destination, température ou saison changent
    *
@@ -80,28 +140,34 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
     const hasValidTemp = temperatures.length > 0 && !temperatures.includes('inconnue');
     const hasValidSaison = saisons.length > 0 && !saisons.includes('inconnue');
+   * Note : Les suggestions sont générées dès qu'on a une destination et des dates,
+   * même si température/saison ne sont pas encore renseignées (certaines suggestions
+   * dépendent uniquement de la destination et de la période)
+   */
+  useEffect(() => {
+    // Vérifier qu'on a au moins une destination et une date de départ
+    if (!formData.localisation || !formData.dateDepart) {
+      return;
+    }
 
-    // Ne générer les suggestions que si temp & saison sont valides
-    if (hasValidTemp && hasValidSaison) {
-      const suggestions = generateAutoSuggestions(formData);
+    const suggestions = generateAutoSuggestions(formData);
 
-      if (suggestions.length > 0) {
-        const current = formData.conditionsClimatiques || [];
-        const filtered = current.filter(id => id !== 'climat_aucune');
+    if (suggestions.length > 0) {
+      const current = formData.conditionsClimatiques || [];
+      const filtered = current.filter(id => id !== 'climat_aucune');
 
-        // Ajouter toutes les suggestions qui ne sont pas déjà sélectionnées
-        const newSuggestions = suggestions
-          .map(s => s.conditionId)
-          .filter(id => !filtered.includes(id));
+      // Ajouter toutes les suggestions qui ne sont pas déjà sélectionnées
+      const newSuggestions = suggestions
+        .map(s => s.conditionId)
+        .filter(id => !filtered.includes(id));
 
-        if (newSuggestions.length > 0) {
-          updateFormData({
-            conditionsClimatiques: [...filtered, ...newSuggestions]
-          });
-        }
+      if (newSuggestions.length > 0) {
+        updateFormData({
+          conditionsClimatiques: [...filtered, ...newSuggestions]
+        });
       }
     }
-  }, [formData.localisation, formData.pays, formData.temperature, formData.saison, formData.dateDepart]);
+  }, [formData.localisation, formData.pays, formData.temperature, formData.saison, formData.dateDepart, formData.dateRetour]);
 
   /**
    * Fonction générique pour gérer la bascule (toggle) de la sélection multiple pour saison et temperature.
@@ -152,23 +218,90 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
    * Logique pour les conditions climatiques spéciales (Inchangement)
    */
   const handleConditionToggle = (conditionId: string) => {
-    const current = formData.conditionsClimatiques || []; 
-    
-    if (conditionId === 'aucune') {
-        const isCurrentlyNone = current.includes('aucune');
-        updateFormData({ conditionsClimatiques: isCurrentlyNone ? [] : ['aucune'] });
+    const current = formData.conditionsClimatiques || [];
+
+    if (conditionId === 'climat_aucune') {
+        const isCurrentlyNone = current.includes('climat_aucune');
+        updateFormData({ conditionsClimatiques: isCurrentlyNone ? [] : ['climat_aucune'] });
         return;
     }
-    
-    const filteredCurrent = current.filter(id => id !== 'aucune');
+
+    const filteredCurrent = current.filter(id => id !== 'climat_aucune');
     const isSelected = filteredCurrent.includes(conditionId);
 
     const updated = isSelected
         ? filteredCurrent.filter((id) => id !== conditionId)
         : [...filteredCurrent, conditionId];
 
-    updateFormData({ conditionsClimatiques: updated.length > 0 ? updated : ['aucune'] });
+    updateFormData({ conditionsClimatiques: updated });
   };
+
+  /**
+   * Vérifier si le voyage est "long" (strictement plus de 3 mois / 90 jours)
+   * Seulement "très long" (> 90 jours) est considéré comme "plus de 3 mois"
+   */
+  const isVeryLongTrip = (): boolean => {
+    if (formData.dateDepart && formData.dateRetour) {
+      const days = Math.ceil(
+        (new Date(formData.dateRetour).getTime() - new Date(formData.dateDepart).getTime()) /
+          (1000 * 60 * 60 * 24)
+      );
+      return days > 90; // Strictement plus de 90 jours = plus de 3 mois
+    }
+
+    // Sinon utiliser formData.duree : seulement 'tres-long' est > 3 mois
+    return formData.duree === 'tres-long';
+  };
+
+  /**
+   * Obtenir le label de la localisation
+   */
+  const getLocalisationLabel = (): string => {
+    const localisations: any = checklistData.localisations || {};
+    const localisation = localisations[formData.localisation];
+    if (localisation && localisation.nom) {
+      // Retirer l'emoji si présent (ex: "🇪🇺 Europe" → "Europe")
+      return localisation.nom.split(' ').slice(1).join(' ');
+    }
+    return formData.localisation;
+  };
+
+  /**
+   * Générer le message du disclaimer climat
+   */
+  const getClimateDisclaimerMessage = (): string | null => {
+    if (!formData.localisation || !formData.dateDepart) {
+      return null;
+    }
+
+    const isMultiHemisphere = ['multi-destinations', 'amerique-centrale-caraibes'].includes(formData.localisation);
+    const locLabel = getLocalisationLabel();
+    const isLongTrip = isVeryLongTrip(); // Utilise la nouvelle fonction
+
+    // Condition 1 : Multi-destination/Amérique centrale + < 3 mois
+    if (isMultiHemisphere && !isLongTrip) {
+      return `**Attention :** comme tu as sélectionné **${locLabel}**, tu pourrais changer d'hémisphère et donc rencontrer un **basculement de saison**. Nous avons présélectionné ci-dessous les champs liés à la **saisonnalité** et au **climat** selon tes dates.`;
+    }
+
+    // Condition 2 : Multi-destination/Amérique centrale + > 3 mois
+    if (isMultiHemisphere && isLongTrip) {
+      return `**Attention :** avec **${locLabel}** et un séjour de plus de **3 mois**, tu risques de traverser **plusieurs saisons** en changeant d'hémisphère. \nLes champs liés à la **saisonnalité** et au **climat** ont été présélectionnés pour toi.`;
+    }
+
+    // Condition 3 : Autre zone + < 3 mois
+    if (!isMultiHemisphere && !isLongTrip) {
+      return `Comme tu as sélectionné **${locLabel}**, nous avons présélectionné les champs concernant la **saisonnalité** et le **climat** selon les dates que tu as indiquées.`;
+    }
+
+    // Condition 4 : Autre zone + > 3 mois
+    if (!isMultiHemisphere && isLongTrip) {
+      return `Comme tu as sélectionné **${locLabel}** et que ton voyage dure plus de **3 mois**, tu rencontreras sans doute **plusieurs variations de températures et de saisons**. \nLes champs concernant la **saisonnalité** et le **climat** ont été présélectionnés pour toi.`;
+    }
+
+    return null;
+  };
+
+  const disclaimerMessage = getClimateDisclaimerMessage();
 
   return (
     <div className="space-y-8 animate-fade-in">
@@ -182,7 +315,19 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
       </div>
 
       <div className="space-y-8 max-w-2xl mx-auto">
-        
+
+        {/* Disclaimer climatique */}
+        {disclaimerMessage && (
+          <Card className="p-6 bg-muted/30 border-2 border-primary/20 shadow-lg">
+            <h3 className="font-bold text-xl mb-4 flex items-center gap-2 text-primary">
+              📌 Petite note sur le climat et la saisonnalité
+            </h3>
+            <div className="text-sm text-foreground leading-relaxed">
+              {renderMarkdown(disclaimerMessage)}
+            </div>
+          </Card>
+        )}
+
         {/* Saison de voyage (CORRIGÉ: Utilise Checkbox/Label pour Multi-sélection) */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
@@ -270,7 +415,10 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
           <h3 className="text-xl font-bold mb-3">
             Conditions climatiques <span className="text-muted-foreground text-sm font-normal">(choix multiple - optionnel)</span>
           </h3>
-    
+
+          {/* 🔧 LOG: Vérification du nombre de groupes */}
+          {console.log(`📊 Nombre de groupes de conditions climatiques : ${checklistData.conditionsClimatiques.length}`, checklistData.conditionsClimatiques.map((g: any) => g.groupe))}
+
           {/* Utilise la structure groupée du JSON */}
           {checklistData.conditionsClimatiques.map((groupe, index) => (
             <div key={index} className="space-y-3 p-4 border rounded-xl bg-card shadow-sm">
@@ -304,7 +452,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                           "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer",
                           "hover:border-primary/50",
                           "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5",
-                          condition.id === 'aucune' ? 'bg-secondary/20' : '' 
+                          condition.id === 'climat_aucune' ? 'bg-secondary/20' : ''
                         )}
                       >
                         {/* 3. Le contenu de la carte */}

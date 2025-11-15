@@ -1,9 +1,37 @@
 import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
+import checklistCompleteData from '@/data/checklistComplete.json';
+
+// Fonction utilitaire pour nettoyer les emojis et caractères spéciaux
+// 🔧 FIX: Nettoyage amélioré pour éviter les erreurs d'encodage de glyphes
+const cleanTextForPDF = (text: string): string => {
+  if (!text) return '';
+  return text
+    // Normaliser les guillemets typographiques
+    .replace(/[""]/g, '"')
+    .replace(/['']/g, "'")
+    .replace(/[«»]/g, '"')
+    // Normaliser les tirets
+    .replace(/[–—]/g, '-')
+    .replace(/…/g, '...')
+    // Supprimer les emojis et caractères spéciaux
+    .replace(/[\u{1F300}-\u{1F9FF}]/gu, '')
+    .replace(/[\u{2600}-\u{26FF}]/gu, '')
+    .replace(/[\u{2700}-\u{27BF}]/gu, '')
+    .replace(/[\u{FE00}-\u{FE0F}]/gu, '')
+    .replace(/[\u{1F900}-\u{1F9FF}]/gu, '')
+    .replace(/[\u{1F600}-\u{1F64F}]/gu, '')
+    .replace(/[\u{1F680}-\u{1F6FF}]/gu, '')
+    .replace(/[\u{E000}-\u{F8FF}]/gu, '')
+    .replace(/[\u{2190}-\u{21FF}]/gu, '')
+    // Supprimer tout caractère non-ASCII restant sauf les lettres accentuées
+    .replace(/[^\x00-\x7F\u00C0-\u00FF]/g, '')
+    .trim();
+};
 
 const styles = StyleSheet.create({
   page: {
-    fontFamily: 'Inter',
+    fontFamily: 'Helvetica', // 🔧 FIX: Utiliser Helvetica au lieu d'Inter
     padding: 60,
     backgroundColor: '#FFFFFF',
     display: 'flex',
@@ -89,37 +117,54 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
       .map(act => referenceData.activites[act]?.label)
       .filter(Boolean)
       .join(', ');
+    const activitesMap: any = checklistCompleteData.activites || {};
+    return cleanTextForPDF(
+      formData.activites
+        .map(actId => activitesMap[actId]?.label || actId)
+        .filter(Boolean)
+        .join(', ')
+    );
+  };
+
+  const getLocalisationLabel = () => {
+    const localisations: any = checklistCompleteData.localisations || {};
+    return cleanTextForPDF(localisations[formData.localisation]?.nom || formData.localisation);
+  };
+
+  const getProfilLabel = () => {
+    const profils: any = checklistCompleteData.profils || {};
+    return cleanTextForPDF(profils[formData.profil]?.label || formData.profil);
   };
 
   const duration = calculateDuration();
 
   return (
     <Page size="A4" style={styles.page}>
-      <Text style={styles.title}>🌍 TRAVELPREP</Text>
-      <Text style={styles.subtitle}>Votre Guide de Préparation au Voyage</Text>
-      
-      <Text style={styles.tripName}>{formData.nomVoyage}</Text>
-      
+      <Text style={styles.title}>TRAVELPREP</Text>
+      <Text style={styles.subtitle}>Votre Guide de Preparation au Voyage</Text>
+
+      <Text style={styles.tripName}>{cleanTextForPDF(formData.nomVoyage)}</Text>
+
       <View style={styles.infoBox}>
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>📅 Départ :</Text>
+          <Text style={styles.infoLabel}>Départ :</Text>
           <Text style={styles.infoValue}>{formatDate(formData.dateDepart)}</Text>
         </View>
-        
+
         {formData.dateRetour && (
           <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>📅 Retour :</Text>
+            <Text style={styles.infoLabel}>Retour :</Text>
             <Text style={styles.infoValue}>{formatDate(formData.dateRetour)}</Text>
           </View>
         )}
-        
+
         {duration && (
           <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>⏱️ Durée :</Text>
+            <Text style={styles.infoLabel}>Durée :</Text>
             <Text style={styles.infoValue}>{duration} jours</Text>
           </View>
         )}
-        
+
         <View style={styles.infoRow}>
           <Text style={styles.infoLabel}>📍 Destination :</Text>
           <Text style={styles.infoValue}>{referenceData.localisations?.[formData.localisation]?.nom || formData.localisation}</Text>
@@ -128,16 +173,23 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
         <View style={styles.infoRow}>
           <Text style={styles.infoLabel}>👥 Profil :</Text>
           <Text style={styles.infoValue}>{referenceData.profils?.[formData.profil]?.label || formData.profil}</Text>
+          <Text style={styles.infoLabel}>Destination :</Text>
+          <Text style={styles.infoValue}>{getLocalisationLabel()}</Text>
         </View>
-        
+
+        <View style={styles.infoRow}>
+          <Text style={styles.infoLabel}>Profil :</Text>
+          <Text style={styles.infoValue}>{getProfilLabel()}</Text>
+        </View>
+
         {formData.activites.length > 0 && (
           <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>🎯 Activités :</Text>
+            <Text style={styles.infoLabel}>Activités :</Text>
             <Text style={styles.infoValue}>{getActivitesLabels()}</Text>
           </View>
         )}
       </View>
-      
+
       <Text style={styles.footer}>
         Généré le {new Date().toLocaleDateString('fr-FR')} avec TravelPrep
       </Text>
