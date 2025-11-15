@@ -25,12 +25,14 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
       const detectedSeasons = autoDetectSeasons(formData);
 
       if (detectedSeasons.length > 0) {
-        // Ne mettre à jour que si différent de "inconnue" et si pas déjà renseigné manuellement
+        // Ne mettre à jour que si actuellement "inconnue"
         const currentSaisons = Array.isArray(formData.saison) ? formData.saison : [formData.saison];
-        const hasManualSelection = currentSaisons.length > 0 && !currentSaisons.includes('inconnue');
+        const isCurrentlyUnknown = currentSaisons.length === 0 ||
+                                   currentSaisons.includes('inconnue') ||
+                                   currentSaisons[0] === 'inconnue';
 
-        // Auto-attribuer seulement si pas déjà sélectionné manuellement
-        if (!hasManualSelection) {
+        // Auto-attribuer uniquement si la valeur actuelle est "inconnue"
+        if (isCurrentlyUnknown) {
           updateFormData({ saison: detectedSeasons });
         }
       }
@@ -46,12 +48,14 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
       const detectedTemps = autoDetectTemperatures(formData);
 
       if (detectedTemps.length > 0) {
-        // Ne mettre à jour que si différent de "inconnue" et si pas déjà renseigné manuellement
+        // Ne mettre à jour que si actuellement "inconnue"
         const currentTemps = Array.isArray(formData.temperature) ? formData.temperature : [formData.temperature];
-        const hasManualSelection = currentTemps.length > 0 && !currentTemps.includes('inconnue');
+        const isCurrentlyUnknown = currentTemps.length === 0 ||
+                                   currentTemps.includes('inconnue') ||
+                                   currentTemps[0] === 'inconnue';
 
-        // Auto-attribuer seulement si pas déjà sélectionné manuellement
-        if (!hasManualSelection) {
+        // Auto-attribuer uniquement si la valeur actuelle est "inconnue"
+        if (isCurrentlyUnknown) {
           updateFormData({ temperature: detectedTemps });
         }
       }
@@ -61,8 +65,16 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   /**
    * 🔄 Auto-suggestions : Pré-sélectionner automatiquement les conditions recommandées
    * Déclenché quand destination, température ou saison changent
+   *
+   * IMPORTANT: Cet useEffect s'exécute APRÈS les auto-détections de saison/température
+   * grâce à ses dépendances sur formData.temperature et formData.saison
    */
   useEffect(() => {
+    // Attendre que les données essentielles soient disponibles
+    if (!formData.pays || formData.pays.length === 0 || !formData.dateDepart) {
+      return;
+    }
+
     const temperatures = Array.isArray(formData.temperature) ? formData.temperature : [formData.temperature];
     const saisons = Array.isArray(formData.saison) ? formData.saison : [formData.saison];
 

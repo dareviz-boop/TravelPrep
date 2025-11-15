@@ -5,6 +5,7 @@ import { CoverPage } from './CoverPage';
 import { TimelinePage } from './TimelinePage';
 import { CategoryPage } from './CategoryPage';
 import { BagagesPage } from './BagagesPage';
+import checklistCompleteData from '@/data/checklistComplete.json';
 
 // Register fonts
 Font.register({
@@ -33,7 +34,7 @@ interface PDFDocumentProps {
 export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => {
   return (
     <Document>
-      <CoverPage formData={formData} checklistData={checklistData} />
+      <CoverPage formData={formData} checklistData={checklistData} referenceData={checklistCompleteData} />
       <TimelinePage formData={formData} checklistData={checklistData} />
 
       {/* Render all generated sections */}
