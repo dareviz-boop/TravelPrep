@@ -40,35 +40,35 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   /**
    * 🔄 Auto-suggestions : Pré-sélectionner automatiquement les conditions recommandées
    * Déclenché quand destination, température ou saison changent
+   *
+   * Note : Les suggestions sont générées dès qu'on a une destination et des dates,
+   * même si température/saison ne sont pas encore renseignées (certaines suggestions
+   * dépendent uniquement de la destination et de la période)
    */
   useEffect(() => {
-    const temperatures = Array.isArray(formData.temperature) ? formData.temperature : [formData.temperature];
-    const saisons = Array.isArray(formData.saison) ? formData.saison : [formData.saison];
+    // Vérifier qu'on a au moins une destination et une date de départ
+    if (!formData.localisation || !formData.dateDepart) {
+      return;
+    }
 
-    const hasValidTemp = temperatures.length > 0 && !temperatures.includes('inconnue');
-    const hasValidSaison = saisons.length > 0 && !saisons.includes('inconnue');
+    const suggestions = generateAutoSuggestions(formData);
 
-    // Ne générer les suggestions que si temp & saison sont valides
-    if (hasValidTemp && hasValidSaison) {
-      const suggestions = generateAutoSuggestions(formData);
+    if (suggestions.length > 0) {
+      const current = formData.conditionsClimatiques || [];
+      const filtered = current.filter(id => id !== 'climat_aucune');
 
-      if (suggestions.length > 0) {
-        const current = formData.conditionsClimatiques || [];
-        const filtered = current.filter(id => id !== 'climat_aucune');
+      // Ajouter toutes les suggestions qui ne sont pas déjà sélectionnées
+      const newSuggestions = suggestions
+        .map(s => s.conditionId)
+        .filter(id => !filtered.includes(id));
 
-        // Ajouter toutes les suggestions qui ne sont pas déjà sélectionnées
-        const newSuggestions = suggestions
-          .map(s => s.conditionId)
-          .filter(id => !filtered.includes(id));
-
-        if (newSuggestions.length > 0) {
-          updateFormData({
-            conditionsClimatiques: [...filtered, ...newSuggestions]
-          });
-        }
+      if (newSuggestions.length > 0) {
+        updateFormData({
+          conditionsClimatiques: [...filtered, ...newSuggestions]
+        });
       }
     }
-  }, [formData.localisation, formData.pays, formData.temperature, formData.saison, formData.dateDepart]);
+  }, [formData.localisation, formData.pays, formData.temperature, formData.saison, formData.dateDepart, formData.dateRetour]);
 
   /**
    * Fonction générique pour gérer la bascule (toggle) de la sélection multiple pour saison et temperature.

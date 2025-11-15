@@ -62,6 +62,7 @@ export function DatePicker({
             if (maxDate && day > maxDate) return true;
             return false;
           }}
+          defaultMonth={date || minDate}
           initialFocus
         />
       </PopoverContent>

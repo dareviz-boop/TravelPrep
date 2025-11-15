@@ -121,6 +121,17 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
+
+  /**
+   * Obtient la date de demain à 00:00:00
+   * @returns Date object pour demain à minuit
+   */
+  const getTomorrowDate = (): Date => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+    return tomorrow;
+  };
   // Fin Fonctions de validation
 
 
@@ -245,8 +256,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                               value={`${pays.nom} ${pays.nomEn}`}
                               onSelect={() => {
                                 handlePaysSelect(pays);
-                                // Fermer la popover après chaque sélection pour effacer le texte de recherche
-                                setOpen(false);
+                                // Garder le popover ouvert pour permettre plusieurs sélections
                               }}
                             >
                               <Check
@@ -337,8 +347,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                               value={`${pays.nom} ${pays.nomEn}`}
                               onSelect={() => {
                                 handlePaysSelect(pays);
-                                // Fermer la popover après chaque sélection pour effacer le texte de recherche
-                                setOpen(false);
+                                // Garder le popover ouvert pour permettre plusieurs sélections
                               }}
                             >
                               <Check
@@ -431,7 +440,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
 
               updateFormData({ dateDepart: dateString });
             }}
-            minDate={new Date(Date.now() + 86400000)}
+            minDate={getTomorrowDate()}
             maxDate={new Date('9999-12-31')}
             placeholder="Choisir la date de départ"
           />
@@ -486,7 +495,12 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                 const dateString = formatDateToString(selectedDate);
                 updateFormData({ dateRetour: dateString });
               }}
-              minDate={formData.dateDepart ? new Date(new Date(formData.dateDepart).getTime() + 86400000) : new Date(Date.now() + 86400000)}
+              minDate={formData.dateDepart ? (() => {
+                const minReturn = new Date(formData.dateDepart);
+                minReturn.setDate(minReturn.getDate() + 1);
+                minReturn.setHours(0, 0, 0, 0);
+                return minReturn;
+              })() : getTomorrowDate()}
               placeholder="Choisir la date de retour"
             />
             {formData.dateRetour && formData.dateRetour.length === 10 && (
