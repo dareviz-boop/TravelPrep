@@ -94,9 +94,10 @@ const styles = StyleSheet.create({
 interface CoverPageProps {
   formData: FormData;
   checklistData: any;
+  referenceData: any;
 }
 
-export const CoverPage = ({ formData, checklistData }: CoverPageProps) => {
+export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageProps) => {
   const calculateDuration = () => {
     if (!formData.dateRetour) return null;
     const start = new Date(formData.dateDepart);
@@ -111,6 +112,11 @@ export const CoverPage = ({ formData, checklistData }: CoverPageProps) => {
   };
 
   const getActivitesLabels = () => {
+    if (!referenceData.activites) return '';
+    return formData.activites
+      .map(act => referenceData.activites[act]?.label)
+      .filter(Boolean)
+      .join(', ');
     const activitesMap: any = checklistCompleteData.activites || {};
     return cleanTextForPDF(
       formData.activites
@@ -160,6 +166,13 @@ export const CoverPage = ({ formData, checklistData }: CoverPageProps) => {
         )}
 
         <View style={styles.infoRow}>
+          <Text style={styles.infoLabel}>📍 Destination :</Text>
+          <Text style={styles.infoValue}>{referenceData.localisations?.[formData.localisation]?.nom || formData.localisation}</Text>
+        </View>
+
+        <View style={styles.infoRow}>
+          <Text style={styles.infoLabel}>👥 Profil :</Text>
+          <Text style={styles.infoValue}>{referenceData.profils?.[formData.profil]?.label || formData.profil}</Text>
           <Text style={styles.infoLabel}>Destination :</Text>
           <Text style={styles.infoValue}>{getLocalisationLabel()}</Text>
         </View>

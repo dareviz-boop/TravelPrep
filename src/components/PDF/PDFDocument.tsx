@@ -5,6 +5,7 @@ import { CoverPage } from './CoverPage';
 import { TimelinePage } from './TimelinePage';
 import { CategoryPage } from './CategoryPage';
 import { BagagesPage } from './BagagesPage';
+import checklistCompleteData from '@/data/checklistComplete.json';
 
 // 🔧 FIX: Ne pas charger de polices externes pour éviter les erreurs d'encodage
 // Utiliser Helvetica qui est toujours disponible dans les PDFs
@@ -27,7 +28,7 @@ interface PDFDocumentProps {
 export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => {
   return (
     <Document>
-      <CoverPage formData={formData} checklistData={checklistData} />
+      <CoverPage formData={formData} checklistData={checklistData} referenceData={checklistCompleteData} />
       <TimelinePage formData={formData} checklistData={checklistData} />
 
       {/* Render all generated sections */}
