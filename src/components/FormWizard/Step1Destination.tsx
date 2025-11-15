@@ -37,6 +37,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
   const [open, setOpen] = useState(false);
   const [paysOptions, setPaysOptions] = useState<Pays[]>([]);
   const [knowsReturnDate, setKnowsReturnDate] = useState(false); // Par défaut, afficher la durée estimée
+  const [searchValue, setSearchValue] = useState(""); // État pour le texte de recherche
   
   // NOUVEAU : Récupération dynamique des localisations (Zones Géographiques)
   const localisations: { value: Localisation; label: string; emoji: string }[] = Object.entries(
@@ -243,7 +244,11 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                 </PopoverTrigger>
                 <PopoverContent className="w-full p-0" align="start">
                   <Command>
-                    <CommandInput placeholder="Rechercher..." />
+                    <CommandInput
+                      placeholder="Rechercher..."
+                      value={searchValue}
+                      onValueChange={setSearchValue}
+                    />
                     <CommandList>
                       <CommandEmpty>Aucun pays trouvé.</CommandEmpty>
                       <CommandGroup>
@@ -256,6 +261,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                               value={`${pays.nom} ${pays.nomEn}`}
                               onSelect={() => {
                                 handlePaysSelect(pays);
+                                setSearchValue(""); // Effacer le texte de recherche
                                 // Garder le popover ouvert pour permettre plusieurs sélections
                               }}
                             >
@@ -334,7 +340,11 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                 </PopoverTrigger>
                 <PopoverContent className="w-full p-0" align="start">
                   <Command>
-                    <CommandInput placeholder="Rechercher..." />
+                    <CommandInput
+                      placeholder="Rechercher..."
+                      value={searchValue}
+                      onValueChange={setSearchValue}
+                    />
                     <CommandList>
                       <CommandEmpty>Aucun pays trouvé.</CommandEmpty>
                       <CommandGroup>
@@ -347,6 +357,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                               value={`${pays.nom} ${pays.nomEn}`}
                               onSelect={() => {
                                 handlePaysSelect(pays);
+                                setSearchValue(""); // Effacer le texte de recherche
                                 // Garder le popover ouvert pour permettre plusieurs sélections
                               }}
                             >

@@ -1,6 +1,10 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { FormData } from "@/types/form";
+import { PDFViewer } from '@react-pdf/renderer';
+import { TravelPrepPDF } from '@/components/PDF/PDFDocument';
+import { generateCompleteChecklist } from '@/utils/checklistGenerator';
+import { useState, useEffect } from 'react';
 
 interface Step6CheckoutProps {
   formData: FormData;
@@ -8,6 +12,14 @@ interface Step6CheckoutProps {
 }
 
 export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) => {
+  const [showPDF, setShowPDF] = useState(false);
+  const generatedChecklist = generateCompleteChecklist(formData);
+
+  // Afficher le PDF après un court délai pour éviter les problèmes de rendu
+  useEffect(() => {
+    const timer = setTimeout(() => setShowPDF(true), 500);
+    return () => clearTimeout(timer);
+  }, []);
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Titre de l'étape */}
@@ -68,6 +80,21 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
             Votre checklist personnalisée vous sera envoyée à cette adresse.
           </p>
         </div>
+      </div>
+
+      {/* Aperçu du PDF */}
+      <div className="space-y-4 max-w-6xl mx-auto">
+        <h3 className="text-xl font-bold text-center">📄 Aperçu de votre checklist</h3>
+        <p className="text-sm text-muted-foreground text-center mb-4">
+          Vérifiez votre PDF avant de le télécharger
+        </p>
+        {showPDF && (
+          <div className="w-full h-[600px] border-2 border-border rounded-lg overflow-hidden shadow-lg">
+            <PDFViewer width="100%" height="100%" showToolbar={true}>
+              <TravelPrepPDF formData={formData} checklistData={generatedChecklist} />
+            </PDFViewer>
+          </div>
+        )}
       </div>
     </div>
   );
