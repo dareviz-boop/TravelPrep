@@ -139,26 +139,20 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   };
 
   /**
-   * Calculer la durée du voyage en mois
+   * Vérifier si le voyage est "long" (strictement plus de 3 mois / 90 jours)
+   * Seulement "très long" (> 90 jours) est considéré comme "plus de 3 mois"
    */
-  const getTripDurationInMonths = (): number => {
+  const isVeryLongTrip = (): boolean => {
     if (formData.dateDepart && formData.dateRetour) {
       const days = Math.ceil(
         (new Date(formData.dateRetour).getTime() - new Date(formData.dateDepart).getTime()) /
           (1000 * 60 * 60 * 24)
       );
-      return days / 30; // Approximation : 1 mois = 30 jours
+      return days > 90; // Strictement plus de 90 jours = plus de 3 mois
     }
 
-    // Sinon utiliser formData.duree
-    const durationMap: Record<string, number> = {
-      'court': 0.25,      // ~7 jours = 0.25 mois
-      'moyen': 0.75,      // ~22 jours = 0.75 mois
-      'long': 2,          // ~60 jours = 2 mois
-      'tres-long': 6      // > 90 jours = 6+ mois
-    };
-
-    return durationMap[formData.duree] || 0;
+    // Sinon utiliser formData.duree : seulement 'tres-long' est > 3 mois
+    return formData.duree === 'tres-long';
   };
 
   /**
@@ -182,29 +176,28 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
       return null;
     }
 
-    const durationMonths = getTripDurationInMonths();
     const isMultiHemisphere = ['multi-destinations', 'amerique-centrale-caraibes'].includes(formData.localisation);
     const locLabel = getLocalisationLabel();
-    const isLongTrip = durationMonths >= 3;
+    const isLongTrip = isVeryLongTrip(); // Utilise la nouvelle fonction
 
     // Condition 1 : Multi-destination/Amérique centrale + < 3 mois
     if (isMultiHemisphere && !isLongTrip) {
-      return `Attention, comme tu as ${locLabel} de sélectionné comme zone géographique, cela implique que tu risques de changer d'hémisphère et donc d'être confronté à des changements de saisons. Nous avons présélectionné les champs ci-dessous traitant le sujet de la saisonnalité et du climat selon les dates que tu as renseignées.`;
+      return `**Attention :** comme tu as sélectionné **${locLabel}**, tu pourrais changer d'hémisphère et donc rencontrer un **basculement de saison**.\nNous avons présélectionné ci-dessous les champs liés à la **saisonnalité** et au **climat** selon tes dates.`;
     }
 
-    // Condition 2 : Multi-destination/Amérique centrale + ≥ 3 mois
+    // Condition 2 : Multi-destination/Amérique centrale + > 3 mois
     if (isMultiHemisphere && isLongTrip) {
-      return `Attention, comme tu as ${locLabel} de sélectionné comme zone géographique et que tu prévois de partir au moins plus de 3 mois, cela implique que tu risques d'être confronté à toutes les saisons au cours de ton voyage via le changement d'hémisphère. Nous avons présélectionné les champs ci-dessous traitant le sujet de la saisonnalité et du climat selon les dates que tu as renseignées.`;
+      return `**Attention :** avec **${locLabel}** et un séjour de plus de **3 mois**, tu risques de traverser **plusieurs saisons** en changeant d'hémisphère.\nLes champs liés à la **saisonnalité** et au **climat** ont été présélectionnés pour toi.`;
     }
 
     // Condition 3 : Autre zone + < 3 mois
     if (!isMultiHemisphere && !isLongTrip) {
-      return `Comme tu as sélectionné ${locLabel} comme zone géographique, nous avons présélectionné les champs ci-dessous traitant le sujet de la saisonnalité et du climat selon les dates que tu as renseignées.`;
+      return `Comme tu as sélectionné **${locLabel}**, nous avons présélectionné les champs concernant la **saisonnalité** et le **climat** selon les dates que tu as indiquées.`;
     }
 
-    // Condition 4 : Autre zone + ≥ 3 mois
+    // Condition 4 : Autre zone + > 3 mois
     if (!isMultiHemisphere && isLongTrip) {
-      return `Comme tu as sélectionné ${locLabel} comme zone géographique et que tu prévois de partir au moins plus de 3 mois, tu rencontreras plusieurs variations de températures et de saisons. Nous avons présélectionné les champs ci-dessous traitant le sujet de la saisonnalité et du climat selon les dates que tu as renseignées.`;
+      return `Comme tu as sélectionné **${locLabel}** et que ton voyage dure plus de **3 mois**, tu rencontreras sans doute **plusieurs variations de températures et de saisons**.\nLes champs concernant la **saisonnalité** et le **climat** ont été présélectionnés pour toi.`;
     }
 
     return null;
