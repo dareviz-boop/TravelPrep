@@ -319,8 +319,8 @@
       "items": [
         {
           "id": "climat_altitude_moderee",
-          "nom": "🏔️ Altitude modérée (2500-3500m)",
-          "emoji": "🏔️",
+          "nom": "⛰️ Altitude modérée (2500-3500m)",
+          "emoji": "⛰️",
           "priorite": "moyenne",
           "delai": "J-14",
           "equipement": [
@@ -343,8 +343,8 @@
         },
         {
           "id": "climat_altitude_haute",
-          "nom": "⛰️ Haute altitude (3500-5500m)",
-          "emoji": "⛰️",
+          "nom": "🏔️ Haute altitude (3500-5500m)",
+          "emoji": "🏔️",
           "priorite": "haute",
           "delai": "J-30",
           "equipement": [
