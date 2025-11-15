@@ -42,7 +42,7 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
           </Label>
           <Input
             id="prenomClient"
-            placeholder="Jean"
+            placeholder="Jack"
             value={formData.prenomClient || ''}
             onChange={(e) => updateFormData({ prenomClient: e.target.value })}
             className="h-12 text-base"
@@ -56,7 +56,7 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
           </Label>
           <Input
             id="nomClient"
-            placeholder="Dupont"
+            placeholder="Williams"
             value={formData.nomClient || ''}
             onChange={(e) => updateFormData({ nomClient: e.target.value })}
             className="h-12 text-base"
@@ -71,7 +71,7 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
           <Input
             id="email"
             type="email"
-            placeholder="jean.dupont@email.com"
+            placeholder="jack.williams@email.com"
             value={formData.email || ''}
             onChange={(e) => updateFormData({ email: e.target.value })}
             className="h-12 text-base"
