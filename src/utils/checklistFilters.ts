@@ -648,9 +648,120 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
     addSuggestion('climat_humidite', 'Forte humidité côtière', 'basse');
   }
 
-  // 🏔️ ALTITUDE : Recommandations selon activités
-  // Note: climat_altitude_* pas encore dans checklistComplete.json
-  // TODO: Ajouter ces conditions si besoin
+  // 🌊 ENVIRONNEMENT MARIN : Activités nautiques/plage
+  if (formData.activites?.some(act => ['plage', 'sports-nautiques'].includes(act))) {
+    addSuggestion('climat_marin', 'Activités maritimes ou côtières', 'moyenne');
+  }
+
+  // 🏔️ ALTITUDE : Recommandations selon pays montagneux
+  const altitudeCountries: Record<string, { moderate?: boolean; high?: boolean; extreme?: boolean }> = {
+    'PE': { moderate: true, high: true }, // Pérou (Cusco, Machu Picchu)
+    'BO': { moderate: true, high: true }, // Bolivie (La Paz)
+    'NP': { high: true, extreme: true }, // Népal (Everest)
+    'BT': { moderate: true, high: true }, // Bhoutan
+    'EC': { moderate: true }, // Équateur (Quito)
+    'CL': { moderate: true }, // Chili (Atacama altitude)
+    'CN': { high: true, extreme: true }, // Chine (Tibet)
+    'KE': { moderate: true }, // Kenya (Kilimandjaro)
+    'TZ': { moderate: true } // Tanzanie (Kilimandjaro)
+  };
+
+  const hasAltitude = formData.pays?.some((p: any) => {
+    const code = p.code?.toUpperCase();
+    return code && altitudeCountries[code];
+  });
+
+  if (hasAltitude && formData.activites?.includes('randonnee')) {
+    const altitudeInfo = formData.pays?.find((p: any) => {
+      const code = p.code?.toUpperCase();
+      return code && altitudeCountries[code];
+    });
+
+    if (altitudeInfo) {
+      const code = altitudeInfo.code?.toUpperCase();
+      const info = altitudeCountries[code];
+
+      if (info?.moderate) {
+        addSuggestion('climat_altitude_moderee', 'Destination en altitude modérée (2500-3500m)', 'haute');
+      }
+      if (info?.high) {
+        addSuggestion('climat_altitude_haute', 'Destination en haute altitude (3500-5500m)', 'haute');
+      }
+      if (info?.extreme) {
+        addSuggestion('climat_altitude_extreme', 'Destination en très haute altitude (>5500m)', 'haute');
+      }
+    }
+  }
+
+  // 🏜️ DÉSERTS ARIDES : Climats très secs
+  const aridDesertCodes = ['MA', 'DZ', 'LY', 'EG', 'JO', 'IL', 'SA', 'AE', 'OM', 'YE', 'TD', 'NE', 'ML', 'MR'];
+  const isAridDesert = formData.pays?.some((p: any) =>
+    aridDesertCodes.includes(p.code?.toUpperCase())
+  );
+
+  if (isAridDesert) {
+    addSuggestion('climat_desert_aride', 'Désert aride avec conditions extrêmes', 'haute');
+    addSuggestion('climat_secheresse', 'Sécheresse extrême (<20% humidité)', 'moyenne');
+    addSuggestion('climat_amplitude_thermique', 'Forte amplitude thermique jour/nuit', 'moyenne');
+  }
+
+  // 🌡️ AMPLITUDE THERMIQUE : Déserts et montagnes
+  if (temperatures.includes('tres-chaude') || temperatures.includes('tres-froide') || hasAltitude) {
+    // Ajouter seulement si pas déjà ajouté par désert aride
+    if (!isAridDesert) {
+      addSuggestion('climat_amplitude_thermique', 'Variations de température importantes', 'moyenne');
+    }
+  }
+
+  // 🌫️ BROUILLARD : Zones maritimes tempérées
+  const fogProneCountries = ['GB', 'IE', 'NZ', 'US', 'CA', 'CL', 'AR'];
+  const isFogProne = formData.pays?.some((p: any) =>
+    fogProneCountries.includes(p.code?.toUpperCase())
+  );
+
+  if (isFogProne && (saisons.includes('automne') || saisons.includes('hiver'))) {
+    addSuggestion('climat_brouillard', 'Brouillard fréquent en cette saison', 'basse');
+  }
+
+  // 💨 VENTS FORTS : Zones venteuses connues
+  const windyCountries = ['IS', 'NZ', 'AR', 'CL', 'GB', 'IE', 'GL'];
+  const isWindy = formData.pays?.some((p: any) =>
+    windyCountries.includes(p.code?.toUpperCase())
+  );
+
+  if (isWindy) {
+    addSuggestion('climat_vents_forts', 'Vents violents fréquents', 'moyenne');
+  }
+
+  // 🌋 ZONES VOLCANIQUES : Pays avec volcans actifs
+  const volcanicCountries = ['IS', 'ID', 'PH', 'JP', 'IT', 'CR', 'GT', 'NZ', 'CL', 'EC'];
+  const isVolcanic = formData.pays?.some((p: any) =>
+    volcanicCountries.includes(p.code?.toUpperCase())
+  );
+
+  if (isVolcanic && formData.activites?.includes('randonnee')) {
+    addSuggestion('climat_volcanique', 'Zones volcaniques actives', 'moyenne');
+  }
+
+  // 🌲 JUNGLE DENSE : Forêts tropicales
+  const jungleCountries = ['BR', 'PE', 'CO', 'EC', 'VE', 'GY', 'SR', 'GF', 'MY', 'ID', 'PG', 'CG', 'GA'];
+  const isJungle = formData.pays?.some((p: any) =>
+    jungleCountries.includes(p.code?.toUpperCase())
+  );
+
+  if (isJungle && formData.activites?.some(act => ['randonnee', 'camping', 'backpacking'].includes(act))) {
+    addSuggestion('climat_jungle_dense', 'Forêt dense / Jungle équatoriale', 'haute');
+  }
+
+  // 💧 HUMIDITÉ EXTRÊME : Régions très humides
+  if ((isSETropical || isCoastalTropical || isJungle) && !alreadySuggested.has('climat_humidite')) {
+    addSuggestion('climat_humidite', 'Humidité très élevée (>85%)', 'moyenne');
+  }
+
+  // 🏜️ SÉCHERESSE EXTRÊME : Régions très sèches
+  if ((isDesert || isAridDesert) && !alreadySuggested.has('climat_secheresse')) {
+    addSuggestion('climat_secheresse', 'Sécheresse extrême (<20% humidité)', 'moyenne');
+  }
 
   // === PARTIE 2: SUGGESTIONS DU JSON (COMPLÉMENTAIRES) ===
 
