@@ -9,6 +9,14 @@
 
 import { FormData } from '@/types/form';
 import climatData from '@/data/checklist_climat_meteo.json';
+import {
+  getCountryClimate,
+  getRegionalClimate,
+  getTemperatureCategory,
+  getSeasonsForMonth,
+  COUNTRY_CLIMATES,
+  type CountryClimate
+} from './climateDatabase';
 
 // ==========================================
 // TYPES ET INTERFACES
@@ -246,6 +254,7 @@ export function getClimatEquipment(formData: FormData): ChecklistSection[] {
 
 /**
  * Détermine automatiquement les saisons appropriées selon les pays et les dates de voyage
+ * Utilise la base de données climatique mondiale pour des résultats précis
  * Prend en compte toute la période du voyage (pas juste la date de départ)
  * @param formData - Données du formulaire
  * @returns Array de saisons applicables (printemps, ete, automne, hiver)
@@ -255,51 +264,18 @@ export function autoDetectSeasons(formData: FormData): string[] {
 
   const seasons: Set<string> = new Set();
 
-  // Helper pour déterminer l'hémisphère d'un pays
-  const getHemisphere = (countryCode: string): 'north' | 'south' | 'both' => {
-    const southernCountries = [
-      'australie', 'nouvelle-zelande', 'argentine', 'chili', 'uruguay', 'paraguay',
-      'bolivie', 'perou', 'bresil', 'afrique-du-sud', 'namibie', 'botswana',
-      'zimbabwe', 'mozambique', 'madagascar'
-    ];
-    
-    const code = countryCode.toLowerCase();
-    if (southernCountries.some(country => code.includes(country))) {
-      return 'south';
-    }
-    
-    return 'north';
-  };
-
-  // Helper pour obtenir la saison selon l'hémisphère et le mois
-  const getSeasonForMonth = (month: number, hemisphere: 'north' | 'south'): string => {
-    // Hémisphère nord
-    if (hemisphere === 'north') {
-      if (month >= 3 && month <= 5) return 'printemps';
-      if (month >= 6 && month <= 8) return 'ete';
-      if (month >= 9 && month <= 11) return 'automne';
-      return 'hiver'; // Décembre-Février
-    }
-    
-    // Hémisphère sud (saisons inversées)
-    if (month >= 3 && month <= 5) return 'automne';
-    if (month >= 6 && month <= 8) return 'hiver';
-    if (month >= 9 && month <= 11) return 'printemps';
-    return 'ete'; // Décembre-Février
-  };
-
   // Collecter les mois du voyage
   const travelMonths: number[] = [];
   const startDate = new Date(formData.dateDepart);
   const startMonth = startDate.getMonth() + 1; // 1-12
-  
+
   travelMonths.push(startMonth);
 
   // Si date de retour définie, ajouter tous les mois intermédiaires
   if (formData.dateRetour) {
     const endDate = new Date(formData.dateRetour);
     const endMonth = endDate.getMonth() + 1;
-    
+
     let currentMonth = startMonth;
     while (currentMonth !== endMonth) {
       currentMonth++;
@@ -312,17 +288,53 @@ export function autoDetectSeasons(formData: FormData): string[] {
     }
   }
 
-  // Déterminer les saisons pour chaque pays et chaque mois
+  // === STRATÉGIE 1: PAYS SPÉCIFIQUES (données précises) ===
   if (formData.pays && formData.pays.length > 0) {
+    let hasFoundCountry = false;
+
     formData.pays.forEach((pays: any) => {
-      const hemisphere = getHemisphere(pays.code || pays.nom);
-      
-      travelMonths.forEach(month => {
-        const season = getSeasonForMonth(month, hemisphere);
-        seasons.add(season);
-      });
+      const countryCode = pays.code?.toUpperCase();
+      const climate = countryCode ? getCountryClimate(countryCode) : null;
+
+      if (climate) {
+        hasFoundCountry = true;
+        travelMonths.forEach(month => {
+          const monthSeasons = getSeasonsForMonth(month, climate.seasons);
+          monthSeasons.forEach(s => seasons.add(s));
+        });
+      }
     });
+
+    // Si on a trouvé au moins un pays dans la base, utiliser ces données
+    if (hasFoundCountry && seasons.size > 0) {
+      return Array.from(seasons);
+    }
   }
+
+  // === STRATÉGIE 2: ZONE GÉOGRAPHIQUE (fallback régional) ===
+  if (formData.localisation) {
+    const regionalClimate = getRegionalClimate(formData.localisation);
+
+    if (regionalClimate?.seasons) {
+      travelMonths.forEach(month => {
+        const monthSeasons = getSeasonsForMonth(month, regionalClimate.seasons as any);
+        monthSeasons.forEach(s => seasons.add(s));
+      });
+
+      if (seasons.size > 0) {
+        return Array.from(seasons);
+      }
+    }
+  }
+
+  // === STRATÉGIE 3: FALLBACK GÉNÉRIQUE (si aucune donnée trouvée) ===
+  // Hémisphère nord par défaut
+  travelMonths.forEach(month => {
+    if (month >= 3 && month <= 5) seasons.add('printemps');
+    else if (month >= 6 && month <= 8) seasons.add('ete');
+    else if (month >= 9 && month <= 11) seasons.add('automne');
+    else seasons.add('hiver');
+  });
 
   return Array.from(seasons);
 }
@@ -332,7 +344,8 @@ export function autoDetectSeasons(formData: FormData): string[] {
 // ==========================================
 
 /**
- * Détermine automatiquement les températures probables selon les pays, saisons et date
+ * Détermine automatiquement les températures probables selon les pays et date
+ * Utilise la base de données climatique mondiale pour des résultats précis
  * @param formData - Données du formulaire
  * @returns Array de températures applicables (tres-froide, froide, temperee, chaude, tres-chaude)
  */
@@ -342,57 +355,56 @@ export function autoDetectTemperatures(formData: FormData): string[] {
   const temperatures: Set<string> = new Set();
   const month = new Date(formData.dateDepart).getMonth() + 1; // 1-12
 
-  // Pays très froids (arctiques/polaires)
-  const coldCountries = ['groenland', 'islande', 'finlande', 'norvege', 'suede', 'alaska', 'canada'];
+  // Mapper les mois aux propriétés de avgTemp
+  const monthKeys = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  const monthKey = monthKeys[month - 1] as keyof CountryClimate['avgTemp'];
 
-  // Pays très chauds (désertiques/tropicaux)
-  const hotCountries = ['arabie', 'emirats', 'qatar', 'egypte', 'libye', 'niger', 'tchad', 'soudan', 'australie', 'inde'];
-
-  // Pays tropicaux chauds (Asie du Sud-Est et autres)
-  const tropicalCountries = ['thailande', 'thailand', 'vietnam', 'indonesie', 'indonesia', 'philippines', 'malaisie', 'malaysia', 'singapour', 'singapore', 'bresil', 'brazil', 'colombie', 'colombia', 'cambodge', 'cambodia', 'laos', 'myanmar', 'birmanie'];
+  // === STRATÉGIE 1: PAYS SPÉCIFIQUES (données précises) ===
+  let hasFoundCountry = false;
 
   formData.pays.forEach((pays: any) => {
-    const code = (pays.code || pays.nom || '').toLowerCase();
-    const nom = (pays.nom || '').toLowerCase();
+    const countryCode = pays.code?.toUpperCase();
+    const climate = countryCode ? getCountryClimate(countryCode) : null;
 
-    // Pays très froids
-    if (coldCountries.some(cc => code.includes(cc) || nom.includes(cc))) {
-      if (month >= 11 || month <= 3) {
-        temperatures.add('tres-froide'); // Hiver arctique
-      } else if ((month >= 4 && month <= 5) || (month >= 9 && month <= 10)) {
-        temperatures.add('froide'); // Printemps/automne
-      } else {
-        temperatures.add('temperee'); // Été court
-      }
-    }
-    // Pays très chauds (déserts)
-    else if (hotCountries.some(hc => code.includes(hc) || nom.includes(hc))) {
-      if (month >= 5 && month <= 9) {
-        temperatures.add('tres-chaude'); // Été désertique
-      } else {
-        temperatures.add('chaude'); // Hiver plus doux
-      }
-    }
-    // Pays tropicaux (Asie du Sud-Est, Amérique Latine tropicale)
-    else if (tropicalCountries.some(tc => code.includes(tc) || nom.includes(tc))) {
-      // Toute l'année : chaude ou très chaude
-      temperatures.add('chaude'); // Base minimale
-
-      // Asie du Sud-Est : pic de chaleur avant la mousson (mars-mai)
-      // + mousson chaude et humide (mai-octobre)
-      if ((month >= 3 && month <= 5) || (month >= 6 && month <= 10)) {
-        temperatures.add('tres-chaude'); // Saison chaude/mousson
-      }
-    }
-    // Hémisphère nord tempéré (Europe, Amérique du Nord, Asie tempérée)
-    else if (month >= 6 && month <= 8) {
-      temperatures.add('chaude'); // Été
-    } else if (month >= 12 || month <= 2) {
-      temperatures.add('froide'); // Hiver
-    } else {
-      temperatures.add('temperee'); // Printemps/automne
+    if (climate && climate.avgTemp) {
+      hasFoundCountry = true;
+      const avgTemp = climate.avgTemp[monthKey];
+      const tempCategories = getTemperatureCategory(avgTemp);
+      tempCategories.forEach(t => temperatures.add(t));
     }
   });
+
+  // Si on a trouvé au moins un pays dans la base, utiliser ces données
+  if (hasFoundCountry && temperatures.size > 0) {
+    return Array.from(temperatures);
+  }
+
+  // === STRATÉGIE 2: ZONE GÉOGRAPHIQUE (fallback régional) ===
+  if (formData.localisation) {
+    const regionalClimate = getRegionalClimate(formData.localisation);
+
+    if (regionalClimate?.avgTemp) {
+      const avgTemp = regionalClimate.avgTemp[monthKey];
+      if (avgTemp !== undefined) {
+        const tempCategories = getTemperatureCategory(avgTemp);
+        tempCategories.forEach(t => temperatures.add(t));
+
+        if (temperatures.size > 0) {
+          return Array.from(temperatures);
+        }
+      }
+    }
+  }
+
+  // === STRATÉGIE 3: FALLBACK GÉNÉRIQUE (si aucune donnée trouvée) ===
+  // Utiliser une estimation basique pour l'hémisphère nord tempéré
+  if (month >= 6 && month <= 8) {
+    temperatures.add('chaude'); // Été
+  } else if (month >= 12 || month <= 2) {
+    temperatures.add('froide'); // Hiver
+  } else {
+    temperatures.add('temperee'); // Printemps/automne
+  }
 
   return Array.from(temperatures);
 }
