@@ -3,8 +3,8 @@ import { FormData } from '@/types/form';
 import checklistCompleteData from '@/data/checklistComplete.json';
 import { PDFIcon } from './PDFIcon';
 
-// Fonction utilitaire pour nettoyer certains caractères spéciaux problématiques
-// ✨ GARDONS les emojis pour plus de personnalité dans le PDF !
+// Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
+// Helvetica ne supporte PAS les emojis Unicode, ils apparaissent corrompus
 const cleanTextForPDF = (text: string): string => {
   if (!text) return '';
   return text
@@ -12,12 +12,26 @@ const cleanTextForPDF = (text: string): string => {
     .replace(/[""]/g, '"')
     .replace(/['']/g, "'")
     .replace(/[«»]/g, '"')
-    // Normaliser les tirets
+    // Normaliser les tirets et flèches
     .replace(/[–—]/g, '-')
+    .replace(/→/g, '->')
     .replace(/…/g, '...')
-    // 🎨 Les emojis sont maintenant CONSERVÉS !
-    // Seulement supprimer les variation selectors qui peuvent causer des problèmes
-    .replace(/[\u{FE00}-\u{FE0F}]/gu, '')
+    // SUPPRIMER tous les emojis (plage Unicode complète)
+    .replace(/[\u{1F300}-\u{1F9FF}]/gu, '') // Emojis & Pictographs
+    .replace(/[\u{2600}-\u{26FF}]/gu, '')   // Symboles divers
+    .replace(/[\u{2700}-\u{27BF}]/gu, '')   // Dingbats
+    .replace(/[\u{FE00}-\u{FE0F}]/gu, '')   // Variation selectors
+    .replace(/[\u{1F000}-\u{1F02F}]/gu, '') // Mahjong Tiles
+    .replace(/[\u{1F0A0}-\u{1F0FF}]/gu, '') // Playing Cards
+    .replace(/[\u{1F100}-\u{1F64F}]/gu, '') // Enclosed characters
+    .replace(/[\u{1F680}-\u{1F6FF}]/gu, '') // Transport & Map
+    .replace(/[\u{1F700}-\u{1F77F}]/gu, '') // Alchemical
+    .replace(/[\u{1F780}-\u{1F7FF}]/gu, '') // Geometric Shapes Extended
+    .replace(/[\u{1F800}-\u{1F8FF}]/gu, '') // Supplemental Arrows-C
+    .replace(/[\u{1F900}-\u{1F9FF}]/gu, '') // Supplemental Symbols
+    .replace(/[\u{1FA00}-\u{1FA6F}]/gu, '') // Chess Symbols
+    .replace(/[\u{1FA70}-\u{1FAFF}]/gu, '') // Symbols and Pictographs Extended-A
+    .replace(/\s+/g, ' ')                    // Nettoyer espaces multiples
     .trim();
 };
 
@@ -110,15 +124,13 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
   };
 
   const getActivitesLabels = () => {
-    if (!referenceData.activites) return '';
-    return formData.activites
-      .map(act => referenceData.activites[act]?.label)
-      .filter(Boolean)
-      .join(', ');
     const activitesMap: any = checklistCompleteData.activites || {};
     return cleanTextForPDF(
       formData.activites
-        .map(actId => activitesMap[actId]?.label || actId)
+        .map(actId => {
+          const activite = activitesMap[actId];
+          return activite ? activite.label : actId;
+        })
         .filter(Boolean)
         .join(', ')
     );
@@ -131,7 +143,8 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
 
   const getProfilLabel = () => {
     const profils: any = checklistCompleteData.profils || {};
-    return cleanTextForPDF(profils[formData.profil]?.label || formData.profil);
+    const profil = profils[formData.profil];
+    return cleanTextForPDF(profil ? profil.label : formData.profil);
   };
 
   const getPaysLabels = () => {
@@ -144,10 +157,20 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
   const getTemperaturesLabels = () => {
     const temps: any = checklistCompleteData.temperatures || {};
     const tempArray = Array.isArray(formData.temperature) ? formData.temperature : [formData.temperature];
+    const filtered = tempArray.filter(t => t !== 'inconnue');
+
+    // Si toutes les températures sont sélectionnées (5 températures : très-froide, froide, temperee, chaude, très-chaude)
+    const allTemps = ['tres-froide', 'froide', 'temperee', 'chaude', 'tres-chaude'];
+    if (filtered.length === allTemps.length && allTemps.every(t => filtered.includes(t))) {
+      return 'Toutes, de tres froides a tres chaudes';
+    }
+
     return cleanTextForPDF(
-      tempArray
-        .filter(t => t !== 'inconnue')
-        .map(t => temps.options?.find((opt: any) => opt.id === t)?.nom || t)
+      filtered
+        .map(t => {
+          const option = temps.options?.find((opt: any) => opt.id === t);
+          return option ? option.nom : t;
+        })
         .join(', ')
     );
   };
@@ -155,10 +178,20 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
   const getSaisonsLabels = () => {
     const saisons: any = checklistCompleteData.saisons || {};
     const saisonArray = Array.isArray(formData.saison) ? formData.saison : [formData.saison];
+    const filtered = saisonArray.filter(s => s !== 'inconnue');
+
+    // Si toutes les saisons sont sélectionnées (4 saisons : ete, hiver, printemps, automne)
+    const allSaisons = ['ete', 'hiver', 'printemps', 'automne'];
+    if (filtered.length === allSaisons.length && allSaisons.every(s => filtered.includes(s))) {
+      return 'Toutes les saisons';
+    }
+
     return cleanTextForPDF(
-      saisonArray
-        .filter(s => s !== 'inconnue')
-        .map(s => saisons.options?.find((opt: any) => opt.id === s)?.nom || s)
+      filtered
+        .map(s => {
+          const option = saisons.options?.find((opt: any) => opt.id === s);
+          return option ? option.nom : s;
+        })
         .join(', ')
     );
   };
@@ -181,7 +214,7 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
         .slice(0, 5) // Limiter à 5 conditions max pour ne pas surcharger
         .map(condId => {
           const cond = allConditions.find((c: any) => c.id === condId);
-          return cond?.nom || condId;
+          return cond ? cond.nom : condId;
         })
         .join(', ')
     );
@@ -189,12 +222,14 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
 
   const getTypeVoyageLabel = () => {
     const types: any = checklistCompleteData.typeVoyage || {};
-    return cleanTextForPDF(types[formData.typeVoyage]?.label || formData.typeVoyage);
+    const type = types[formData.typeVoyage];
+    return cleanTextForPDF(type ? type.label : formData.typeVoyage);
   };
 
   const getConfortLabel = () => {
     const conforts: any = checklistCompleteData.confort || {};
-    return cleanTextForPDF(conforts[formData.confort]?.label || formData.confort);
+    const confort = conforts[formData.confort];
+    return cleanTextForPDF(confort ? confort.label : formData.confort);
   };
 
   const duration = calculateDuration();
@@ -237,8 +272,9 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
               <PDFIcon name="calendar" />
               <Text style={styles.labelText}>Date :</Text>
             </View>
+            <Text style={styles.infoLabel}>Date :</Text>
             <Text style={styles.infoValue}>
-              {formatDate(formData.dateDepart)} ➞ {formatDate(formData.dateRetour)} / {duration} jours
+              {formatDate(formData.dateDepart)} {'->'} {formatDate(formData.dateRetour)} / {duration} jours
             </Text>
           </View>
         ) : (
@@ -247,6 +283,7 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
               <PDFIcon name="calendar" />
               <Text style={styles.labelText}>Départ :</Text>
             </View>
+            <Text style={styles.infoLabel}>Depart :</Text>
             <Text style={styles.infoValue}>
               {formatDate(formData.dateDepart)} / {getDureeEstimee()}
             </Text>
@@ -259,6 +296,7 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
             <PDFIcon name="globe" />
             <Text style={styles.labelText}>Destination :</Text>
           </View>
+          <Text style={styles.infoLabel}>Destination :</Text>
           <Text style={styles.infoValue}>{getLocalisationLabel()}</Text>
         </View>
 
@@ -269,6 +307,7 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
               <PDFIcon name="map" />
               <Text style={styles.labelText}>Pays :</Text>
             </View>
+            <Text style={styles.infoLabel}>Pays :</Text>
             <Text style={styles.infoValue}>{getPaysLabels()}</Text>
           </View>
         )}
@@ -280,6 +319,7 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
               <PDFIcon name="leaf" />
               <Text style={styles.labelText}>Saison :</Text>
             </View>
+            <Text style={styles.infoLabel}>Saison :</Text>
             <Text style={styles.infoValue}>{getSaisonsLabels()}</Text>
           </View>
         )}
@@ -291,6 +331,7 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
               <PDFIcon name="thermometer" />
               <Text style={styles.labelText}>Température :</Text>
             </View>
+            <Text style={styles.infoLabel}>Temperature :</Text>
             <Text style={styles.infoValue}>{getTemperaturesLabels()}</Text>
           </View>
         )}
@@ -302,6 +343,7 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
               <PDFIcon name="cloud" />
               <Text style={styles.labelText}>Climat :</Text>
             </View>
+            <Text style={styles.infoLabel}>Climat :</Text>
             <Text style={styles.infoValue}>{getConditionsClimatiquesLabels()}</Text>
           </View>
         )}
@@ -312,6 +354,7 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
             <PDFIcon name="user" />
             <Text style={styles.labelText}>Profil :</Text>
           </View>
+          <Text style={styles.infoLabel}>Profil :</Text>
           <Text style={styles.infoValue}>
             {getProfilLabel()}
             {formData.profil === 'famille' && formData.nombreEnfants &&
@@ -327,6 +370,7 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
               <PDFIcon name="activity" />
               <Text style={styles.labelText}>Activités :</Text>
             </View>
+            <Text style={styles.infoLabel}>Activites :</Text>
             <Text style={styles.infoValue}>{getActivitesLabels()}</Text>
           </View>
         )}
@@ -338,6 +382,7 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
               <PDFIcon name="plane" />
               <Text style={styles.labelText}>Type :</Text>
             </View>
+            <Text style={styles.infoLabel}>Type :</Text>
             <Text style={styles.infoValue}>{getTypeVoyageLabel()}</Text>
           </View>
         )}
@@ -349,6 +394,7 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
               <PDFIcon name="bed" />
               <Text style={styles.labelText}>Confort :</Text>
             </View>
+            <Text style={styles.infoLabel}>Confort :</Text>
             <Text style={styles.infoValue}>{getConfortLabel()}</Text>
           </View>
         )}
