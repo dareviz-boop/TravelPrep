@@ -1340,6 +1340,789 @@ const extendedAmericasTests: TestCase[] = [
 ];
 
 // ==========================================
+// TESTS - NOUVELLES DESTINATIONS 2025 (126 destinations)
+// ==========================================
+
+const newDestinations2025Tests: TestCase[] = [
+  // Europe Balkans & Méditerranée
+  {
+    id: 'new_01',
+    name: 'Croatie été méditerranéen',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Croatie juillet = très chaud méditerranéen',
+    formData: {
+      pays: [{ code: 'HR', nom: 'Croatie' }],
+      dateDepart: '2025-07-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Été méditerranéen Croatie' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new_02',
+    name: 'Slovénie Alpes hiver',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Slovénie janvier = froid montagnard',
+    formData: {
+      pays: [{ code: 'SI', nom: 'Slovénie' }],
+      dateDepart: '2026-01-15',
+      localisation: 'europe',
+      activites: ['sports-hiver']
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const sugg = generateAutoSuggestions(fd);
+      const hasFroid = temps.includes('froide');
+      const hasNeige = sugg.some(s => s.conditionId === 'climat_neige');
+      return {
+        passed: hasFroid && hasNeige,
+        message: hasFroid && hasNeige ? '✅ Hiver alpin détecté' : `❌ Échec`,
+        details: { temps, suggestions: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'new_03',
+    name: 'Malte chaleur méditerranéenne',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Malte août = très chaud',
+    formData: {
+      pays: [{ code: 'MT', nom: 'Malte' }],
+      dateDepart: '2025-08-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasTresChaud = temps.includes('tres-chaude');
+      return {
+        passed: hasTresChaud,
+        message: hasTresChaud ? '✅ Canicule méditerranéenne' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new_04',
+    name: 'Chypre plage été',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Chypre juillet = plage + marin',
+    formData: {
+      pays: [{ code: 'CY', nom: 'Chypre' }],
+      dateDepart: '2025-07-15',
+      localisation: 'europe',
+      activites: ['plage', 'sports-nautiques']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasMarin = sugg.some(s => s.conditionId === 'climat_marin');
+      return {
+        passed: hasMarin,
+        message: hasMarin ? '✅ Environnement marin' : `❌ Non détecté`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'new_05',
+    name: 'Monténégro Kotor été',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Monténégro = méditerranéen chaud',
+    formData: {
+      pays: [{ code: 'ME', nom: 'Monténégro' }],
+      dateDepart: '2025-07-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Été adriatique' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new_06',
+    name: 'Albanie Riviera',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Albanie été = méditerranéen',
+    formData: {
+      pays: [{ code: 'AL', nom: 'Albanie' }],
+      dateDepart: '2025-08-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Riviera albanaise' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+
+  // Europe Nordique & Baltique
+  {
+    id: 'new_07',
+    name: 'Danemark été doux',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Danemark juillet = tempéré',
+    formData: {
+      pays: [{ code: 'DK', nom: 'Danemark' }],
+      dateDepart: '2025-07-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasTemperee = temps.includes('temperee');
+      return {
+        passed: hasTemperee,
+        message: hasTemperee ? '✅ Été scandinave doux' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new_08',
+    name: 'Estonie hiver froid',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Estonie janvier = très froid',
+    formData: {
+      pays: [{ code: 'EE', nom: 'Estonie' }],
+      dateDepart: '2026-01-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasFroid = temps.includes('froide') || temps.includes('tres-froide');
+      return {
+        passed: hasFroid,
+        message: hasFroid ? '✅ Hiver baltique' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new_09',
+    name: 'Lettonie Riga hiver',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Lettonie hiver = neige',
+    formData: {
+      pays: [{ code: 'LV', nom: 'Lettonie' }],
+      dateDepart: '2026-01-15',
+      localisation: 'europe',
+      temperature: ['froide']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasNeige = sugg.some(s => s.conditionId === 'climat_neige');
+      return {
+        passed: hasNeige,
+        message: hasNeige ? '✅ Neige baltique' : `❌ Non détectée`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'new_10',
+    name: 'Lituanie continental',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Lituanie = continental froid',
+    formData: {
+      pays: [{ code: 'LT', nom: 'Lituanie' }],
+      dateDepart: '2026-01-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasFroid = temps.includes('froide') || temps.includes('tres-froide');
+      return {
+        passed: hasFroid,
+        message: hasFroid ? '✅ Hiver continental' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+
+  // Europe Centrale & Microstats
+  {
+    id: 'new_11',
+    name: 'Andorre ski hiver',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Andorre janvier = montagne neige',
+    formData: {
+      pays: [{ code: 'AD', nom: 'Andorre' }],
+      dateDepart: '2026-01-15',
+      localisation: 'europe',
+      activites: ['sports-hiver']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasNeige = sugg.some(s => s.conditionId === 'climat_neige');
+      const hasAltitude = sugg.some(s => s.conditionId.includes('altitude'));
+      return {
+        passed: hasNeige || hasAltitude,
+        message: hasNeige || hasAltitude ? '✅ Station de ski' : `❌ Non détecté`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'new_12',
+    name: 'Monaco Côte d\'Azur',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Monaco été = méditerranéen doux',
+    formData: {
+      pays: [{ code: 'MC', nom: 'Monaco' }],
+      dateDepart: '2025-07-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Riviera méditerranéenne' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+
+  // Asie - Destinations majeures
+  {
+    id: 'new_13',
+    name: 'Hong Kong subtropical chaud',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Hong Kong août = subtropical très chaud',
+    formData: {
+      pays: [{ code: 'HK', nom: 'Hong Kong' }],
+      dateDepart: '2025-08-15',
+      localisation: 'asie'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasTresChaud = temps.includes('tres-chaude');
+      return {
+        passed: hasTresChaud,
+        message: hasTresChaud ? '✅ Été subtropical torride' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new_14',
+    name: 'Macao subtropical',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Macao été = chaud humide',
+    formData: {
+      pays: [{ code: 'MO', nom: 'Macao' }],
+      dateDepart: '2025-07-15',
+      localisation: 'asie'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasTresChaud = temps.includes('tres-chaude');
+      return {
+        passed: hasTresChaud,
+        message: hasTresChaud ? '✅ Été subtropical' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new_15',
+    name: 'Jordanie Petra désert',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Jordanie juillet = désert chaud',
+    formData: {
+      pays: [{ code: 'JO', nom: 'Jordanie' }],
+      dateDepart: '2025-07-15',
+      localisation: 'asie',
+      temperature: ['tres-chaude']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasDesert = sugg.some(s => s.conditionId === 'climat_sec_aride' || s.conditionId === 'climat_desert_aride');
+      return {
+        passed: hasDesert,
+        message: hasDesert ? '✅ Désert jordanien' : `❌ Non détecté`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'new_16',
+    name: 'Israël désert + méditerranée',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Israël = zones climatiques mixtes',
+    formData: {
+      pays: [{ code: 'IL', nom: 'Israël' }],
+      dateDepart: '2025-07-15',
+      localisation: 'asie'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasTresChaud = temps.includes('tres-chaude');
+      return {
+        passed: hasTresChaud,
+        message: hasTresChaud ? '✅ Chaleur méditerranéenne/désertique' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new_17',
+    name: 'Oman chaleur extrême',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Oman été = canicule désertique',
+    formData: {
+      pays: [{ code: 'OM', nom: 'Oman' }],
+      dateDepart: '2025-07-15',
+      localisation: 'asie',
+      temperature: ['tres-chaude']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasCanicule = sugg.some(s => s.conditionId === 'climat_canicule');
+      return {
+        passed: hasCanicule,
+        message: hasCanicule ? '✅ Canicule extrême' : `❌ Non détectée`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'new_18',
+    name: 'Géorgie Caucase montagne',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Géorgie = montagne + continental',
+    formData: {
+      pays: [{ code: 'GE', nom: 'Géorgie' }],
+      dateDepart: '2025-07-15',
+      localisation: 'asie',
+      activites: ['randonnee']
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Été caucasien' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new_19',
+    name: 'Arménie altitude froide',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Arménie janvier = très froid montagne',
+    formData: {
+      pays: [{ code: 'AM', nom: 'Arménie' }],
+      dateDepart: '2026-01-15',
+      localisation: 'asie',
+      activites: ['randonnee']
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const sugg = generateAutoSuggestions(fd);
+      const hasFroid = temps.includes('froide') || temps.includes('tres-froide');
+      const hasAltitude = sugg.some(s => s.conditionId.includes('altitude'));
+      return {
+        passed: hasFroid,
+        message: hasFroid ? '✅ Hiver montagnard' : `❌ Échec`,
+        details: { temps, altitude: hasAltitude }
+      };
+    }
+  },
+  {
+    id: 'new_20',
+    name: 'Ouzbékistan Route de la Soie',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Ouzbékistan été = désert continental',
+    formData: {
+      pays: [{ code: 'UZ', nom: 'Ouzbékistan' }],
+      dateDepart: '2025-07-15',
+      localisation: 'asie'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasTresChaud = temps.includes('tres-chaude');
+      return {
+        passed: hasTresChaud,
+        message: hasTresChaud ? '✅ Chaleur désertique continentale' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+
+  // Afrique - Safari & Déserts
+  {
+    id: 'new_21',
+    name: 'Éthiopie hauts plateaux',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Éthiopie = altitude climat tempéré',
+    formData: {
+      pays: [{ code: 'ET', nom: 'Éthiopie' }],
+      dateDepart: '2025-07-15',
+      localisation: 'afrique',
+      activites: ['randonnee']
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasTemperee = temps.includes('temperee');
+      return {
+        passed: hasTemperee,
+        message: hasTemperee ? '✅ Climat altitude tempéré' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new_22',
+    name: 'Namibie désert du Namib',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Namibie = désert aride',
+    formData: {
+      pays: [{ code: 'NA', nom: 'Namibie' }],
+      dateDepart: '2025-07-15',
+      localisation: 'afrique',
+      temperature: ['temperee']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasDesert = sugg.some(s => s.conditionId === 'climat_sec_aride' || s.conditionId === 'climat_desert_aride');
+      return {
+        passed: hasDesert,
+        message: hasDesert ? '✅ Désert du Namib' : `❌ Non détecté`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'new_23',
+    name: 'Botswana Delta Okavango',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Botswana saison sèche safari',
+    formData: {
+      pays: [{ code: 'BW', nom: 'Botswana' }],
+      dateDepart: '2025-07-15',
+      localisation: 'afrique',
+      activites: ['randonnee']
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const seasons = autoDetectSeasons(fd);
+      const hasWinter = seasons.includes('hiver');
+      return {
+        passed: hasWinter,
+        message: hasWinter ? '✅ Saison sèche australe' : `❌ Échec`,
+        details: { temps, seasons }
+      };
+    }
+  },
+  {
+    id: 'new_24',
+    name: 'Zimbabwe Chutes Victoria',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Zimbabwe hiver austral',
+    formData: {
+      pays: [{ code: 'ZW', nom: 'Zimbabwe' }],
+      dateDepart: '2025-07-15',
+      localisation: 'afrique'
+    },
+    validate: (fd) => {
+      const seasons = autoDetectSeasons(fd);
+      const hasWinter = seasons.includes('hiver');
+      return {
+        passed: hasWinter,
+        message: hasWinter ? '✅ Hiver austral sec' : `❌ Échec`,
+        details: { seasons }
+      };
+    }
+  },
+  {
+    id: 'new_25',
+    name: 'Zambie safari',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Zambie = tropical austral',
+    formData: {
+      pays: [{ code: 'ZM', nom: 'Zambie' }],
+      dateDepart: '2026-01-15',
+      localisation: 'afrique'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Été tropical austral' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new_26',
+    name: 'Ghana tropical',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Ghana = tropical constant chaud',
+    formData: {
+      pays: [{ code: 'GH', nom: 'Ghana' }],
+      dateDepart: '2025-07-15',
+      localisation: 'afrique'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Tropical guinéen' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+
+  // Amériques - Caraïbes & Amérique Centrale
+  {
+    id: 'new_27',
+    name: 'Belize récifs coralliens',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Belize = tropical marin',
+    formData: {
+      pays: [{ code: 'BZ', nom: 'Belize' }],
+      dateDepart: '2025-07-15',
+      localisation: 'amerique-centrale-caraibes',
+      activites: ['plage', 'sports-nautiques']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasMarin = sugg.some(s => s.conditionId === 'climat_marin');
+      return {
+        passed: hasMarin,
+        message: hasMarin ? '✅ Environnement marin tropical' : `❌ Non détecté`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'new_28',
+    name: 'Guatemala Tikal jungle',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Guatemala = jungle + altitude',
+    formData: {
+      pays: [{ code: 'GT', nom: 'Guatemala' }],
+      dateDepart: '2025-07-15',
+      localisation: 'amerique-centrale-caraibes',
+      activites: ['randonnee']
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasTemperee = temps.includes('temperee');
+      return {
+        passed: hasTemperee,
+        message: hasTemperee ? '✅ Climat montagnard tropical' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new_29',
+    name: 'Barbade plage paradisiaque',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Barbade = tropical constant',
+    formData: {
+      pays: [{ code: 'BB', nom: 'Barbade' }],
+      dateDepart: '2025-12-15',
+      localisation: 'amerique-centrale-caraibes',
+      activites: ['plage']
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Paradis tropical' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new_30',
+    name: 'Aruba climat aride',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Aruba = tropical très sec',
+    formData: {
+      pays: [{ code: 'AW', nom: 'Aruba' }],
+      dateDepart: '2025-07-15',
+      localisation: 'amerique-centrale-caraibes',
+      temperature: ['tres-chaude']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasAride = sugg.some(s => s.conditionId === 'climat_sec_aride' || s.conditionId === 'climat_desert_aride');
+      return {
+        passed: hasAride,
+        message: hasAride ? '✅ Île désertique' : `❌ Non détecté`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'new_31',
+    name: 'Bermudes subtropical',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Bermudes été = subtropical chaud',
+    formData: {
+      pays: [{ code: 'BM', nom: 'Bermudes' }],
+      dateDepart: '2025-07-15',
+      localisation: 'amerique-nord',
+      activites: ['plage']
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasTresChaud = temps.includes('tres-chaude');
+      return {
+        passed: hasTresChaud,
+        message: hasTresChaud ? '✅ Été subtropical' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+
+  // Tests supplémentaires Europe de l'Est
+  {
+    id: 'new_32',
+    name: 'Roumanie Transylvanie',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Roumanie hiver = continental froid',
+    formData: {
+      pays: [{ code: 'RO', nom: 'Roumanie' }],
+      dateDepart: '2026-01-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasFroid = temps.includes('froide') || temps.includes('tres-froide');
+      return {
+        passed: hasFroid,
+        message: hasFroid ? '✅ Hiver carpates' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new_33',
+    name: 'Bulgarie mer Noire été',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Bulgarie juillet = chaud',
+    formData: {
+      pays: [{ code: 'BG', nom: 'Bulgarie' }],
+      dateDepart: '2025-07-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Été balkanique' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new_34',
+    name: 'Serbie Belgrade continental',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Serbie = continental classique',
+    formData: {
+      pays: [{ code: 'RS', nom: 'Serbie' }],
+      dateDepart: '2025-07-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Été continental chaud' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new_35',
+    name: 'Bosnie Mostar',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Bosnie été = continental chaud',
+    formData: {
+      pays: [{ code: 'BA', nom: 'Bosnie-Herzégovine' }],
+      dateDepart: '2025-07-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Été balkanique' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new_36',
+    name: 'Slovaquie Tatras',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Slovaquie = montagne continentale',
+    formData: {
+      pays: [{ code: 'SK', nom: 'Slovaquie' }],
+      dateDepart: '2026-01-15',
+      localisation: 'europe',
+      activites: ['sports-hiver']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasNeige = sugg.some(s => s.conditionId === 'climat_neige');
+      return {
+        passed: hasNeige,
+        message: hasNeige ? '✅ Ski dans les Tatras' : `❌ Non détecté`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'new_37',
+    name: 'Azerbaïdjan Bakou Caspienne',
+    category: '12. Nouvelles destinations 2025',
+    description: 'Azerbaïdjan été = subtropical',
+    formData: {
+      pays: [{ code: 'AZ', nom: 'Azerbaïdjan' }],
+      dateDepart: '2025-07-15',
+      localisation: 'asie'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Été subtropical Caspienne' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  }
+];
+
+// ==========================================
 // MAIN TEST RUNNER
 // ==========================================
 
@@ -1359,7 +2142,8 @@ function runAllTests(): void {
     ...extendedAfricaTests,
     ...extendedAsiaTests,
     ...extendedEuropeTests,
-    ...extendedAmericasTests
+    ...extendedAmericasTests,
+    ...newDestinations2025Tests
   ];
 
   const results: TestReport[] = [];
