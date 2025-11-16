@@ -10,10 +10,8 @@ import { Step6Checkout } from "@/components/FormWizard/Step6Checkout";
 import { FormData } from "@/types/form";
 import { ArrowLeft, ArrowRight, Download } from "lucide-react";
 import { toast } from "sonner";
-import { checklistData } from "@/utils/checklistUtils";
 import { generateCompleteChecklist, getChecklistSummary } from "@/utils/checklistGenerator";
 
-const ALL_SECTION_CODES = checklistData.categories.options.map((cat: any) => cat.id);
 const Generator = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<FormData>({
