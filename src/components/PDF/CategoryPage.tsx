@@ -1,5 +1,7 @@
 import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
+import { GeneratedChecklistSection } from '@/utils/checklistGenerator';
+import { PDFIcon } from './PDFIcon';
 import { GeneratedChecklistSection, ChecklistItem } from '@/utils/checklistGenerator';
 import { calculateDeadline } from '@/utils/filterItems';
 
@@ -75,13 +77,18 @@ const styles = StyleSheet.create({
     color: '#374151',
     lineHeight: 1.4
   },
+  conseilContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginLeft: 14,
+    marginTop: 2
+  },
   conseilText: {
     fontSize: 6.5,
     color: '#616161',
-    marginLeft: 14,
-    marginTop: 1,
     fontStyle: 'italic',
-    lineHeight: 1.3
+    lineHeight: 1.3,
+    flex: 1
   },
   prioritySymbol: {
     fontSize: 7,
@@ -244,6 +251,41 @@ export const CategoryPage = ({ formData, category, title }: CategoryPageProps) =
     <Page size="A4" style={styles.page}>
       <Text style={styles.title}>{cleanTextForPDF(title)}</Text>
 
+      {category.items.map((item, index) => {
+        const hasConseil = item.conseils && item.conseils.trim().length > 0;
+
+        return hasConseil ? (
+          // Item avec conseil
+          <View style={styles.itemWithConseil} key={item.id || `item-${index}`}>
+            <View style={styles.itemRow}>
+              <View style={styles.checkbox} />
+              <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+              {item.priorite && (
+                <Text style={[styles.priority, getPriorityStyle(item.priorite)]}>
+                  {getPriorityStars(item.priorite)}
+                </Text>
+              )}
+            </View>
+            <View style={styles.conseilContainer}>
+              <PDFIcon name="lightbulb" style={{ marginRight: 4, marginTop: 1 }} />
+              <Text style={styles.conseilText}>
+                {cleanTextForPDF(item.conseils)}
+              </Text>
+            </View>
+          </View>
+        ) : (
+          // Item sans conseil
+          <View style={styles.item} key={item.id || `item-${index}`}>
+            <View style={styles.checkbox} />
+            <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+            {item.priorite && (
+              <Text style={[styles.priority, getPriorityStyle(item.priorite)]}>
+                {getPriorityStars(item.priorite)}
+              </Text>
+            )}
+          </View>
+        );
+      })}
       {/* Timeline sections */}
       {renderTimelineSection(timelines.j90_j60, 'J-90 à J-60 (3 mois à 2 mois avant)')}
       {renderTimelineSection(timelines.j30_j14, 'J-30 à J-14 (1 mois à 2 semaines avant)')}

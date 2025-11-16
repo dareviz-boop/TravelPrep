@@ -1,6 +1,7 @@
 import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
 import checklistCompleteData from '@/data/checklistComplete.json';
+import { PDFIcon } from './PDFIcon';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
 // Helvetica ne supporte PAS les emojis Unicode, ils apparaissent corrompus
@@ -79,6 +80,12 @@ const styles = StyleSheet.create({
   infoLabel: {
     color: '#6b7280',
     width: 80,
+    fontWeight: 600,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  labelText: {
+    color: '#6b7280',
     fontWeight: 600
   },
   infoValue: {
@@ -261,6 +268,10 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
         {/* Date & Durée */}
         {formData.dateRetour && duration ? (
           <View style={styles.infoRow}>
+            <View style={styles.infoLabel}>
+              <PDFIcon name="calendar" />
+              <Text style={styles.labelText}>Date :</Text>
+            </View>
             <Text style={styles.infoLabel}>Date :</Text>
             <Text style={styles.infoValue}>
               {formatDate(formData.dateDepart)} {'->'} {formatDate(formData.dateRetour)} / {duration} jours
@@ -268,6 +279,10 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
           </View>
         ) : (
           <View style={styles.infoRow}>
+            <View style={styles.infoLabel}>
+              <PDFIcon name="calendar" />
+              <Text style={styles.labelText}>Départ :</Text>
+            </View>
             <Text style={styles.infoLabel}>Depart :</Text>
             <Text style={styles.infoValue}>
               {formatDate(formData.dateDepart)} / {getDureeEstimee()}
@@ -277,6 +292,10 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
 
         {/* Destination */}
         <View style={styles.infoRow}>
+          <View style={styles.infoLabel}>
+            <PDFIcon name="globe" />
+            <Text style={styles.labelText}>Destination :</Text>
+          </View>
           <Text style={styles.infoLabel}>Destination :</Text>
           <Text style={styles.infoValue}>{getLocalisationLabel()}</Text>
         </View>
@@ -284,6 +303,10 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
         {/* Pays */}
         {getPaysLabels() && (
           <View style={styles.infoRow}>
+            <View style={styles.infoLabel}>
+              <PDFIcon name="map" />
+              <Text style={styles.labelText}>Pays :</Text>
+            </View>
             <Text style={styles.infoLabel}>Pays :</Text>
             <Text style={styles.infoValue}>{getPaysLabels()}</Text>
           </View>
@@ -292,6 +315,10 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
         {/* Saisons */}
         {getSaisonsLabels() && (
           <View style={styles.infoRow}>
+            <View style={styles.infoLabel}>
+              <PDFIcon name="leaf" />
+              <Text style={styles.labelText}>Saison :</Text>
+            </View>
             <Text style={styles.infoLabel}>Saison :</Text>
             <Text style={styles.infoValue}>{getSaisonsLabels()}</Text>
           </View>
@@ -300,6 +327,10 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
         {/* Températures */}
         {getTemperaturesLabels() && (
           <View style={styles.infoRow}>
+            <View style={styles.infoLabel}>
+              <PDFIcon name="thermometer" />
+              <Text style={styles.labelText}>Température :</Text>
+            </View>
             <Text style={styles.infoLabel}>Temperature :</Text>
             <Text style={styles.infoValue}>{getTemperaturesLabels()}</Text>
           </View>
@@ -308,6 +339,10 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
         {/* Conditions Climatiques */}
         {getConditionsClimatiquesLabels() && (
           <View style={styles.infoRow}>
+            <View style={styles.infoLabel}>
+              <PDFIcon name="cloud" />
+              <Text style={styles.labelText}>Climat :</Text>
+            </View>
             <Text style={styles.infoLabel}>Climat :</Text>
             <Text style={styles.infoValue}>{getConditionsClimatiquesLabels()}</Text>
           </View>
@@ -315,6 +350,10 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
 
         {/* Profil */}
         <View style={styles.infoRow}>
+          <View style={styles.infoLabel}>
+            <PDFIcon name="user" />
+            <Text style={styles.labelText}>Profil :</Text>
+          </View>
           <Text style={styles.infoLabel}>Profil :</Text>
           <Text style={styles.infoValue}>
             {getProfilLabel()}
@@ -327,6 +366,10 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
         {/* Activités */}
         {formData.activites.length > 0 && (
           <View style={styles.infoRow}>
+            <View style={styles.infoLabel}>
+              <PDFIcon name="activity" />
+              <Text style={styles.labelText}>Activités :</Text>
+            </View>
             <Text style={styles.infoLabel}>Activites :</Text>
             <Text style={styles.infoValue}>{getActivitesLabels()}</Text>
           </View>
@@ -335,6 +378,10 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
         {/* Type de Voyage */}
         {formData.typeVoyage && (
           <View style={styles.infoRow}>
+            <View style={styles.infoLabel}>
+              <PDFIcon name="plane" />
+              <Text style={styles.labelText}>Type :</Text>
+            </View>
             <Text style={styles.infoLabel}>Type :</Text>
             <Text style={styles.infoValue}>{getTypeVoyageLabel()}</Text>
           </View>
@@ -343,6 +390,10 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
         {/* Confort */}
         {formData.confort && (
           <View style={styles.infoRow}>
+            <View style={styles.infoLabel}>
+              <PDFIcon name="bed" />
+              <Text style={styles.labelText}>Confort :</Text>
+            </View>
             <Text style={styles.infoLabel}>Confort :</Text>
             <Text style={styles.infoValue}>{getConfortLabel()}</Text>
           </View>

@@ -2,6 +2,7 @@ import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
 import { GeneratedChecklist, ChecklistItem } from '@/utils/checklistGenerator';
 import { calculateDeadline } from '@/utils/filterItems';
+import { PDFIcon } from './PDFIcon';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
 // Helvetica ne supporte PAS les emojis Unicode, ils apparaissent corrompus
@@ -96,13 +97,18 @@ const styles = StyleSheet.create({
     fontSize: 8,
     color: '#374151'
   },
+  conseilContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginLeft: 14,
+    marginTop: 2
+  },
   conseilText: {
     fontSize: 6.5,
     color: '#616161',
-    marginLeft: 14,
-    marginTop: 1,
     fontStyle: 'italic',
-    lineHeight: 1.3
+    lineHeight: 1.3,
+    flex: 1
   },
   deadline: {
     fontSize: 7,
@@ -263,9 +269,12 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
                         </Text>
                       )}
                     </View>
-                    <Text style={styles.conseilText}>
-                      💡 {cleanTextForPDF(item.conseils)}
-                    </Text>
+                    <View style={styles.conseilContainer}>
+                      <PDFIcon name="lightbulb" style={{ marginRight: 4, marginTop: 1 }} />
+                      <Text style={styles.conseilText}>
+                        {cleanTextForPDF(item.conseils)}
+                      </Text>
+                    </View>
                   </View>
                 ) : (
                   // Item sans conseil
