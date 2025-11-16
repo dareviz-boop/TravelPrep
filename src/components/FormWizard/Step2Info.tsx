@@ -1,6 +1,6 @@
 // Step 2 Info.tsx
 
-import React from "react";
+import React, { useState, useRef } from "react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { useEffect } from "react";
 import { generateAutoSuggestions, autoDetectSeasons, autoDetectTemperatures } from "@/utils/checklistFilters";
 import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 interface Step2InfoProps {
   formData: FormData;
@@ -53,6 +54,12 @@ const renderMarkdown = (text: string) => {
 };
 
 export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
+
+  // État local pour stocker les suggestions recommandées (pour afficher la pastille)
+  const [recommendedConditions, setRecommendedConditions] = useState<Set<string>>(new Set());
+
+  // Ref pour tracker si l'utilisateur a modifié manuellement les conditions climatiques
+  const hasUserModifiedConditionsRef = useRef(false);
 
   /**
    * 🌍 Auto-détection des saisons : Attribution automatique selon pays, date et durée
@@ -100,33 +107,41 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
   /**
    * 🔄 Auto-suggestions : Pré-sélectionner automatiquement les conditions recommandées
-   * Déclenché quand destination, température ou saison changent
+   * Déclenché dès qu'on a destination, pays et dates (première visite de l'étape 2)
    *
-   * Note : Les suggestions sont générées dès qu'on a une destination et des dates,
-   * même si température/saison ne sont pas encore renseignées (certaines suggestions
-   * dépendent uniquement de la destination et de la période)
+   * ✨ Améliorations :
+   * - Se déclenche dès la première visite (sans attendre température/saison)
+   * - Préserve les sélections manuelles de l'utilisateur
+   * - Stocke les suggestions pour afficher la pastille "Recommandé"
    */
   useEffect(() => {
-    // Vérifier qu'on a au moins une destination et une date de départ
-    if (!formData.localisation || !formData.dateDepart) {
+    // Vérifier qu'on a au moins une destination, des pays et une date de départ
+    if (!formData.localisation || !formData.dateDepart || !formData.pays || formData.pays.length === 0) {
       return;
     }
 
     const suggestions = generateAutoSuggestions(formData);
 
     if (suggestions.length > 0) {
-      const current = formData.conditionsClimatiques || [];
-      const filtered = current.filter(id => id !== 'climat_aucune');
+      // Stocker les IDs des suggestions recommandées
+      const suggestedIds = new Set(suggestions.map(s => s.conditionId));
+      setRecommendedConditions(suggestedIds);
 
-      // Ajouter toutes les suggestions qui ne sont pas déjà sélectionnées
-      const newSuggestions = suggestions
-        .map(s => s.conditionId)
-        .filter(id => !filtered.includes(id));
+      // Ne pré-sélectionner QUE si l'utilisateur n'a pas encore modifié manuellement
+      if (!hasUserModifiedConditionsRef.current) {
+        const current = formData.conditionsClimatiques || [];
+        const filtered = current.filter(id => id !== 'climat_aucune');
 
-      if (newSuggestions.length > 0) {
-        updateFormData({
-          conditionsClimatiques: [...filtered, ...newSuggestions]
-        });
+        // Ajouter toutes les suggestions qui ne sont pas déjà sélectionnées
+        const newSuggestions = suggestions
+          .map(s => s.conditionId)
+          .filter(id => !filtered.includes(id));
+
+        if (newSuggestions.length > 0) {
+          updateFormData({
+            conditionsClimatiques: [...filtered, ...newSuggestions]
+          });
+        }
       }
     }
   }, [formData.localisation, formData.pays, formData.temperature, formData.saison, formData.dateDepart, formData.dateRetour]);
@@ -177,9 +192,13 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
 
   /**
-   * Logique pour les conditions climatiques spéciales (Inchangement)
+   * Logique pour les conditions climatiques spéciales
+   * ✨ Amélioration : Marque que l'utilisateur a modifié manuellement
    */
   const handleConditionToggle = (conditionId: string) => {
+    // Marquer que l'utilisateur a fait une modification manuelle
+    hasUserModifiedConditionsRef.current = true;
+
     const current = formData.conditionsClimatiques || [];
 
     if (conditionId === 'climat_aucune') {
@@ -390,23 +409,24 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {groupe.options.map((condition) => {
-                  const initialSelection = formData.conditionsClimatiques || []; 
+                  const initialSelection = formData.conditionsClimatiques || [];
                   const isSelected = initialSelection.includes(condition.id);
+                  const isRecommended = recommendedConditions.has(condition.id);
 
                   const [emoji, ...labelParts] = condition.nom.split(' ');
                   const title = labelParts.join(' ').trim();
-                  
+
                   return (
-                    <div key={condition.id}>
+                    <div key={condition.id} className="relative">
                       {/* 1. L'INPUT Checkbox (invisible) */}
                       <Checkbox
                         value={condition.id}
                         id={`condition-${condition.id}`}
-                        className="peer sr-only" 
+                        className="peer sr-only"
                         checked={isSelected}
-                        onCheckedChange={() => handleConditionToggle(condition.id)} 
+                        onCheckedChange={() => handleConditionToggle(condition.id)}
                       />
-                      
+
                       {/* 2. Le LABEL englobe TOUT le design de la carte et la rend cliquable */}
                       <Label
                         htmlFor={`condition-${condition.id}`}
@@ -419,9 +439,18 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                       >
                         {/* 3. Le contenu de la carte */}
                         <span className="flex-1 cursor-pointer">
-                            <p className="font-semibold text-base flex items-center">
-                                <span className="mr-2">{emoji}</span>
-                                {title}
+                            <p className="font-semibold text-base flex items-center gap-2">
+                                <span>{emoji}</span>
+                                <span className="flex-1">{title}</span>
+                                {/* Pastille "Recommandé" si cette condition est suggérée */}
+                                {isRecommended && (
+                                  <Badge
+                                    variant="secondary"
+                                    className="text-[10px] px-1.5 py-0 h-4 bg-primary/10 text-primary border-primary/20 font-medium"
+                                  >
+                                    Recommandé
+                                  </Badge>
+                                )}
                             </p>
                         </span>
                       </Label>
