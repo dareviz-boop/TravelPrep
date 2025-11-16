@@ -29,6 +29,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  globeEmoji: {
+    fontSize: 40,
+    textAlign: 'center',
+    marginTop: 10,
+    marginBottom: 8
+  },
   title: {
     fontSize: 24,
     fontWeight: 700,
@@ -103,15 +109,13 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
   };
 
   const getActivitesLabels = () => {
-    if (!referenceData.activites) return '';
-    return formData.activites
-      .map(act => referenceData.activites[act]?.label)
-      .filter(Boolean)
-      .join(', ');
     const activitesMap: any = checklistCompleteData.activites || {};
     return cleanTextForPDF(
       formData.activites
-        .map(actId => activitesMap[actId]?.label || actId)
+        .map(actId => {
+          const activite = activitesMap[actId];
+          return activite ? `${activite.emoji || ''} ${activite.label}`.trim() : actId;
+        })
         .filter(Boolean)
         .join(', ')
     );
@@ -124,7 +128,8 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
 
   const getProfilLabel = () => {
     const profils: any = checklistCompleteData.profils || {};
-    return cleanTextForPDF(profils[formData.profil]?.label || formData.profil);
+    const profil = profils[formData.profil];
+    return profil ? `${profil.emoji || ''} ${profil.label}`.trim() : formData.profil;
   };
 
   const getPaysLabels = () => {
@@ -137,10 +142,20 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
   const getTemperaturesLabels = () => {
     const temps: any = checklistCompleteData.temperatures || {};
     const tempArray = Array.isArray(formData.temperature) ? formData.temperature : [formData.temperature];
+    const filtered = tempArray.filter(t => t !== 'inconnue');
+
+    // Si toutes les températures sont sélectionnées (5 températures : très-froide, froide, temperee, chaude, très-chaude)
+    const allTemps = ['tres-froide', 'froide', 'temperee', 'chaude', 'tres-chaude'];
+    if (filtered.length === allTemps.length && allTemps.every(t => filtered.includes(t))) {
+      return 'Toutes, de très froides à très chaudes';
+    }
+
     return cleanTextForPDF(
-      tempArray
-        .filter(t => t !== 'inconnue')
-        .map(t => temps.options?.find((opt: any) => opt.id === t)?.nom || t)
+      filtered
+        .map(t => {
+          const option = temps.options?.find((opt: any) => opt.id === t);
+          return option ? `${option.emoji || ''} ${option.nom}`.trim() : t;
+        })
         .join(', ')
     );
   };
@@ -148,10 +163,20 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
   const getSaisonsLabels = () => {
     const saisons: any = checklistCompleteData.saisons || {};
     const saisonArray = Array.isArray(formData.saison) ? formData.saison : [formData.saison];
+    const filtered = saisonArray.filter(s => s !== 'inconnue');
+
+    // Si toutes les saisons sont sélectionnées (4 saisons : ete, hiver, printemps, automne)
+    const allSaisons = ['ete', 'hiver', 'printemps', 'automne'];
+    if (filtered.length === allSaisons.length && allSaisons.every(s => filtered.includes(s))) {
+      return 'Toutes les saisons';
+    }
+
     return cleanTextForPDF(
-      saisonArray
-        .filter(s => s !== 'inconnue')
-        .map(s => saisons.options?.find((opt: any) => opt.id === s)?.nom || s)
+      filtered
+        .map(s => {
+          const option = saisons.options?.find((opt: any) => opt.id === s);
+          return option ? `${option.emoji || ''} ${option.nom}`.trim() : s;
+        })
         .join(', ')
     );
   };
@@ -174,7 +199,7 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
         .slice(0, 5) // Limiter à 5 conditions max pour ne pas surcharger
         .map(condId => {
           const cond = allConditions.find((c: any) => c.id === condId);
-          return cond?.nom || condId;
+          return cond ? `${cond.emoji || ''} ${cond.nom}`.trim() : condId;
         })
         .join(', ')
     );
@@ -182,12 +207,14 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
 
   const getTypeVoyageLabel = () => {
     const types: any = checklistCompleteData.typeVoyage || {};
-    return cleanTextForPDF(types[formData.typeVoyage]?.label || formData.typeVoyage);
+    const type = types[formData.typeVoyage];
+    return type ? `${type.emoji || ''} ${type.label}`.trim() : formData.typeVoyage;
   };
 
   const getConfortLabel = () => {
     const conforts: any = checklistCompleteData.confort || {};
-    return cleanTextForPDF(conforts[formData.confort]?.label || formData.confort);
+    const confort = conforts[formData.confort];
+    return confort ? `${confort.emoji || ''} ${confort.label}`.trim() : formData.confort;
   };
 
   const duration = calculateDuration();
@@ -217,8 +244,9 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
 
   return (
     <Page size="A4" style={styles.page}>
+      <Text style={styles.globeEmoji}>🌍</Text>
       <Text style={styles.title}>TRAVELPREP</Text>
-      <Text style={styles.subtitle}>Votre Guide de Preparation au Voyage</Text>
+      <Text style={styles.subtitle}>Votre Guide de Préparation au Voyage</Text>
 
       <Text style={styles.tripName}>{cleanTextForPDF(formData.nomVoyage)}</Text>
 
@@ -228,7 +256,7 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>📅 Date :</Text>
             <Text style={styles.infoValue}>
-              {formatDate(formData.dateDepart)} ➞ {formatDate(formData.dateRetour)} / {duration} jours
+              {formatDate(formData.dateDepart)} → {formatDate(formData.dateRetour)} / {duration} jours
             </Text>
           </View>
         ) : (

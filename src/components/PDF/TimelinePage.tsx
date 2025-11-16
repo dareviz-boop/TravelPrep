@@ -96,20 +96,9 @@ const styles = StyleSheet.create({
     width: 60,
     textAlign: 'right'
   },
-  priority: {
-    fontSize: 7,
-    fontWeight: 600,
-    width: 45,
-    textAlign: 'center'
-  },
-  priorityHigh: {
-    color: '#ef4444'
-  },
-  priorityMedium: {
-    color: '#f59e0b'
-  },
-  priorityLow: {
-    color: '#3b82f6'
+  priorityEmoji: {
+    fontSize: 9,
+    marginRight: 4
   }
 });
 
@@ -143,6 +132,11 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
     };
 
     checklistData.sections.forEach(section => {
+      // En mode détaillé, exclure les activités de la timeline principale
+      if (isDetailed && section.source === 'activite') {
+        return; // Skip les sections d'activités
+      }
+
       section.items.forEach(item => {
         const itemWithSection: TimelineItem = {
           ...item,
@@ -171,19 +165,27 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
     return timelines;
   };
 
-  const getPriorityStars = (priorite?: string) => {
+  const getPriorityEmoji = (priorite?: string) => {
     const p = priorite?.toLowerCase() || '';
-    if (p.includes('haute')) return 'HAUTE';
-    if (p.includes('moyenne')) return 'MOYENNE';
-    if (p.includes('basse')) return 'BASSE';
-    return 'MOYENNE';
+    if (p.includes('haute')) return '🔥';
+    if (p.includes('basse')) return '🌱';
+    return '☀️'; // moyenne
   };
 
-  const getPriorityStyle = (priorite?: string) => {
-    const p = priorite?.toLowerCase() || '';
-    if (p.includes('haute')) return styles.priorityHigh;
-    if (p.includes('basse')) return styles.priorityLow;
-    return styles.priorityMedium;
+  // Fonction pour extraire le numéro de jours du délai (J-90 -> 90)
+  const extractDelayNumber = (delai?: string): number => {
+    if (!delai) return 0;
+    const match = delai.match(/J-(\d+)/);
+    return match ? parseInt(match[1]) : 0;
+  };
+
+  // Fonction pour trier les items par ordre chronologique (du plus lointain au plus proche)
+  const sortItemsByDelay = (items: TimelineItem[]): TimelineItem[] => {
+    return [...items].sort((a, b) => {
+      const delayA = extractDelayNumber(a.delai);
+      const delayB = extractDelayNumber(b.delai);
+      return delayB - delayA; // Ordre décroissant : J-90 avant J-7
+    });
   };
 
   const renderTimelineSection = (items: TimelineItem[], title: string) => {
@@ -214,12 +216,15 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
           const categoryItems = itemsByCategory[categoryName];
           const emoji = categoryItems[0]?.sectionEmoji || '';
 
+          // Trier les items par ordre chronologique dans cette catégorie
+          const sortedCategoryItems = sortItemsByDelay(categoryItems);
+
           return (
             <View key={categoryName}>
               <Text style={styles.categoryTitle}>
                 {emoji} {cleanTextForPDF(categoryName)}
               </Text>
-              {categoryItems.map((item, index) => {
+              {sortedCategoryItems.map((item, index) => {
                 // Vérifier si on doit afficher le conseil
                 const shouldShowConseil = isDetailed && item.conseils && item.sectionSource !== 'activite';
 
@@ -227,15 +232,15 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
                   // Item avec conseil
                   <View style={styles.itemWithConseil} key={`${item.id || index}-${item.item}`}>
                     <View style={styles.itemRow}>
+                      {item.priorite && (
+                        <Text style={styles.priorityEmoji}>
+                          {getPriorityEmoji(item.priorite)}
+                        </Text>
+                      )}
                       <View style={styles.checkbox} />
                       <Text style={styles.itemText}>
                         {cleanTextForPDF(item.item)}
                       </Text>
-                      {item.priorite && (
-                        <Text style={[styles.priority, getPriorityStyle(item.priorite)]}>
-                          {getPriorityStars(item.priorite)}
-                        </Text>
-                      )}
                       {item.delai && formData.dateDepart && (
                         <Text style={styles.deadline}>
                           {calculateDeadline(formData.dateDepart, item.delai)}
@@ -249,15 +254,15 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
                 ) : (
                   // Item sans conseil
                   <View style={styles.item} key={`${item.id || index}-${item.item}`}>
+                    {item.priorite && (
+                      <Text style={styles.priorityEmoji}>
+                        {getPriorityEmoji(item.priorite)}
+                      </Text>
+                    )}
                     <View style={styles.checkbox} />
                     <Text style={styles.itemText}>
                       {cleanTextForPDF(item.item)}
                     </Text>
-                    {item.priorite && (
-                      <Text style={[styles.priority, getPriorityStyle(item.priorite)]}>
-                        {getPriorityStars(item.priorite)}
-                      </Text>
-                    )}
                     {item.delai && formData.dateDepart && (
                       <Text style={styles.deadline}>
                         {calculateDeadline(formData.dateDepart, item.delai)}

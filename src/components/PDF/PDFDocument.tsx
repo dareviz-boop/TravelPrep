@@ -4,6 +4,7 @@ import { GeneratedChecklist } from '@/utils/checklistGenerator';
 import { CoverPage } from './CoverPage';
 import { TimelinePage } from './TimelinePage';
 import { CategoryPage } from './CategoryPage';
+import { CompactPage } from './CompactPage';
 import { BagagesPage } from './BagagesPage';
 import checklistCompleteData from '@/data/checklistComplete.json';
 
@@ -34,17 +35,26 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
   return (
     <Document>
       <CoverPage formData={formData} checklistData={checklistData} referenceData={checklistCompleteData} />
-      <TimelinePage formData={formData} checklistData={checklistData} isDetailed={isDetailedPDF} />
 
-      {/* Render activity category pages only if detailed PDF */}
-      {isDetailedPDF && activiteSections.map((section) => (
-        <CategoryPage
-          key={section.id}
-          formData={formData}
-          category={section}
-          title={section.nom}
-        />
-      ))}
+      {isDetailedPDF ? (
+        <>
+          {/* Format détaillé : Timeline sans activités + pages par activité avec timeline */}
+          <TimelinePage formData={formData} checklistData={checklistData} isDetailed={true} />
+          {activiteSections.map((section) => (
+            <CategoryPage
+              key={section.id}
+              formData={formData}
+              category={section}
+              title={section.nom}
+            />
+          ))}
+        </>
+      ) : (
+        <>
+          {/* Format compact : Page compacte avec toutes les sections */}
+          <CompactPage formData={formData} checklistData={checklistData} />
+        </>
+      )}
     </Document>
   );
 };
