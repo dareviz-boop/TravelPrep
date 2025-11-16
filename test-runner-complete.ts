@@ -2123,6 +2123,638 @@ const newDestinations2025Tests: TestCase[] = [
 ];
 
 // ==========================================
+// TESTS - 24 NOUVELLES DESTINATIONS (150 destinations total)
+// ==========================================
+
+const newDestinations24Tests: TestCase[] = [
+  // Europe Nordique
+  {
+    id: 'new24_01',
+    name: 'Norvège fjords été',
+    category: '13. Extension 150 destinations',
+    description: 'Norvège juillet = fjords climat tempéré',
+    formData: {
+      pays: [{ code: 'NO', nom: 'Norvège' }],
+      dateDepart: '2025-07-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasTemperee = temps.includes('temperee');
+      return {
+        passed: hasTemperee,
+        message: hasTemperee ? '✅ Été norvégien tempéré' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new24_02',
+    name: 'Norvège hiver froid',
+    category: '13. Extension 150 destinations',
+    description: 'Norvège janvier = très froid',
+    formData: {
+      pays: [{ code: 'NO', nom: 'Norvège' }],
+      dateDepart: '2026-01-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasFroid = temps.includes('froide') || temps.includes('tres-froide');
+      return {
+        passed: hasFroid,
+        message: hasFroid ? '✅ Hiver arctique norvégien' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new24_03',
+    name: 'Suède Stockholm été',
+    category: '13. Extension 150 destinations',
+    description: 'Suède juillet = été tempéré',
+    formData: {
+      pays: [{ code: 'SE', nom: 'Suède' }],
+      dateDepart: '2025-07-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasTemperee = temps.includes('temperee');
+      return {
+        passed: hasTemperee,
+        message: hasTemperee ? '✅ Été scandinave' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new24_04',
+    name: 'Hongrie Budapest été',
+    category: '13. Extension 150 destinations',
+    description: 'Hongrie juillet = chaud continental',
+    formData: {
+      pays: [{ code: 'HU', nom: 'Hongrie' }],
+      dateDepart: '2025-07-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Été danubien chaud' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new24_05',
+    name: 'Luxembourg tempéré',
+    category: '13. Extension 150 destinations',
+    description: 'Luxembourg été = océanique tempéré',
+    formData: {
+      pays: [{ code: 'LU', nom: 'Luxembourg' }],
+      dateDepart: '2025-07-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasTemperee = temps.includes('temperee');
+      return {
+        passed: hasTemperee,
+        message: hasTemperee ? '✅ Climat luxembourgeois' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new24_06',
+    name: 'Moldavie continental',
+    category: '13. Extension 150 destinations',
+    description: 'Moldavie été = continental chaud',
+    formData: {
+      pays: [{ code: 'MD', nom: 'Moldavie' }],
+      dateDepart: '2025-07-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Été moldave' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new24_07',
+    name: 'Ukraine Kiev hiver',
+    category: '13. Extension 150 destinations',
+    description: 'Ukraine janvier = très froid',
+    formData: {
+      pays: [{ code: 'UA', nom: 'Ukraine' }],
+      dateDepart: '2026-01-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasFroid = temps.includes('froide') || temps.includes('tres-froide');
+      return {
+        passed: hasFroid,
+        message: hasFroid ? '✅ Hiver ukrainien rigoureux' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+
+  // Caraïbes
+  {
+    id: 'new24_08',
+    name: 'Grenade plage paradis',
+    category: '13. Extension 150 destinations',
+    description: 'Grenade = tropical constant chaud',
+    formData: {
+      pays: [{ code: 'GD', nom: 'Grenade' }],
+      dateDepart: '2025-12-15',
+      localisation: 'amerique-centrale-caraibes',
+      activites: ['plage']
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Paradis caribéen' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new24_09',
+    name: 'Sainte-Lucie plongée',
+    category: '13. Extension 150 destinations',
+    description: 'Sainte-Lucie = environnement marin',
+    formData: {
+      pays: [{ code: 'LC', nom: 'Sainte-Lucie' }],
+      dateDepart: '2025-07-15',
+      localisation: 'amerique-centrale-caraibes',
+      activites: ['plage', 'sports-nautiques']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasMarin = sugg.some(s => s.conditionId === 'climat_marin');
+      return {
+        passed: hasMarin,
+        message: hasMarin ? '✅ Environnement marin caribéen' : `❌ Non détecté`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'new24_10',
+    name: 'Antigua cyclones septembre',
+    category: '13. Extension 150 destinations',
+    description: 'Antigua septembre = saison cyclones',
+    formData: {
+      pays: [{ code: 'AG', nom: 'Antigua-et-Barbuda' }],
+      dateDepart: '2025-09-15',
+      localisation: 'amerique-centrale-caraibes',
+      temperature: ['tres-chaude']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasCyclone = sugg.some(s => s.conditionId === 'climat_cyclones');
+      return {
+        passed: hasCyclone,
+        message: hasCyclone ? '✅ Saison cyclonique Atlantique' : `❌ Non détectée`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'new24_11',
+    name: 'Trinidad tropical constant',
+    category: '13. Extension 150 destinations',
+    description: 'Trinidad = climat équatorial',
+    formData: {
+      pays: [{ code: 'TT', nom: 'Trinidad-et-Tobago' }],
+      dateDepart: '2025-07-15',
+      localisation: 'amerique-centrale-caraibes'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Tropical constant' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new24_12',
+    name: 'Saint-Vincent Grenadines',
+    category: '13. Extension 150 destinations',
+    description: 'Saint-Vincent = paradis tropical',
+    formData: {
+      pays: [{ code: 'VC', nom: 'Saint-Vincent-et-les-Grenadines' }],
+      dateDepart: '2025-12-15',
+      localisation: 'amerique-centrale-caraibes',
+      activites: ['plage']
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Îles Grenadines' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new24_13',
+    name: 'Dominique nature',
+    category: '13. Extension 150 destinations',
+    description: 'Dominique = jungle tropicale',
+    formData: {
+      pays: [{ code: 'DM', nom: 'Dominique' }],
+      dateDepart: '2025-07-15',
+      localisation: 'amerique-centrale-caraibes',
+      activites: ['randonnee']
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Nature tropicale' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+
+  // Asie Centrale
+  {
+    id: 'new24_14',
+    name: 'Kazakhstan steppe froide',
+    category: '13. Extension 150 destinations',
+    description: 'Kazakhstan janvier = très froid',
+    formData: {
+      pays: [{ code: 'KZ', nom: 'Kazakhstan' }],
+      dateDepart: '2026-01-15',
+      localisation: 'asie'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasTresFroid = temps.includes('tres-froide');
+      return {
+        passed: hasTresFroid,
+        message: hasTresFroid ? '✅ Hiver sibérien' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new24_15',
+    name: 'Kirghizistan montagne',
+    category: '13. Extension 150 destinations',
+    description: 'Kirghizistan = altitude froide',
+    formData: {
+      pays: [{ code: 'KG', nom: 'Kirghizistan' }],
+      dateDepart: '2026-01-15',
+      localisation: 'asie',
+      activites: ['randonnee']
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const sugg = generateAutoSuggestions(fd);
+      const hasFroid = temps.includes('froide') || temps.includes('tres-froide');
+      const hasAltitude = sugg.some(s => s.conditionId.includes('altitude'));
+      return {
+        passed: hasFroid,
+        message: hasFroid ? '✅ Altitude kirghize' : `❌ Échec`,
+        details: { temps, altitude: hasAltitude }
+      };
+    }
+  },
+  {
+    id: 'new24_16',
+    name: 'Tadjikistan Pamir',
+    category: '13. Extension 150 destinations',
+    description: 'Tadjikistan = haute montagne',
+    formData: {
+      pays: [{ code: 'TJ', nom: 'Tadjikistan' }],
+      dateDepart: '2025-07-15',
+      localisation: 'asie',
+      activites: ['randonnee']
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Été du Pamir' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new24_17',
+    name: 'Brunei équatorial',
+    category: '13. Extension 150 destinations',
+    description: 'Brunei = équatorial constant',
+    formData: {
+      pays: [{ code: 'BN', nom: 'Brunei' }],
+      dateDepart: '2025-07-15',
+      localisation: 'asie'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Climat équatorial Bornéo' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+
+  // Afrique
+  {
+    id: 'new24_18',
+    name: 'Cap-Vert plage toute année',
+    category: '13. Extension 150 destinations',
+    description: 'Cap-Vert = tropical sec',
+    formData: {
+      pays: [{ code: 'CV', nom: 'Cap-Vert' }],
+      dateDepart: '2025-12-15',
+      localisation: 'afrique',
+      activites: ['plage']
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Archipel cap-verdien' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new24_19',
+    name: 'Comores cyclones',
+    category: '13. Extension 150 destinations',
+    description: 'Comores janvier = cyclones Océan Indien',
+    formData: {
+      pays: [{ code: 'KM', nom: 'Comores' }],
+      dateDepart: '2026-01-15',
+      localisation: 'afrique'
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasCyclone = sugg.some(s => s.conditionId === 'climat_cyclones');
+      return {
+        passed: hasCyclone,
+        message: hasCyclone ? '✅ Saison cyclonique Comores' : `❌ Non détectée`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'new24_20',
+    name: 'São Tomé équateur',
+    category: '13. Extension 150 destinations',
+    description: 'São Tomé = équatorial constant',
+    formData: {
+      pays: [{ code: 'ST', nom: 'São Tomé-et-Príncipe' }],
+      dateDepart: '2025-07-15',
+      localisation: 'afrique'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Équateur africain' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new24_21',
+    name: 'Malawi lac',
+    category: '13. Extension 150 destinations',
+    description: 'Malawi hiver austral',
+    formData: {
+      pays: [{ code: 'MW', nom: 'Malawi' }],
+      dateDepart: '2025-07-15',
+      localisation: 'afrique'
+    },
+    validate: (fd) => {
+      const seasons = autoDetectSeasons(fd);
+      const hasWinter = seasons.includes('hiver');
+      return {
+        passed: hasWinter,
+        message: hasWinter ? '✅ Hiver austral sec' : `❌ Échec`,
+        details: { seasons }
+      };
+    }
+  },
+  {
+    id: 'new24_22',
+    name: 'Lesotho montagne altitude',
+    category: '13. Extension 150 destinations',
+    description: 'Lesotho = royaume montagneux',
+    formData: {
+      pays: [{ code: 'LS', nom: 'Lesotho' }],
+      dateDepart: '2025-07-15',
+      localisation: 'afrique',
+      activites: ['randonnee']
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasFroid = temps.includes('froide');
+      return {
+        passed: hasFroid,
+        message: hasFroid ? '✅ Montagne lesothane' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new24_23',
+    name: 'Eswatini subtropical',
+    category: '13. Extension 150 destinations',
+    description: 'Eswatini hiver = doux',
+    formData: {
+      pays: [{ code: 'SZ', nom: 'Eswatini' }],
+      dateDepart: '2025-07-15',
+      localisation: 'afrique'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasTemperee = temps.includes('temperee');
+      return {
+        passed: hasTemperee,
+        message: hasTemperee ? '✅ Hiver subtropical doux' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+
+  // Amérique du Sud
+  {
+    id: 'new24_24',
+    name: 'Guyana jungle équatoriale',
+    category: '13. Extension 150 destinations',
+    description: 'Guyana = jungle amazonienne',
+    formData: {
+      pays: [{ code: 'GY', nom: 'Guyana' }],
+      dateDepart: '2025-07-15',
+      localisation: 'amerique-sud',
+      activites: ['randonnee']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasJungle = sugg.some(s => s.conditionId === 'climat_jungle_dense');
+      return {
+        passed: hasJungle,
+        message: hasJungle ? '✅ Jungle guyanaise' : `❌ Non détectée`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'new24_25',
+    name: 'Suriname équatorial',
+    category: '13. Extension 150 destinations',
+    description: 'Suriname = tropical constant',
+    formData: {
+      pays: [{ code: 'SR', nom: 'Suriname' }],
+      dateDepart: '2025-07-15',
+      localisation: 'amerique-sud'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Équatorial surinamais' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+
+  // Tests supplémentaires de couverture
+  {
+    id: 'new24_26',
+    name: 'Norvège aurores boréales',
+    category: '13. Extension 150 destinations',
+    description: 'Norvège hiver = froid intense',
+    formData: {
+      pays: [{ code: 'NO', nom: 'Norvège' }],
+      dateDepart: '2026-01-15',
+      localisation: 'europe',
+      temperature: ['tres-froide']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasFroidIntense = sugg.some(s => s.conditionId === 'climat_froid_intense');
+      return {
+        passed: hasFroidIntense,
+        message: hasFroidIntense ? '✅ Froid polaire détecté' : `❌ Non détecté`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'new24_27',
+    name: 'Kazakhstan été chaud',
+    category: '13. Extension 150 destinations',
+    description: 'Kazakhstan juillet = chaud continental',
+    formData: {
+      pays: [{ code: 'KZ', nom: 'Kazakhstan' }],
+      dateDepart: '2025-07-15',
+      localisation: 'asie'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Été continental' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new24_28',
+    name: 'Hongrie hiver froid',
+    category: '13. Extension 150 destinations',
+    description: 'Hongrie janvier = froid',
+    formData: {
+      pays: [{ code: 'HU', nom: 'Hongrie' }],
+      dateDepart: '2026-01-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasFroid = temps.includes('froide') || temps.includes('tres-froide');
+      return {
+        passed: hasFroid,
+        message: hasFroid ? '✅ Hiver hongrois' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new24_29',
+    name: 'Suède hiver polaire',
+    category: '13. Extension 150 destinations',
+    description: 'Suède janvier = froid',
+    formData: {
+      pays: [{ code: 'SE', nom: 'Suède' }],
+      dateDepart: '2026-01-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasFroid = temps.includes('froide') || temps.includes('tres-froide');
+      return {
+        passed: hasFroid,
+        message: hasFroid ? '✅ Hiver scandinave rigoureux' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'new24_30',
+    name: 'Cap-Vert désert océanique',
+    category: '13. Extension 150 destinations',
+    description: 'Cap-Vert = climat aride insulaire',
+    formData: {
+      pays: [{ code: 'CV', nom: 'Cap-Vert' }],
+      dateDepart: '2025-07-15',
+      localisation: 'afrique',
+      temperature: ['tres-chaude']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasAride = sugg.some(s => s.conditionId === 'climat_sec_aride' || s.conditionId === 'climat_desert_aride');
+      return {
+        passed: hasAride,
+        message: hasAride ? '✅ Climat aride cap-verdien' : `❌ Non détecté`,
+        details: { count: sugg.length }
+      };
+    }
+  }
+];
+
+// ==========================================
 // MAIN TEST RUNNER
 // ==========================================
 
@@ -2143,7 +2775,8 @@ function runAllTests(): void {
     ...extendedAsiaTests,
     ...extendedEuropeTests,
     ...extendedAmericasTests,
-    ...newDestinations2025Tests
+    ...newDestinations2025Tests,
+    ...newDestinations24Tests
   ];
 
   const results: TestReport[] = [];
