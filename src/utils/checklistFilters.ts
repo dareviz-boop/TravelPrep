@@ -348,35 +348,40 @@ export function autoDetectTemperatures(formData: FormData): string[] {
   // Pays très chauds (désertiques/tropicaux)
   const hotCountries = ['arabie', 'emirats', 'qatar', 'egypte', 'libye', 'niger', 'tchad', 'soudan', 'australie', 'inde'];
 
-  // Pays tropicaux chauds
-  const tropicalCountries = ['thailande', 'vietnam', 'indonesie', 'philippines', 'malaisie', 'singapour', 'bresil', 'colombie'];
+  // Pays tropicaux chauds (Asie du Sud-Est et autres)
+  const tropicalCountries = ['thailande', 'thailand', 'vietnam', 'indonesie', 'indonesia', 'philippines', 'malaisie', 'malaysia', 'singapour', 'singapore', 'bresil', 'brazil', 'colombie', 'colombia', 'cambodge', 'cambodia', 'laos', 'myanmar', 'birmanie'];
 
   formData.pays.forEach((pays: any) => {
-    const code = pays.code.toLowerCase();
+    const code = (pays.code || pays.nom || '').toLowerCase();
+    const nom = (pays.nom || '').toLowerCase();
 
     // Pays très froids
-    if (coldCountries.some(cc => code.includes(cc))) {
+    if (coldCountries.some(cc => code.includes(cc) || nom.includes(cc))) {
       if (month >= 11 || month <= 3) {
         temperatures.add('tres-froide'); // Hiver arctique
-      } else if (month >= 4 && month <= 5 || month >= 9 && month <= 10) {
+      } else if ((month >= 4 && month <= 5) || (month >= 9 && month <= 10)) {
         temperatures.add('froide'); // Printemps/automne
       } else {
         temperatures.add('temperee'); // Été court
       }
     }
     // Pays très chauds (déserts)
-    else if (hotCountries.some(hc => code.includes(hc))) {
+    else if (hotCountries.some(hc => code.includes(hc) || nom.includes(hc))) {
       if (month >= 5 && month <= 9) {
         temperatures.add('tres-chaude'); // Été désertique
       } else {
         temperatures.add('chaude'); // Hiver plus doux
       }
     }
-    // Pays tropicaux
-    else if (tropicalCountries.some(tc => code.includes(tc))) {
-      temperatures.add('chaude'); // Toute l'année chaud
-      if (month >= 3 && month <= 5) {
-        temperatures.add('tres-chaude'); // Saison chaude
+    // Pays tropicaux (Asie du Sud-Est, Amérique Latine tropicale)
+    else if (tropicalCountries.some(tc => code.includes(tc) || nom.includes(tc))) {
+      // Toute l'année : chaude ou très chaude
+      temperatures.add('chaude'); // Base minimale
+
+      // Asie du Sud-Est : pic de chaleur avant la mousson (mars-mai)
+      // + mousson chaude et humide (mai-octobre)
+      if ((month >= 3 && month <= 5) || (month >= 6 && month <= 10)) {
+        temperatures.add('tres-chaude'); // Saison chaude/mousson
       }
     }
     // Hémisphère nord tempéré (Europe, Amérique du Nord, Asie tempérée)
