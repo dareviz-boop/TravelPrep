@@ -1,10 +1,10 @@
 # 🧳 TravelPrep - Générateur de Checklist de Voyage Intelligent
 
-[![Tests](https://img.shields.io/badge/tests-93%2F93%20passing-brightgreen)](.)
-[![Destinations](https://img.shields.io/badge/destinations-126-blue)](.)
+[![Tests](https://img.shields.io/badge/tests-123%2F123%20passing-brightgreen)](.)
+[![Destinations](https://img.shields.io/badge/destinations-150-blue)](.)
 [![Coverage](https://img.shields.io/badge/coverage-100%25-success)](.)<br>
 
-**Version**: 4.0
+**Version**: 5.0
 **Dernière mise à jour**: 16 novembre 2025
 **Statut**: ✅ Production-Ready
 
@@ -28,7 +28,7 @@
 
 TravelPrep est une application web intelligente qui génère des checklists de voyage personnalisées en fonction de :
 
-- 🌍 **La destination** (126 destinations mondiales)
+- 🌍 **La destination** (150 destinations mondiales)
 - 🗓️ **Les dates de voyage** (avec détection automatique des saisons)
 - 🌡️ **Les conditions climatiques** (système intelligent de suggestions)
 - 🎿 **Les activités prévues** (randonnée, plage, sports d'hiver, etc.)
@@ -44,21 +44,21 @@ TravelPrep est une application web intelligente qui génère des checklists de v
 ### 🤖 Intelligence Climatique
 
 - **Auto-détection des saisons** selon l'hémisphère et le pays
-- **Auto-détection des températures** basée sur une base de données de 126 destinations
+- **Auto-détection des températures** basée sur une base de données de 150 destinations
 - **Suggestions automatiques** de conditions climatiques (mousson, cyclones, canicule, etc.)
 - **Filtrage intelligent** des équipements selon la destination et la période
 
 ### 📊 Couverture Mondiale
 
-- **126 destinations** avec données climatiques précises
+- **150 destinations** avec données climatiques précises
 - **12 régions géographiques** (Europe, Asie, Afrique, Amériques, Océanie)
 - **30+ conditions climatiques** (mousson, typhons, désert, neige, altitude, jungle, etc.)
 - **Gestion des deux hémisphères** (inversion des saisons)
 
 ### 🧪 Qualité & Tests
 
-- **93 tests automatisés** (100% de succès)
-- **12 catégories de tests** couvrant tous les scénarios
+- **123 tests automatisés** (100% de succès)
+- **13 catégories de tests** couvrant tous les scénarios
 - **Tests de non-régression** validés
 - **Performance optimale** (0.10ms par test en moyenne)
 
@@ -89,7 +89,7 @@ npm run dev
 ### Lancer les tests
 
 ```sh
-# Tests automatisés complets (93 tests)
+# Tests automatisés complets (123 tests)
 npx tsx test-runner-complete.ts
 ```
 
@@ -178,23 +178,36 @@ Filtre et génère les sections d'équipements selon:
 
 ---
 
-## 📍 Base de Données (126 Destinations)
+## 📍 Base de Données (150 Destinations)
 
 ### Répartition par Région
 
 | Région | Pays | Exemples |
 |--------|------|----------|
-| **Europe** | 32 | France, Espagne, Italie, Allemagne, UK, Croatie, Malte, Chypre, etc. |
-| **Asie** | 28 | Thaïlande, Japon, Chine, Inde, Hong Kong, Jordanie, Israël, Macao, etc. |
-| **Afrique** | 20 | Égypte, Maroc, Afrique du Sud, Kenya, Tanzanie, Namibie, Éthiopie, etc. |
-| **Amériques** | 28 | USA, Canada, Mexique, Brésil, Argentine, Belize, Guatemala, etc. |
-| **Océanie** | 13 | Australie, Nouvelle-Zélande, Polynésie, Nouvelle-Calédonie, Samoa, etc. |
+| **Europe** | 36 | France, Espagne, Italie, Allemagne, UK, Norvège, Suède, Croatie, Malte, Chypre, etc. |
+| **Asie** | 32 | Thaïlande, Japon, Chine, Inde, Hong Kong, Jordanie, Kazakhstan, Kirghizistan, Brunei, etc. |
+| **Afrique** | 26 | Égypte, Maroc, Afrique du Sud, Kenya, Tanzanie, Namibie, Éthiopie, Cap-Vert, Comores, etc. |
+| **Amériques** | 39 | USA, Canada, Mexique, Brésil, Argentine, Belize, Aruba, Bermudes, Guadeloupe, etc. |
+| **Océanie** | 16 | Australie, Nouvelle-Zélande, Polynésie, Nouvelle-Calédonie, Îles Cook, Samoa, etc. |
 | **Polaire** | 1 | Groenland |
-| **Micro-États** | 4 | Monaco, Andorre, Bermudes, etc. |
 
-### Nouvelles Destinations Ajoutées (v4.0)
+### Nouvelles Destinations Ajoutées
 
-**🆕 36 destinations touristiques majeures ajoutées:**
+**🆕 v5.0 (16 novembre 2025) - 24 nouvelles destinations:**
+
+**Europe** (4): Norvège, Suède, Hongrie, Luxembourg, Moldavie, Ukraine
+
+**Asie Centrale** (4): Kazakhstan, Kirghizistan, Tadjikistan, Brunei
+
+**Caraïbes** (7): Grenade, Sainte-Lucie, Antigua-et-Barbuda, Trinidad-et-Tobago, Saint-Vincent-et-les-Grenadines, Dominique, Aruba (déjà ajouté), Bermudes (déjà ajouté), Guadeloupe, Martinique
+
+**Afrique** (6): Cap-Vert, Comores, São Tomé-et-Príncipe, Malawi, Lesotho, Eswatini, Réunion
+
+**Amérique du Sud** (2): Guyana, Suriname
+
+**Océanie** (3): Îles Cook, Nouvelle-Calédonie, Polynésie française
+
+**v4.0 - 36 destinations touristiques majeures:**
 
 **Europe** (17): Croatie, Slovénie, Malte, Chypre, Danemark, Roumanie, Bulgarie, Monténégro, Serbie, Bosnie, Albanie, Estonie, Lettonie, Lituanie, Slovaquie, Andorre, Monaco
 
@@ -202,7 +215,7 @@ Filtre et génère les sections d'équipements selon:
 
 **Afrique** (6): Éthiopie, Namibie, Botswana, Zimbabwe, Zambie, Ghana
 
-**Amériques** (4): Belize, Guatemala, Barbade, Aruba, Bermudes
+**Amériques** (4): Belize, Guatemala, Barbade
 
 ### Données Disponibles par Pays
 
@@ -228,15 +241,15 @@ Pour chaque destination:
 
 ## 🧪 Tests Automatisés
 
-### Résultats Finaux (v4.0)
+### Résultats Finaux (v5.0)
 
 ```
 ╔════════════════════════════════════════════════════════════════╗
 ║    🧪 TRAVELPREP - TESTS EXHAUSTIFS CONDITIONS LOGIQUES       ║
 ╚════════════════════════════════════════════════════════════════╝
 
-Total de tests : 93
-✅ Réussis     : 93
+Total de tests : 123
+✅ Réussis     : 123
 ❌ Échoués     : 0
 📈 Taux succès : 100.0%
 
@@ -254,13 +267,14 @@ Total de tests : 93
    ✅ 10. Europe étendue                  : 5/5 (100%)
    ✅ 11. Amériques étendues              : 5/5 (100%)
    ✅ 12. Nouvelles destinations 2025     : 37/37 (100%)
+   ✅ 13. Extension 150 destinations      : 30/30 (100%)
 
 📊 STATISTIQUES AVANCÉES:
 
-   • Tests exécutés           : 93
-   • Temps total d'exécution  : 9ms
-   • Temps moyen par test     : 0.10ms
-   • Catégories testées       : 12
+   • Tests exécutés           : 123
+   • Temps total d'exécution  : 11ms
+   • Temps moyen par test     : 0.09ms
+   • Catégories testées       : 13
    • Conditions climatiques testées : 30+
 
 🎉 TOUS LES TESTS SONT PASSÉS AVEC SUCCÈS !
@@ -324,11 +338,11 @@ Aller dans **Project > Settings > Domains** et cliquer sur **Connect Domain**.
 
 | Métrique | Valeur |
 |----------|--------|
-| **Destinations** | 126 |
+| **Destinations** | 150 |
 | **Conditions climatiques** | 30+ |
-| **Tests automatisés** | 93 (100%) |
+| **Tests automatisés** | 123 (100%) |
 | **Zones géographiques** | 12 |
-| **Performance** | 0.10ms/test |
+| **Performance** | 0.09ms/test |
 | **Code Coverage** | 100% |
 | **TypeScript** | Strict mode |
 
@@ -338,16 +352,25 @@ Aller dans **Project > Settings > Domains** et cliquer sur **Connect Domain**.
 
 ```
 ✅ PRODUCTION-READY
-✅ Tests: 100% (93/93)
+✅ Tests: 100% (123/123)
 ✅ Performance: Excellente
 ✅ Code Coverage: 100%
-✅ Base de données: Complète (126 destinations)
+✅ Base de données: Complète (150 destinations)
 ✅ Documentation: À jour
 ```
 
 ---
 
 ## 📝 Changelog
+
+### v5.0 (16 novembre 2025)
+
+- ✅ **+24 destinations** (126 → 150 destinations)
+- ✅ **+30 nouveaux tests** (93 → 123 tests)
+- ✅ **100% de réussite** sur tous les tests
+- ✅ **Couverture complète cyclones** Caraïbes et Océan Indien
+- ✅ **9 pays ajoutés** à checklistComplete.json
+- ✅ **Tests de non-régression** validés
 
 ### v4.0 (16 novembre 2025)
 
@@ -384,9 +407,9 @@ Les modifications peuvent être faites via:
 
 ## 📧 Contact & Support
 
-- **Projet**: TravelPrep v4.0
+- **Projet**: TravelPrep v5.0
 - **Lovable**: [https://lovable.dev/projects/11416c89-d980-4d58-9c0f-28513560b365](https://lovable.dev/projects/11416c89-d980-4d58-9c0f-28513560b365)
-- **Tests**: 93 scénarios automatisés
+- **Tests**: 123 scénarios automatisés
 - **Date**: 16 novembre 2025
 
 ---

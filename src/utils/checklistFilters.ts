@@ -624,8 +624,8 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   // 🌀 CYCLONES : Zones à risque selon période
   const cycloneRegions = [
     { countryCodes: ['PH', 'TW', 'JP'], months: [7, 8, 9, 10], id: 'climat_cyclones' },
-    { countryCodes: ['CU', 'JM', 'HT', 'DO', 'BS', 'GP', 'MQ'], months: [6, 7, 8, 9, 10, 11], id: 'climat_cyclones' }, // Antilles
-    { countryCodes: ['MG', 'MZ', 'MU', 'RE', 'SC'], months: [11, 12, 1, 2, 3, 4], id: 'climat_cyclones' } // Océan Indien
+    { countryCodes: ['CU', 'JM', 'HT', 'DO', 'BS', 'GP', 'MQ', 'AG', 'LC', 'GD', 'VC', 'TT', 'DM', 'BB', 'AW', 'BM'], months: [6, 7, 8, 9, 10, 11], id: 'climat_cyclones' }, // Antilles & Caraïbes
+    { countryCodes: ['MG', 'MZ', 'MU', 'RE', 'SC', 'KM'], months: [11, 12, 1, 2, 3, 4], id: 'climat_cyclones' } // Océan Indien
   ];
 
   cycloneRegions.forEach(region => {
