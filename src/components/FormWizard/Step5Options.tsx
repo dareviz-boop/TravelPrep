@@ -115,40 +115,42 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
     }
 
     // Cas 1 : Seulement "aucune" sélectionnée
-    if (formData.conditionsClimatiques.length === 1 && formData.conditionsClimatiques[0] === 'aucune') {
+    if (formData.conditionsClimatiques.length === 1 && formData.conditionsClimatiques[0] === 'climat_aucune') {
       return (
         <span className="flex items-center gap-1">
-          {/* ✅ CORRECTION 1/3 : Réduction de la taille de la croix rouge de text-base à text-sm */}
           <span className="text-sm">❌</span>
           <span className="text-sm">Aucune condition particulière</span>
         </span>
       );
     }
 
-    // Cas 2 : Une ou plusieurs conditions réelles sélectionnées (affichage d'emojis)
-    const selectedEmojis = formData.conditionsClimatiques
-      .filter(id => id !== 'aucune') // Ignore 'aucune' s'il est sélectionné avec d'autres
-      .map(id => {
-        const detail = getOptionDetailsFromGroupedList('conditionsClimatiques', id);
-        if (detail && detail.nom) {
-          return detail.nom.split(' ')[0]; // Extrait l'emoji
-        }
-        return null;
-      })
-      .filter(Boolean);
+    // Cas 2 : Une ou plusieurs conditions réelles sélectionnées
+    const selectedConditions = formData.conditionsClimatiques.filter(id => id !== 'climat_aucune');
 
-    if (selectedEmojis.length > 0) {
+    if (selectedConditions.length > 0) {
+      const selectedEmojis = selectedConditions
+        .map(id => {
+          const detail = getOptionDetailsFromGroupedList('conditionsClimatiques', id);
+          if (detail && detail.nom) {
+            return detail.nom.split(' ')[0]; // Extrait l'emoji
+          }
+          return null;
+        })
+        .filter(Boolean);
+
       return (
-        // Utilise justify-end pour aligner les émojis à droite, même s'ils sont sur plusieurs lignes
-        <div className="flex flex-wrap gap-1 mt-1 text-base justify-end"> 
-          {selectedEmojis.map((emoji, index) => (
-            <span key={index}>{emoji}</span>
-          ))}
-        </div>
+        <span className="flex flex-col items-end">
+          {selectedConditions.length} sélectionnée(s)
+          <div className="flex flex-wrap gap-1 mt-1 text-base justify-end">
+            {selectedEmojis.map((emoji, index) => (
+              <span key={index}>{emoji}</span>
+            ))}
+          </div>
+        </span>
       );
     }
-    
-    return null; 
+
+    return null;
   })();
   // ----------------------------------------------------------------
   // Fin de la logique unifiée
