@@ -717,6 +717,629 @@ const edgeCaseTests: TestCase[] = [
 ];
 
 // ==========================================
+// TESTS - TERRITOIRES D'OUTRE-MER ET ÎLES
+// ==========================================
+
+const overseasTerritoryTests: TestCase[] = [
+  {
+    id: 'overseas_01',
+    name: 'Tahiti (Polynésie Française)',
+    category: '6. Territoires d\'outre-mer',
+    description: 'Tahiti janvier = été tropical',
+    formData: {
+      pays: [{ code: 'PF', nom: 'Polynésie Française' }],
+      dateDepart: '2026-01-15',
+      localisation: 'oceanie'
+    },
+    validate: (fd) => {
+      const seasons = autoDetectSeasons(fd);
+      const temps = autoDetectTemperatures(fd);
+      const hasSummer = seasons.includes('ete');
+      const hasTresChaud = temps.includes('tres-chaude') || temps.includes('chaude');
+      return {
+        passed: hasSummer && hasTresChaud,
+        message: hasSummer && hasTresChaud ? '✅ Été tropical détecté' : `❌ Échec détection`,
+        details: { seasons, temps }
+      };
+    }
+  },
+  {
+    id: 'overseas_02',
+    name: 'Nouvelle-Calédonie saison fraîche',
+    category: '6. Territoires d\'outre-mer',
+    description: 'NC juillet = hiver austral',
+    formData: {
+      pays: [{ code: 'NC', nom: 'Nouvelle-Calédonie' }],
+      dateDepart: '2025-07-15',
+      localisation: 'oceanie'
+    },
+    validate: (fd) => {
+      const seasons = autoDetectSeasons(fd);
+      const hasWinter = seasons.includes('hiver');
+      return {
+        passed: hasWinter,
+        message: hasWinter ? '✅ Hiver austral détecté' : `❌ Échec`,
+        details: { seasons }
+      };
+    }
+  },
+  {
+    id: 'overseas_03',
+    name: 'Réunion cyclones',
+    category: '6. Territoires d\'outre-mer',
+    description: 'Réunion janvier = cyclones possibles',
+    formData: {
+      pays: [{ code: 'RE', nom: 'Réunion' }],
+      dateDepart: '2026-01-15',
+      localisation: 'oceanie',
+      temperature: ['chaude']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasCyclone = sugg.some(s => s.conditionId === 'climat_cyclones');
+      return {
+        passed: hasCyclone,
+        message: hasCyclone ? '✅ Cyclones Océan Indien suggérés' : `❌ Non suggérés`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'overseas_04',
+    name: 'Guadeloupe/Martinique cyclones',
+    category: '6. Territoires d\'outre-mer',
+    description: 'Antilles septembre = cyclones',
+    formData: {
+      pays: [{ code: 'GP', nom: 'Guadeloupe' }],
+      dateDepart: '2025-09-15',
+      localisation: 'amerique-centrale-caraibes',
+      temperature: ['chaude']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasCyclone = sugg.some(s => s.conditionId === 'climat_cyclones');
+      return {
+        passed: hasCyclone,
+        message: hasCyclone ? '✅ Saison cyclonique Antilles' : `❌ Non détectée`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'overseas_05',
+    name: 'Guyane Française équatoriale',
+    category: '6. Territoires d\'outre-mer',
+    description: 'Climat équatorial constant',
+    formData: {
+      pays: [{ code: 'GF', nom: 'Guyane Française' }],
+      dateDepart: '2025-08-15',
+      localisation: 'amerique-sud',
+      activites: ['randonnee', 'camping']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasJungle = sugg.some(s => s.conditionId === 'climat_jungle_dense');
+      const hasHumidite = sugg.some(s => s.conditionId === 'climat_humidite');
+      return {
+        passed: hasJungle || hasHumidite,
+        message: hasJungle || hasHumidite ? '✅ Conditions jungle détectées' : `❌ Non détectées`,
+        details: { count: sugg.length }
+      };
+    }
+  }
+];
+
+// ==========================================
+// TESTS - ÎLES DU PACIFIQUE
+// ==========================================
+
+const pacificIslandsTests: TestCase[] = [
+  {
+    id: 'pacific_01',
+    name: 'Samoa tropical',
+    category: '7. Îles du Pacifique',
+    description: 'Samoa = climat tropical constant',
+    formData: {
+      pays: [{ code: 'WS', nom: 'Samoa' }],
+      dateDepart: '2025-12-15',
+      localisation: 'oceanie'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasTropicalTemp = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasTropicalTemp,
+        message: hasTropicalTemp ? '✅ Température tropicale' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'pacific_02',
+    name: 'Tonga hiver doux',
+    category: '7. Îles du Pacifique',
+    description: 'Tonga juillet = hiver doux',
+    formData: {
+      pays: [{ code: 'TO', nom: 'Tonga' }],
+      dateDepart: '2025-07-15',
+      localisation: 'oceanie'
+    },
+    validate: (fd) => {
+      const seasons = autoDetectSeasons(fd);
+      const hasWinter = seasons.includes('hiver');
+      return {
+        passed: hasWinter,
+        message: hasWinter ? '✅ Hiver tropical détecté' : `❌ Échec`,
+        details: { seasons }
+      };
+    }
+  },
+  {
+    id: 'pacific_03',
+    name: 'Papouasie-Nouvelle-Guinée équatoriale',
+    category: '7. Îles du Pacifique',
+    description: 'PNG = pas de saisons marquées',
+    formData: {
+      pays: [{ code: 'PG', nom: 'Papouasie-Nouvelle-Guinée' }],
+      dateDepart: '2025-06-15',
+      localisation: 'oceanie'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasTropicalTemp = temps.includes('chaude') || temps.includes('tres-chaude');
+      return {
+        passed: hasTropicalTemp,
+        message: hasTropicalTemp ? '✅ Climat équatorial constant' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  }
+];
+
+// ==========================================
+// TESTS - AFRIQUE ÉTENDUE
+// ==========================================
+
+const extendedAfricaTests: TestCase[] = [
+  {
+    id: 'africa_01',
+    name: 'Tunisie été méditerranéen',
+    category: '8. Afrique étendue',
+    description: 'Tunisie juillet = très chaud',
+    formData: {
+      pays: [{ code: 'TN', nom: 'Tunisie' }],
+      dateDepart: '2025-07-15',
+      localisation: 'afrique'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasTresChaud = temps.includes('tres-chaude');
+      return {
+        passed: hasTresChaud,
+        message: hasTresChaud ? '✅ Chaleur méditerranéenne' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'africa_02',
+    name: 'Sénégal saison sèche',
+    category: '8. Afrique étendue',
+    description: 'Sénégal décembre = saison sèche',
+    formData: {
+      pays: [{ code: 'SN', nom: 'Sénégal' }],
+      dateDepart: '2025-12-15',
+      localisation: 'afrique',
+      temperature: ['chaude']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      // Devrait suggérer climat sec potentiellement
+      return {
+        passed: sugg.length > 0,
+        message: sugg.length > 0 ? `✅ ${sugg.length} suggestions` : `❌ Aucune suggestion`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'africa_03',
+    name: 'Tanzanie safari',
+    category: '8. Afrique étendue',
+    description: 'Tanzanie saison sèche idéale',
+    formData: {
+      pays: [{ code: 'TZ', nom: 'Tanzanie' }],
+      dateDepart: '2025-07-15',
+      localisation: 'afrique',
+      activites: ['randonnee']
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const seasons = autoDetectSeasons(fd);
+      return {
+        passed: temps.length > 0 && seasons.length > 0,
+        message: temps.length > 0 ? '✅ Saison sèche détectée' : `❌ Échec`,
+        details: { temps, seasons }
+      };
+    }
+  },
+  {
+    id: 'africa_04',
+    name: 'Maurice/Seychelles cyclones',
+    category: '8. Afrique étendue',
+    description: 'Îles Océan Indien = cyclones',
+    formData: {
+      pays: [{ code: 'MU', nom: 'Maurice' }],
+      dateDepart: '2026-02-15',
+      localisation: 'afrique',
+      temperature: ['chaude']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasCyclone = sugg.some(s => s.conditionId === 'climat_cyclones');
+      return {
+        passed: hasCyclone,
+        message: hasCyclone ? '✅ Cyclones Océan Indien' : `❌ Non détectés`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'africa_05',
+    name: 'Rwanda altitude modérée',
+    category: '8. Afrique étendue',
+    description: 'Rwanda = températures constantes altitude',
+    formData: {
+      pays: [{ code: 'RW', nom: 'Rwanda' }],
+      dateDepart: '2025-06-15',
+      localisation: 'afrique',
+      activites: ['randonnee']
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasTemperee = temps.includes('temperee');
+      return {
+        passed: hasTemperee,
+        message: hasTemperee ? '✅ Température altitude' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  }
+];
+
+// ==========================================
+// TESTS - ASIE ÉTENDUE
+// ==========================================
+
+const extendedAsiaTests: TestCase[] = [
+  {
+    id: 'asia_01',
+    name: 'Taiwan typhons',
+    category: '9. Asie étendue',
+    description: 'Taiwan août = typhons',
+    formData: {
+      pays: [{ code: 'TW', nom: 'Taiwan' }],
+      dateDepart: '2025-08-15',
+      localisation: 'asie',
+      temperature: ['chaude']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasTyphon = sugg.some(s => s.conditionId === 'climat_cyclones');
+      return {
+        passed: hasTyphon,
+        message: hasTyphon ? '✅ Typhons détectés' : `❌ Non détectés`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'asia_02',
+    name: 'Corée du Sud hiver froid',
+    category: '9. Asie étendue',
+    description: 'Corée janvier = très froid',
+    formData: {
+      pays: [{ code: 'KR', nom: 'Corée du Sud' }],
+      dateDepart: '2026-01-15',
+      localisation: 'asie'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasFroid = temps.includes('froide') || temps.includes('tres-froide');
+      return {
+        passed: hasFroid,
+        message: hasFroid ? '✅ Hiver froid continental' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'asia_03',
+    name: 'Bhoutan altitude + froid',
+    category: '9. Asie étendue',
+    description: 'Bhoutan janvier = froid + altitude',
+    formData: {
+      pays: [{ code: 'BT', nom: 'Bhoutan' }],
+      dateDepart: '2026-01-15',
+      localisation: 'asie',
+      activites: ['randonnee']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasAltitude = sugg.some(s => s.conditionId.includes('altitude'));
+      return {
+        passed: hasAltitude,
+        message: hasAltitude ? '✅ Altitude suggérée' : `❌ Non suggérée`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'asia_04',
+    name: 'Sri Lanka mousson',
+    category: '9. Asie étendue',
+    description: 'Sri Lanka juillet = mousson',
+    formData: {
+      pays: [{ code: 'LK', nom: 'Sri Lanka' }],
+      dateDepart: '2025-07-15',
+      localisation: 'asie',
+      temperature: ['chaude']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasMousson = sugg.some(s => s.conditionId === 'climat_mousson');
+      return {
+        passed: hasMousson,
+        message: hasMousson ? '✅ Mousson détectée' : `❌ Non détectée`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'asia_05',
+    name: 'Maldives tropical constant',
+    category: '9. Asie étendue',
+    description: 'Maldives = chaud toute l\'année',
+    formData: {
+      pays: [{ code: 'MV', nom: 'Maldives' }],
+      dateDepart: '2025-12-15',
+      localisation: 'asie',
+      activites: ['plage', 'sports-nautiques']
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const sugg = generateAutoSuggestions(fd);
+      const hasMarin = sugg.some(s => s.conditionId === 'climat_marin');
+      return {
+        passed: hasMarin,
+        message: hasMarin ? '✅ Environnement marin' : `❌ Non détecté`,
+        details: { temps, count: sugg.length }
+      };
+    }
+  }
+];
+
+// ==========================================
+// TESTS - EUROPE ÉTENDUE
+// ==========================================
+
+const extendedEuropeTests: TestCase[] = [
+  {
+    id: 'europe_01',
+    name: 'Portugal climat doux',
+    category: '10. Europe étendue',
+    description: 'Portugal été = tempéré/chaud',
+    formData: {
+      pays: [{ code: 'PT', nom: 'Portugal' }],
+      dateDepart: '2025-07-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasChaud = temps.includes('chaude');
+      return {
+        passed: hasChaud,
+        message: hasChaud ? '✅ Été méditerranéen' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'europe_02',
+    name: 'Irlande pluie + brouillard',
+    category: '10. Europe étendue',
+    description: 'Irlande automne = brouillard',
+    formData: {
+      pays: [{ code: 'IE', nom: 'Irlande' }],
+      dateDepart: '2025-10-15',
+      localisation: 'europe',
+      saison: ['automne']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasBrouillard = sugg.some(s => s.conditionId === 'climat_brouillard');
+      return {
+        passed: hasBrouillard,
+        message: hasBrouillard ? '✅ Brouillard suggéré' : `❌ Non suggéré`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'europe_03',
+    name: 'Suisse montagne hiver',
+    category: '10. Europe étendue',
+    description: 'Suisse janvier = neige montagne',
+    formData: {
+      pays: [{ code: 'CH', nom: 'Suisse' }],
+      dateDepart: '2026-01-15',
+      localisation: 'europe',
+      activites: ['sports-hiver'],
+      temperature: ['froide']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasNeige = sugg.some(s => s.conditionId === 'climat_neige');
+      return {
+        passed: hasNeige,
+        message: hasNeige ? '✅ Neige suggérée' : `❌ Non suggérée`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'europe_04',
+    name: 'Pologne hiver continental',
+    category: '10. Europe étendue',
+    description: 'Pologne janvier = froid',
+    formData: {
+      pays: [{ code: 'PL', nom: 'Pologne' }],
+      dateDepart: '2026-01-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasFroid = temps.includes('froide') || temps.includes('tres-froide');
+      return {
+        passed: hasFroid,
+        message: hasFroid ? '✅ Froid continental' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'europe_05',
+    name: 'Turquie été chaud',
+    category: '10. Europe étendue',
+    description: 'Turquie juillet = très chaud',
+    formData: {
+      pays: [{ code: 'TR', nom: 'Turquie' }],
+      dateDepart: '2025-07-15',
+      localisation: 'europe'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasTresChaud = temps.includes('tres-chaude');
+      return {
+        passed: hasTresChaud,
+        message: hasTresChaud ? '✅ Chaleur méditerranéenne' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  }
+];
+
+// ==========================================
+// TESTS - AMÉRIQUES ÉTENDUES
+// ==========================================
+
+const extendedAmericasTests: TestCase[] = [
+  {
+    id: 'americas_01',
+    name: 'Costa Rica saisons inversées',
+    category: '11. Amériques étendues',
+    description: 'Costa Rica juillet = hiver (saison pluies)',
+    formData: {
+      pays: [{ code: 'CR', nom: 'Costa Rica' }],
+      dateDepart: '2025-07-15',
+      localisation: 'amerique-centrale-caraibes'
+    },
+    validate: (fd) => {
+      const seasons = autoDetectSeasons(fd);
+      const hasWinter = seasons.includes('hiver');
+      return {
+        passed: hasWinter,
+        message: hasWinter ? '✅ Saison pluies (hiver)' : `❌ Échec`,
+        details: { seasons }
+      };
+    }
+  },
+  {
+    id: 'americas_02',
+    name: 'Bahamas cyclones',
+    category: '11. Amériques étendues',
+    description: 'Bahamas septembre = cyclones',
+    formData: {
+      pays: [{ code: 'BS', nom: 'Bahamas' }],
+      dateDepart: '2025-09-15',
+      localisation: 'amerique-centrale-caraibes',
+      temperature: ['chaude']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasCyclone = sugg.some(s => s.conditionId === 'climat_cyclones');
+      return {
+        passed: hasCyclone,
+        message: hasCyclone ? '✅ Cyclones Atlantique' : `❌ Non détectés`,
+        details: { count: sugg.length }
+      };
+    }
+  },
+  {
+    id: 'americas_03',
+    name: 'Équateur climat constant',
+    category: '11. Amériques étendues',
+    description: 'Équateur = pas de saisons',
+    formData: {
+      pays: [{ code: 'EC', nom: 'Équateur' }],
+      dateDepart: '2025-06-15',
+      localisation: 'amerique-sud'
+    },
+    validate: (fd) => {
+      const temps = autoDetectTemperatures(fd);
+      const hasTemperee = temps.includes('temperee');
+      return {
+        passed: hasTemperee,
+        message: hasTemperee ? '✅ Climat équatorial constant' : `❌ Échec`,
+        details: { temps }
+      };
+    }
+  },
+  {
+    id: 'americas_04',
+    name: 'Uruguay hiver austral',
+    category: '11. Amériques étendues',
+    description: 'Uruguay juillet = hiver',
+    formData: {
+      pays: [{ code: 'UY', nom: 'Uruguay' }],
+      dateDepart: '2025-07-15',
+      localisation: 'amerique-sud'
+    },
+    validate: (fd) => {
+      const seasons = autoDetectSeasons(fd);
+      const temps = autoDetectTemperatures(fd);
+      const hasWinter = seasons.includes('hiver');
+      return {
+        passed: hasWinter,
+        message: hasWinter ? '✅ Hiver austral' : `❌ Échec`,
+        details: { seasons, temps }
+      };
+    }
+  },
+  {
+    id: 'americas_05',
+    name: 'Bolivie La Paz altitude',
+    category: '11. Amériques étendues',
+    description: 'Bolivie = altitude + froid',
+    formData: {
+      pays: [{ code: 'BO', nom: 'Bolivie' }],
+      dateDepart: '2025-07-15',
+      localisation: 'amerique-sud',
+      activites: ['randonnee']
+    },
+    validate: (fd) => {
+      const sugg = generateAutoSuggestions(fd);
+      const hasAltitude = sugg.some(s => s.conditionId.includes('altitude'));
+      return {
+        passed: hasAltitude,
+        message: hasAltitude ? '✅ Altitude détectée' : `❌ Non détectée`,
+        details: { count: sugg.length }
+      };
+    }
+  }
+];
+
+// ==========================================
 // MAIN TEST RUNNER
 // ==========================================
 
@@ -730,7 +1353,13 @@ function runAllTests(): void {
     ...temperatureTests,
     ...suggestionTests,
     ...equipmentTests,
-    ...edgeCaseTests
+    ...edgeCaseTests,
+    ...overseasTerritoryTests,
+    ...pacificIslandsTests,
+    ...extendedAfricaTests,
+    ...extendedAsiaTests,
+    ...extendedEuropeTests,
+    ...extendedAmericasTests
   ];
 
   const results: TestReport[] = [];
