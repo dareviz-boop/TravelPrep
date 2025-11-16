@@ -438,14 +438,6 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                 return;
               }
 
-              // Vérifier que la date de départ est avant la date de retour
-              if (formData.dateRetour) {
-                const dateRetour = new Date(formData.dateRetour);
-                if (selectedDate >= dateRetour) {
-                  toast({
-                    title: "Date invalide",
-                    description: "❌ La date de départ doit être avant la date de retour",
-                    variant: "destructive"
               // Format YYYY-MM-DD sans problème de fuseau horaire
               const dateString = formatDateToString(selectedDate);
 
@@ -463,8 +455,6 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                 }
               }
 
-              // Format YYYY-MM-DD
-              const dateString = selectedDate.toISOString().split('T')[0];
               updateFormData({ dateDepart: dateString });
             }}
             minDate={getTomorrowDate()}
