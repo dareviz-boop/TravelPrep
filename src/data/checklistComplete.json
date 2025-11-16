@@ -1,11 +1,11 @@
 {
   "metadata": {
-    "version": "3.0",
-    "lastUpdated": "2025-10-12",
+    "version": "3.1",
+    "lastUpdated": "2025-11-16",
     "totalItems": 750,
-    "totalPays": 263,
+    "totalPays": 232,
     "categories": 20,
-    "noteExpert": "Version complète fusionnée - Parties 1+2+3"
+    "noteExpert": "Version complète enrichie - Tous les pays et territoires ajoutés"
   },
   
   "localisations": {
@@ -57,7 +57,8 @@
         {"code": "SI", "nom": "Slovénie", "nomEn": "Slovenia", "flag": "🇸🇮"},
         {"code": "SE", "nom": "Suède", "nomEn": "Sweden", "flag": "🇸🇪"},
         {"code": "UA", "nom": "Ukraine", "nomEn": "Ukraine", "flag": "🇺🇦"},
-        {"code": "VA", "nom": "Vatican", "nomEn": "Vatican City", "flag": "🇻🇦"}
+        {"code": "VA", "nom": "Vatican", "nomEn": "Vatican City", "flag": "🇻🇦"},
+        {"code": "MK", "nom": "Macédoine du Nord", "nomEn": "North Macedonia", "flag": "🇲🇰"}
       ]
     },
     "asie": {
@@ -112,7 +113,8 @@
         {"code": "TR", "nom": "Turquie", "nomEn": "Turkey", "flag": "🇹🇷"},
         {"code": "AE", "nom": "Émirats arabes unis", "nomEn": "United Arab Emirates", "flag": "🇦🇪"},
         {"code": "UZ", "nom": "Ouzbékistan", "nomEn": "Uzbekistan", "flag": "🇺🇿"},
-        {"code": "TW", "nom": "Taïwan", "nomEn": "Taiwan", "flag": "🇹🇼"}
+        {"code": "TW", "nom": "Taïwan", "nomEn": "Taiwan", "flag": "🇹🇼"},
+        {"code": "YE", "nom": "Yémen", "nomEn": "Yemen", "flag": "🇾🇪"}
       ]
     },
     "afrique": {
@@ -184,7 +186,8 @@
         {"code": "US", "nom": "États-Unis", "nomEn": "United States", "flag": "🇺🇸"},
         {"code": "CA", "nom": "Canada", "nomEn": "Canada", "flag": "🇨🇦"},
         {"code": "GL", "nom": "Groenland", "nomEn": "Greenland", "flag": "🇬🇱"},
-        {"code": "MX", "nom": "Mexique", "nomEn": "Mexico", "flag": "🇲🇽"}
+        {"code": "MX", "nom": "Mexique", "nomEn": "Mexico", "flag": "🇲🇽"},
+        {"code": "PR", "nom": "Porto Rico", "nomEn": "Puerto Rico", "flag": "🇵🇷"}
       ]
     },
     "amerique-centrale-caraibes": {
@@ -213,7 +216,18 @@
         {"code": "KN", "nom": "Saint-Christophe-et-Niévès", "nomEn": "Saint Kitts and Nevis", "flag": "🇰🇳"},
         {"code": "LC", "nom": "Sainte-Lucie", "nomEn": "Saint Lucia", "flag": "🇱🇨"},
         {"code": "VC", "nom": "Saint-Vincent-et-les-Grenadines", "nomEn": "Saint Vincent and the Grenadines", "flag": "🇻🇨"},
-        {"code": "TT", "nom": "Trinité-et-Tobago", "nomEn": "Trinidad and Tobago", "flag": "🇹🇹"}
+        {"code": "TT", "nom": "Trinité-et-Tobago", "nomEn": "Trinidad and Tobago", "flag": "🇹🇹"},
+        {"code": "DM", "nom": "Dominique", "nomEn": "Dominica", "flag": "🇩🇲"},
+        {"code": "CW", "nom": "Curaçao", "nomEn": "Curaçao", "flag": "🇨🇼"},
+        {"code": "SX", "nom": "Sint Maarten", "nomEn": "Sint Maarten", "flag": "🇸🇽"},
+        {"code": "MF", "nom": "Saint-Martin", "nomEn": "Saint Martin", "flag": "🇲🇫"},
+        {"code": "KY", "nom": "Îles Caïmans", "nomEn": "Cayman Islands", "flag": "🇰🇾"},
+        {"code": "TC", "nom": "Îles Turques-et-Caïques", "nomEn": "Turks and Caicos Islands", "flag": "🇹🇨"},
+        {"code": "VG", "nom": "Îles Vierges britanniques", "nomEn": "British Virgin Islands", "flag": "🇻🇬"},
+        {"code": "VI", "nom": "Îles Vierges américaines", "nomEn": "US Virgin Islands", "flag": "🇻🇮"},
+        {"code": "AI", "nom": "Anguilla", "nomEn": "Anguilla", "flag": "🇦🇮"},
+        {"code": "BL", "nom": "Saint-Barthélemy", "nomEn": "Saint Barthélemy", "flag": "🇧🇱"},
+        {"code": "MS", "nom": "Montserrat", "nomEn": "Montserrat", "flag": "🇲🇸"}
       ]
     },
     "amerique-sud": {
@@ -232,7 +246,8 @@
         {"code": "UY", "nom": "Uruguay", "nomEn": "Uruguay", "flag": "🇺🇾"},
         {"code": "GY", "nom": "Guyana", "nomEn": "Guyana", "flag": "🇬🇾"},
         {"code": "SR", "nom": "Suriname", "nomEn": "Suriname", "flag": "🇸🇷"},
-        {"code": "GF", "nom": "Guyane française", "nomEn": "French Guiana", "flag": "🇬🇫"}
+        {"code": "GF", "nom": "Guyane française", "nomEn": "French Guiana", "flag": "🇬🇫"},
+        {"code": "FK", "nom": "Îles Falkland", "nomEn": "Falkland Islands", "flag": "🇫🇰"}
       ]
     },
     "oceanie": {
@@ -255,7 +270,14 @@
         {"code": "FM", "nom": "Micronésie", "nomEn": "Micronesia", "flag": "🇫🇲"},
         {"code": "MH", "nom": "Îles Marshall", "nomEn": "Marshall Islands", "flag": "🇲🇭"},
         {"code": "PW", "nom": "Palaos", "nomEn": "Palau", "flag": "🇵🇼"},
-        {"code": "NR", "nom": "Nauru", "nomEn": "Nauru", "flag": "🇳🇷"}
+        {"code": "NR", "nom": "Nauru", "nomEn": "Nauru", "flag": "🇳🇷"},
+        {"code": "NU", "nom": "Niue", "nomEn": "Niue", "flag": "🇳🇺"},
+        {"code": "GU", "nom": "Guam", "nomEn": "Guam", "flag": "🇬🇺"},
+        {"code": "AS", "nom": "Samoa américaines", "nomEn": "American Samoa", "flag": "🇦🇸"},
+        {"code": "WF", "nom": "Wallis-et-Futuna", "nomEn": "Wallis and Futuna", "flag": "🇼🇫"},
+        {"code": "PN", "nom": "Pitcairn", "nomEn": "Pitcairn Islands", "flag": "🇵🇳"},
+        {"code": "TK", "nom": "Tokelau", "nomEn": "Tokelau", "flag": "🇹🇰"},
+        {"code": "MP", "nom": "Îles Mariannes du Nord", "nomEn": "Northern Mariana Islands", "flag": "🇲🇵"}
       ]
     },
     "multi-destinations": {
