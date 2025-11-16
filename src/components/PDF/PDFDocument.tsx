@@ -28,13 +28,16 @@ interface PDFDocumentProps {
 export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => {
   const isDetailedPDF = formData.formatPDF === 'detaille';
 
+  // Filtrer uniquement les sections d'activités pour les pages détaillées
+  const activiteSections = checklistData.sections.filter(section => section.source === 'activite');
+
   return (
     <Document>
       <CoverPage formData={formData} checklistData={checklistData} referenceData={checklistCompleteData} />
       <TimelinePage formData={formData} checklistData={checklistData} isDetailed={isDetailedPDF} />
 
-      {/* Render category pages only if detailed PDF with advice/tips */}
-      {isDetailedPDF && checklistData.sections.map((section) => (
+      {/* Render activity category pages only if detailed PDF */}
+      {isDetailedPDF && activiteSections.map((section) => (
         <CategoryPage
           key={section.id}
           formData={formData}

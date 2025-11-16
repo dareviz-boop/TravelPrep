@@ -61,6 +61,15 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     paddingLeft: 5
   },
+  itemWithConseil: {
+    flexDirection: 'column',
+    marginBottom: 6,
+    paddingLeft: 5
+  },
+  itemRow: {
+    flexDirection: 'row',
+    marginBottom: 2
+  },
   checkbox: {
     width: 8,
     height: 8,
@@ -72,6 +81,14 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 8,
     color: '#374151'
+  },
+  conseilText: {
+    fontSize: 6.5,
+    color: '#616161',
+    marginLeft: 14,
+    marginTop: 1,
+    fontStyle: 'italic',
+    lineHeight: 1.3
   },
   deadline: {
     fontSize: 7,
@@ -105,6 +122,7 @@ interface TimelinePageProps {
 interface TimelineItem extends ChecklistItem {
   sectionName: string;
   sectionEmoji?: string;
+  sectionSource?: 'core' | 'activite' | 'climat' | 'destination_specifique';
 }
 
 export const TimelinePage = ({ formData, checklistData, isDetailed = false }: TimelinePageProps) => {
@@ -129,7 +147,8 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
         const itemWithSection: TimelineItem = {
           ...item,
           sectionName: section.nom,
-          sectionEmoji: section.emoji
+          sectionEmoji: section.emoji,
+          sectionSource: section.source
         };
 
         const delai = item.delai?.toUpperCase() || '';
@@ -200,24 +219,53 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
               <Text style={styles.categoryTitle}>
                 {emoji} {cleanTextForPDF(categoryName)}
               </Text>
-              {categoryItems.map((item, index) => (
-                <View style={styles.item} key={`${item.id || index}-${item.item}`}>
-                  <View style={styles.checkbox} />
-                  <Text style={styles.itemText}>
-                    {cleanTextForPDF(item.item)}
-                  </Text>
-                  {item.priorite && (
-                    <Text style={[styles.priority, getPriorityStyle(item.priorite)]}>
-                      {getPriorityStars(item.priorite)}
+              {categoryItems.map((item, index) => {
+                // Vérifier si on doit afficher le conseil
+                const shouldShowConseil = isDetailed && item.conseils && item.sectionSource !== 'activite';
+
+                return shouldShowConseil ? (
+                  // Item avec conseil
+                  <View style={styles.itemWithConseil} key={`${item.id || index}-${item.item}`}>
+                    <View style={styles.itemRow}>
+                      <View style={styles.checkbox} />
+                      <Text style={styles.itemText}>
+                        {cleanTextForPDF(item.item)}
+                      </Text>
+                      {item.priorite && (
+                        <Text style={[styles.priority, getPriorityStyle(item.priorite)]}>
+                          {getPriorityStars(item.priorite)}
+                        </Text>
+                      )}
+                      {item.delai && formData.dateDepart && (
+                        <Text style={styles.deadline}>
+                          {calculateDeadline(formData.dateDepart, item.delai)}
+                        </Text>
+                      )}
+                    </View>
+                    <Text style={styles.conseilText}>
+                      💡 {cleanTextForPDF(item.conseils)}
                     </Text>
-                  )}
-                  {item.delai && formData.dateDepart && (
-                    <Text style={styles.deadline}>
-                      {calculateDeadline(formData.dateDepart, item.delai)}
+                  </View>
+                ) : (
+                  // Item sans conseil
+                  <View style={styles.item} key={`${item.id || index}-${item.item}`}>
+                    <View style={styles.checkbox} />
+                    <Text style={styles.itemText}>
+                      {cleanTextForPDF(item.item)}
                     </Text>
-                  )}
-                </View>
-              ))}
+                    {item.priorite && (
+                      <Text style={[styles.priority, getPriorityStyle(item.priorite)]}>
+                        {getPriorityStars(item.priorite)}
+                      </Text>
+                    )}
+                    {item.delai && formData.dateDepart && (
+                      <Text style={styles.deadline}>
+                        {calculateDeadline(formData.dateDepart, item.delai)}
+                      </Text>
+                    )}
+                  </View>
+                );
+              })}
             </View>
           );
         })}

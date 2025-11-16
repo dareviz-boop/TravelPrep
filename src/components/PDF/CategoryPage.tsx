@@ -33,6 +33,15 @@ const styles = StyleSheet.create({
     color: '#E85D2A',
     marginBottom: 15
   },
+  itemWithConseil: {
+    flexDirection: 'column',
+    marginBottom: 7,
+    paddingLeft: 3
+  },
+  itemRow: {
+    flexDirection: 'row',
+    marginBottom: 2
+  },
   item: {
     flexDirection: 'row',
     marginBottom: 5,
@@ -50,6 +59,14 @@ const styles = StyleSheet.create({
     fontSize: 8,
     color: '#374151',
     lineHeight: 1.4
+  },
+  conseilText: {
+    fontSize: 6.5,
+    color: '#616161',
+    marginLeft: 14,
+    marginTop: 1,
+    fontStyle: 'italic',
+    lineHeight: 1.3
   },
   priority: {
     fontSize: 7,
@@ -96,17 +113,38 @@ export const CategoryPage = ({ formData, category, title }: CategoryPageProps) =
     <Page size="A4" style={styles.page}>
       <Text style={styles.title}>{cleanTextForPDF(title)}</Text>
 
-      {category.items.map((item, index) => (
-        <View style={styles.item} key={item.id || `item-${index}`}>
-          <View style={styles.checkbox} />
-          <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-          {item.priorite && (
-            <Text style={[styles.priority, getPriorityStyle(item.priorite)]}>
-              {getPriorityStars(item.priorite)}
+      {category.items.map((item, index) => {
+        const hasConseil = item.conseils && item.conseils.trim().length > 0;
+
+        return hasConseil ? (
+          // Item avec conseil
+          <View style={styles.itemWithConseil} key={item.id || `item-${index}`}>
+            <View style={styles.itemRow}>
+              <View style={styles.checkbox} />
+              <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+              {item.priorite && (
+                <Text style={[styles.priority, getPriorityStyle(item.priorite)]}>
+                  {getPriorityStars(item.priorite)}
+                </Text>
+              )}
+            </View>
+            <Text style={styles.conseilText}>
+              💡 {cleanTextForPDF(item.conseils)}
             </Text>
-          )}
-        </View>
-      ))}
+          </View>
+        ) : (
+          // Item sans conseil
+          <View style={styles.item} key={item.id || `item-${index}`}>
+            <View style={styles.checkbox} />
+            <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+            {item.priorite && (
+              <Text style={[styles.priority, getPriorityStyle(item.priorite)]}>
+                {getPriorityStars(item.priorite)}
+              </Text>
+            )}
+          </View>
+        );
+      })}
     </Page>
   );
 };
