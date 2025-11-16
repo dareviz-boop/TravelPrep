@@ -23,58 +23,66 @@ const cleanTextForPDF = (text: string): string => {
 
 const styles = StyleSheet.create({
   page: {
-    fontFamily: 'Helvetica', // 🔧 FIX: Utiliser Helvetica au lieu d'Inter
-    fontSize: 10,
-    padding: 40,
+    fontFamily: 'Helvetica',
+    fontSize: 8,
+    padding: 20,
     backgroundColor: '#FFFFFF'
   },
   title: {
-    fontSize: 24,
+    fontSize: 14,
     fontWeight: 700,
-    color: '#E85D2A', // 🎨 Orange Dareviz
-    marginBottom: 30
+    color: '#E85D2A',
+    marginBottom: 15
   },
   section: {
-    marginBottom: 25,
+    marginBottom: 12,
     borderBottom: '1px solid #e5e7eb',
-    paddingBottom: 15
+    paddingBottom: 8
   },
   sectionTitle: {
-    fontSize: 14,
+    fontSize: 10,
     fontWeight: 600,
     color: '#111827',
-    marginBottom: 10,
+    marginBottom: 6,
     backgroundColor: '#f9fafb',
-    padding: 8,
-    borderLeft: '4px solid #E85D2A' // 🎨 Orange Dareviz
+    padding: 4,
+    borderLeft: '3px solid #E85D2A'
+  },
+  categoryTitle: {
+    fontSize: 8,
+    fontWeight: 600,
+    color: '#6b7280',
+    marginTop: 6,
+    marginBottom: 4,
+    marginLeft: 5
   },
   item: {
     flexDirection: 'row',
-    marginBottom: 8,
-    paddingLeft: 10
+    marginBottom: 4,
+    paddingLeft: 5
   },
   checkbox: {
-    width: 12,
-    height: 12,
-    border: '2px solid #111827',
-    marginRight: 10,
-    marginTop: 2
+    width: 8,
+    height: 8,
+    border: '1px solid #111827',
+    marginRight: 6,
+    marginTop: 1
   },
   itemText: {
     flex: 1,
-    fontSize: 10,
+    fontSize: 8,
     color: '#374151'
   },
   deadline: {
-    fontSize: 9,
+    fontSize: 7,
     color: '#6b7280',
-    width: 100,
+    width: 60,
     textAlign: 'right'
   },
   priority: {
-    fontSize: 9,
+    fontSize: 7,
     fontWeight: 600,
-    width: 30,
+    width: 45,
     textAlign: 'center'
   },
   priorityHigh: {
@@ -91,6 +99,7 @@ const styles = StyleSheet.create({
 interface TimelinePageProps {
   formData: FormData;
   checklistData: GeneratedChecklist;
+  isDetailed?: boolean;
 }
 
 interface TimelineItem extends ChecklistItem {
@@ -98,7 +107,7 @@ interface TimelineItem extends ChecklistItem {
   sectionEmoji?: string;
 }
 
-export const TimelinePage = ({ formData, checklistData }: TimelinePageProps) => {
+export const TimelinePage = ({ formData, checklistData, isDetailed = false }: TimelinePageProps) => {
   // Organize items by timeline period based on their deadline
   const organizeItemsByTimeline = () => {
     const timelines: {
@@ -146,9 +155,9 @@ export const TimelinePage = ({ formData, checklistData }: TimelinePageProps) => 
   const getPriorityStars = (priorite?: string) => {
     const p = priorite?.toLowerCase() || '';
     if (p.includes('haute')) return 'HAUTE';
-    if (p.includes('moyenne')) return 'MOY';
+    if (p.includes('moyenne')) return 'MOYENNE';
     if (p.includes('basse')) return 'BASSE';
-    return 'MOY';
+    return 'MOYENNE';
   };
 
   const getPriorityStyle = (priorite?: string) => {
@@ -161,27 +170,57 @@ export const TimelinePage = ({ formData, checklistData }: TimelinePageProps) => 
   const renderTimelineSection = (items: TimelineItem[], title: string) => {
     if (items.length === 0) return null;
 
+    // Grouper les items par catégorie
+    const itemsByCategory: { [categoryName: string]: TimelineItem[] } = {};
+
+    items.forEach(item => {
+      const categoryName = item.sectionName || 'Autres';
+      if (!itemsByCategory[categoryName]) {
+        itemsByCategory[categoryName] = [];
+      }
+      itemsByCategory[categoryName].push(item);
+    });
+
+    // Trier les catégories : Essentiels d'abord, puis les autres par ordre alphabétique
+    const sortedCategories = Object.keys(itemsByCategory).sort((a, b) => {
+      if (a.toLowerCase().includes('essentiel')) return -1;
+      if (b.toLowerCase().includes('essentiel')) return 1;
+      return a.localeCompare(b);
+    });
+
     return (
       <View style={styles.section} key={title}>
         <Text style={styles.sectionTitle}>{cleanTextForPDF(title)}</Text>
-        {items.map((item, index) => (
-          <View style={styles.item} key={`${item.id || index}-${item.item}`}>
-            <View style={styles.checkbox} />
-            <Text style={styles.itemText}>
-              {cleanTextForPDF(item.item)}
-            </Text>
-            {item.priorite && (
-              <Text style={[styles.priority, getPriorityStyle(item.priorite)]}>
-                {getPriorityStars(item.priorite)}
+        {sortedCategories.map(categoryName => {
+          const categoryItems = itemsByCategory[categoryName];
+          const emoji = categoryItems[0]?.sectionEmoji || '';
+
+          return (
+            <View key={categoryName}>
+              <Text style={styles.categoryTitle}>
+                {emoji} {cleanTextForPDF(categoryName)}
               </Text>
-            )}
-            {item.delai && formData.dateDepart && (
-              <Text style={styles.deadline}>
-                {calculateDeadline(formData.dateDepart, item.delai)}
-              </Text>
-            )}
-          </View>
-        ))}
+              {categoryItems.map((item, index) => (
+                <View style={styles.item} key={`${item.id || index}-${item.item}`}>
+                  <View style={styles.checkbox} />
+                  <Text style={styles.itemText}>
+                    {cleanTextForPDF(item.item)}
+                  </Text>
+                  {item.priorite && (
+                    <Text style={[styles.priority, getPriorityStyle(item.priorite)]}>
+                      {getPriorityStars(item.priorite)}
+                    </Text>
+                  )}
+                  {item.delai && formData.dateDepart && (
+                    <Text style={styles.deadline}>
+                      {calculateDeadline(formData.dateDepart, item.delai)}
+                    </Text>
+                  )}
+                </View>
+              ))}
+            </View>
+          );
+        })}
       </View>
     );
   };

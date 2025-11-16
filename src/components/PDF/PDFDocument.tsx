@@ -13,9 +13,9 @@ import checklistCompleteData from '@/data/checklistComplete.json';
 
 const styles = StyleSheet.create({
   page: {
-    fontFamily: 'Helvetica', // 🔧 FIX: Utiliser Helvetica au lieu d'Inter
-    fontSize: 10,
-    padding: 30,
+    fontFamily: 'Helvetica',
+    fontSize: 8,
+    padding: 20,
     backgroundColor: '#FFFFFF'
   }
 });
@@ -26,13 +26,15 @@ interface PDFDocumentProps {
 }
 
 export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => {
+  const isDetailedPDF = formData.formatPDF === 'detaille';
+
   return (
     <Document>
       <CoverPage formData={formData} checklistData={checklistData} referenceData={checklistCompleteData} />
-      <TimelinePage formData={formData} checklistData={checklistData} />
+      <TimelinePage formData={formData} checklistData={checklistData} isDetailed={isDetailedPDF} />
 
-      {/* Render all generated sections */}
-      {checklistData.sections.map((section) => (
+      {/* Render category pages only if detailed PDF with advice/tips */}
+      {isDetailedPDF && checklistData.sections.map((section) => (
         <CategoryPage
           key={section.id}
           formData={formData}
