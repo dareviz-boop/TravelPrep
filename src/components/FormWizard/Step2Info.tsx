@@ -10,7 +10,6 @@ import { cn } from "@/lib/utils";
 import { useEffect } from "react";
 import { generateAutoSuggestions, autoDetectSeasons, autoDetectTemperatures } from "@/utils/checklistFilters";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 interface Step2InfoProps {
   formData: FormData;
@@ -305,6 +304,17 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
             </h3>
             <div className="text-sm text-foreground leading-relaxed">
               {renderMarkdown(disclaimerMessage)}
+
+              {/* Légende pour l'emoji 📌 (uniquement si des recommandations existent) */}
+              {recommendedConditions.size > 0 && (
+                <>
+                  <br />
+                  <br />
+                  <span className="text-xs text-muted-foreground italic">
+                    📌 Les conditions climatiques marquées de cet emoji sont recommandées par l'application selon votre destination et vos dates.
+                  </span>
+                </>
+              )}
             </div>
           </Card>
         )}
@@ -442,14 +452,11 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                             <p className="font-semibold text-base flex items-center gap-2">
                                 <span>{emoji}</span>
                                 <span className="flex-1">{title}</span>
-                                {/* Pastille "Recommandé" si cette condition est suggérée */}
+                                {/* Emoji 📌 si cette condition est recommandée */}
                                 {isRecommended && (
-                                  <Badge
-                                    variant="secondary"
-                                    className="text-[10px] px-1.5 py-0 h-4 bg-primary/10 text-primary border-primary/20 font-medium"
-                                  >
-                                    Recommandé
-                                  </Badge>
+                                  <span className="text-primary text-sm" title="Recommandé par l'application">
+                                    📌
+                                  </span>
                                 )}
                             </p>
                         </span>
