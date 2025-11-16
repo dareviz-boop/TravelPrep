@@ -112,12 +112,67 @@ function findConditionById(conditionId: string): ClimatItem | null {
 }
 
 /**
+ * Détecte l'hémisphère d'un voyage en fonction des pays ou de la zone géographique
+ * @returns 'north' | 'south' | 'both' | null
+ */
+function detectHemisphere(
+  pays: Array<{ code?: string; nom?: string }> | undefined,
+  localisation: string
+): 'north' | 'south' | 'both' | null {
+  // PRIORITÉ 1 : Détecter via les pays sélectionnés
+  if (pays && pays.length > 0) {
+    const hemispheres = new Set<string>();
+
+    pays.forEach((p: any) => {
+      const countryCode = p.code?.toUpperCase();
+      const climate = countryCode ? getCountryClimate(countryCode) : null;
+
+      if (climate?.hemisphere) {
+        hemispheres.add(climate.hemisphere);
+      }
+    });
+
+    // Si on a trouvé des hémisphères
+    if (hemispheres.size > 0) {
+      // Si on a les deux hémisphères ou un pays "both"
+      if (hemispheres.has('both') || hemispheres.size > 1) {
+        return 'both';
+      }
+      // Sinon retourner l'unique hémisphère trouvé
+      return hemispheres.values().next().value as 'north' | 'south';
+    }
+  }
+
+  // PRIORITÉ 2 (FALLBACK) : Utiliser l'hémisphère de la zone géographique
+  const regionalClimate = getRegionalClimate(localisation);
+  if (regionalClimate?.hemisphere) {
+    return regionalClimate.hemisphere as 'north' | 'south' | 'both';
+  }
+
+  // PRIORITÉ 3 : Fallback par défaut selon localisation (basique)
+  const loc = localisation.toLowerCase();
+  if (loc.includes('europe') || loc.includes('amerique-nord') || loc.includes('asie')) {
+    return 'north';
+  }
+  if (loc.includes('oceanie') || loc.includes('amerique-sud')) {
+    return 'south';
+  }
+  if (loc.includes('afrique')) {
+    return 'both';
+  }
+
+  return null;
+}
+
+/**
  * Vérifie si une période correspond au mois de départ
+ * Avec fallback intelligent basé sur l'hémisphère
  */
 function matchesPeriode(
   periodes: Array<{ debut: number; fin: number; region?: string }>,
   dateDepart: string,
-  localisation: string
+  localisation: string,
+  pays?: Array<{ code?: string; nom?: string }>
 ): boolean {
   if (!periodes || periodes.length === 0) return true;
   if (!dateDepart) return true;
@@ -125,17 +180,86 @@ function matchesPeriode(
   const month = new Date(dateDepart).getMonth() + 1; // 1-12
 
   return periodes.some((periode) => {
-    // Si la période a une région spécifique, vérifier la correspondance
-    if (periode.region && !localisation.toLowerCase().includes(periode.region.toLowerCase())) {
-      return false;
-    }
+    // Vérifier d'abord si le mois correspond
+    let monthMatches = false;
 
     // Gérer les périodes qui traversent l'année (ex: nov-avril = 11-4)
     if (periode.debut > periode.fin) {
-      return month >= periode.debut || month <= periode.fin;
+      monthMatches = month >= periode.debut || month <= periode.fin;
+    } else {
+      monthMatches = month >= periode.debut && month <= periode.fin;
     }
 
-    return month >= periode.debut && month <= periode.fin;
+    // Si le mois ne correspond pas, on sort
+    if (!monthMatches) return false;
+
+    // Si pas de région spécifique, accepter
+    if (!periode.region) return true;
+
+    // === LOGIQUE DE MATCHING RÉGION AVEC FALLBACK ===
+
+    const regionFilter = periode.region.toLowerCase();
+    const locLower = localisation.toLowerCase();
+
+    // TENTATIVE 1 : Match direct avec localisation
+    if (locLower.includes(regionFilter)) {
+      return true;
+    }
+
+    // TENTATIVE 2 : Match avec variantes connues
+    // Ex: "Afrique Ouest" → "afrique", "Tornado Alley USA" → "amerique-nord"
+    const regionMappings: Record<string, string[]> = {
+      'afrique ouest': ['afrique'],
+      'afrique australe': ['afrique'],
+      'tornado alley usa': ['amerique-nord', 'usa', 'etats-unis'],
+      'atlantique': ['amerique-centrale-caraibes', 'amerique-nord'],
+      'pacifique': ['asie', 'oceanie', 'amerique-centrale-caraibes'],
+      'océan indien': ['afrique', 'asie', 'oceanie'],
+      'sahara': ['afrique'],
+      'australie centre': ['oceanie'],
+      'arctique': ['europe', 'amerique-nord', 'groenland', 'islande', 'norvege', 'canada', 'russie'],
+      'antarctique': ['antarctique']
+    };
+
+    for (const [key, values] of Object.entries(regionMappings)) {
+      if (regionFilter.includes(key)) {
+        if (values.some(v => locLower.includes(v))) {
+          return true;
+        }
+      }
+    }
+
+    // TENTATIVE 3 (FALLBACK) : Match basé sur l'hémisphère
+    const detectedHemisphere = detectHemisphere(pays, localisation);
+
+    if (regionFilter.includes('hémisphère nord') || regionFilter === 'hémisphère nord') {
+      return detectedHemisphere === 'north' || detectedHemisphere === 'both';
+    }
+
+    if (regionFilter.includes('hémisphère sud') || regionFilter === 'hémisphère sud') {
+      return detectedHemisphere === 'south' || detectedHemisphere === 'both';
+    }
+
+    // TENTATIVE 4 : Match zones spécifiques pour l'arctique
+    if (regionFilter === 'arctique') {
+      // Vérifier si un des pays est arctique
+      const arcticCountries = ['gl', 'is', 'no', 'se', 'fi', 'ru', 'ca'];
+      const hasArcticCountry = pays?.some((p: any) =>
+        arcticCountries.includes(p.code?.toLowerCase())
+      );
+      if (hasArcticCountry) return true;
+    }
+
+    // TENTATIVE 5 : Match zones tropicales
+    if (regionFilter.includes('zones tropicales') || regionFilter === 'zones tropicales') {
+      const regionalClimate = getRegionalClimate(localisation);
+      if (regionalClimate?.zones?.some(z => ['tropical', 'equatorial'].includes(z))) {
+        return true;
+      }
+    }
+
+    // Si aucun match, on bloque
+    return false;
   });
 }
 
@@ -213,7 +337,8 @@ export function getClimatEquipment(formData: FormData): ChecklistSection[] {
     const matchesPeriod = matchesPeriode(
       condition.filtres?.periode || [],
       formData.dateDepart,
-      formData.localisation
+      formData.localisation,
+      formData.pays
     );
 
     // 3. Filtre activités
@@ -453,9 +578,9 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   };
 
   // 🌧️ ASIE DU SUD-EST : Mousson + Climat tropical humide
-  const seTropicalCountries = ['thailande', 'thailand', 'vietnam', 'indonesie', 'indonesia', 'cambodge', 'cambodia', 'laos', 'myanmar', 'birmanie', 'philippines', 'malaisie', 'malaysia'];
+  const seTropicalCountryCodes = ['TH', 'VN', 'ID', 'KH', 'LA', 'MM', 'PH', 'MY'];
   const isSETropical = formData.pays?.some((p: any) =>
-    seTropicalCountries.some(c => (p.code || p.nom || '').toLowerCase().includes(c))
+    seTropicalCountryCodes.includes(p.code?.toUpperCase())
   );
 
   if (isSETropical) {
@@ -471,10 +596,10 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   }
 
   // 🏜️ DÉSERTS : Chaleur extrême + Aridité
-  const desertCountries = ['arabie', 'emirates', 'emirats', 'qatar', 'egypte', 'egypt', 'libye', 'libya', 'niger', 'tchad', 'chad', 'soudan', 'sudan', 'maroc', 'morocco', 'algerie', 'algeria'];
+  const desertCountryCodes = ['SA', 'AE', 'QA', 'EG', 'LY', 'NE', 'TD', 'SD', 'MA', 'DZ'];
   const isDesert = formData.pays?.some((p: any) =>
-    desertCountries.some(c => (p.code || p.nom || '').toLowerCase().includes(c))
-  ) || formData.localisation === 'afrique';
+    desertCountryCodes.includes(p.code?.toUpperCase())
+  );
 
   if (isDesert) {
     addSuggestion('climat_sec_aride', 'Climat désertique très sec', 'haute');
@@ -484,9 +609,9 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   }
 
   // ❄️ ZONES FROIDES : Neige + Froid intense
-  const coldCountries = ['groenland', 'greenland', 'islande', 'iceland', 'finlande', 'finland', 'norvege', 'norway', 'suede', 'sweden', 'alaska', 'canada', 'russie', 'russia'];
+  const coldCountryCodes = ['GL', 'IS', 'FI', 'NO', 'SE', 'CA', 'RU'];
   const isCold = formData.pays?.some((p: any) =>
-    coldCountries.some(c => (p.code || p.nom || '').toLowerCase().includes(c))
+    coldCountryCodes.includes(p.code?.toUpperCase())
   );
 
   if (isCold) {
@@ -498,14 +623,14 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
 
   // 🌀 CYCLONES : Zones à risque selon période
   const cycloneRegions = [
-    { countries: ['philippines', 'taiwan', 'japon', 'japan'], months: [7, 8, 9, 10], id: 'climat_cyclones' },
-    { countries: ['cuba', 'jamaique', 'jamaica', 'haiti', 'dominicaine', 'bahamas'], months: [6, 7, 8, 9, 10, 11], id: 'climat_cyclones' },
-    { countries: ['madagascar', 'mozambique', 'maurice', 'mauritius'], months: [11, 12, 1, 2, 3, 4], id: 'climat_cyclones' }
+    { countryCodes: ['PH', 'TW', 'JP'], months: [7, 8, 9, 10], id: 'climat_cyclones' },
+    { countryCodes: ['CU', 'JM', 'HT', 'DO', 'BS'], months: [6, 7, 8, 9, 10, 11], id: 'climat_cyclones' },
+    { countryCodes: ['MG', 'MZ', 'MU'], months: [11, 12, 1, 2, 3, 4], id: 'climat_cyclones' }
   ];
 
   cycloneRegions.forEach(region => {
     const inRegion = formData.pays?.some((p: any) =>
-      region.countries.some(c => (p.code || p.nom || '').toLowerCase().includes(c))
+      region.countryCodes.includes(p.code?.toUpperCase())
     );
     if (inRegion && region.months.includes(month)) {
       addSuggestion('climat_cyclones', 'Saison des cyclones/typhons/ouragans', 'haute');
@@ -513,9 +638,9 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   });
 
   // 🏝️ ZONES CÔTIÈRES TROPICALES : Humidité
-  const coastalTropical = ['bresil', 'brazil', 'colombie', 'colombia', 'costa rica', 'panama', 'seychelles', 'maldives', 'maurice', 'mauritius'];
+  const coastalTropicalCodes = ['BR', 'CO', 'CR', 'PA', 'SC', 'MV', 'MU'];
   const isCoastalTropical = formData.pays?.some((p: any) =>
-    coastalTropical.some(c => (p.code || p.nom || '').toLowerCase().includes(c))
+    coastalTropicalCodes.includes(p.code?.toUpperCase())
   );
 
   if (isCoastalTropical) {
@@ -619,7 +744,8 @@ export function acceptSuggestion(conditionId: string, formData: FormData): strin
   const matchesPeriod = matchesPeriode(
     condition.filtres?.periode || [],
     formData.dateDepart,
-    formData.localisation
+    formData.localisation,
+    formData.pays
   );
 
   const matchesAct = matchesActivites(
