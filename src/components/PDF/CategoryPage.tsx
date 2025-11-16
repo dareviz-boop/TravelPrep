@@ -1,6 +1,7 @@
 import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
 import { GeneratedChecklistSection } from '@/utils/checklistGenerator';
+import { PDFIcon } from './PDFIcon';
 
 // Fonction utilitaire pour nettoyer certains caractères spéciaux problématiques
 // ✨ GARDONS les emojis pour plus de personnalité dans le PDF !
@@ -60,13 +61,18 @@ const styles = StyleSheet.create({
     color: '#374151',
     lineHeight: 1.4
   },
+  conseilContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginLeft: 14,
+    marginTop: 2
+  },
   conseilText: {
     fontSize: 6.5,
     color: '#616161',
-    marginLeft: 14,
-    marginTop: 1,
     fontStyle: 'italic',
-    lineHeight: 1.3
+    lineHeight: 1.3,
+    flex: 1
   },
   priority: {
     fontSize: 7,
@@ -128,9 +134,12 @@ export const CategoryPage = ({ formData, category, title }: CategoryPageProps) =
                 </Text>
               )}
             </View>
-            <Text style={styles.conseilText}>
-              💡 {cleanTextForPDF(item.conseils)}
-            </Text>
+            <View style={styles.conseilContainer}>
+              <PDFIcon name="lightbulb" style={{ marginRight: 4, marginTop: 1 }} />
+              <Text style={styles.conseilText}>
+                {cleanTextForPDF(item.conseils)}
+              </Text>
+            </View>
           </View>
         ) : (
           // Item sans conseil
