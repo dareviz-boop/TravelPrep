@@ -3,8 +3,8 @@ import { FormData } from '@/types/form';
 import { GeneratedChecklist, ChecklistItem } from '@/utils/checklistGenerator';
 import { calculateDeadline } from '@/utils/filterItems';
 
-// Fonction utilitaire pour nettoyer certains caractères spéciaux problématiques
-// ✨ GARDONS les emojis pour plus de personnalité dans le PDF !
+// Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
+// Helvetica ne supporte PAS les emojis Unicode, ils apparaissent corrompus
 const cleanTextForPDF = (text: string): string => {
   if (!text) return '';
   return text
@@ -12,12 +12,26 @@ const cleanTextForPDF = (text: string): string => {
     .replace(/[""]/g, '"')
     .replace(/['']/g, "'")
     .replace(/[«»]/g, '"')
-    // Normaliser les tirets
+    // Normaliser les tirets et flèches
     .replace(/[–—]/g, '-')
+    .replace(/→/g, '->')
     .replace(/…/g, '...')
-    // 🎨 Les emojis sont maintenant CONSERVÉS !
-    // Seulement supprimer les variation selectors qui peuvent causer des problèmes
+    // SUPPRIMER tous les emojis (plage Unicode complète)
+    .replace(/[\u{1F300}-\u{1F9FF}]/gu, '')
+    .replace(/[\u{2600}-\u{26FF}]/gu, '')
+    .replace(/[\u{2700}-\u{27BF}]/gu, '')
     .replace(/[\u{FE00}-\u{FE0F}]/gu, '')
+    .replace(/[\u{1F000}-\u{1F02F}]/gu, '')
+    .replace(/[\u{1F0A0}-\u{1F0FF}]/gu, '')
+    .replace(/[\u{1F100}-\u{1F64F}]/gu, '')
+    .replace(/[\u{1F680}-\u{1F6FF}]/gu, '')
+    .replace(/[\u{1F700}-\u{1F77F}]/gu, '')
+    .replace(/[\u{1F780}-\u{1F7FF}]/gu, '')
+    .replace(/[\u{1F800}-\u{1F8FF}]/gu, '')
+    .replace(/[\u{1F900}-\u{1F9FF}]/gu, '')
+    .replace(/[\u{1FA00}-\u{1FA6F}]/gu, '')
+    .replace(/[\u{1FA70}-\u{1FAFF}]/gu, '')
+    .replace(/\s+/g, ' ')
     .trim();
 };
 
@@ -96,9 +110,11 @@ const styles = StyleSheet.create({
     width: 60,
     textAlign: 'right'
   },
-  priorityEmoji: {
-    fontSize: 9,
-    marginRight: 4
+  prioritySymbol: {
+    fontSize: 7,
+    fontWeight: 600,
+    marginRight: 4,
+    color: '#374151'
   }
 });
 
@@ -165,11 +181,11 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
     return timelines;
   };
 
-  const getPriorityEmoji = (priorite?: string) => {
+  const getPrioritySymbol = (priorite?: string) => {
     const p = priorite?.toLowerCase() || '';
-    if (p.includes('haute')) return '🔥';
-    if (p.includes('basse')) return '🌱';
-    return '☀️'; // moyenne
+    if (p.includes('haute')) return '[H]';
+    if (p.includes('basse')) return '[B]';
+    return '[M]'; // moyenne
   };
 
   // Fonction pour extraire le numéro de jours du délai (J-90 -> 90)
@@ -233,8 +249,8 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
                   <View style={styles.itemWithConseil} key={`${item.id || index}-${item.item}`}>
                     <View style={styles.itemRow}>
                       {item.priorite && (
-                        <Text style={styles.priorityEmoji}>
-                          {getPriorityEmoji(item.priorite)}
+                        <Text style={styles.prioritySymbol}>
+                          {getPrioritySymbol(item.priorite)}
                         </Text>
                       )}
                       <View style={styles.checkbox} />
@@ -255,8 +271,8 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
                   // Item sans conseil
                   <View style={styles.item} key={`${item.id || index}-${item.item}`}>
                     {item.priorite && (
-                      <Text style={styles.priorityEmoji}>
-                        {getPriorityEmoji(item.priorite)}
+                      <Text style={styles.prioritySymbol}>
+                        {getPrioritySymbol(item.priorite)}
                       </Text>
                     )}
                     <View style={styles.checkbox} />
