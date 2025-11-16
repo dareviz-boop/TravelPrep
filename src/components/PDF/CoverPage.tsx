@@ -22,49 +22,49 @@ const cleanTextForPDF = (text: string): string => {
 
 const styles = StyleSheet.create({
   page: {
-    fontFamily: 'Helvetica', // 🔧 FIX: Utiliser Helvetica au lieu d'Inter
-    padding: 60,
+    fontFamily: 'Helvetica',
+    padding: 30,
     backgroundColor: '#FFFFFF',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
   },
   title: {
-    fontSize: 48,
+    fontSize: 24,
     fontWeight: 700,
-    color: '#E85D2A', // 🎨 Orange Dareviz
-    marginBottom: 20,
+    color: '#E85D2A',
+    marginBottom: 10,
     textAlign: 'center'
   },
   subtitle: {
-    fontSize: 18,
+    fontSize: 10,
     color: '#6b7280',
-    marginBottom: 60,
+    marginBottom: 20,
     textAlign: 'center'
   },
   tripName: {
-    fontSize: 28,
+    fontSize: 16,
     fontWeight: 600,
-    color: '#E85D2A', // 🎨 Orange Dareviz
-    marginBottom: 40,
+    color: '#E85D2A',
+    marginBottom: 15,
     textAlign: 'center',
     textTransform: 'uppercase'
   },
   infoBox: {
     backgroundColor: '#f9fafb',
-    padding: 30,
-    borderRadius: 8,
+    padding: 15,
+    borderRadius: 4,
     width: '100%',
-    marginBottom: 20
+    marginBottom: 10
   },
   infoRow: {
     flexDirection: 'row',
-    marginBottom: 12,
-    fontSize: 12
+    marginBottom: 6,
+    fontSize: 9
   },
   infoLabel: {
     color: '#6b7280',
-    width: 100,
+    width: 80,
     fontWeight: 600
   },
   infoValue: {
@@ -73,11 +73,11 @@ const styles = StyleSheet.create({
   },
   footer: {
     position: 'absolute',
-    bottom: 40,
-    left: 60,
-    right: 60,
+    bottom: 20,
+    left: 30,
+    right: 30,
     textAlign: 'center',
-    fontSize: 10,
+    fontSize: 7,
     color: '#9ca3af'
   }
 });
@@ -192,6 +192,29 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
 
   const duration = calculateDuration();
 
+  // Fonction pour obtenir les labels des âges d'enfants
+  const getAgesEnfantsLabels = () => {
+    if (!formData.agesEnfants || formData.agesEnfants.length === 0) return '';
+    const agesMap: { [key: string]: string } = {
+      '0-2-ans': '0-2 ans',
+      '3-5-ans': '3-5 ans',
+      '6-12-ans': '6-12 ans',
+      '13+-ans': '13+ ans'
+    };
+    return formData.agesEnfants.map(age => agesMap[age] || age).join(', ');
+  };
+
+  // Fonction pour formater la durée estimée
+  const getDureeEstimee = () => {
+    const dureeMap: { [key: string]: string } = {
+      'court': 'entre 1 & 7 jours',
+      'moyen': 'entre 8 & 21 jours',
+      'long': 'entre 22 & 90 jours',
+      'tres-long': 'plus de 90 jours'
+    };
+    return dureeMap[formData.duree] || '';
+  };
+
   return (
     <Page size="A4" style={styles.page}>
       <Text style={styles.title}>TRAVELPREP</Text>
@@ -200,87 +223,92 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
       <Text style={styles.tripName}>{cleanTextForPDF(formData.nomVoyage)}</Text>
 
       <View style={styles.infoBox}>
-        <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>Départ :</Text>
-          <Text style={styles.infoValue}>{formatDate(formData.dateDepart)}</Text>
-        </View>
-
-        {formData.dateRetour && (
+        {/* 📅 Date & Durée */}
+        {formData.dateRetour && duration ? (
           <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Retour :</Text>
-            <Text style={styles.infoValue}>{formatDate(formData.dateRetour)}</Text>
+            <Text style={styles.infoLabel}>📅 Date :</Text>
+            <Text style={styles.infoValue}>
+              {formatDate(formData.dateDepart)} ➞ {formatDate(formData.dateRetour)} / {duration} jours
+            </Text>
+          </View>
+        ) : (
+          <View style={styles.infoRow}>
+            <Text style={styles.infoLabel}>📅 Départ :</Text>
+            <Text style={styles.infoValue}>
+              {formatDate(formData.dateDepart)} / {getDureeEstimee()}
+            </Text>
           </View>
         )}
 
-        {duration && (
-          <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Durée :</Text>
-            <Text style={styles.infoValue}>{duration} jours</Text>
-          </View>
-        )}
-
+        {/* 🌍 Destination */}
         <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>📍 Destination :</Text>
-          <Text style={styles.infoValue}>{referenceData.localisations?.[formData.localisation]?.nom || formData.localisation}</Text>
-        </View>
-
-        <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>👥 Profil :</Text>
-          <Text style={styles.infoValue}>{referenceData.profils?.[formData.profil]?.label || formData.profil}</Text>
-          <Text style={styles.infoLabel}>Destination :</Text>
+          <Text style={styles.infoLabel}>🌍 Destination :</Text>
           <Text style={styles.infoValue}>{getLocalisationLabel()}</Text>
         </View>
 
-        <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>Profil :</Text>
-          <Text style={styles.infoValue}>{getProfilLabel()}</Text>
-        </View>
-
-        {formData.activites.length > 0 && (
-          <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Activités :</Text>
-            <Text style={styles.infoValue}>{getActivitesLabels()}</Text>
-          </View>
-        )}
-
+        {/* 🗺️ Pays */}
         {getPaysLabels() && (
           <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Pays :</Text>
+            <Text style={styles.infoLabel}>🗺️ Pays :</Text>
             <Text style={styles.infoValue}>{getPaysLabels()}</Text>
           </View>
         )}
 
-        {getTemperaturesLabels() && (
-          <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Températures :</Text>
-            <Text style={styles.infoValue}>{getTemperaturesLabels()}</Text>
-          </View>
-        )}
-
+        {/* 🍂 Saisons */}
         {getSaisonsLabels() && (
           <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Saisons :</Text>
+            <Text style={styles.infoLabel}>🍂 Saison :</Text>
             <Text style={styles.infoValue}>{getSaisonsLabels()}</Text>
           </View>
         )}
 
+        {/* 🌡️ Températures */}
+        {getTemperaturesLabels() && (
+          <View style={styles.infoRow}>
+            <Text style={styles.infoLabel}>🌡️ Température :</Text>
+            <Text style={styles.infoValue}>{getTemperaturesLabels()}</Text>
+          </View>
+        )}
+
+        {/* ☁️ Conditions Climatiques */}
         {getConditionsClimatiquesLabels() && (
           <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Climat :</Text>
+            <Text style={styles.infoLabel}>☁️ Climat :</Text>
             <Text style={styles.infoValue}>{getConditionsClimatiquesLabels()}</Text>
           </View>
         )}
 
+        {/* 👤 Profil */}
+        <View style={styles.infoRow}>
+          <Text style={styles.infoLabel}>👤 Profil :</Text>
+          <Text style={styles.infoValue}>
+            {getProfilLabel()}
+            {formData.profil === 'famille' && formData.nombreEnfants &&
+              ` (${formData.nombreEnfants} enfant${formData.nombreEnfants > 1 ? 's' : ''}${getAgesEnfantsLabels() ? ': ' + getAgesEnfantsLabels() : ''})`
+            }
+          </Text>
+        </View>
+
+        {/* 🎭 Activités */}
+        {formData.activites.length > 0 && (
+          <View style={styles.infoRow}>
+            <Text style={styles.infoLabel}>🎭 Activités :</Text>
+            <Text style={styles.infoValue}>{getActivitesLabels()}</Text>
+          </View>
+        )}
+
+        {/* ✈️ Type de Voyage */}
         {formData.typeVoyage && (
           <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Type :</Text>
+            <Text style={styles.infoLabel}>✈️ Type :</Text>
             <Text style={styles.infoValue}>{getTypeVoyageLabel()}</Text>
           </View>
         )}
 
+        {/* 🛏️ Confort */}
         {formData.confort && (
           <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Confort :</Text>
+            <Text style={styles.infoLabel}>🛏️ Confort :</Text>
             <Text style={styles.infoValue}>{getConfortLabel()}</Text>
           </View>
         )}

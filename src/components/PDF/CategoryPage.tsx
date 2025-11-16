@@ -22,39 +22,56 @@ const cleanTextForPDF = (text: string): string => {
 
 const styles = StyleSheet.create({
   page: {
-    fontFamily: 'Helvetica', // 🔧 FIX: Utiliser Helvetica au lieu d'Inter
-    fontSize: 10,
-    padding: 40,
+    fontFamily: 'Helvetica',
+    fontSize: 8,
+    padding: 20,
     backgroundColor: '#FFFFFF'
   },
   title: {
-    fontSize: 24,
+    fontSize: 14,
     fontWeight: 700,
-    color: '#E85D2A', // 🎨 Orange Dareviz
-    marginBottom: 30
+    color: '#E85D2A',
+    marginBottom: 15
+  },
+  itemWithConseil: {
+    flexDirection: 'column',
+    marginBottom: 7,
+    paddingLeft: 3
+  },
+  itemRow: {
+    flexDirection: 'row',
+    marginBottom: 2
   },
   item: {
     flexDirection: 'row',
-    marginBottom: 10,
-    paddingLeft: 5
+    marginBottom: 5,
+    paddingLeft: 3
   },
   checkbox: {
-    width: 12,
-    height: 12,
-    border: '2px solid #111827',
-    marginRight: 10,
-    marginTop: 2
+    width: 8,
+    height: 8,
+    border: '1px solid #111827',
+    marginRight: 6,
+    marginTop: 1
   },
   itemText: {
     flex: 1,
-    fontSize: 10,
+    fontSize: 8,
     color: '#374151',
-    lineHeight: 1.5
+    lineHeight: 1.4
+  },
+  conseilText: {
+    fontSize: 6.5,
+    color: '#616161',
+    marginLeft: 14,
+    marginTop: 1,
+    fontStyle: 'italic',
+    lineHeight: 1.3
   },
   priority: {
-    fontSize: 9,
+    fontSize: 7,
     fontWeight: 600,
-    width: 30,
+    width: 45,
     textAlign: 'center'
   },
   priorityHigh: {
@@ -80,9 +97,9 @@ export const CategoryPage = ({ formData, category, title }: CategoryPageProps) =
   const getPriorityStars = (priorite: string) => {
     const p = priorite?.toLowerCase() || '';
     if (p.includes('haute')) return 'HAUTE';
-    if (p.includes('moyenne')) return 'MOY';
+    if (p.includes('moyenne')) return 'MOYENNE';
     if (p.includes('basse')) return 'BASSE';
-    return 'MOY'; // Default to medium
+    return 'MOYENNE'; // Default to medium
   };
 
   const getPriorityStyle = (priorite: string) => {
@@ -96,17 +113,38 @@ export const CategoryPage = ({ formData, category, title }: CategoryPageProps) =
     <Page size="A4" style={styles.page}>
       <Text style={styles.title}>{cleanTextForPDF(title)}</Text>
 
-      {category.items.map((item, index) => (
-        <View style={styles.item} key={item.id || `item-${index}`}>
-          <View style={styles.checkbox} />
-          <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-          {item.priorite && (
-            <Text style={[styles.priority, getPriorityStyle(item.priorite)]}>
-              {getPriorityStars(item.priorite)}
+      {category.items.map((item, index) => {
+        const hasConseil = item.conseils && item.conseils.trim().length > 0;
+
+        return hasConseil ? (
+          // Item avec conseil
+          <View style={styles.itemWithConseil} key={item.id || `item-${index}`}>
+            <View style={styles.itemRow}>
+              <View style={styles.checkbox} />
+              <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+              {item.priorite && (
+                <Text style={[styles.priority, getPriorityStyle(item.priorite)]}>
+                  {getPriorityStars(item.priorite)}
+                </Text>
+              )}
+            </View>
+            <Text style={styles.conseilText}>
+              💡 {cleanTextForPDF(item.conseils)}
             </Text>
-          )}
-        </View>
-      ))}
+          </View>
+        ) : (
+          // Item sans conseil
+          <View style={styles.item} key={item.id || `item-${index}`}>
+            <View style={styles.checkbox} />
+            <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+            {item.priorite && (
+              <Text style={[styles.priority, getPriorityStyle(item.priorite)]}>
+                {getPriorityStars(item.priorite)}
+              </Text>
+            )}
+          </View>
+        );
+      })}
     </Page>
   );
 };
