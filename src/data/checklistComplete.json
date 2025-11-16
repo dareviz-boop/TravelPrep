@@ -283,32 +283,32 @@
   "conditionsClimatiques": [
       {   "groupe": "Précipitations",
           "options": [
-              { "id": "pluies_mousson", "nom": "🌧️ Saison des pluies / Mousson" },
-              { "id": "sec_aride", "nom": "🌵 Saison sèche / Aride" },
-              { "id": "orages_freq", "nom": "⛈️ Orages fréquents" },
-              { "id": "neige_blizzards", "nom": "🌨️ Neige / Blizzards" }
+              { "id": "climat_mousson", "nom": "🌧️ Saison des pluies / Mousson" },
+              { "id": "climat_sec_aride", "nom": "🌵 Saison sèche / Aride" },
+              { "id": "climat_orages", "nom": "⛈️ Orages fréquents" },
+              { "id": "climat_neige", "nom": "🌨️ Neige / Blizzards" }
           ]
       },
       {   "groupe": "Vents & Tempêtes",
           "options": [
-              { "id": "vents_forts", "nom": "💨 Vents forts / Tempêtes" },
-              { "id": "cyclones", "nom": "🌀 Cyclones / Typhons / Ouragans" },
-              { "id": "tempete_sable", "nom": "🏜️ Tempêtes de sable" }
+              { "id": "climat_vents_forts", "nom": "💨 Vents forts / Tempêtes" },
+              { "id": "climat_cyclones", "nom": "🌀 Cyclones / Typhons / Ouragans" },
+              { "id": "climat_harmattan", "nom": "🏜️ Tempêtes de sable" }
           ]
       },
       {   "groupe": "Températures extrêmes",
           "options": [
-              { "id": "canicule", "nom": "🌡️ Canicule / Vague de chaleur" },
-              { "id": "froid_intense", "nom": "🧊 Grand froid / Gel intense" },
-              { "id": "amplitude_thermique", "nom": "🌓 Amplitude thermique élevée" }
+              { "id": "climat_canicule", "nom": "🌡️ Canicule / Vague de chaleur" },
+              { "id": "climat_froid_intense", "nom": "🧊 Grand froid / Gel intense" },
+              { "id": "climat_amplitude_thermique", "nom": "🌓 Amplitude thermique élevée" }
           ]
       },
       {   "groupe": "Autres",
           "options": [
-              { "id": "brouillard_brume", "nom": "🌫️ Brouillard / Brume fréquents" },
-              { "id": "uv_eleves", "nom": "☀️ Soleil extrême / UV élevés" },
-              { "id": "forte_humidite", "nom": "💧 Forte humidité" },
-              { "id": "aucune", "nom": "❌ Aucune condition particulière" }
+              { "id": "climat_brouillard", "nom": "🌫️ Brouillard / Brume fréquents" },
+              { "id": "climat_tropical_humide", "nom": "🏝️ Climat tropical humide" },
+              { "id": "climat_humidite", "nom": "💧 Forte humidité" },
+              { "id": "climat_aucune", "nom": "❌ Aucune condition particulière" }
           ]
       }
   ],
