@@ -403,10 +403,11 @@ export function autoDetectTemperatures(formData: FormData): string[] {
 
 /**
  * Génère des suggestions automatiques basées sur température/saison/destination
- * Ces suggestions NE sont PAS ajoutées automatiquement
+ * Utilise à la fois les suggestions du JSON ET une logique contextuelle intelligente
  */
 export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   const suggestions: SuggestionItem[] = [];
+  const alreadySuggested = new Set<string>();
 
   // Normaliser temperature et saison en tableaux
   const temperatures = Array.isArray(formData.temperature)
@@ -417,7 +418,105 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
     ? formData.saison
     : [formData.saison];
 
-  // Parcourir toutes les conditions climatiques
+  const month = formData.dateDepart ? new Date(formData.dateDepart).getMonth() + 1 : 0;
+
+  // === PARTIE 1: LOGIQUE CONTEXTUELLE INTELLIGENTE (PRIORITAIRE) ===
+
+  // Helper pour ajouter une suggestion
+  const addSuggestion = (id: string, raison: string, priorite: 'haute' | 'moyenne' | 'basse' = 'moyenne') => {
+    if (formData.conditionsClimatiques?.includes(id) || alreadySuggested.has(id)) return;
+
+    // Trouver les détails dans le JSON
+    const item = findConditionById(id);
+    if (!item) return;
+
+    suggestions.push({
+      conditionId: id,
+      nom: item.nom,
+      emoji: item.emoji,
+      raison,
+      priorite
+    });
+    alreadySuggested.add(id);
+  };
+
+  // 🌧️ ASIE DU SUD-EST : Mousson + Climat tropical humide
+  const seTropicalCountries = ['thailande', 'thailand', 'vietnam', 'indonesie', 'indonesia', 'cambodge', 'cambodia', 'laos', 'myanmar', 'birmanie', 'philippines', 'malaisie', 'malaysia'];
+  const isSETropical = formData.pays?.some((p: any) =>
+    seTropicalCountries.some(c => (p.code || p.nom || '').toLowerCase().includes(c))
+  );
+
+  if (isSETropical) {
+    // Mousson (mai-octobre)
+    if (month >= 5 && month <= 10) {
+      addSuggestion('climat_mousson', 'Saison des pluies en Asie du Sud-Est (mai-octobre)', 'haute');
+      addSuggestion('climat_tropical_humide', 'Climat tropical avec forte humidité', 'haute');
+      addSuggestion('climat_humidite', 'Humidité très élevée pendant la mousson', 'moyenne');
+    } else {
+      // Saison sèche mais toujours tropical
+      addSuggestion('climat_tropical_humide', 'Climat tropical toute l\'année', 'moyenne');
+    }
+  }
+
+  // 🏜️ DÉSERTS : Chaleur extrême + Aridité
+  const desertCountries = ['arabie', 'emirates', 'emirats', 'qatar', 'egypte', 'egypt', 'libye', 'libya', 'niger', 'tchad', 'chad', 'soudan', 'sudan', 'maroc', 'morocco', 'algerie', 'algeria'];
+  const isDesert = formData.pays?.some((p: any) =>
+    desertCountries.some(c => (p.code || p.nom || '').toLowerCase().includes(c))
+  ) || formData.localisation === 'afrique';
+
+  if (isDesert) {
+    addSuggestion('climat_sec_aride', 'Climat désertique très sec', 'haute');
+    if (month >= 5 && month <= 9 || temperatures.includes('tres-chaude')) {
+      addSuggestion('climat_canicule', 'Chaleur extrême en période estivale', 'haute');
+    }
+  }
+
+  // ❄️ ZONES FROIDES : Neige + Froid intense
+  const coldCountries = ['groenland', 'greenland', 'islande', 'iceland', 'finlande', 'finland', 'norvege', 'norway', 'suede', 'sweden', 'alaska', 'canada', 'russie', 'russia'];
+  const isCold = formData.pays?.some((p: any) =>
+    coldCountries.some(c => (p.code || p.nom || '').toLowerCase().includes(c))
+  );
+
+  if (isCold) {
+    if (month >= 11 || month <= 3 || saisons.includes('hiver')) {
+      addSuggestion('climat_neige', 'Chutes de neige fréquentes en hiver', 'haute');
+      addSuggestion('climat_froid_intense', 'Températures polaires en hiver', 'haute');
+    }
+  }
+
+  // 🌀 CYCLONES : Zones à risque selon période
+  const cycloneRegions = [
+    { countries: ['philippines', 'taiwan', 'japon', 'japan'], months: [7, 8, 9, 10], id: 'climat_cyclones' },
+    { countries: ['cuba', 'jamaique', 'jamaica', 'haiti', 'dominicaine', 'bahamas'], months: [6, 7, 8, 9, 10, 11], id: 'climat_cyclones' },
+    { countries: ['madagascar', 'mozambique', 'maurice', 'mauritius'], months: [11, 12, 1, 2, 3, 4], id: 'climat_cyclones' }
+  ];
+
+  cycloneRegions.forEach(region => {
+    const inRegion = formData.pays?.some((p: any) =>
+      region.countries.some(c => (p.code || p.nom || '').toLowerCase().includes(c))
+    );
+    if (inRegion && region.months.includes(month)) {
+      addSuggestion('climat_cyclones', 'Saison des cyclones/typhons/ouragans', 'haute');
+    }
+  });
+
+  // 🏝️ ZONES CÔTIÈRES TROPICALES : Humidité
+  const coastalTropical = ['bresil', 'brazil', 'colombie', 'colombia', 'costa rica', 'panama', 'seychelles', 'maldives', 'maurice', 'mauritius'];
+  const isCoastalTropical = formData.pays?.some((p: any) =>
+    coastalTropical.some(c => (p.code || p.nom || '').toLowerCase().includes(c))
+  );
+
+  if (isCoastalTropical) {
+    addSuggestion('climat_tropical_humide', 'Climat côtier tropical', 'moyenne');
+    addSuggestion('climat_humidite', 'Forte humidité côtière', 'basse');
+  }
+
+  // 🏔️ ALTITUDE : Recommandations selon activités
+  // Note: climat_altitude_* pas encore dans checklistComplete.json
+  // TODO: Ajouter ces conditions si besoin
+
+  // === PARTIE 2: SUGGESTIONS DU JSON (COMPLÉMENTAIRES) ===
+
   const data = climatData as any;
   const categories = [
     'precipitations',
@@ -433,65 +532,43 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
     if (!categoryData?.items) return;
 
     categoryData.items.forEach((item: ClimatItem) => {
-      // Skip si déjà sélectionné
-      if (formData.conditionsClimatiques?.includes(item.id)) return;
-
-      // Vérifier si l'item a des suggestions
+      if (formData.conditionsClimatiques?.includes(item.id) || alreadySuggested.has(item.id)) return;
       if (!item.suggestions) return;
 
       const { temperature: suggestedTemps, saison: suggestedSeasons, description } = item.suggestions;
 
       let matches = false;
       let raison = '';
-      let priorite: 'haute' | 'moyenne' | 'basse' = 'moyenne';
+      let priorite: 'haute' | 'moyenne' | 'basse' = 'basse';
 
-      // Correspondance température
       if (suggestedTemps && suggestedTemps.length > 0) {
         const tempMatch = temperatures.some(t => suggestedTemps.includes(t));
         if (tempMatch) {
           matches = true;
-          raison = `Température adaptée (${temperatures.join(', ')})`;
-          priorite = 'haute';
+          raison = description || `Température adaptée (${temperatures.join(', ')})`;
+          priorite = 'moyenne';
         }
       }
 
-      // Correspondance saison
       if (suggestedSeasons && suggestedSeasons.length > 0) {
         const seasonMatch = saisons.some(s => suggestedSeasons.includes(s));
         if (seasonMatch) {
           matches = true;
-          if (raison) {
-            raison += ` et saison (${saisons.join(', ')})`;
-          } else {
-            raison = `Saison adaptée (${saisons.join(', ')})`;
-            priorite = 'moyenne';
-          }
+          if (!raison) raison = description || `Saison adaptée (${saisons.join(', ')})`;
+          priorite = 'moyenne';
         }
       }
 
-      // Correspondance destination
       if (item.filtres?.destinations && item.filtres.destinations.length > 0) {
         const destMatch = matchesDestination(item.filtres.destinations, formData.localisation);
         if (destMatch) {
           matches = true;
-          if (raison) {
-            raison += ' et destination';
-          } else {
-            raison = 'Destination adaptée';
-            priorite = 'basse';
-          }
+          if (!raison) raison = description || 'Destination adaptée';
         }
       }
 
-      // Ajouter à la liste des suggestions si match
       if (matches) {
-        suggestions.push({
-          conditionId: item.id,
-          nom: item.nom,
-          emoji: item.emoji,
-          raison: description || raison,
-          priorite
-        });
+        addSuggestion(item.id, raison, priorite);
       }
     });
   });
