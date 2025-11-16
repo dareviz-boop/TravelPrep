@@ -109,10 +109,10 @@
             "Sifflet d'urgence 120dB"
           ],
           "filtres": {
-            "destinations": ["amerique-centrale-caraibes", "afrique", "asie"],
+            "destinations": ["amerique-centrale-caraibes", "afrique", "asie", "oceanie", "amerique-sud"],
             "activites": ["randonnee", "camping"],
             "periode": [
-              {"debut": 3, "fin": 7, "region": "zones tropicales"}
+              {"debut": 3, "fin": 7}
             ]
           },
           "conseils": "Zones tropicales: orages 15h-18h systématiques. Altitude: descendre IMMÉDIATEMENT. Éviter arbres isolés, sommets, lignes crête. Position sécurité: accroupi, pieds joints. Hôtels: coupures électricité fréquentes (lampe frontale). Éviter douche pendant orage. Débrancher appareils"
@@ -167,7 +167,7 @@
             "Chauffe-mains chimiques x10"
           ],
           "filtres": {
-            "destinations": ["europe", "amerique-nord", "asie"],
+            "destinations": ["europe", "amerique-nord", "asie", "amerique-sud", "oceanie"],
             "activites": ["sports-hiver", "randonnee"],
             "periode": [
               {"debut": 11, "fin": 3, "region": "hémisphère nord"},
@@ -244,11 +244,11 @@
             "Crème anti-gerçures mains/visage"
           ],
           "filtres": {
-            "destinations": ["europe", "amerique-nord", "asie"],
+            "destinations": ["europe", "amerique-nord", "asie", "amerique-sud", "oceanie"],
             "activites": ["randonnee", "sports-hiver", "camping"],
             "periode": [
-              {"debut": 11, "fin": 3, "region": "arctique"},
-              {"debut": 5, "fin": 9, "region": "antarctique"}
+              {"debut": 11, "fin": 3, "region": "hémisphère nord"},
+              {"debut": 5, "fin": 9, "region": "hémisphère sud"}
             ]
           },
           "suggestions": {
@@ -646,7 +646,7 @@
             "destinations": ["amerique-nord"],
             "activites": [],
             "periode": [
-              {"debut": 4, "fin": 6, "region": "Tornado Alley USA"}
+              {"debut": 4, "fin": 6}
             ]
           },
           "conseils": "Tornado Alley: Oklahoma, Kansas, Texas. Saison avril-juin. ALERTES: suivre NOAA Weather Radio. Tornado Watch = conditions favorables. Tornado Warning = tornade détectée = ABRI IMMÉDIAT. Abri: sous-sol, pièce intérieure sans fenêtre, baignoire. JAMAIS rester voiture ou mobile-home. Position sécurité: recroquevillé, mains sur tête. Débris volants = danger mortel"
@@ -671,7 +671,7 @@
             "destinations": ["afrique"],
             "activites": [],
             "periode": [
-              {"debut": 11, "fin": 3, "region": "Afrique Ouest"}
+              {"debut": 11, "fin": 3}
             ]
           },
           "conseils": "Harmattan: vent sec Sahara chargé sable fin. Visibilité réduite <100m. Températures chutent 10°C. Poussière fine PARTOUT. Masque N95 protection respiratoire. Lunettes hermétiques (sable yeux irritation). Sérum physiologique rinçage. Peau: déshydratation extrême, crème 3x/jour. Électronique: pochettes étanches (sable infiltre tout). Vols retardés/annulés fréquents"

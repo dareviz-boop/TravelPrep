@@ -250,49 +250,49 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
  */
 export const REGIONAL_CLIMATES: Record<string, Partial<CountryClimate>> = {
   'europe': {
-    hemisphere: 'north',
+    hemisphere: 'north', // Europe entière dans hémisphère nord
     zones: ['oceanic', 'continental', 'mediterranean'],
     avgTemp: { jan: 3, feb: 4, mar: 8, apr: 11, may: 15, jun: 18, jul: 20, aug: 20, sep: 16, oct: 12, nov: 7, dec: 4 },
     seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
   },
   'asie': {
-    hemisphere: 'north',
+    hemisphere: 'both', // Asie chevauche l'équateur (Indonésie, Malaisie)
     zones: ['tropical', 'subtropical', 'continental'],
     avgTemp: { jan: 15, feb: 17, mar: 21, apr: 25, may: 27, jun: 28, jul: 28, aug: 27, sep: 26, oct: 23, nov: 19, dec: 16 },
     seasons: { summer: [5,6,7,8,9], winter: [12,1,2], spring: [3,4], autumn: [10,11] }
   },
   'afrique': {
-    hemisphere: 'both',
+    hemisphere: 'both', // Afrique traversée par l'équateur
     zones: ['tropical', 'desert_hot', 'equatorial'],
     avgTemp: { jan: 25, feb: 26, mar: 27, apr: 27, may: 27, jun: 26, jul: 25, aug: 25, sep: 26, oct: 27, nov: 26, dec: 25 },
     seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
   },
   'amerique-nord': {
-    hemisphere: 'north',
+    hemisphere: 'north', // Amérique du Nord entière dans hémisphère nord
     zones: ['continental', 'subtropical'],
     avgTemp: { jan: 0, feb: 2, mar: 7, apr: 13, may: 18, jun: 23, jul: 26, aug: 25, sep: 20, oct: 14, nov: 7, dec: 2 },
     seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
   },
   'amerique-centrale-caraibes': {
-    hemisphere: 'north',
+    hemisphere: 'north', // Amérique centrale et Caraïbes dans hémisphère nord
     zones: ['tropical'],
     avgTemp: { jan: 24, feb: 24, mar: 25, apr: 26, may: 27, jun: 27, jul: 28, aug: 28, sep: 27, oct: 27, nov: 26, dec: 24 },
     seasons: { summer: [3,4,5,6,7,8,9,10], winter: [11,12,1,2], spring: [], autumn: [] }
   },
   'amerique-sud': {
-    hemisphere: 'south',
+    hemisphere: 'both', // Amérique du Sud traversée par l'équateur (Équateur, Colombie, Brésil)
     zones: ['tropical', 'equatorial', 'subtropical'],
     avgTemp: { jan: 26, feb: 26, mar: 25, apr: 24, may: 22, jun: 21, jul: 21, aug: 22, sep: 23, oct: 24, nov: 25, dec: 26 },
     seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
   },
   'oceanie': {
-    hemisphere: 'south',
+    hemisphere: 'both', // Océanie chevauche l'équateur (Papouasie-Nouvelle-Guinée nord, Australie sud)
     zones: ['tropical', 'subtropical', 'oceanic'],
     avgTemp: { jan: 25, feb: 25, mar: 24, apr: 22, may: 19, jun: 17, jul: 16, aug: 17, sep: 19, oct: 21, nov: 23, dec: 24 },
     seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
   },
   'multi-destinations': {
-    hemisphere: 'both',
+    hemisphere: 'both', // Multi-destinations peut couvrir les deux hémisphères
     zones: ['continental', 'tropical'],
     avgTemp: { jan: 15, feb: 16, mar: 18, apr: 20, may: 22, jun: 24, jul: 25, aug: 25, sep: 23, oct: 21, nov: 18, dec: 16 },
     seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
