@@ -9,7 +9,6 @@
 
 import { FormData } from '@/types/form';
 import climatData from '@/data/checklist_climat_meteo.json';
-import checklistCompleteData from '@/data/checklistComplete.json';
 
 // ==========================================
 // TYPES ET INTERFACES
@@ -142,26 +141,28 @@ function matchesDestination(
   if (!destinations || destinations.length === 0) return true;
   if (localisation === 'multi-destinations') return true;
 
-  return destinations.includes(localisation);
+  return destinations.some((dest) =>
+    localisation.toLowerCase().includes(dest.toLowerCase())
+  );
 }
 
 /**
- * Vérifie si au moins une activité correspond
+ * Vérifie si les activités correspondent
  */
 function matchesActivites(
-  activitesFiltre: string[] | undefined,
-  activitesUser: string[]
+  activites: string[] | undefined,
+  formActivites: string[] | undefined
 ): boolean {
-  if (!activitesFiltre || activitesFiltre.length === 0) return true;
-  if (!activitesUser || activitesUser.length === 0) return true;
+  if (!activites || activites.length === 0) return true;
+  if (!formActivites || formActivites.length === 0) return false;
 
-  return activitesUser.some((act) => activitesFiltre.includes(act));
+  return activites.some((act) => formActivites.includes(act));
 }
 
 /**
- * Déduplique un tableau d'items
+ * Déduplique et tri les items
  */
-function deduplicate<T>(items: T[]): T[] {
+function deduplicateItems(items: string[]): string[] {
   return Array.from(new Set(items));
 }
 
@@ -179,72 +180,60 @@ export function getClimatEquipment(formData: FormData): ChecklistSection[] {
   const conseils: string[] = [];
 
   // === 1. TRAITER LES CONDITIONS SÉLECTIONNÉES PAR L'UTILISATEUR ===
-  if (formData.conditionsClimatiques && formData.conditionsClimatiques.length > 0) {
-    formData.conditionsClimatiques.forEach((conditionId) => {
-      if (conditionId === 'climat_aucune') {
-        // Si "aucune", on n'ajoute rien
-        return;
-      }
 
-      const condition = findConditionById(conditionId);
-      if (!condition) {
-        console.warn(`⚠️ Condition climatique non trouvée: ${conditionId}`);
-        return;
-      }
+  const selectedConditions = formData.conditionsClimatiques || [];
 
-      // Vérifier les filtres
-      const matchesDest = matchesDestination(
-        condition.filtres?.destinations,
-        formData.localisation
-      );
-
-      const matchesAct = matchesActivites(
-        condition.filtres?.activites,
-        formData.activites
-      );
-
-      const matchesPer = matchesPeriode(
-        condition.filtres?.periode || [],
-        formData.dateDepart,
-        formData.localisation
-      );
-
-      // Si tous les filtres correspondent, ajouter les équipements
-      if (matchesDest && matchesAct && matchesPer) {
-        allItems.push(...condition.equipement);
-        conseils.push(`${condition.nom}: ${condition.conseils}`);
-      }
-    });
+  // Si "Aucune" est sélectionné, on ne retourne rien
+  if (selectedConditions.includes('climat_aucune')) {
+    return [];
   }
 
-  // === 2. AJOUTER LES SUGGESTIONS AUTOMATIQUES (NON FORCÉES) ===
-  const suggestions = generateAutoSuggestions(formData);
+  // Traiter chaque condition climatique sélectionnée
+  selectedConditions.forEach((conditionId) => {
+    const condition = findConditionById(conditionId);
+    if (!condition) return;
 
-  // On n'ajoute PAS automatiquement les équipements suggérés
-  // On retourne juste les suggestions pour que l'UI puisse les afficher
-  // L'utilisateur devra les accepter manuellement
+    // === FILTRES : Vérifier si la condition est applicable ===
 
-  // === 3. AJOUTER LES ITEMS DESTINATIONS SPÉCIFIQUES (BACKEND) ===
-  const destSpecificItems = getDestinationSpecificItems(formData);
+    // 1. Filtre destination
+    const matchesDest = matchesDestination(
+      condition.filtres?.destinations,
+      formData.localisation
+    );
 
-  // === 4. CONSTRUIRE LES SECTIONS ===
-  if (allItems.length > 0) {
+    // 2. Filtre période
+    const matchesPeriod = matchesPeriode(
+      condition.filtres?.periode || [],
+      formData.dateDepart,
+      formData.localisation
+    );
+
+    // 3. Filtre activités
+    const matchesAct = matchesActivites(
+      condition.filtres?.activites,
+      formData.activites
+    );
+
+    // === APPLICATION DES FILTRES ===
+    if (matchesDest && matchesPeriod && matchesAct) {
+      allItems.push(...condition.equipement);
+      if (condition.conseils) {
+        conseils.push(condition.conseils);
+      }
+    }
+  });
+
+  // Dédupliquer les items
+  const uniqueItems = deduplicateItems(allItems);
+
+  // Créer la section si on a des items
+  if (uniqueItems.length > 0) {
     sections.push({
-      id: 'climat_conditions_selectionnees',
-      nom: '🌦️ Adaptations Climatiques',
-      items: deduplicate(allItems),
+      id: 'climat_meteo',
+      nom: 'Équipements climatiques',
+      items: uniqueItems,
       source: 'climat',
       conseils: conseils.join('\n\n')
-    });
-  }
-
-  if (destSpecificItems.length > 0) {
-    sections.push({
-      id: 'destinations_specifiques',
-      nom: '🗺️ Équipements Environnement Spécifique',
-      items: destSpecificItems,
-      source: 'destination_specifique',
-      conseils: 'Équipements adaptés à l\'environnement spécifique de votre destination'
     });
   }
 
@@ -256,8 +245,6 @@ export function getClimatEquipment(formData: FormData): ChecklistSection[] {
 // ==========================================
 
 /**
- * Détermine automatiquement les saisons appropriées selon les pays et la période du voyage
- * Prend en compte toute la durée du voyage pour détecter plusieurs saisons
  * Détermine automatiquement les saisons appropriées selon les pays et les dates de voyage
  * Prend en compte toute la période du voyage (pas juste la date de départ)
  * @param formData - Données du formulaire
@@ -273,145 +260,72 @@ export function autoDetectSeasons(formData: FormData): string[] {
     const southernCountries = [
       'australie', 'nouvelle-zelande', 'argentine', 'chili', 'uruguay', 'paraguay',
       'bolivie', 'perou', 'bresil', 'afrique-du-sud', 'namibie', 'botswana',
-      'zimbabwe', 'mozambique', 'madagascar', 'maurice', 'reunion', 'indonesie'
+      'zimbabwe', 'mozambique', 'madagascar'
     ];
-
-    const equatorialCountries = [
-      'colombie', 'equateur', 'kenya', 'ouganda', 'tanzanie', 'gabon',
-      'congo', 'singapour', 'malaisie'
-    ];
-
+    
     const code = countryCode.toLowerCase();
-
-    if (equatorialCountries.some(ec => code.includes(ec))) return 'both';
-    if (southernCountries.some(sc => code.includes(sc))) return 'south';
+    if (southernCountries.some(country => code.includes(country))) {
+      return 'south';
+    }
+    
     return 'north';
   };
 
   // Helper pour obtenir la saison selon l'hémisphère et le mois
-  const getSeasonForHemisphere = (month: number, hemisphere: 'north' | 'south'): string => {
+  const getSeasonForMonth = (month: number, hemisphere: 'north' | 'south'): string => {
+    // Hémisphère nord
     if (hemisphere === 'north') {
       if (month >= 3 && month <= 5) return 'printemps';
       if (month >= 6 && month <= 8) return 'ete';
       if (month >= 9 && month <= 11) return 'automne';
-      return 'hiver'; // 12, 1, 2
-    } else {
-      // Hémisphère sud : saisons inversées
-      if (month >= 3 && month <= 5) return 'automne';
-      if (month >= 6 && month <= 8) return 'hiver';
-      if (month >= 9 && month <= 11) return 'printemps';
-      return 'ete'; // 12, 1, 2
+      return 'hiver'; // Décembre-Février
     }
+    
+    // Hémisphère sud (saisons inversées)
+    if (month >= 3 && month <= 5) return 'automne';
+    if (month >= 6 && month <= 8) return 'hiver';
+    if (month >= 9 && month <= 11) return 'printemps';
+    return 'ete'; // Décembre-Février
   };
 
-  // Calculer la période du voyage
-  const departDate = new Date(formData.dateDepart);
-  let endDate: Date;
+  // Collecter les mois du voyage
+  const travelMonths: number[] = [];
+  const startDate = new Date(formData.dateDepart);
+  const startMonth = startDate.getMonth() + 1; // 1-12
+  
+  travelMonths.push(startMonth);
 
+  // Si date de retour définie, ajouter tous les mois intermédiaires
   if (formData.dateRetour) {
-    endDate = new Date(formData.dateRetour);
-  } else if (formData.duree) {
-    // Estimer une date de fin basée sur la durée
-    const durationDays = {
-      'court': 7,
-      'moyen': 21,
-      'long': 60,
-      'tres-long': 120
-    }[formData.duree] || 7;
-
-    endDate = new Date(departDate);
-    endDate.setDate(endDate.getDate() + durationDays);
-  } else {
-    // Pas de durée définie, utiliser juste la date de départ
-    endDate = departDate;
+    const endDate = new Date(formData.dateRetour);
+    const endMonth = endDate.getMonth() + 1;
+    
+    let currentMonth = startMonth;
+    while (currentMonth !== endMonth) {
+      currentMonth++;
+      if (currentMonth > 12) currentMonth = 1;
+      if (!travelMonths.includes(currentMonth)) {
+        travelMonths.push(currentMonth);
+      }
+      // Sécurité: max 12 itérations
+      if (travelMonths.length > 12) break;
+    }
   }
 
-  // Collecter tous les mois couverts par le voyage
-  const monthsCovered: Set<number> = new Set();
-  const currentDate = new Date(departDate);
-
-  while (currentDate <= endDate) {
-    monthsCovered.add(currentDate.getMonth() + 1); // 1-12
-    currentDate.setMonth(currentDate.getMonth() + 1);
-    currentDate.setDate(1); // Début du mois suivant
-  }
-
-  // Déterminer l'hémisphère prédominant
-  let predominantHemisphere: 'north' | 'south' | 'both' = 'north';
-
+  // Déterminer les saisons pour chaque pays et chaque mois
   if (formData.pays && formData.pays.length > 0) {
-    const hemispheres = formData.pays.map((pays: any) => getHemisphere(pays.code));
-
-    if (hemispheres.includes('both')) {
-      predominantHemisphere = 'both';
-    } else if (hemispheres.filter(h => h === 'south').length > hemispheres.filter(h => h === 'north').length) {
-      predominantHemisphere = 'south';
-    }
-  } else {
-    predominantHemisphere = formData.localisation === 'oceanie' ? 'south' : 'north';
-  }
-
-  // Ajouter les saisons pour chaque mois couvert
-  if (predominantHemisphere === 'both') {
-    // Pays équatorial : toujours été
-    seasons.add('ete');
-  } else {
-    monthsCovered.forEach(month => {
-      seasons.add(getSeasonForHemisphere(month, predominantHemisphere as 'north' | 'south'));
-  // Générer tous les mois couverts par le voyage
-  const tripMonths = new Set<number>();
-  let currentDate = new Date(formData.dateDepart);
-  const endDate = formData.dateRetour ? new Date(formData.dateRetour) : new Date(formData.dateDepart);
-
-  while (currentDate <= endDate) {
-    tripMonths.add(currentDate.getMonth() + 1); // 1-12
-    currentDate.setMonth(currentDate.getMonth() + 1);
-  }
-
-  // Déterminer l'hémisphère applicable
-  let hemisphere: 'north' | 'south' | 'both' = 'north';
-
-  if (!formData.pays || formData.pays.length === 0) {
-    // Par défaut, hémisphère nord pour la plupart des zones
-    hemisphere = formData.localisation === 'oceanie' ? 'south' : 'north';
-  } else {
-    // Analyser chaque pays sélectionné
-    const hemispheres = new Set<'north' | 'south' | 'both'>();
     formData.pays.forEach((pays: any) => {
-      hemispheres.add(getHemisphere(pays.code));
+      const hemisphere = getHemisphere(pays.code || pays.nom);
+      
+      travelMonths.forEach(month => {
+        const season = getSeasonForMonth(month, hemisphere);
+        seasons.add(season);
+      });
     });
-
-    // Si pays équatorial, utiliser 'both'
-    if (hemispheres.has('both')) {
-      hemisphere = 'both';
-    }
-    // Si mélange nord/sud, utiliser 'both' aussi
-    else if (hemispheres.has('north') && hemispheres.has('south')) {
-      hemisphere = 'both';
-    }
-    // Sinon, prendre le seul hémisphère présent
-    else if (hemispheres.has('north')) {
-      hemisphere = 'north';
-    } else if (hemispheres.has('south')) {
-      hemisphere = 'south';
-    }
   }
-
-  // Pour chaque mois du voyage, déterminer la saison
-  tripMonths.forEach(month => {
-    if (hemisphere === 'both') {
-      // Pays équatorial : toutes les saisons peuvent s'appliquer
-      // On ajoute la saison correspondante pour l'hémisphère nord et sud
-      seasons.add(getSeasonForHemisphere(month, 'north'));
-      seasons.add(getSeasonForHemisphere(month, 'south'));
-    } else {
-      seasons.add(getSeasonForHemisphere(month, hemisphere));
-    }
-  });
 
   return Array.from(seasons);
 }
-
 
 // ==========================================
 // AUTO-ATTRIBUTION DES TEMPÉRATURES
@@ -498,537 +412,94 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
     ? formData.saison
     : [formData.saison];
 
-  // Helper function pour déterminer les zones géographiques couvertes
-  const getApplicableRegions = (): string[] => {
-    if (formData.localisation !== 'multi-destinations') {
-      return [formData.localisation];
-    }
+  // Parcourir toutes les conditions climatiques
+  const data = climatData as any;
+  const categories = [
+    'precipitations',
+    'temperatures_extremes',
+    'altitude',
+    'conditions_speciales',
+    'vents',
+    'humidite'
+  ];
 
-    // Pour multi-destinations, extraire les zones des pays sélectionnés
-    const regions = new Set<string>();
-    const data = checklistCompleteData as any;
+  categories.forEach((category) => {
+    const categoryData = data.conditionsClimatiques[category];
+    if (!categoryData?.items) return;
 
-    if (formData.pays && formData.pays.length > 0) {
-      // Parcourir toutes les zones pour trouver les pays
-      Object.entries(data.localisations || {}).forEach(([zoneCode, zoneData]: [string, any]) => {
-        if (zoneCode === 'multi-destinations') return;
+    categoryData.items.forEach((item: ClimatItem) => {
+      // Skip si déjà sélectionné
+      if (formData.conditionsClimatiques?.includes(item.id)) return;
 
-        const zonePays = zoneData.pays || [];
-        // Vérifier si au moins un pays sélectionné appartient à cette zone
-        const hasCountryInZone = formData.pays.some((selectedPays: any) =>
-          zonePays.some((zonePay: any) => zonePay.code === selectedPays.code)
-        );
+      // Vérifier si l'item a des suggestions
+      if (!item.suggestions) return;
 
-        if (hasCountryInZone) {
-          regions.add(zoneCode);
+      const { temperature: suggestedTemps, saison: suggestedSeasons, description } = item.suggestions;
+
+      let matches = false;
+      let raison = '';
+      let priorite: 'haute' | 'moyenne' | 'basse' = 'moyenne';
+
+      // Correspondance température
+      if (suggestedTemps && suggestedTemps.length > 0) {
+        const tempMatch = temperatures.some(t => suggestedTemps.includes(t));
+        if (tempMatch) {
+          matches = true;
+          raison = `Température adaptée (${temperatures.join(', ')})`;
+          priorite = 'haute';
         }
-      });
-    }
+      }
 
-    return Array.from(regions);
-  };
+      // Correspondance saison
+      if (suggestedSeasons && suggestedSeasons.length > 0) {
+        const seasonMatch = saisons.some(s => suggestedSeasons.includes(s));
+        if (seasonMatch) {
+          matches = true;
+          if (raison) {
+            raison += ` et saison (${saisons.join(', ')})`;
+          } else {
+            raison = `Saison adaptée (${saisons.join(', ')})`;
+            priorite = 'moyenne';
+          }
+        }
+      }
 
-  /**
-   * Helper pour vérifier si la période de voyage (dateDepart -> dateRetour) chevauche une période donnée
-   * @param periodStart - Mois de début de la période à vérifier (1-12)
-   * @param periodEnd - Mois de fin de la période à vérifier (1-12)
-   * @returns true si la période de voyage chevauche la période donnée
-   */
-  const tripOverlapsPeriod = (periodStart: number, periodEnd: number): boolean => {
-    if (!formData.dateDepart) return false;
+      // Correspondance destination
+      if (item.filtres?.destinations && item.filtres.destinations.length > 0) {
+        const destMatch = matchesDestination(item.filtres.destinations, formData.localisation);
+        if (destMatch) {
+          matches = true;
+          if (raison) {
+            raison += ' et destination';
+          } else {
+            raison = 'Destination adaptée';
+            priorite = 'basse';
+          }
+        }
+      }
 
-    const startMonth = new Date(formData.dateDepart).getMonth() + 1; // 1-12
-    let endMonth = startMonth;
-
-    // Si on a une date de retour, calculer le mois de fin
-    if (formData.dateRetour) {
-      endMonth = new Date(formData.dateRetour).getMonth() + 1;
-    }
-
-    // Générer tous les mois couverts par le voyage
-    const tripMonths = new Set<number>();
-    let currentDate = new Date(formData.dateDepart);
-    const endDate = formData.dateRetour ? new Date(formData.dateRetour) : new Date(formData.dateDepart);
-
-    while (currentDate <= endDate) {
-      tripMonths.add(currentDate.getMonth() + 1); // 1-12
-      currentDate.setMonth(currentDate.getMonth() + 1);
-    }
-
-    // Générer tous les mois de la période à vérifier
-    const periodMonths = new Set<number>();
-    if (periodStart > periodEnd) {
-      // Période qui traverse l'année (ex: nov-avril = 11-4)
-      for (let m = periodStart; m <= 12; m++) periodMonths.add(m);
-      for (let m = 1; m <= periodEnd; m++) periodMonths.add(m);
-    } else {
-      for (let m = periodStart; m <= periodEnd; m++) periodMonths.add(m);
-    }
-
-    // Vérifier s'il y a un chevauchement
-    return Array.from(tripMonths).some(m => periodMonths.has(m));
-  };
-
-  const applicableRegions = getApplicableRegions();
-
-  // === RÈGLE 1 : Température très chaude → Canicule ===
-  if (temperatures.includes('tres-chaude')) {
-    // Vérifier si pas déjà sélectionné
-    if (!formData.conditionsClimatiques?.includes('climat_canicule')) {
-      suggestions.push({
-        conditionId: 'climat_canicule',
-        nom: '🔥 Chaleur extrême (>40°C)',
-        emoji: '🔥',
-        raison: 'Température très chaude sélectionnée - équipements chaleur extrême recommandés',
-        priorite: 'haute'
-      });
-    }
-
-    // Si destination désertique, suggérer aussi canicule désertique
-    if (applicableRegions.some(r => ['afrique', 'asie', 'oceanie'].includes(r))) {
-      if (!formData.conditionsClimatiques?.includes('climat_desert_extreme')) {
+      // Ajouter à la liste des suggestions si match
+      if (matches) {
         suggestions.push({
-          conditionId: 'climat_desert_extreme',
-          nom: '🏜️ Canicule désertique (>45°C)',
-          emoji: '🏜️',
-          raison: 'Destination avec zones désertiques possibles en climat très chaud',
-          priorite: 'moyenne'
+          conditionId: item.id,
+          nom: item.nom,
+          emoji: item.emoji,
+          raison: description || raison,
+          priorite
         });
       }
-    }
-  }
+    });
+  });
 
-  // === RÈGLE 2 : Température très froide → Froid polaire ===
-  if (temperatures.includes('tres-froide')) {
-    if (!formData.conditionsClimatiques?.includes('climat_froid_intense')) {
-      suggestions.push({
-        conditionId: 'climat_froid_intense',
-        nom: '🥶 Froid polaire (<-20°C)',
-        emoji: '🥶',
-        raison: 'Température très froide sélectionnée - équipements grand froid essentiels',
-        priorite: 'haute'
-      });
-    }
-  }
-
-  // === RÈGLE 3 : Hiver → Neige ===
-  if (saisons.includes('hiver')) {
-    if (!formData.conditionsClimatiques?.includes('climat_neige')) {
-      // Seulement pour certaines destinations
-      if (applicableRegions.some(r => ['europe', 'amerique-nord', 'asie'].includes(r))) {
-        suggestions.push({
-          conditionId: 'climat_neige',
-          nom: '❄️ Neige / Blizzard',
-          emoji: '❄️',
-          raison: 'Saison hivernale dans une région avec risque de neige',
-          priorite: 'haute'
-        });
-      }
-    }
-  }
-
-  // === RÈGLE 4 : Été + Asie → Mousson ===
-  if (applicableRegions.includes('asie')) {
-    if (!formData.conditionsClimatiques?.includes('climat_mousson')) {
-      // Mousson Asie: mai-octobre (5-10)
-      // Vérifier si le voyage chevauche cette période
-      if (tripOverlapsPeriod(5, 10)) {
-        suggestions.push({
-          conditionId: 'climat_mousson',
-          nom: '🌧️ Saison des pluies / Mousson',
-          emoji: '🌧️',
-          raison: 'Période de mousson probable en Asie entre mai et octobre',
-          priorite: 'haute'
-        });
-      }
-    }
-  }
-
-  // === RÈGLE 5 : Caraïbes + Juin-Novembre → Cyclones ===
-  if (applicableRegions.includes('amerique-centrale-caraibes')) {
-    if (!formData.conditionsClimatiques?.includes('climat_cyclones')) {
-      // Saison cyclonique: juin-novembre (6-11)
-      if (tripOverlapsPeriod(6, 11)) {
-        suggestions.push({
-          conditionId: 'climat_cyclones',
-          nom: '🌀 Cyclones / Ouragans',
-          emoji: '🌀',
-          raison: 'Saison cyclonique active dans les Caraïbes (juin à novembre)',
-          priorite: 'haute'
-        });
-      }
-    }
-  }
-
-  // === RÈGLE 6 : Activités plage/nautiques + zones tropicales → Climat marin ===
-  if (
-    (formData.activites.includes('plage') || formData.activites.includes('sports-nautiques')) &&
-    applicableRegions.some(r => ['amerique-centrale-caraibes', 'oceanie', 'asie', 'afrique'].includes(r))
-  ) {
-    if (!formData.conditionsClimatiques?.includes('climat_marin')) {
-      suggestions.push({
-        conditionId: 'climat_marin',
-        nom: '🌊 Environnement marin',
-        emoji: '🌊',
-        raison: 'Activités marines dans une région côtière',
-        priorite: 'moyenne'
-      });
-    }
-  }
-
-  // === RÈGLE 7 : Randonnée + Certaines destinations → Altitude ===
-  if (formData.activites.includes('randonnee')) {
-    if (applicableRegions.some(r => ['amerique-sud', 'asie', 'afrique'].includes(r))) {
-      if (!formData.conditionsClimatiques?.some(c => c.startsWith('climat_altitude_'))) {
-        suggestions.push({
-          conditionId: 'climat_altitude_temperee',
-          nom: '🏔️ Altitude modérée (2500-3500m)',
-          emoji: '🏔️',
-          raison: 'Randonnée dans une région avec possibilité d\'altitude significative',
-          priorite: 'moyenne'
-        });
-      }
-    }
-  }
-
-  // === RÈGLE 8 : Zones tropicales → Climat tropical humide ===
-  if (
-    applicableRegions.some(r => ['amerique-sud', 'afrique', 'asie', 'oceanie'].includes(r)) &&
-    temperatures.some(t => ['chaude', 'tres-chaude'].includes(t))
-  ) {
-    if (!formData.conditionsClimatiques?.includes('climat_tropical_humide')) {
-      suggestions.push({
-        conditionId: 'climat_tropical_humide',
-        nom: '🏝️ Climat tropical humide',
-        emoji: '🏝️',
-        raison: 'Zone tropicale avec chaleur et humidité élevées',
-        priorite: 'moyenne'
-      });
-    }
-  }
-
-  // === RÈGLE 9 : Zones équatoriales → Orages tropicaux ===
-  if (applicableRegions.some(r => ['amerique-centrale-caraibes', 'afrique', 'asie', 'amerique-sud'].includes(r))) {
-    if (!formData.conditionsClimatiques?.includes('climat_orages')) {
-      // Orages fréquents mars-juillet zones tropicales
-      if (tripOverlapsPeriod(3, 7)) {
-        suggestions.push({
-          conditionId: 'climat_orages',
-          nom: '⛈️ Orages tropicaux fréquents',
-          emoji: '⛈️',
-          raison: 'Période d\'orages intenses dans les zones tropicales',
-          priorite: 'moyenne'
-        });
-      }
-    }
-  }
-
-  // === RÈGLE 10 : Harmattan (Afrique de l'Ouest) ===
-  if (applicableRegions.includes('afrique')) {
-    if (!formData.conditionsClimatiques?.includes('climat_harmattan')) {
-      // Harmattan: novembre-mars (période qui traverse l'année)
-      if (tripOverlapsPeriod(11, 3)) {
-        suggestions.push({
-          conditionId: 'climat_harmattan',
-          nom: '🌬️ Harmattan (vent de sable)',
-          emoji: '🌬️',
-          raison: 'Saison de l\'Harmattan en Afrique de l\'Ouest',
-          priorite: 'moyenne'
-        });
-      }
-    }
-  }
-
-  // === RÈGLE 11 : Zones volcaniques actives ===
-  const volcanicCountries = ['islande', 'indonesie', 'japon', 'philippines', 'equateur', 'guatemala', 'costa-rica', 'nouvelle-zelande'];
-  const hasVolcanicCountry = formData.pays?.some((p: any) =>
-    volcanicCountries.some(vc => p.code.toLowerCase().includes(vc))
-  );
-
-  if (hasVolcanicCountry && formData.activites.includes('randonnee')) {
-    if (!formData.conditionsClimatiques?.includes('climat_volcanique')) {
-      suggestions.push({
-        conditionId: 'climat_volcanique',
-        nom: '🌋 Zone volcanique active',
-        emoji: '🌋',
-        raison: 'Destination avec volcans actifs et activité randonnée',
-        priorite: 'moyenne'
-      });
-    }
-  }
-
-  // === RÈGLE 12 : Jungle dense ===
-  if (
-    (formData.activites.includes('randonnee') || formData.activites.includes('backpacking')) &&
-    applicableRegions.some(r => ['amerique-sud', 'afrique', 'asie', 'oceanie'].includes(r))
-  ) {
-    if (!formData.conditionsClimatiques?.includes('climat_jungle_dense')) {
-      suggestions.push({
-        conditionId: 'climat_jungle_dense',
-        nom: '🌲 Forêt dense / Jungle',
-        emoji: '🌲',
-        raison: 'Trekking dans des régions avec forêts tropicales denses',
-        priorite: 'moyenne'
-      });
-    }
-  }
-
-  // === RÈGLE 13 : Désert aride ===
-  if (
-    temperatures.some(t => ['chaude', 'tres-chaude'].includes(t)) &&
-    applicableRegions.some(r => ['afrique', 'asie', 'oceanie'].includes(r))
-  ) {
-    if (!formData.conditionsClimatiques?.includes('climat_desert_aride')) {
-      suggestions.push({
-        conditionId: 'climat_desert_aride',
-        nom: '🐫 Désert aride',
-        emoji: '🐫',
-        raison: 'Climat désertique avec températures élevées',
-        priorite: 'moyenne'
-      });
-    }
-  }
-
-  // === RÈGLE 14 : Amplitude thermique extrême (déserts) ===
-  if (
-    formData.conditionsClimatiques?.some(c => c.includes('desert') || c === 'climat_sec_aride') ||
-    (temperatures.some(t => ['chaude', 'tres-chaude'].includes(t)) &&
-     applicableRegions.some(r => ['afrique', 'asie'].includes(r)))
-  ) {
-    if (!formData.conditionsClimatiques?.includes('climat_amplitude_thermique')) {
-      suggestions.push({
-        conditionId: 'climat_amplitude_thermique',
-        nom: '🌡️ Amplitude thermique extrême',
-        emoji: '🌡️',
-        raison: 'Grandes variations de température jour/nuit en zone désertique',
-        priorite: 'moyenne'
-      });
-    }
-  }
-
-  // === RÈGLE 15 : Humidité extrême (zones tropicales) ===
-  if (
-    applicableRegions.some(r => ['asie', 'amerique-sud', 'afrique', 'oceanie'].includes(r)) &&
-    temperatures.some(t => ['chaude', 'tres-chaude'].includes(t))
-  ) {
-    if (!formData.conditionsClimatiques?.includes('climat_humidite')) {
-      suggestions.push({
-        conditionId: 'climat_humidite',
-        nom: '💧 Humidité extrême (>85%)',
-        emoji: '💧',
-        raison: 'Zone tropicale avec humidité très élevée',
-        priorite: 'moyenne'
-      });
-    }
-  }
-
-  // === RÈGLE 16 : Sécheresse extrême ===
-  if (
-    temperatures.some(t => ['chaude', 'tres-chaude'].includes(t)) &&
-    (formData.conditionsClimatiques?.includes('climat_desert_aride') ||
-     formData.conditionsClimatiques?.includes('climat_sec_aride'))
-  ) {
-    if (!formData.conditionsClimatiques?.includes('climat_secheresse')) {
-      suggestions.push({
-        conditionId: 'climat_secheresse',
-        nom: '🏜️ Sécheresse extrême (<20%)',
-        emoji: '🏜️',
-        raison: 'Humidité très basse en zone aride',
-        priorite: 'moyenne'
-      });
-    }
-  }
-
-  // === RÈGLE 17 : Vents forts (Patagonie, zones montagneuses) ===
-  const windyCountries = ['argentine', 'chili', 'islande', 'nouvelle-zelande'];
-  const hasWindyCountry = formData.pays?.some((p: any) =>
-    windyCountries.some(wc => p.code.toLowerCase().includes(wc))
-  );
-
-  if (hasWindyCountry || (formData.activites.includes('randonnee') && applicableRegions.includes('amerique-sud'))) {
-    if (!formData.conditionsClimatiques?.includes('climat_vents_forts')) {
-      suggestions.push({
-        conditionId: 'climat_vents_forts',
-        nom: '💨 Vents violents / Tempêtes',
-        emoji: '💨',
-        raison: 'Région connue pour ses vents violents',
-        priorite: 'moyenne'
-      });
-    }
-  }
-
-  // === RÈGLE 18 : Altitude haute (>3500m) pour trek avancé ===
-  if (
-    formData.activites.includes('randonnee') &&
-    applicableRegions.some(r => ['asie', 'amerique-sud'].includes(r))
-  ) {
-    const highAltitudeCountries = ['nepal', 'tibet', 'perou', 'bolivie', 'equateur'];
-    const hasHighAltitude = formData.pays?.some((p: any) =>
-      highAltitudeCountries.some(hac => p.code.toLowerCase().includes(hac))
-    );
-
-    if (hasHighAltitude && !formData.conditionsClimatiques?.includes('climat_altitude_haute')) {
-      suggestions.push({
-        conditionId: 'climat_altitude_haute',
-        nom: '⛰️ Haute altitude (3500-5500m)',
-        emoji: '⛰️',
-        raison: 'Trek en haute montagne dans une région d\'altitude extrême',
-        priorite: 'haute'
-      });
-    }
-  }
-
-  // === RÈGLE 19 : Arctique / Banquise ===
-  if (temperatures.includes('tres-froide')) {
-    const arcticCountries = ['groenland', 'islande', 'norvege', 'finlande', 'canada', 'alaska'];
-    const hasArcticCountry = formData.pays?.some((p: any) =>
-      arcticCountries.some(ac => p.code.toLowerCase().includes(ac))
-    );
-
-    if (hasArcticCountry && tripOverlapsPeriod(11, 3)) {
-      if (!formData.conditionsClimatiques?.includes('climat_arctique')) {
-        suggestions.push({
-          conditionId: 'climat_arctique',
-          nom: '❄️ Banquise / Arctique',
-          emoji: '❄️',
-          raison: 'Région arctique en plein hiver avec conditions extrêmes',
-          priorite: 'haute'
-        });
-      }
-    }
-  }
-
-  // === RÈGLE 20 : Brouillard (côtes, montagnes) ===
-  if (
-    formData.activites.includes('randonnee') &&
-    (applicableRegions.includes('europe') || applicableRegions.includes('amerique-nord'))
-  ) {
-    if (!formData.conditionsClimatiques?.includes('climat_brouillard')) {
-      // Brouillard fréquent automne/hiver (octobre-mars)
-      if (tripOverlapsPeriod(10, 3)) {
-        suggestions.push({
-          conditionId: 'climat_brouillard',
-          nom: '🌫️ Brouillard dense',
-          emoji: '🌫️',
-          raison: 'Période propice au brouillard en zone montagneuse ou côtière',
-          priorite: 'moyenne'
-        });
-      }
-    }
-  }
+  // Trier par priorité
+  const priorityOrder = { haute: 1, moyenne: 2, basse: 3 };
+  suggestions.sort((a, b) => priorityOrder[a.priorite] - priorityOrder[b.priorite]);
 
   return suggestions;
 }
 
 // ==========================================
-// DESTINATIONS SPÉCIFIQUES (BACKEND)
-// ==========================================
-
-/**
- * Retourne les items de destinations spécifiques (désert, jungle, montagne)
- * Logique backend uniquement, pas visible dans le formulaire
- */
-function getDestinationSpecificItems(formData: FormData): DestinationSpecifiqueItem[] {
-  const data = climatData as any;
-  const allItems: DestinationSpecifiqueItem[] = [];
-
-  if (!data.destinationsSpecifiques) return allItems;
-
-  // Helper function pour déterminer les zones géographiques couvertes (même que generateAutoSuggestions)
-  const getApplicableRegions = (): string[] => {
-    if (formData.localisation !== 'multi-destinations') {
-      return [formData.localisation];
-    }
-
-    const regions = new Set<string>();
-    const locData = checklistCompleteData as any;
-
-    if (formData.pays && formData.pays.length > 0) {
-      Object.entries(locData.localisations || {}).forEach(([zoneCode, zoneData]: [string, any]) => {
-        if (zoneCode === 'multi-destinations') return;
-
-        const zonePays = zoneData.pays || [];
-        const hasCountryInZone = formData.pays.some((selectedPays: any) =>
-          zonePays.some((zonePay: any) => zonePay.code === selectedPays.code)
-        );
-
-        if (hasCountryInZone) {
-          regions.add(zoneCode);
-        }
-      });
-    }
-
-    return Array.from(regions);
-  };
-
-  const applicableRegions = getApplicableRegions();
-
-  // === DÉSERT ===
-  const desertTrigger = data.destinationsSpecifiques.desert.trigger;
-  if (
-    applicableRegions.some((r: string) => desertTrigger.destinations.includes(r)) &&
-    (
-      formData.activites.some((act: string) => desertTrigger.activites.includes(act)) ||
-      formData.conditionsClimatiques?.some((c: string) =>
-        desertTrigger.ou_conditions.includes(c)
-      )
-    )
-  ) {
-    const desertItems = data.destinationsSpecifiques.desert.items;
-    desertItems.forEach((item: DestinationSpecifiqueItem) => {
-      // Vérifier filtres activités si présents
-      if (!item.filtres?.activites ||
-          formData.activites.some(act => item.filtres!.activites!.includes(act))) {
-        allItems.push(item);
-      }
-    });
-  }
-
-  // === JUNGLE ===
-  const jungleTrigger = data.destinationsSpecifiques.jungle.trigger;
-  if (
-    applicableRegions.some((r: string) => jungleTrigger.destinations.includes(r)) &&
-    (
-      formData.activites.some((act: string) => jungleTrigger.activites.includes(act)) ||
-      formData.conditionsClimatiques?.some((c: string) =>
-        jungleTrigger.ou_conditions.includes(c)
-      )
-    )
-  ) {
-    const jungleItems = data.destinationsSpecifiques.jungle.items;
-    jungleItems.forEach((item: DestinationSpecifiqueItem) => {
-      if (!item.filtres?.activites ||
-          formData.activites.some(act => item.filtres!.activites!.includes(act))) {
-        allItems.push(item);
-      }
-    });
-  }
-
-  // === MONTAGNE ALTITUDE ===
-  const montagneTrigger = data.destinationsSpecifiques.montagne_altitude.trigger;
-  if (
-    applicableRegions.some((r: string) => montagneTrigger.destinations.includes(r)) &&
-    (
-      formData.activites.some((act: string) => montagneTrigger.activites.includes(act)) ||
-      formData.conditionsClimatiques?.some((c: string) =>
-        montagneTrigger.ou_conditions.includes(c)
-      )
-    )
-  ) {
-    const montagneItems = data.destinationsSpecifiques.montagne_altitude.items;
-    montagneItems.forEach((item: DestinationSpecifiqueItem) => {
-      if (!item.filtres?.activites ||
-          formData.activites.some(act => item.filtres!.activites!.includes(act))) {
-        allItems.push(item);
-      }
-    });
-  }
-
-  return allItems;
-}
-
-// ==========================================
-// HELPERS POUR UI
+// EXPORTS SUPPLÉMENTAIRES
 // ==========================================
 
 /**
@@ -1051,18 +522,18 @@ export function acceptSuggestion(conditionId: string, formData: FormData): strin
     formData.localisation
   );
 
-  const matchesAct = matchesActivites(
-    condition.filtres?.activites,
-    formData.activites
-  );
-
-  const matchesPer = matchesPeriode(
+  const matchesPeriod = matchesPeriode(
     condition.filtres?.periode || [],
     formData.dateDepart,
     formData.localisation
   );
 
-  if (matchesDest && matchesAct && matchesPer) {
+  const matchesAct = matchesActivites(
+    condition.filtres?.activites,
+    formData.activites
+  );
+
+  if (matchesDest && matchesPeriod && matchesAct) {
     return condition.equipement;
   }
 
@@ -1078,9 +549,8 @@ export function getFilterSummary(formData: FormData): string {
 📍 Pays: ${formData.pays.map(p => p.nom).join(', ')}
 📅 Date départ: ${formData.dateDepart}
 🌡️ Températures: ${Array.isArray(formData.temperature) ? formData.temperature.join(', ') : formData.temperature}
-🗓️ Saisons: ${Array.isArray(formData.saison) ? formData.saison.join(', ') : formData.saison}
-🎭 Activités: ${formData.activites.join(', ')}
-🌦️ Conditions: ${formData.conditionsClimatiques?.join(', ') || 'Aucune'}
+🍂 Saisons: ${Array.isArray(formData.saison) ? formData.saison.join(', ') : formData.saison}
+🏔️ Conditions: ${formData.conditionsClimatiques?.join(', ') || 'aucune'}
   `.trim();
 }
 
