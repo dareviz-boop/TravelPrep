@@ -1,6 +1,6 @@
 // Step 2 Info.tsx
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -54,11 +54,21 @@ const renderMarkdown = (text: string) => {
 
 export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
-  // État local pour stocker les suggestions recommandées (pour afficher la pastille)
-  const [recommendedConditions, setRecommendedConditions] = useState<Set<string>>(new Set());
-
   // Ref pour tracker si l'utilisateur a modifié manuellement les conditions climatiques
   const hasUserModifiedConditionsRef = useRef(false);
+
+  // Ref pour tracker si les recommandations ont déjà été calculées (évite de les recalculer constamment)
+  const recommendationsCalculatedRef = useRef(false);
+
+  // Calculer les recommandations avec useMemo pour qu'elles soient toujours disponibles
+  const recommendedConditions = useMemo(() => {
+    if (!formData.localisation || !formData.dateDepart || !formData.pays || formData.pays.length === 0) {
+      return new Set<string>();
+    }
+
+    const suggestions = generateAutoSuggestions(formData);
+    return new Set(suggestions.map(s => s.conditionId));
+  }, [formData.localisation, formData.pays, formData.temperature, formData.saison, formData.dateDepart, formData.dateRetour]);
 
   /**
    * 🌍 Auto-détection des saisons : Attribution automatique selon pays, date et durée
@@ -111,7 +121,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
    * ✨ Améliorations :
    * - Se déclenche dès la première visite (sans attendre température/saison)
    * - Préserve les sélections manuelles de l'utilisateur
-   * - Stocke les suggestions pour afficher la pastille "Recommandé"
+   * - Les recommandations sont calculées avec useMemo et toujours disponibles
    */
   useEffect(() => {
     // Vérifier qu'on a au moins une destination, des pays et une date de départ
@@ -119,13 +129,14 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
       return;
     }
 
+    // Ne pré-sélectionner qu'une seule fois
+    if (recommendationsCalculatedRef.current) {
+      return;
+    }
+
     const suggestions = generateAutoSuggestions(formData);
 
     if (suggestions.length > 0) {
-      // Stocker les IDs des suggestions recommandées
-      const suggestedIds = new Set(suggestions.map(s => s.conditionId));
-      setRecommendedConditions(suggestedIds);
-
       // Ne pré-sélectionner QUE si l'utilisateur n'a pas encore modifié manuellement
       if (!hasUserModifiedConditionsRef.current) {
         const current = formData.conditionsClimatiques || [];
@@ -142,7 +153,20 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
           });
         }
       }
+    } else {
+      // Si aucune suggestion n'est proposée, sélectionner automatiquement "climat_aucune"
+      if (!hasUserModifiedConditionsRef.current) {
+        const current = formData.conditionsClimatiques || [];
+        if (current.length === 0 || !current.includes('climat_aucune')) {
+          updateFormData({
+            conditionsClimatiques: ['climat_aucune']
+          });
+        }
+      }
     }
+
+    // Marquer que les recommandations ont été calculées
+    recommendationsCalculatedRef.current = true;
   }, [formData.localisation, formData.pays, formData.temperature, formData.saison, formData.dateDepart, formData.dateRetour]);
 
   /**
