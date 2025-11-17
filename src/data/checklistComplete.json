@@ -378,9 +378,9 @@
     "options": [
       { "id": "solo", "nom": "Solo", "description": "Voyageur seul", "emoji": "🚶" },
       { "id": "couple", "nom": "Couple", "description": "Voyage à deux", "emoji": "💑" },
-      { "id": "famille", "nom": "Famille", "description": "Avec enfants", "emoji": "👨‍👩‍👧‍👦" },
       { "id": "groupe", "nom": "Groupe d'amis", "description": "Entre amis", "emoji": "👥" },
-      { "id": "pro", "nom": "Voyage professionnel", "description": "Déplacement business", "emoji": "💼" }
+      { "id": "pro", "nom": "Voyage professionnel", "description": "Déplacement business", "emoji": "💼" },
+      { "id": "famille", "nom": "Famille", "description": "Avec enfants", "emoji": "👨‍👩‍👧‍👦" }
     ]
   },
 
