@@ -164,7 +164,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
             placeholder="Ex: Voyage au pays des pandas - 2028"
             value={formData.nomVoyage}
             onChange={(e) => updateFormData({ nomVoyage: e.target.value })}
-            className="h-14 text-base focus:border-primary"
+            className="h-14 text-base"
             required
           />
           <p className="text-sm text-muted-foreground">
@@ -569,7 +569,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                     htmlFor={option.value}
                     className={cn(
                       "flex flex-col items-center justify-center rounded-xl border-2 border-border bg-card p-4 cursor-pointer transition-all",
-                      "hover:bg-primary/5 hover:border-primary/50 peer-data-[state=checked]:border-[#616161] peer-data-[state=checked]:bg-[#f5f5f5]"
+                      "hover:bg-primary/5 hover:border-primary/50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10"
                     )}
                   >
                     <span className="text-sm font-bold text-foreground">{option.label}</span>
