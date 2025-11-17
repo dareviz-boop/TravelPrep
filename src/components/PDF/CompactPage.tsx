@@ -1,6 +1,7 @@
 import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
 import { GeneratedChecklist, ChecklistItem } from '@/utils/checklistGenerator';
+import { PDFIcon } from './PDFIcon';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
 // Helvetica ne supporte PAS les emojis Unicode, ils apparaissent corrompus
@@ -93,11 +94,11 @@ interface CompactPageProps {
 }
 
 export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
-  const getPrioritySymbol = (priorite?: string) => {
+  const getPriorityIcon = (priorite?: string): 'chevronsUp' | 'minus' | 'chevronsDown' => {
     const p = priorite?.toLowerCase() || '';
-    if (p.includes('haute')) return '[H]';
-    if (p.includes('basse')) return '[B]';
-    return '[M]'; // moyenne
+    if (p.includes('haute')) return 'chevronsUp';
+    if (p.includes('basse')) return 'chevronsDown';
+    return 'minus'; // moyenne
   };
 
   // Fonction pour extraire le numéro de jours du délai
@@ -133,9 +134,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
             {sortedItems.map((item, index) => (
               <View style={styles.item} key={item.id || `item-${index}`}>
                 {item.priorite && (
-                  <Text style={styles.prioritySymbol}>
-                    {getPrioritySymbol(item.priorite)}
-                  </Text>
+                  <PDFIcon name={getPriorityIcon(item.priorite)} style={{ marginRight: 3, marginTop: 1 }} />
                 )}
                 <View style={styles.checkbox} />
                 <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>

@@ -496,7 +496,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                   setKnowsReturnDate(false);
                   // Ne pas effacer dateRetour pour conserver la valeur si l'utilisateur change d'avis
                 }}
-                className="text-sm text-primary hover:text-primary hover:bg-primary/10 border-2"
+                className="text-sm hover:bg-primary/10 border-2"
               >
                 📅 Je ne connais pas ma date de retour
               </Button>
