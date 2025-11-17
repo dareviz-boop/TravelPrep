@@ -177,7 +177,15 @@ const validateStep = (step: number): boolean => {
       console.log('📊 Stats:', generatedChecklist.stats);
 
       console.log('📥 Import de @react-pdf/renderer...');
-      const { pdf } = await import('@react-pdf/renderer');
+      // Import avec retry en cas d'échec
+      const reactPdfModule = await import('@react-pdf/renderer').catch(async (err) => {
+        console.error('❌ Erreur initiale import @react-pdf/renderer:', err);
+        console.log('🔄 Nouvelle tentative dans 1 seconde...');
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        return import('@react-pdf/renderer');
+      });
+
+      const { pdf } = reactPdfModule;
 
       console.log('📥 Import du composant TravelPrepPDF...');
       const { TravelPrepPDF } = await import('@/components/PDF/PDFDocument');
@@ -203,8 +211,9 @@ const validateStep = (step: number): boolean => {
     } catch (error) {
       console.error("❌ Erreur génération PDF:", error);
       console.error("❌ Stack:", (error as Error).stack);
+      const errorMessage = error instanceof Error ? error.message : "Veuillez réessayer";
       toast.error("Erreur lors de la génération du PDF", {
-        description: error instanceof Error ? error.message : "Veuillez réessayer",
+        description: `${errorMessage}\n\nℹ️ Essayez de rafraîchir la page si le problème persiste.`,
       });
     }
   };
