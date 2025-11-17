@@ -338,17 +338,17 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
         {disclaimerMessage && (
           <Card className="p-6 bg-muted/30 border-2 border-primary/20 shadow-lg">
             <h3 className="font-bold text-xl mb-4 flex items-center gap-2 text-primary">
-              🔔 Petite note sur le climat et la saisonnalité
+              📌 Petite note sur le climat et la saisonnalité
             </h3>
             <div className="text-sm text-foreground leading-relaxed">
               {renderMarkdown(disclaimerMessage)}
 
-              {/* Légende pour l'emoji 📌 (uniquement si des recommandations existent) */}
+              {/* Légende pour l'emoji 🔔 (uniquement si des recommandations existent) */}
               {recommendedConditions.size > 0 && (
                 <>
                   <br />
                   <br />
-                  <span className="text-xs text-muted-foreground italic">
+                  <span className="text-xs text-muted-foreground">
                     🔔 Les conditions climatiques marquées de cet emoji sont recommandées par l'application selon votre destination et vos dates.
                   </span>
                 </>
