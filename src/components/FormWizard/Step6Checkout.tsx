@@ -10,9 +10,22 @@ interface Step6CheckoutProps {
   updateFormData: (data: Partial<FormData>) => void;
 }
 
+interface PDFComponentsType {
+  PDFViewer: React.ComponentType<{
+    width: string;
+    height: string;
+    showToolbar: boolean;
+    children: React.ReactNode;
+  }>;
+  TravelPrepPDF: React.ComponentType<{
+    formData: FormData;
+    checklistData: any;
+  }>;
+}
+
 export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) => {
   const [showPDF, setShowPDF] = useState(false);
-  const [PDFComponents, setPDFComponents] = useState<any>(null);
+  const [PDFComponents, setPDFComponents] = useState<PDFComponentsType | null>(null);
   const [pdfError, setPdfError] = useState<string | null>(null);
 
   // 🔧 FIX: Utiliser useMemo pour éviter de recalculer la checklist à chaque render

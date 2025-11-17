@@ -11,6 +11,34 @@ import { useEffect } from "react";
 import { generateAutoSuggestions, autoDetectSeasons, autoDetectTemperatures } from "@/utils/checklistFilters";
 import { Card } from "@/components/ui/card";
 
+interface SaisonOption {
+  id: string;
+  nom: string;
+  emoji: string;
+  description: string;
+}
+
+interface TemperatureOption {
+  id: string;
+  nom: string;
+  emoji: string;
+  description: string;
+}
+
+interface ConditionClimatiqueOption {
+  id: string;
+  nom: string;
+}
+
+interface ConditionClimatiqueGroupe {
+  groupe: string;
+  options: ConditionClimatiqueOption[];
+}
+
+interface LocalisationOption {
+  nom: string;
+}
+
 interface Step2InfoProps {
   formData: FormData;
   updateFormData: (data: Partial<FormData>) => void;
@@ -247,7 +275,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
    * Obtenir le label de la localisation
    */
   const getLocalisationLabel = (): string => {
-    const localisations: any = checklistData.localisations || {};
+    const localisations = checklistData.localisations as Record<string, LocalisationOption>;
     const localisation = localisations[formData.localisation];
     if (localisation && localisation.nom) {
       // Retirer l'emoji si présent (ex: "🇪🇺 Europe" → "Europe")
@@ -334,8 +362,8 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
           <Label className="text-base font-semibold">
             📅 Saisons de voyage <span className="text-primary">*</span>
           </Label>
-          <div className="grid grid-cols-2 gap-3"> 
-            {checklistData.saisons.options.map((saison: any) => {
+          <div className="grid grid-cols-2 gap-3">
+            {(checklistData.saisons.options as SaisonOption[]).map((saison: SaisonOption) => {
                 const isSelected = (formData.saison as string[] || []).includes(saison.id);
                 return (
                     <div key={saison.id}>
@@ -375,8 +403,8 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
           <Label className="text-base font-semibold">
             🌡️ Températures moyennes sur place <span className="text-primary">*</span>
           </Label>
-          <div className="grid grid-cols-1 gap-3"> 
-            {checklistData.temperatures.options.map((temp: any) => {
+          <div className="grid grid-cols-1 gap-3">
+            {(checklistData.temperatures.options as TemperatureOption[]).map((temp: TemperatureOption) => {
                 const isSelected = (formData.temperature as string[] || []).includes(temp.id);
                 return (
                     <div key={temp.id}>
@@ -418,10 +446,10 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
           </h3>
 
           {/* 🔧 LOG: Vérification du nombre de groupes */}
-          {console.log(`📊 Nombre de groupes de conditions climatiques : ${checklistData.conditionsClimatiques.length}`, checklistData.conditionsClimatiques.map((g: any) => g.groupe))}
+          {console.log(`📊 Nombre de groupes de conditions climatiques : ${checklistData.conditionsClimatiques.length}`, (checklistData.conditionsClimatiques as ConditionClimatiqueGroupe[]).map((g) => g.groupe))}
 
           {/* Utilise la structure groupée du JSON */}
-          {checklistData.conditionsClimatiques.map((groupe, index) => (
+          {(checklistData.conditionsClimatiques as ConditionClimatiqueGroupe[]).map((groupe, index) => (
             <div key={index} className="space-y-3 p-4 border rounded-xl bg-card shadow-sm">
               <Label className="text-base font-bold text-primary/80 border-b pb-2 block">
                 {groupe.groupe}

@@ -5,41 +5,62 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FormData } from "@/types/form";
 import { checklistData } from "@/utils/checklistUtils";
 import { Card } from "@/components/ui/card";
-import { cn } from "@/lib/utils"; 
+import { cn } from "@/lib/utils";
 import { Flag } from "lucide-react"; // Importation pour un drapeau générique si besoin
+
+// ----------------------------------------------------------------------
+// Types pour les options
+// ----------------------------------------------------------------------
+
+interface GenericOption {
+  id: string;
+  nom?: string;
+  label?: string;
+  emoji?: string;
+  description?: string;
+}
+
+interface OptionGroup {
+  options?: GenericOption[];
+}
+
+interface GroupedOption {
+  groupe: string;
+  options: GenericOption[];
+}
 
 // ----------------------------------------------------------------------
 // Fonctions d'aide (inchangées)
 // ----------------------------------------------------------------------
 
 // Fonction pour trouver les détails dans une liste simple ou dans un groupe avec 'options: []'
-const getOptionDetailsFromList = (groupKey: keyof typeof checklistData, id: string | undefined) => {
+const getOptionDetailsFromList = (groupKey: keyof typeof checklistData, id: string | undefined): GenericOption | null => {
   if (!id) return null;
-  const group = checklistData[groupKey] as { options?: any[] };
+  const group = checklistData[groupKey] as OptionGroup;
   return group?.options?.find(option => option.id === id) || null;
 };
 
 // Fonction pour trouver les détails dans une liste de groupes (ex: conditionsClimatiques)
-const getOptionDetailsFromGroupedList = (groupKey: keyof typeof checklistData, id: string) => {
-  const groups = checklistData[groupKey] as any;
+const getOptionDetailsFromGroupedList = (groupKey: keyof typeof checklistData, id: string): GenericOption | null => {
+  const groups = checklistData[groupKey];
   if (Array.isArray(groups)) {
-    for (const group of groups) {
-      const option = group.options?.find((opt: any) => opt.id === id);
+    for (const group of groups as GroupedOption[]) {
+      const option = group.options?.find((opt: GenericOption) => opt.id === id);
       if (option) return option;
     }
-  } 
+  }
   // Gère aussi le cas où 'activites' pourrait être une liste simple d'options sans groupe
-  if (groups && Array.isArray(groups.options)) {
-      return groups.options.find((opt: any) => opt.id === id);
+  if (groups && typeof groups === 'object' && 'options' in groups && Array.isArray((groups as OptionGroup).options)) {
+      return (groups as OptionGroup).options!.find((opt: GenericOption) => opt.id === id) || null;
   }
   return null;
 };
 
 // Fonction pour trouver les détails dans un objet/dictionnaire (ex: localisations, profils)
-const getOptionDetailsFromDict = (groupKey: keyof typeof checklistData, id: string | undefined) => {
+const getOptionDetailsFromDict = (groupKey: keyof typeof checklistData, id: string | undefined): GenericOption | null => {
   if (!id) return null;
-  const dict = checklistData[groupKey] as any;
-  return dict?.[id] || null; 
+  const dict = checklistData[groupKey] as Record<string, GenericOption>;
+  return dict?.[id] || null;
 };
 
 // Fonction pour déterminer le libellé de la durée
@@ -60,12 +81,12 @@ interface Step5OptionsProps {
 }
 
 export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) => {
-  
+
   // Lecture directe du JSON uniformisé
-  const sectionsData = checklistData.categories.options.map((category: any) => ({
+  const sectionsData = (checklistData.categories.options as GenericOption[]).map((category: GenericOption) => ({
     id: category.id,
-    label: `${category.emoji} ${category.nom}`,
-    desc: category.description,
+    label: `${category.emoji || ''} ${category.nom || category.label || ''}`,
+    desc: category.description || '',
   }));
 
   const handleSectionToggle = (sectionId: string) => {
