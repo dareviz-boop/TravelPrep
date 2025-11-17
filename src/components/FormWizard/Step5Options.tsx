@@ -131,12 +131,16 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
   // ✅ CORRECTION : Logique unifiée pour l'affichage des Conditions Climatiques
   // ----------------------------------------------------------------
   const selectedConditionsDisplay = (() => {
+    // Si pas de conditions du tout, ne rien afficher
     if (!formData.conditionsClimatiques || formData.conditionsClimatiques.length === 0) {
       return null;
     }
 
-    // Cas 1 : Seulement "aucune" sélectionnée
-    if (formData.conditionsClimatiques.length === 1 && formData.conditionsClimatiques[0] === 'climat_aucune') {
+    // Filtrer pour enlever "climat_aucune"
+    const selectedConditions = formData.conditionsClimatiques.filter(id => id !== 'climat_aucune');
+
+    // Cas 1 : Aucune condition réelle (soit tableau vide, soit seulement "climat_aucune")
+    if (selectedConditions.length === 0) {
       return (
         <span className="flex items-center gap-1">
           <span className="text-sm">❌</span>
@@ -145,33 +149,27 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
       );
     }
 
-    // Cas 2 : Une ou plusieurs conditions réelles sélectionnées
-    const selectedConditions = formData.conditionsClimatiques.filter(id => id !== 'climat_aucune');
+    // Cas 2 : Des conditions réelles sélectionnées
+    const selectedEmojis = selectedConditions
+      .map(id => {
+        const detail = getOptionDetailsFromGroupedList('conditionsClimatiques', id);
+        if (detail && detail.nom) {
+          return detail.nom.split(' ')[0]; // Extrait l'emoji
+        }
+        return null;
+      })
+      .filter(Boolean);
 
-    if (selectedConditions.length > 0) {
-      const selectedEmojis = selectedConditions
-        .map(id => {
-          const detail = getOptionDetailsFromGroupedList('conditionsClimatiques', id);
-          if (detail && detail.nom) {
-            return detail.nom.split(' ')[0]; // Extrait l'emoji
-          }
-          return null;
-        })
-        .filter(Boolean);
-
-      return (
-        <span className="flex flex-col items-end">
-          {selectedConditions.length} sélectionnée(s)
-          <div className="flex flex-wrap gap-1 mt-1 text-base justify-end">
-            {selectedEmojis.map((emoji, index) => (
-              <span key={index}>{emoji}</span>
-            ))}
-          </div>
-        </span>
-      );
-    }
-
-    return null;
+    return (
+      <span className="flex flex-col items-end">
+        {selectedConditions.length} sélectionnée(s)
+        <div className="flex flex-wrap gap-1 mt-1 text-base justify-end">
+          {selectedEmojis.map((emoji, index) => (
+            <span key={index}>{emoji}</span>
+          ))}
+        </div>
+      </span>
+    );
   })();
   // ----------------------------------------------------------------
   // Fin de la logique unifiée
@@ -455,7 +453,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
           <RadioGroup
             value={formData.formatPDF}
             onValueChange={(value) => updateFormData({ formatPDF: value as 'compact' | 'detaille' })}
-            className="grid grid-cols-1 gap-3"
+            className="grid grid-cols-2 gap-3"
           >
             <div>
               <RadioGroupItem value="compact" id="format-compact" className="peer sr-only" />

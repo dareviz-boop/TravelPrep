@@ -190,7 +190,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                 className={cn(
                   "p-4 rounded-xl border-2 transition-all text-center hover:shadow-md",
                   formData.localisation === loc.value
-                    ? "border-[#616161] bg-[#f5f5f5] shadow-md"
+                    ? "border-primary bg-primary/10 shadow-md"
                     : "border-border bg-card hover:border-primary/50"
                 )}
               >
@@ -494,7 +494,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                 size="sm"
                 onClick={() => {
                   setKnowsReturnDate(false);
-                  updateFormData({ dateRetour: '' });
+                  // Ne pas effacer dateRetour pour conserver la valeur si l'utilisateur change d'avis
                 }}
                 className="text-sm text-primary hover:text-primary hover:bg-primary/10"
               >

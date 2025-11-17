@@ -51,13 +51,27 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
     formData.formatPDF
   ]);
 
-  // Charger les composants PDF de manière dynamique
+  // Charger les composants PDF de manière dynamique avec retry
   useEffect(() => {
-    const loadPDF = async () => {
+    const loadPDF = async (retryCount = 0) => {
       try {
         console.log('📥 Chargement des composants PDF...');
-        const { PDFViewer } = await import('@react-pdf/renderer');
+
+        // Import avec gestion améliorée des erreurs
+        const reactPdfModule = await import('@react-pdf/renderer').catch(async (err) => {
+          console.error('❌ Erreur initiale import @react-pdf/renderer:', err);
+          // Retry une fois après 1 seconde
+          if (retryCount < 1) {
+            console.log('🔄 Nouvelle tentative dans 1 seconde...');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            return import('@react-pdf/renderer');
+          }
+          throw err;
+        });
+
+        const { PDFViewer } = reactPdfModule;
         const { TravelPrepPDF } = await import('@/components/PDF/PDFDocument');
+
         setPDFComponents({ PDFViewer, TravelPrepPDF });
         setPdfError(null);
         console.log('✅ Composants PDF chargés avec succès');
@@ -66,7 +80,8 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
         setShowPDF(true);
       } catch (error) {
         console.error('❌ Erreur lors du chargement du PDF:', error);
-        setPdfError(error instanceof Error ? error.message : 'Erreur inconnue');
+        const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue';
+        setPdfError(`${errorMessage}\n\nℹ️ Essayez de rafraîchir la page. Si le problème persiste, le module PDF pourrait ne pas être disponible sur cette version déployée.`);
       }
     };
 
