@@ -59,7 +59,7 @@ const getOptionDetailsFromGroupedList = (groupKey: keyof typeof checklistData, i
 // Fonction pour trouver les détails dans un objet/dictionnaire (ex: localisations, profils)
 const getOptionDetailsFromDict = (groupKey: keyof typeof checklistData, id: string | undefined): GenericOption | null => {
   if (!id) return null;
-  const dict = checklistData[groupKey] as Record<string, GenericOption>;
+  const dict = checklistData[groupKey] as any;
   return dict?.[id] || null;
 };
 
@@ -116,8 +116,8 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
   // --- NOUVEAU: Récupération des détails pour le récapitulatif ---
   // Utilisez la fonction adaptée pour les listes d'options
   const typeVoyageDetails = getOptionDetailsFromList('typeVoyage', formData.typeVoyage);
-  const saisonDetails = getOptionDetailsFromList('saisons', formData.saison);
-  const temperatureDetails = getOptionDetailsFromList('temperatures', formData.temperature);
+  const saisonDetails = getOptionDetailsFromList('saisons', formData.saison?.[0]);
+  const temperatureDetails = getOptionDetailsFromList('temperatures', formData.temperature?.[0]);
   
   // Localisation utilise le dictionnaire (ajout de la variable qui manque)
   const localisationDetails = getOptionDetailsFromDict('localisations', formData.localisation);

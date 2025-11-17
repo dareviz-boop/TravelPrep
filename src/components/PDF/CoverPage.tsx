@@ -165,7 +165,7 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
 
     // Si toutes les températures sont sélectionnées (5 températures : très-froide, froide, temperee, chaude, très-chaude)
     const allTemps = ['tres-froide', 'froide', 'temperee', 'chaude', 'tres-chaude'];
-    if (filtered.length === allTemps.length && allTemps.every(t => filtered.includes(t))) {
+    if (filtered.length === allTemps.length && allTemps.every(t => filtered.includes(t as any))) {
       return 'Toutes, de tres froides a tres chaudes';
     }
 
@@ -186,7 +186,7 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
 
     // Si toutes les saisons sont sélectionnées (4 saisons : ete, hiver, printemps, automne)
     const allSaisons = ['ete', 'hiver', 'printemps', 'automne'];
-    if (filtered.length === allSaisons.length && allSaisons.every(s => filtered.includes(s))) {
+    if (filtered.length === allSaisons.length && allSaisons.every(s => filtered.includes(s as any))) {
       return 'Toutes les saisons';
     }
 

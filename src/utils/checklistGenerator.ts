@@ -226,7 +226,7 @@ function getActivitesSections(formData: FormData): GeneratedChecklistSection[] {
       sections.push({
         id: activity.activity_id,
         nom: activity.nom,
-        emoji: activity.emoji || '🎯',
+        emoji: '🎯',
         items: filteredItems,
         source: 'activite',
         conseils: `Équipements spécifiques pour ${activity.nom}`
@@ -273,7 +273,7 @@ function getClimatSections(formData: FormData): GeneratedChecklistSection[] {
     return {
       id: section.id,
       nom: section.nom,
-      emoji: section.emoji,
+      emoji: '🌦️',
       items: formattedItems,
       source: section.source as 'climat' | 'destination_specifique',
       conseils: section.conseils
