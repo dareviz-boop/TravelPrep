@@ -41,12 +41,11 @@ const styles = StyleSheet.create({
     padding: 30,
     backgroundColor: '#FFFFFF',
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
+    flexDirection: 'column'
   },
   title: {
-    fontSize: 24,
-    fontWeight: 700,
+    fontSize: 14,
+    fontWeight: 600,
     color: '#E85D2A',
     marginBottom: 10,
     textAlign: 'center'
@@ -58,8 +57,8 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   tripName: {
-    fontSize: 16,
-    fontWeight: 600,
+    fontSize: 18,
+    fontWeight: 700,
     color: '#E85D2A',
     marginBottom: 15,
     textAlign: 'center',
@@ -70,7 +69,12 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 4,
     width: '100%',
-    marginBottom: 10
+    marginBottom: 15
+  },
+  divider: {
+    borderBottom: '2px solid #E85D2A',
+    marginVertical: 10,
+    marginBottom: 15
   },
   infoRow: {
     flexDirection: 'row',
@@ -259,7 +263,7 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
 
   return (
     <Page size="A4" style={styles.page}>
-      <Text style={styles.title}>TRAVELPREP</Text>
+      <Text style={styles.title}>TravelPrep</Text>
       <Text style={styles.subtitle}>Votre Guide de Preparation au Voyage</Text>
 
       <Text style={styles.tripName}>{cleanTextForPDF(formData.nomVoyage)}</Text>
@@ -399,6 +403,31 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
           </View>
         )}
       </View>
+
+      {/* Divider */}
+      <View style={styles.divider}></View>
+
+      {/* Début de la première section si disponible */}
+      {checklistData.sections && checklistData.sections.length > 0 && (
+        <View>
+          <Text style={{ fontSize: 12, fontWeight: 700, color: '#E85D2A', marginBottom: 8 }}>
+            {cleanTextForPDF(checklistData.sections[0].nom)}
+          </Text>
+          {checklistData.sections[0].items.slice(0, 5).map((item, idx) => (
+            <View key={idx} style={{ flexDirection: 'row', marginBottom: 4, fontSize: 8 }}>
+              <View style={{ width: 8, height: 8, border: '1px solid #111827', marginRight: 6, marginTop: 1 }}></View>
+              <Text style={{ flex: 1, fontSize: 8, color: '#374151' }}>
+                {cleanTextForPDF(item.item)}
+              </Text>
+            </View>
+          ))}
+          {checklistData.sections[0].items.length > 5 && (
+            <Text style={{ fontSize: 7, color: '#6b7280', fontStyle: 'italic', marginTop: 4 }}>
+              ... et {checklistData.sections[0].items.length - 5} autres items
+            </Text>
+          )}
+        </View>
+      )}
 
       <Text style={styles.footer}>
         Généré le {new Date().toLocaleDateString('fr-FR')} avec TravelPrep

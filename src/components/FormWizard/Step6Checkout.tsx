@@ -130,7 +130,7 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
           />
           <Label htmlFor="optIn" className="cursor-pointer text-sm leading-relaxed">
             J'accepte de recevoir des informations et des conseils pour préparer mon voyage par email.
-            <span className="text-muted-foreground"> (optionnel)</span>
+            <span className="text-primary"> *</span>
           </Label>
         </div>
       </div>

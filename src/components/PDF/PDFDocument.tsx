@@ -30,21 +30,21 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
   const isDetailedPDF = formData.formatPDF === 'detaille';
 
   // Filtrer les sections selon sectionsInclure
-  // Si sectionsInclure est vide/undefined, tout est inclus
-  const sectionsInclure = formData.sectionsInclure || [];
-  const shouldIncludeAll = sectionsInclure.length === 0;
+  // Si sectionsInclure est undefined, tout est inclus par défaut
+  const sectionsInclure = formData.sectionsInclure;
+  const shouldIncludeAll = sectionsInclure === undefined;
 
   // Filtrer les sections selon sectionsInclure
   const filteredSections = shouldIncludeAll
     ? checklistData.sections
     : checklistData.sections.filter(section => {
-        // Essentiels : toujours inclus si "essentiels" est dans sectionsInclure
+        // Essentiels absolus : vérifier si "essentiels" est dans sectionsInclure
         if (section.id === 'essentiels' || section.source === 'core') {
           return sectionsInclure.includes('essentiels');
         }
-        // Activités : inclure si l'ID de l'activité est dans sectionsInclure
-        // OU si on n'a pas de mapping précis, on les garde toutes
-        return true; // Pour l'instant, on garde toutes les activités et sections climat
+
+        // Pour les autres sections (activités, climat), vérifier si leur ID est dans sectionsInclure
+        return sectionsInclure.includes(section.id);
       });
 
   // Créer une copie de checklistData avec sections filtrées

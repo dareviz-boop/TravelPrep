@@ -39,6 +39,14 @@ const Index = () => {
 
       {/* Features */}
       <div className="container mx-auto px-4 py-12">
+        <div className="text-center mb-12 max-w-3xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">
+            Prêt à partir l'esprit tranquille ?
+          </h2>
+          <p className="text-base text-muted-foreground">
+            2 minutes de formulaire = Une checklist complète pour tout votre voyage
+          </p>
+        </div>
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           <div className="bg-card p-6 rounded-2xl shadow-lg border border-border hover:shadow-xl transition-shadow animate-slide-up">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
@@ -75,25 +83,6 @@ const Index = () => {
         </div>
       </div>
 
-      {/* CTA Section */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="bg-gradient-travel rounded-3xl p-8 text-center max-w-3xl mx-auto shadow-2xl">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-            Prêt à partir l'esprit tranquille ?
-          </h2>
-          <p className="text-white/90 text-base mb-6">
-            2 minutes de formulaire = Une checklist complète pour tout votre voyage
-          </p>
-          <Button
-            onClick={() => navigate("/generator")}
-            size="lg"
-            variant="secondary"
-            className="h-12 px-6 text-base font-semibold"
-          >
-            Commencer maintenant
-          </Button>
-        </div>
-      </div>
     </div>
   );
 };

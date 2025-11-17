@@ -57,8 +57,8 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   // Ref pour tracker si l'utilisateur a modifié manuellement les conditions climatiques
   const hasUserModifiedConditionsRef = useRef(false);
 
-  // Ref pour tracker si les recommandations ont déjà été calculées (évite de les recalculer constamment)
-  const recommendationsCalculatedRef = useRef(false);
+  // State pour tracker si les recommandations ont déjà été calculées (réinitialise à chaque montage du composant)
+  const [recommendationsCalculated, setRecommendationsCalculated] = useState(false);
 
   // Calculer les recommandations avec useMemo pour qu'elles soient toujours disponibles
   const recommendedConditions = useMemo(() => {
@@ -116,7 +116,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
     }
 
     // Ne pré-sélectionner qu'une seule fois
-    if (recommendationsCalculatedRef.current) {
+    if (recommendationsCalculated) {
       return;
     }
 
@@ -152,7 +152,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
     }
 
     // Marquer que les recommandations ont été calculées
-    recommendationsCalculatedRef.current = true;
+    setRecommendationsCalculated(true);
   }, [formData.localisation, formData.pays, formData.temperature, formData.saison, formData.dateDepart, formData.dateRetour]);
 
   /**
@@ -310,7 +310,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
         {disclaimerMessage && (
           <Card className="p-6 bg-muted/30 border-2 border-primary/20 shadow-lg">
             <h3 className="font-bold text-xl mb-4 flex items-center gap-2 text-primary">
-              📌 Petite note sur le climat et la saisonnalité
+              🔔 Petite note sur le climat et la saisonnalité
             </h3>
             <div className="text-sm text-foreground leading-relaxed">
               {renderMarkdown(disclaimerMessage)}
@@ -321,7 +321,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                   <br />
                   <br />
                   <span className="text-xs text-muted-foreground italic">
-                    📌 Les conditions climatiques marquées de cet emoji sont recommandées par l'application selon votre destination et vos dates.
+                    🔔 Les conditions climatiques marquées de cet emoji sont recommandées par l'application selon votre destination et vos dates.
                   </span>
                 </>
               )}
@@ -351,7 +351,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                             htmlFor={`saison-${saison.id}`}
                             className={cn(
                                 "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                                "peer-data-[state=checked]:border-[#616161] peer-data-[state=checked]:bg-[#f5f5f5]",
+                                "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10",
                             )}
                         >
                             <span className="flex-1 cursor-pointer">
@@ -392,7 +392,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                             htmlFor={`temp-${temp.id}`}
                             className={cn(
                                 "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                                "peer-data-[state=checked]:border-[#616161] peer-data-[state=checked]:bg-[#f5f5f5]",
+                                "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10",
                             )}
                         >
                             <span className="flex-1 cursor-pointer">
@@ -453,7 +453,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                         className={cn(
                           "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer",
                           "hover:border-primary/50",
-                          "peer-data-[state=checked]:border-[#616161] peer-data-[state=checked]:bg-[#f5f5f5]",
+                          "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10",
                           condition.id === 'climat_aucune' ? 'bg-secondary/20' : ''
                         )}
                       >
@@ -462,10 +462,10 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                             <p className="font-semibold text-base flex items-center gap-2">
                                 <span>{emoji}</span>
                                 <span className="flex-1">{title}</span>
-                                {/* Emoji 📌 si cette condition est recommandée */}
+                                {/* Emoji 🔔 si cette condition est recommandée */}
                                 {isRecommended && (
                                   <span className="text-primary text-sm" title="Recommandé par l'application">
-                                    📌
+                                    🔔
                                   </span>
                                 )}
                             </p>
