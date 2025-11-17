@@ -4,7 +4,28 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { FormData, Profil, Confort, EnfantAge } from "@/types/form";
 import { checklistData } from "@/utils/checklistUtils";
-import { cn } from "@/lib/utils"; 
+import { cn } from "@/lib/utils";
+
+interface ProfilOption {
+  id: string;
+  nom: string;
+  emoji: string;
+  description: string;
+}
+
+interface TypeVoyageOption {
+  id: string;
+  nom: string;
+  emoji: string;
+  description: string;
+}
+
+interface ConfortOption {
+  id: string;
+  nom: string;
+  emoji: string;
+  description: string;
+}
 
 interface Step4ProfilProps {
   formData: FormData;
@@ -55,14 +76,14 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
             onValueChange={(value) => updateFormData({ profil: value as Profil })}
             className="grid grid-cols-1 md:grid-cols-2 gap-3"
           >
-            {profils.options.map((profil: any) => (
+            {(profils.options as ProfilOption[]).map((profil: ProfilOption) => (
               <div key={profil.id}>
                 <RadioGroupItem value={profil.id} id={`profil-${profil.id}`} className="peer sr-only" />
                 <Label
                   htmlFor={`profil-${profil.id}`}
                   className={cn(
                     "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                    "peer-data-[state=checked]:border-[#616161] peer-data-[state=checked]:bg-[#f5f5f5]"
+                    "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10"
                   )}
                 >
                   <span className="flex-1 cursor-pointer">
@@ -110,7 +131,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
                       key={key} 
                       className={cn(
                           "flex items-start space-x-3 p-3 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50",
-                          isChecked ? "border-[#616161] bg-[#f5f5f5]" : "border-border"
+                          isChecked ? "border-primary bg-primary/10" : "border-border"
                       )}
                       onClick={() => handleAgeEnfantToggle(key as EnfantAge)}
                     >
@@ -144,14 +165,14 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
             onValueChange={(value) => updateFormData({ typeVoyage: value as FormData['typeVoyage'] })}
             className="grid grid-cols-1 gap-3"
           >
-            {typeVoyage.map((type: any) => (
+            {(typeVoyage as TypeVoyageOption[]).map((type: TypeVoyageOption) => (
               <div key={type.id}>
                 <RadioGroupItem value={type.id} id={`typeVoyage-${type.id}`} className="peer sr-only" />
                 <Label
                   htmlFor={`typeVoyage-${type.id}`}
                   className={cn(
                     "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                    "peer-data-[state=checked]:border-[#616161] peer-data-[state=checked]:bg-[#f5f5f5]"
+                    "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10"
                   )}
                 >
                   <span className="flex-1 cursor-pointer">
@@ -179,14 +200,14 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
             onValueChange={(value) => updateFormData({ confort: value as Confort })}
             className="grid grid-cols-1 gap-3"
           >
-            {confort.options.map((confort: any) => (
+            {(confort.options as ConfortOption[]).map((confort: ConfortOption) => (
               <div key={confort.id}>
                 <RadioGroupItem value={confort.id} id={`confort-${confort.id}`} className="peer sr-only" />
                 <Label
                   htmlFor={`confort-${confort.id}`}
                   className={cn(
                     "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                    "peer-data-[state=checked]:border-[#616161] peer-data-[state=checked]:bg-[#f5f5f5]"
+                    "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10"
                   )}
                 >
                   <span className="flex-1 cursor-pointer">

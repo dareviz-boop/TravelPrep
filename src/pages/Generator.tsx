@@ -124,6 +124,10 @@ const validateStep = (step: number): boolean => {
               toast.error("Veuillez entrer une adresse email valide.");
               return false;
             }
+            if (!formData.optIn) {
+              toast.error("Veuillez accepter de recevoir des informations pour télécharger votre checklist.");
+              return false;
+            }
             return true;
         
       default:

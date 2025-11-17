@@ -4,6 +4,13 @@ import { FormData } from "@/types/form";
 import { checklistData } from "@/utils/checklistUtils";
 import { cn } from "@/lib/utils"; // Importation pour la gestion des classes
 
+interface ActiviteOption {
+  id: string;
+  nom?: string;
+  label?: string;
+  emoji?: string;
+}
+
 interface Step3ActivitesProps {
   formData: FormData;
   updateFormData: (data: Partial<FormData>) => void;
@@ -11,17 +18,17 @@ interface Step3ActivitesProps {
 
 export const Step3Activites = ({ formData, updateFormData }: Step3ActivitesProps) => {
   // CORRECTION: On suppose que la liste des activités est dans le tableau 'options'
-  const activitesList = checklistData.activites.options || []; 
-    
+  const activitesList = (checklistData.activites.options || []) as ActiviteOption[];
+
   const handleActiviteToggle = (activite: string) => {
-    const currentActivites = formData.activites || []; 
-    
-    const isSelected = currentActivites.includes(activite as any);
-    
+    const currentActivites = formData.activites || [];
+
+    const isSelected = currentActivites.includes(activite);
+
     const updated = isSelected
-      ? currentActivites.filter((a) => a !== activite as any)
-      : [...currentActivites, activite as any];
-        
+      ? currentActivites.filter((a) => a !== activite)
+      : [...currentActivites, activite];
+
     updateFormData({ activites: updated });
   };
 
@@ -39,9 +46,9 @@ export const Step3Activites = ({ formData, updateFormData }: Step3ActivitesProps
       <div className="space-y-4 max-w-2xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {/* CORRECTION: Itérer sur la liste d'options extraite */}
-          {activitesList.map((activite: any) => {
+          {activitesList.map((activite: ActiviteOption) => {
             const code = activite.id; // Utilisation de l'ID comme code
-            const isChecked = (formData.activites || []).includes(code as any);
+            const isChecked = (formData.activites || []).includes(code);
 
             // Priorité au 'nom' puis au 'label' pour l'affichage
             const displayLabel = activite.nom || activite.label; 
@@ -53,7 +60,7 @@ export const Step3Activites = ({ formData, updateFormData }: Step3ActivitesProps
                 className={cn(
                   "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
                   isChecked
-                    ? "border-[#616161] bg-[#f5f5f5] shadow-md"
+                    ? "border-primary bg-primary/10 shadow-md"
                     : "border-border"
                 )}
                 onClick={() => handleActiviteToggle(code)}
