@@ -28,8 +28,11 @@ export const filterItemsByConditions = (
   }
 
   // Check saison
-  if (saison && !saison.includes(formData.saison)) {
-    return false;
+  if (saison && formData.saison && formData.saison.length > 0) {
+    const hasMatchingSeason = saison.some(s => formData.saison.includes(s as any));
+    if (!hasMatchingSeason) {
+      return false;
+    }
   }
 
   // Check duree

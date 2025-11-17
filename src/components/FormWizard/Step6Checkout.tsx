@@ -11,12 +11,7 @@ interface Step6CheckoutProps {
 }
 
 interface PDFComponentsType {
-  PDFViewer: React.ComponentType<{
-    width: string;
-    height: string;
-    showToolbar: boolean;
-    children: React.ReactNode;
-  }>;
+  PDFViewer: any;
   TravelPrepPDF: React.ComponentType<{
     formData: FormData;
     checklistData: any;
