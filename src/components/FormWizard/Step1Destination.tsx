@@ -494,7 +494,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                 size="sm"
                 onClick={() => {
                   setKnowsReturnDate(false);
-                  updateFormData({ dateRetour: '' });
+                  // Ne pas effacer dateRetour pour conserver la valeur si l'utilisateur change d'avis
                 }}
                 className="text-sm text-primary hover:text-primary hover:bg-primary/10"
               >
