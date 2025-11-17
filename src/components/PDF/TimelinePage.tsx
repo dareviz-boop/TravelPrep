@@ -187,11 +187,9 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
     return timelines;
   };
 
-  const getPriorityIcon = (priorite?: string): 'chevronsUp' | 'minus' | 'chevronsDown' => {
+  const isHighPriority = (priorite?: string): boolean => {
     const p = priorite?.toLowerCase() || '';
-    if (p.includes('haute')) return 'chevronsUp';
-    if (p.includes('basse')) return 'chevronsDown';
-    return 'minus'; // moyenne
+    return p.includes('haute');
   };
 
   // Fonction pour extraire le numéro de jours du délai (J-90 -> 90)
@@ -254,8 +252,8 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
                   // Item avec conseil
                   <View style={styles.itemWithConseil} key={`${item.id || index}-${item.item}`}>
                     <View style={styles.itemRow}>
-                      {item.priorite && (
-                        <PDFIcon name={getPriorityIcon(item.priorite)} style={{ marginRight: 4, marginTop: 1 }} />
+                      {isHighPriority(item.priorite) && (
+                        <PDFIcon name="flame" style={{ marginRight: 4, marginTop: 1 }} />
                       )}
                       <View style={styles.checkbox} />
                       <Text style={styles.itemText}>
@@ -277,8 +275,8 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
                 ) : (
                   // Item sans conseil
                   <View style={styles.item} key={`${item.id || index}-${item.item}`}>
-                    {item.priorite && (
-                      <PDFIcon name={getPriorityIcon(item.priorite)} style={{ marginRight: 4, marginTop: 1 }} />
+                    {isHighPriority(item.priorite) && (
+                      <PDFIcon name="flame" style={{ marginRight: 4, marginTop: 1 }} />
                     )}
                     <View style={styles.checkbox} />
                     <Text style={styles.itemText}>

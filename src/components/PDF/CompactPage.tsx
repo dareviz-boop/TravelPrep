@@ -94,11 +94,9 @@ interface CompactPageProps {
 }
 
 export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
-  const getPriorityIcon = (priorite?: string): 'chevronsUp' | 'minus' | 'chevronsDown' => {
+  const isHighPriority = (priorite?: string): boolean => {
     const p = priorite?.toLowerCase() || '';
-    if (p.includes('haute')) return 'chevronsUp';
-    if (p.includes('basse')) return 'chevronsDown';
-    return 'minus'; // moyenne
+    return p.includes('haute');
   };
 
   // Fonction pour extraire le numéro de jours du délai
@@ -133,8 +131,8 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
             </Text>
             {sortedItems.map((item, index) => (
               <View style={styles.item} key={item.id || `item-${index}`}>
-                {item.priorite && (
-                  <PDFIcon name={getPriorityIcon(item.priorite)} style={{ marginRight: 3, marginTop: 1 }} />
+                {isHighPriority(item.priorite) && (
+                  <PDFIcon name="flame" style={{ marginRight: 3, marginTop: 1 }} />
                 )}
                 <View style={styles.checkbox} />
                 <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>

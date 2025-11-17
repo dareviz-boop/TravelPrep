@@ -126,11 +126,9 @@ interface CategoryPageProps {
 export const CategoryPage = ({ formData, category, title }: CategoryPageProps) => {
   if (!category?.items || category.items.length === 0) return null;
 
-  const getPriorityIcon = (priorite?: string): 'chevronsUp' | 'minus' | 'chevronsDown' => {
+  const isHighPriority = (priorite?: string): boolean => {
     const p = priorite?.toLowerCase() || '';
-    if (p.includes('haute')) return 'chevronsUp';
-    if (p.includes('basse')) return 'chevronsDown';
-    return 'minus'; // moyenne
+    return p.includes('haute');
   };
 
   // Fonction pour extraire le numéro de jours du délai (J-90 -> 90)
@@ -208,8 +206,8 @@ export const CategoryPage = ({ formData, category, title }: CategoryPageProps) =
       // Item avec conseil
       <View style={styles.itemWithConseil} key={item.id || `item-${index}`}>
         <View style={styles.itemRow}>
-          {item.priorite && (
-            <PDFIcon name={getPriorityIcon(item.priorite)} style={{ marginRight: 4, marginTop: 1 }} />
+          {isHighPriority(item.priorite) && (
+            <PDFIcon name="flame" style={{ marginRight: 4, marginTop: 1 }} />
           )}
           <View style={styles.checkbox} />
           <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
@@ -226,8 +224,8 @@ export const CategoryPage = ({ formData, category, title }: CategoryPageProps) =
     ) : (
       // Item sans conseil
       <View style={styles.item} key={item.id || `item-${index}`}>
-        {item.priorite && (
-          <PDFIcon name={getPriorityIcon(item.priorite)} style={{ marginRight: 4, marginTop: 1 }} />
+        {isHighPriority(item.priorite) && (
+          <PDFIcon name="flame" style={{ marginRight: 4, marginTop: 1 }} />
         )}
         <View style={styles.checkbox} />
         <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>

@@ -586,15 +586,8 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     seasons: { summer: [5,6,7,8,9], winter: [12,1,2,3], spring: [4], autumn: [10,11] }
   },
 
-  // === EUROPE NORDIQUE & EST (24 nouvelles destinations pour 150 total) ===
-  'NO': { code: 'NO', hemisphere: 'north', zones: ['oceanic', 'continental'], // Norvège
-    avgTemp: { jan: -4, feb: -3, mar: 0, apr: 4, may: 9, jun: 13, jul: 15, aug: 14, sep: 10, oct: 6, nov: 1, dec: -2 },
-    seasons: { summer: [6,7,8], winter: [10,11,12,1,2,3,4], spring: [5], autumn: [9] }
-  },
-  'SE': { code: 'SE', hemisphere: 'north', zones: ['continental'], // Suède
-    avgTemp: { jan: -3, feb: -3, mar: 0, apr: 5, may: 11, jun: 15, jul: 17, aug: 16, sep: 11, oct: 6, nov: 2, dec: -1 },
-    seasons: { summer: [6,7,8], winter: [11,12,1,2,3], spring: [4,5], autumn: [9,10] }
-  },
+  // === EUROPE NORDIQUE & EST (22 nouvelles destinations pour 148 total) ===
+  // Note: NO (Norvège) et SE (Suède) sont déjà définis plus haut dans le fichier
   'HU': { code: 'HU', hemisphere: 'north', zones: ['continental'], // Hongrie
     avgTemp: { jan: 0, feb: 2, mar: 7, apr: 12, may: 17, jun: 20, jul: 22, aug: 22, sep: 17, oct: 11, nov: 5, dec: 1 },
     seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
