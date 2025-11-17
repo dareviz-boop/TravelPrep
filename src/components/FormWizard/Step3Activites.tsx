@@ -53,7 +53,7 @@ export const Step3Activites = ({ formData, updateFormData }: Step3ActivitesProps
                 className={cn(
                   "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
                   isChecked
-                    ? "border-primary bg-primary/5 shadow-md" 
+                    ? "border-[#616161] bg-[#f5f5f5] shadow-md"
                     : "border-border"
                 )}
                 onClick={() => handleActiviteToggle(code)}

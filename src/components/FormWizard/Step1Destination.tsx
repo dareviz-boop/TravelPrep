@@ -164,7 +164,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
             placeholder="Ex: Voyage au pays des pandas - 2028"
             value={formData.nomVoyage}
             onChange={(e) => updateFormData({ nomVoyage: e.target.value })}
-            className="h-14 text-base border-2 focus:border-primary"
+            className="h-14 text-base focus:border-primary"
             required
           />
           <p className="text-sm text-muted-foreground">
@@ -190,7 +190,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                 className={cn(
                   "p-4 rounded-xl border-2 transition-all text-center hover:shadow-md",
                   formData.localisation === loc.value
-                    ? "border-primary bg-primary/10 shadow-md"
+                    ? "border-[#616161] bg-[#f5f5f5] shadow-md"
                     : "border-border bg-card hover:border-primary/50"
                 )}
               >
@@ -216,7 +216,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                 {formData.pays.map((pays) => (
                   <div
                     key={pays.code}
-                    className="flex items-center gap-2 bg-primary/10 border-2 border-primary/30 rounded-lg px-3 py-2"
+                    className="flex items-center gap-2 bg-[#f5f5f5] border-2 border-[#616161] rounded-lg px-3 py-2"
                   >
                     <span className="text-lg">{pays.flag}</span>
                     <span className="text-sm font-bold text-foreground">{pays.nom}</span>
@@ -312,7 +312,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                 {formData.pays.map((pays) => (
                   <div
                     key={pays.code}
-                    className="flex items-center gap-2 bg-primary/10 border-2 border-primary/30 rounded-lg px-3 py-2"
+                    className="flex items-center gap-2 bg-[#f5f5f5] border-2 border-[#616161] rounded-lg px-3 py-2"
                   >
                     <span className="text-lg">{pays.flag}</span>
                     <span className="text-sm font-bold text-foreground">{pays.nom}</span>
@@ -446,6 +446,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                 const returnDate = new Date(formData.dateRetour);
                 if (selectedDate >= returnDate) {
                   // Effacer la date de retour si elle devient invalide
+                  setKnowsReturnDate(false);
                   updateFormData({ dateDepart: dateString, dateRetour: '' });
                   toast({
                     title: "Date de retour effacée",
@@ -568,7 +569,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                     htmlFor={option.value}
                     className={cn(
                       "flex flex-col items-center justify-center rounded-xl border-2 border-border bg-card p-4 cursor-pointer transition-all",
-                      "hover:bg-primary/5 hover:border-primary/50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10"
+                      "hover:bg-primary/5 hover:border-primary/50 peer-data-[state=checked]:border-[#616161] peer-data-[state=checked]:bg-[#f5f5f5]"
                     )}
                   >
                     <span className="text-sm font-bold text-foreground">{option.label}</span>

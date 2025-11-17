@@ -62,7 +62,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
                   htmlFor={`profil-${profil.id}`}
                   className={cn(
                     "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                    "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5"
+                    "peer-data-[state=checked]:border-[#616161] peer-data-[state=checked]:bg-[#f5f5f5]"
                   )}
                 >
                   <span className="flex-1 cursor-pointer">
@@ -94,7 +94,8 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
                 max="10"
                 value={formData.nombreEnfants || ''}
                 onChange={(e) => updateFormData({ nombreEnfants: parseInt(e.target.value) || undefined })}
-                className="h-12 text-base max-w-xs focus:border-primary"
+                className="h-12 text-base max-w-xs"
+                required
               />
             </div>
 
@@ -109,7 +110,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
                       key={key} 
                       className={cn(
                           "flex items-start space-x-3 p-3 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50",
-                          isChecked ? "border-primary bg-primary/5" : "border-border"
+                          isChecked ? "border-[#616161] bg-[#f5f5f5]" : "border-border"
                       )}
                       onClick={() => handleAgeEnfantToggle(key as EnfantAge)}
                     >
@@ -150,7 +151,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
                   htmlFor={`typeVoyage-${type.id}`}
                   className={cn(
                     "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                    "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5"
+                    "peer-data-[state=checked]:border-[#616161] peer-data-[state=checked]:bg-[#f5f5f5]"
                   )}
                 >
                   <span className="flex-1 cursor-pointer">
@@ -185,7 +186,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
                   htmlFor={`confort-${confort.id}`}
                   className={cn(
                     "flex items-start space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                    "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5"
+                    "peer-data-[state=checked]:border-[#616161] peer-data-[state=checked]:bg-[#f5f5f5]"
                   )}
                 >
                   <span className="flex-1 cursor-pointer">
