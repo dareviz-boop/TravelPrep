@@ -486,7 +486,12 @@
       "nom": "Pendant & Après le voyage",
       "description": "Checklist sur place et retour",
       "emoji": "🔄"
-    }
+    },
+    {
+      "id": "hygiene",
+      "nom": "Hygiène & Toilette",
+      "description": "Trousse toilette, produits hygiène, serviettes",
+      "emoji": "🧴"
   ]
   }
 }
