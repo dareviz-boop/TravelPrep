@@ -44,7 +44,7 @@ const Index = () => {
             Prêt à partir l'esprit tranquille ?
           </h2>
           <p className="text-base text-muted-foreground">
-            2 minutes de formulaire = Une checklist complète pour tout votre voyage
+            3 minutes de formulaire = Une checklist complète pour tout votre voyage
           </p>
         </div>
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
