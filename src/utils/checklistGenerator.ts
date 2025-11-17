@@ -7,6 +7,7 @@ import { FormData } from '@/types/form';
 import { getClimatEquipment, ChecklistSection, DestinationSpecifiqueItem } from '@/utils/checklistFilters';
 import activitesData from '@/data/checklist_activites.json';
 import checklistData from '@/data/checklistComplete.json';
+import coreSectionsData from '@/data/checklist_core_sections.json';
 
 // ==========================================
 // TYPES
@@ -21,6 +22,22 @@ export interface ChecklistItem {
   specifications?: string[];
   conseils?: string;
   filtres?: any;
+}
+
+// ==========================================
+// HELPERS
+// ==========================================
+
+/**
+ * Convertit les priorités étoiles en priorité textuelle
+ * @param stars - Priorité en étoiles (⭐⭐⭐, ⭐⭐, ⭐)
+ * @returns Priorité textuelle (haute, moyenne, basse)
+ */
+function mapStarsToPriority(stars: string): string {
+  const starCount = (stars.match(/⭐/g) || []).length;
+  if (starCount >= 3) return 'haute';
+  if (starCount === 2) return 'moyenne';
+  return 'basse';
 }
 
 export interface GeneratedChecklistSection {
@@ -71,11 +88,9 @@ export interface GeneratedChecklist {
 export function generateCompleteChecklist(formData: FormData): GeneratedChecklist {
   const sections: GeneratedChecklistSection[] = [];
 
-  // === 1. ITEMS ESSENTIELS (toujours inclus) ===
-  const essentielsSection = getEssentielsSection(formData);
-  if (essentielsSection) {
-    sections.push(essentielsSection);
-  }
+  // === 1. SECTIONS PRINCIPALES depuis checklist_core_sections.json ===
+  const coreSections = getCoreSections(formData);
+  sections.push(...coreSections);
 
   // === 2. ITEMS PAR ACTIVITÉS SÉLECTIONNÉES ===
   const activitesSections = getActivitesSections(formData);
@@ -114,74 +129,61 @@ export function generateCompleteChecklist(formData: FormData): GeneratedChecklis
 }
 
 // ==========================================
-// SECTIONS : ESSENTIELS
+// SECTIONS : PRINCIPALES (CORE)
 // ==========================================
 
-function getEssentielsSection(formData: FormData): GeneratedChecklistSection | null {
-  // Récupérer les items essentiels depuis checklistComplete.json
-  // (À adapter selon la structure exacte de votre JSON)
+/**
+ * Charge les sections principales depuis checklist_core_sections.json
+ * Ces sections incluent : essentiels, documents, finances, sante, hygiene, etc.
+ */
+function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
+  const sections: GeneratedChecklistSection[] = [];
 
-  // Exemple basique d'items essentiels toujours inclus
-  const essentielsItems: ChecklistItem[] = [
-    {
-      id: 'ESS001',
-      item: 'Passeport valide (validité 6 mois minimum)',
-      priorite: 'haute',
-      delai: 'J-90',
-      conseils: 'Vérifier la date d\'expiration immédiatement'
-    },
-    {
-      id: 'ESS002',
-      item: 'Photocopies passeport (x2)',
-      priorite: 'haute',
-      delai: 'J-7',
-      conseils: 'Conserver séparément de l\'original'
-    },
-    {
-      id: 'ESS003',
-      item: 'Cartes bancaires (x2 minimum)',
-      priorite: 'haute',
-      delai: 'J-7',
-      conseils: 'Visa ET Mastercard pour sécurité'
-    },
-    {
-      id: 'ESS004',
-      item: 'Assurance voyage / rapatriement',
-      priorite: 'haute',
-      delai: 'J-30',
-      conseils: 'Vérifier couvertures : santé, annulation, bagages'
-    },
-    {
-      id: 'ESS005',
-      item: 'Téléphone portable débloqué',
-      priorite: 'haute',
-      delai: 'J-14',
-      conseils: 'Vérifier compatibilité réseaux internationaux'
-    },
-    {
-      id: 'ESS006',
-      item: 'Chargeurs + adaptateurs universels',
-      priorite: 'haute',
-      delai: 'J-3',
-      conseils: 'Adaptateur universel couvre 150+ pays'
-    },
-    {
-      id: 'ESS007',
-      item: 'Trousse pharmacie de base',
-      priorite: 'haute',
-      delai: 'J-14',
-      conseils: 'Paracétamol, Imodium, pansements, désinfectant'
+  // Récupérer les sections sélectionnées par l'utilisateur
+  // (Pour l'instant on charge toutes les sections disponibles avec items)
+  const sectionsInclure = formData.sectionsInclure || [];
+
+  // Liste des sections à toujours inclure (essentiels obligatoire)
+  const sectionsToLoad = ['essentiels', ...sectionsInclure];
+
+  // Parcourir les sections du JSON
+  Object.keys(coreSectionsData).forEach(sectionKey => {
+    // Ignorer metadata et sections vides
+    if (sectionKey === 'metadata') return;
+
+    const section = (coreSectionsData as any)[sectionKey];
+
+    // Vérifier si la section a des items et est sélectionnée
+    if (section.items && section.items.length > 0) {
+      // Charger si : obligatoire, ou dans sectionsInclure, ou essentiels
+      const shouldInclude =
+        section.obligatoire ||
+        sectionsToLoad.includes(sectionKey) ||
+        sectionKey === 'essentiels';
+
+      if (shouldInclude) {
+        // Mapper les items avec conversion de priorité
+        const mappedItems: ChecklistItem[] = section.items.map((item: any) => ({
+          id: item.id,
+          item: item.item,
+          priorite: mapStarsToPriority(item.priorite || '⭐⭐'),
+          delai: item.delai,
+          conseils: item.conseils || ''
+        }));
+
+        sections.push({
+          id: section.id,
+          nom: section.nom,
+          emoji: section.nom.match(/^[\u{1F000}-\u{1F9FF}]/u)?.[0],
+          items: mappedItems,
+          source: 'core',
+          conseils: section.description || ''
+        });
+      }
     }
-  ];
+  });
 
-  return {
-    id: 'essentiels',
-    nom: '🔑 Essentiels Absolus',
-    emoji: '🔑',
-    items: essentielsItems,
-    source: 'core',
-    conseils: 'Ces éléments sont indispensables pour tout voyage, quelle que soit la destination'
-  };
+  return sections;
 }
 
 // ==========================================

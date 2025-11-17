@@ -440,6 +440,12 @@
       "emoji": "🧳"
     },
     {
+      "id": "hygiene",
+      "nom": "Hygiène & Toilette",
+      "description": "Trousse toilette, produits hygiène, serviettes",
+      "emoji": "🧴"
+    },
+    {
       "id": "tech",
       "nom": "Technologie & Communication",
       "description": "Téléphone, appareils électroniques, forfait, sauvegardes, matériel",
