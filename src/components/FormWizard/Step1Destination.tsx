@@ -154,8 +154,8 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
       </div>
 
       <div className="space-y-8 max-w-2xl mx-auto">
-        {/* Nom du voyage (Inchangé) */}
-        <div className="space-y-3 bg-card p-6 rounded-xl border-2 border-border shadow-sm hover:shadow-md transition-shadow">
+        {/* Nom du voyage */}
+        <div className="space-y-3">
           <Label htmlFor="nomVoyage" className="text-lg font-bold text-foreground">
             Nom du voyage <span className="text-primary">*</span>
           </Label>
@@ -210,13 +210,13 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               </Label>
             </div>
 
-            {/* Pays sélectionnés (La sélection orange est correcte ici) */}
+            {/* Pays sélectionnés */}
             {formData.pays.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-3">
                 {formData.pays.map((pays) => (
                   <div
                     key={pays.code}
-                    className="flex items-center gap-2 bg-[#f5f5f5] border-2 border-[#616161] rounded-lg px-3 py-2"
+                    className="flex items-center gap-2 bg-primary/10 border-2 border-primary rounded-lg px-3 py-2"
                   >
                     <span className="text-lg">{pays.flag}</span>
                     <span className="text-sm font-bold text-foreground">{pays.nom}</span>
@@ -306,13 +306,13 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               </Label>
             </div>
       
-            {/* Pays sélectionnés (La sélection orange est correcte ici) */}
+            {/* Pays sélectionnés */}
             {formData.pays.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-3">
                 {formData.pays.map((pays) => (
                   <div
                     key={pays.code}
-                    className="flex items-center gap-2 bg-[#f5f5f5] border-2 border-[#616161] rounded-lg px-3 py-2"
+                    className="flex items-center gap-2 bg-primary/10 border-2 border-primary rounded-lg px-3 py-2"
                   >
                     <span className="text-lg">{pays.flag}</span>
                     <span className="text-sm font-bold text-foreground">{pays.nom}</span>
@@ -490,13 +490,13 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               </Label>
               <Button
                 type="button"
-                variant="ghost"
+                variant="outline"
                 size="sm"
                 onClick={() => {
                   setKnowsReturnDate(false);
                   // Ne pas effacer dateRetour pour conserver la valeur si l'utilisateur change d'avis
                 }}
-                className="text-sm text-primary hover:text-primary hover:bg-primary/10"
+                className="text-sm text-primary hover:text-primary hover:bg-primary/10 border-2"
               >
                 📅 Je ne connais pas ma date de retour
               </Button>
