@@ -311,11 +311,11 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
                       
                       {/* Détail des âges des enfants */}
                       {formData.agesEnfants && formData.agesEnfants.length > 0 && (
-                        <p className="flex flex-wrap justify-end items-center">
+                        <p className="flex flex-wrap justify-end items-center gap-1">
                           Âges :{' '}
                           {formData.agesEnfants.map(ageKey => (
-                            <span key={ageKey} className="ml-1 font-semibold text-base text-foreground">
-                              👶 {ageKey}
+                            <span key={ageKey} className="text-xs">
+                              {ageKey}
                             </span>
                           ))}
                         </p>
@@ -392,7 +392,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
                     key={section.id}
                     className={cn(
                       "flex items-start space-x-3 p-3 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                      isSelected ? "border-primary bg-primary/5" : "border-border"
+                      isSelected ? "border-[#616161] bg-[#f5f5f5]" : "border-border"
                     )}
                     onClick={() => handleSectionToggle(section.id)}
                   >
@@ -433,7 +433,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
                 htmlFor="format-compact"
                 className={cn(
                   "flex flex-col p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                  "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5"
+                  "peer-data-[state=checked]:border-[#616161] peer-data-[state=checked]:bg-[#f5f5f5]"
                 )}
               >
                 <div className="font-semibold text-base mb-1">📄 Format compact</div>
@@ -446,7 +446,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
                 htmlFor="format-detaille"
                 className={cn(
                   "flex flex-col p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                  "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5"
+                  "peer-data-[state=checked]:border-[#616161] peer-data-[state=checked]:bg-[#f5f5f5]"
                 )}
               >
                 <div className="font-semibold text-base mb-1">📋 Format détaillé</div>

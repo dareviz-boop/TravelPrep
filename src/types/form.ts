@@ -62,4 +62,5 @@ export interface FormData {
   nomClient: string;
   prenomClient: string;
   email: string;
+  optIn?: boolean;
 }

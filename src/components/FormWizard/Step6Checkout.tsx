@@ -1,5 +1,6 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { FormData } from "@/types/form";
 import { useState, useEffect, useMemo } from 'react';
 import { generateCompleteChecklist } from '@/utils/checklistGenerator';
@@ -117,6 +118,20 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
           <p className="text-sm text-muted-foreground">
             Votre checklist personnalisée vous sera envoyée à cette adresse.
           </p>
+        </div>
+
+        {/* Opt-in pour communications */}
+        <div className="flex items-start space-x-3 p-4 rounded-xl border-2 border-border bg-card">
+          <Checkbox
+            id="optIn"
+            checked={formData.optIn || false}
+            onCheckedChange={(checked) => updateFormData({ optIn: checked as boolean })}
+            className="mt-1"
+          />
+          <Label htmlFor="optIn" className="cursor-pointer text-sm leading-relaxed">
+            J'accepte de recevoir des informations et des conseils pour préparer mon voyage par email.
+            <span className="text-muted-foreground"> (optionnel)</span>
+          </Label>
         </div>
       </div>
 

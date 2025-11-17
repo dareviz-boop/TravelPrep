@@ -73,21 +73,14 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   /**
    * 🌍 Auto-détection des saisons : Attribution automatique selon pays, date et durée
    * Déclenché quand date de départ, date de retour, durée ou pays changent
-   * ✨ Ne met à jour que si les valeurs sont vides ou "inconnue" (pas de sélection manuelle)
+   * ✨ Met à jour automatiquement à chaque changement de dates
    */
   useEffect(() => {
     if (formData.dateDepart && formData.pays && formData.pays.length > 0) {
-      // Ne remplacer que si vide, undefined, ou si c'est juste ["inconnue"]
-      const currentSaisons = formData.saison || [];
-      const isEmpty = currentSaisons.length === 0;
-      const isUnknownOnly = currentSaisons.length === 1 && currentSaisons[0] === 'inconnue';
+      const detectedSeasons = autoDetectSeasons(formData);
 
-      if (isEmpty || isUnknownOnly) {
-        const detectedSeasons = autoDetectSeasons(formData);
-
-        if (detectedSeasons.length > 0) {
-          updateFormData({ saison: detectedSeasons });
-        }
+      if (detectedSeasons.length > 0) {
+        updateFormData({ saison: detectedSeasons });
       }
     }
   }, [formData.dateDepart, formData.dateRetour, formData.pays]);
@@ -95,21 +88,14 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   /**
    * 🌡️ Auto-détection des températures : Attribution automatique selon pays et date
    * Déclenché quand date de départ ou pays changent
-   * ✨ Ne met à jour que si les valeurs sont vides ou "inconnue" (pas de sélection manuelle)
+   * ✨ Met à jour automatiquement à chaque changement de dates
    */
   useEffect(() => {
     if (formData.dateDepart && formData.pays && formData.pays.length > 0) {
-      // Ne remplacer que si vide, undefined, ou si c'est juste ["inconnue"]
-      const currentTemps = formData.temperature || [];
-      const isEmpty = currentTemps.length === 0;
-      const isUnknownOnly = currentTemps.length === 1 && currentTemps[0] === 'inconnue';
+      const detectedTemperatures = autoDetectTemperatures(formData);
 
-      if (isEmpty || isUnknownOnly) {
-        const detectedTemperatures = autoDetectTemperatures(formData);
-
-        if (detectedTemperatures.length > 0) {
-          updateFormData({ temperature: detectedTemperatures });
-        }
+      if (detectedTemperatures.length > 0) {
+        updateFormData({ temperature: detectedTemperatures });
       }
     }
   }, [formData.dateDepart, formData.dateRetour, formData.pays]);
@@ -365,7 +351,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                             htmlFor={`saison-${saison.id}`}
                             className={cn(
                                 "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                                "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5",
+                                "peer-data-[state=checked]:border-[#616161] peer-data-[state=checked]:bg-[#f5f5f5]",
                             )}
                         >
                             <span className="flex-1 cursor-pointer">
@@ -406,7 +392,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                             htmlFor={`temp-${temp.id}`}
                             className={cn(
                                 "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                                "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5",
+                                "peer-data-[state=checked]:border-[#616161] peer-data-[state=checked]:bg-[#f5f5f5]",
                             )}
                         >
                             <span className="flex-1 cursor-pointer">
@@ -467,7 +453,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                         className={cn(
                           "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer",
                           "hover:border-primary/50",
-                          "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5",
+                          "peer-data-[state=checked]:border-[#616161] peer-data-[state=checked]:bg-[#f5f5f5]",
                           condition.id === 'climat_aucune' ? 'bg-secondary/20' : ''
                         )}
                       >
