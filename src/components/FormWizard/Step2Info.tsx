@@ -100,13 +100,21 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
    * 🌍 Auto-détection des saisons : Attribution automatique selon pays, date et durée
    * Déclenché quand date de départ, date de retour, durée ou pays changent
    * ✨ Met à jour automatiquement à chaque changement de dates
+   * ⚠️ Ne modifie que si la valeur actuelle est 'inconnue' pour respecter les choix de l'utilisateur
    */
   useEffect(() => {
     if (formData.dateDepart && formData.pays && formData.pays.length > 0) {
-      const detectedSeasons = autoDetectSeasons(formData);
+      const currentSaisons = formData.saison as string[] || [];
 
-      if (detectedSeasons.length > 0) {
-        updateFormData({ saison: detectedSeasons });
+      // Ne modifier que si la saison actuelle est 'inconnue' ou vide
+      const shouldAutoDetect = currentSaisons.length === 0 ||
+                               (currentSaisons.length === 1 && currentSaisons[0] === 'inconnue');
+
+      if (shouldAutoDetect) {
+        const detectedSeasons = autoDetectSeasons(formData);
+        if (detectedSeasons.length > 0) {
+          updateFormData({ saison: detectedSeasons });
+        }
       }
     }
   }, [formData.dateDepart, formData.dateRetour, formData.pays]);
@@ -115,13 +123,21 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
    * 🌡️ Auto-détection des températures : Attribution automatique selon pays et date
    * Déclenché quand date de départ ou pays changent
    * ✨ Met à jour automatiquement à chaque changement de dates
+   * ⚠️ Ne modifie que si la valeur actuelle est 'inconnue' pour respecter les choix de l'utilisateur
    */
   useEffect(() => {
     if (formData.dateDepart && formData.pays && formData.pays.length > 0) {
-      const detectedTemperatures = autoDetectTemperatures(formData);
+      const currentTemperatures = formData.temperature as string[] || [];
 
-      if (detectedTemperatures.length > 0) {
-        updateFormData({ temperature: detectedTemperatures });
+      // Ne modifier que si la température actuelle est 'inconnue' ou vide
+      const shouldAutoDetect = currentTemperatures.length === 0 ||
+                               (currentTemperatures.length === 1 && currentTemperatures[0] === 'inconnue');
+
+      if (shouldAutoDetect) {
+        const detectedTemperatures = autoDetectTemperatures(formData);
+        if (detectedTemperatures.length > 0) {
+          updateFormData({ temperature: detectedTemperatures });
+        }
       }
     }
   }, [formData.dateDepart, formData.dateRetour, formData.pays]);
@@ -129,11 +145,11 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   /**
    * 🔄 Auto-suggestions : Pré-sélectionner automatiquement les conditions recommandées
    *
-   * ✨ Nouvelle logique robuste :
-   * - Se déclenche automatiquement quand la destination, les pays ou les dates changent
-   * - Réapplique les suggestions à chaque changement de contexte
+   * ✨ Logique améliorée :
+   * - Se déclenche uniquement quand la destination, les pays ou les dates changent
+   * - Respecte les choix manuels de l'utilisateur (ne réapplique pas si déjà modifié)
    * - Utilise une clé unique pour détecter les changements de configuration
-   * - Plus besoin de tracker manuellement les modifications utilisateur
+   * - Ne réapplique pas si l'utilisateur a sélectionné "aucune condition particulière"
    */
   useEffect(() => {
     // Vérifier qu'on a au moins une destination, des pays et une date de départ
@@ -143,30 +159,39 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
       return;
     }
 
-    // Créer une clé unique basée sur la configuration actuelle
+    // Créer une clé unique basée sur la configuration actuelle (SANS temperature/saison)
     const currentKey = `${formData.localisation}|${formData.pays.map(p => p.code).sort().join(',')}|${formData.dateDepart}|${formData.dateRetour || ''}`;
 
     // Si la configuration a changé, réappliquer les suggestions
     if (currentKey !== lastAutoSuggestKeyRef.current) {
-      const suggestions = generateAutoSuggestions(formData);
+      const currentConditions = formData.conditionsClimatiques || [];
 
-      if (suggestions.length > 0) {
-        // Appliquer toutes les suggestions recommandées
-        const suggestionIds = suggestions.map(s => s.conditionId);
-        updateFormData({
-          conditionsClimatiques: suggestionIds
-        });
-      } else {
-        // Si aucune suggestion n'est proposée, sélectionner automatiquement "climat_aucune"
-        updateFormData({
-          conditionsClimatiques: ['climat_aucune']
-        });
+      // Ne réappliquer que si :
+      // 1. Aucune condition n'est sélectionnée
+      // 2. OU si c'est la première initialisation (lastAutoSuggestKeyRef est vide)
+      const shouldApplySuggestions = currentConditions.length === 0 || lastAutoSuggestKeyRef.current === '';
+
+      if (shouldApplySuggestions) {
+        const suggestions = generateAutoSuggestions(formData);
+
+        if (suggestions.length > 0) {
+          // Appliquer toutes les suggestions recommandées
+          const suggestionIds = suggestions.map(s => s.conditionId);
+          updateFormData({
+            conditionsClimatiques: suggestionIds
+          });
+        } else {
+          // Si aucune suggestion n'est proposée, sélectionner automatiquement "climat_aucune"
+          updateFormData({
+            conditionsClimatiques: ['climat_aucune']
+          });
+        }
       }
 
       // Mettre à jour la clé de référence
       lastAutoSuggestKeyRef.current = currentKey;
     }
-  }, [formData.localisation, formData.pays, formData.temperature, formData.saison, formData.dateDepart, formData.dateRetour]);
+  }, [formData.localisation, formData.pays, formData.dateDepart, formData.dateRetour]);
 
   /**
    * Fonction générique pour gérer la bascule (toggle) de la sélection multiple pour saison et temperature.
