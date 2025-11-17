@@ -14,6 +14,7 @@ import { generateCompleteChecklist, getChecklistSummary } from "@/utils/checklis
 
 const Generator = () => {
   const [currentStep, setCurrentStep] = useState(0);
+  const [maxStepReached, setMaxStepReached] = useState(0); // Track le plus loin que l'utilisateur est allé
   const [formData, setFormData] = useState<FormData>({
     nomVoyage: "",
     dateDepart: "",
@@ -132,12 +133,23 @@ const validateStep = (step: number): boolean => {
 
   const handleNext = () => {
     if (validateStep(currentStep)) {
-      setCurrentStep((prev) => Math.min(prev + 1, stepTitles.length - 1));
+      const nextStep = Math.min(currentStep + 1, stepTitles.length - 1);
+      setCurrentStep(nextStep);
+      // Mettre à jour le maximum atteint
+      setMaxStepReached((prev) => Math.max(prev, nextStep));
     }
   };
 
   const handlePrev = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 0));
+  };
+
+  // Fonction pour naviguer vers une étape spécifique (uniquement si déjà visitée)
+  const handleStepClick = (stepIndex: number) => {
+    // Permettre uniquement de naviguer vers les étapes déjà visitées
+    if (stepIndex <= maxStepReached) {
+      setCurrentStep(stepIndex);
+    }
   };
 
   const handleGeneratePDF = async () => {
@@ -232,6 +244,8 @@ const validateStep = (step: number): boolean => {
           currentStep={currentStep}
           totalSteps={stepTitles.length}
           stepTitles={stepTitles}
+          maxStepReached={maxStepReached}
+          onStepClick={handleStepClick}
         />
 
         {/* Form Step */}
