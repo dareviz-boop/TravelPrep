@@ -10,8 +10,9 @@ const ICON_SIZE = 12;
 /**
  * Crée un data URI SVG optimisé pour @react-pdf/renderer
  */
-const createSvgDataUri = (pathData: string, viewBox = '0 0 24 24'): string => {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${ICON_SIZE}" height="${ICON_SIZE}" viewBox="${viewBox}" fill="none" stroke="${ICON_COLOR}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${pathData}</svg>`;
+const createSvgDataUri = (pathData: string, viewBox = '0 0 24 24', customColor?: string): string => {
+  const strokeColor = customColor || ICON_COLOR;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${ICON_SIZE}" height="${ICON_SIZE}" viewBox="${viewBox}" fill="none" stroke="${strokeColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${pathData}</svg>`;
   // Utiliser btoa() pour encoder en base64 (compatible navigateur)
   return `data:image/svg+xml;base64,${btoa(svg)}`;
 };
@@ -94,6 +95,9 @@ export const PDF_ICONS = {
   compass: createSvgDataUri('<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>'),
 
   backpack: createSvgDataUri('<path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M8 21v-5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v5"/><path d="M8 10h8"/><path d="M8 18h8"/>'),
+
+  // Priorité haute
+  flame: createSvgDataUri('<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>', '0 0 24 24', '#ef4444'),
 };
 
 /**

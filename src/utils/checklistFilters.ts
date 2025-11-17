@@ -7,7 +7,7 @@
  * @author TravelPrep Team
  */
 
-import { FormData } from '@/types/form';
+import { FormData, Saison, Temperature } from '@/types/form';
 import climatData from '@/data/checklist_climat_meteo.json';
 import {
   getCountryClimate,
@@ -384,7 +384,7 @@ export function getClimatEquipment(formData: FormData): ChecklistSection[] {
  * @param formData - Données du formulaire
  * @returns Array de saisons applicables (printemps, ete, automne, hiver)
  */
-export function autoDetectSeasons(formData: FormData): string[] {
+export function autoDetectSeasons(formData: FormData): Saison[] {
   if (!formData.dateDepart) return [];
 
   const seasons: Set<string> = new Set();
@@ -432,7 +432,7 @@ export function autoDetectSeasons(formData: FormData): string[] {
 
     // Si on a trouvé au moins un pays dans la base, utiliser ces données
     if (hasFoundCountry && seasons.size > 0) {
-      return Array.from(seasons);
+      return Array.from(seasons) as Saison[];
     }
   }
 
@@ -447,7 +447,7 @@ export function autoDetectSeasons(formData: FormData): string[] {
       });
 
       if (seasons.size > 0) {
-        return Array.from(seasons);
+        return Array.from(seasons) as Saison[];
       }
     }
   }
@@ -461,7 +461,7 @@ export function autoDetectSeasons(formData: FormData): string[] {
     else seasons.add('hiver');
   });
 
-  return Array.from(seasons);
+  return Array.from(seasons) as Saison[];
 }
 
 // ==========================================
@@ -474,7 +474,7 @@ export function autoDetectSeasons(formData: FormData): string[] {
  * @param formData - Données du formulaire
  * @returns Array de températures applicables (tres-froide, froide, temperee, chaude, tres-chaude)
  */
-export function autoDetectTemperatures(formData: FormData): string[] {
+export function autoDetectTemperatures(formData: FormData): Temperature[] {
   if (!formData.pays || formData.pays.length === 0 || !formData.dateDepart) return [];
 
   const temperatures: Set<string> = new Set();
@@ -501,7 +501,7 @@ export function autoDetectTemperatures(formData: FormData): string[] {
 
   // Si on a trouvé au moins un pays dans la base, utiliser ces données
   if (hasFoundCountry && temperatures.size > 0) {
-    return Array.from(temperatures);
+    return Array.from(temperatures) as Temperature[];
   }
 
   // === STRATÉGIE 2: ZONE GÉOGRAPHIQUE (fallback régional) ===
@@ -515,7 +515,7 @@ export function autoDetectTemperatures(formData: FormData): string[] {
         tempCategories.forEach(t => temperatures.add(t));
 
         if (temperatures.size > 0) {
-          return Array.from(temperatures);
+          return Array.from(temperatures) as Temperature[];
         }
       }
     }
@@ -531,7 +531,7 @@ export function autoDetectTemperatures(formData: FormData): string[] {
     temperatures.add('temperee'); // Printemps/automne
   }
 
-  return Array.from(temperatures);
+  return Array.from(temperatures) as Temperature[];
 }
 
 // ==========================================

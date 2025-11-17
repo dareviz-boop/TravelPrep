@@ -1,6 +1,6 @@
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { FormData } from "@/types/form";
+import { FormData, Activite } from "@/types/form";
 import { checklistData } from "@/utils/checklistUtils";
 import { cn } from "@/lib/utils"; // Importation pour la gestion des classes
 
@@ -20,7 +20,7 @@ export const Step3Activites = ({ formData, updateFormData }: Step3ActivitesProps
   // CORRECTION: On suppose que la liste des activités est dans le tableau 'options'
   const activitesList = (checklistData.activites.options || []) as ActiviteOption[];
 
-  const handleActiviteToggle = (activite: string) => {
+  const handleActiviteToggle = (activite: Activite) => {
     const currentActivites = formData.activites || [];
 
     const isSelected = currentActivites.includes(activite);
@@ -47,7 +47,7 @@ export const Step3Activites = ({ formData, updateFormData }: Step3ActivitesProps
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {/* CORRECTION: Itérer sur la liste d'options extraite */}
           {activitesList.map((activite: ActiviteOption) => {
-            const code = activite.id; // Utilisation de l'ID comme code
+            const code = activite.id as Activite; // Utilisation de l'ID comme code
             const isChecked = (formData.activites || []).includes(code);
 
             // Priorité au 'nom' puis au 'label' pour l'affichage
