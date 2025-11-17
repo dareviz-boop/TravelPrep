@@ -1,6 +1,6 @@
 // Step 2 Info.tsx
 
-import React, { useState, useRef, useMemo } from "react";
+import React, { useRef, useMemo } from "react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -82,11 +82,9 @@ const renderMarkdown = (text: string) => {
 
 export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
-  // Ref pour tracker si l'utilisateur a modifié manuellement les conditions climatiques
-  const hasUserModifiedConditionsRef = useRef(false);
-
-  // State pour tracker si les recommandations ont déjà été calculées (réinitialise à chaque montage du composant)
-  const [recommendationsCalculated, setRecommendationsCalculated] = useState(false);
+  // Ref pour tracker la dernière configuration utilisée pour l'auto-suggestion
+  // Format: "localisation|pays1,pays2|dateDepart|dateRetour"
+  const lastAutoSuggestKeyRef = useRef<string>('');
 
   // Calculer les recommandations avec useMemo pour qu'elles soient toujours disponibles
   const recommendedConditions = useMemo(() => {
@@ -130,57 +128,44 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
   /**
    * 🔄 Auto-suggestions : Pré-sélectionner automatiquement les conditions recommandées
-   * Déclenché dès qu'on a destination, pays et dates (première visite de l'étape 2)
    *
-   * ✨ Améliorations :
-   * - Se déclenche dès la première visite (sans attendre température/saison)
-   * - Préserve les sélections manuelles de l'utilisateur
-   * - Les recommandations sont calculées avec useMemo et toujours disponibles
+   * ✨ Nouvelle logique robuste :
+   * - Se déclenche automatiquement quand la destination, les pays ou les dates changent
+   * - Réapplique les suggestions à chaque changement de contexte
+   * - Utilise une clé unique pour détecter les changements de configuration
+   * - Plus besoin de tracker manuellement les modifications utilisateur
    */
   useEffect(() => {
     // Vérifier qu'on a au moins une destination, des pays et une date de départ
     if (!formData.localisation || !formData.dateDepart || !formData.pays || formData.pays.length === 0) {
+      // Réinitialiser la clé si les données sont incomplètes
+      lastAutoSuggestKeyRef.current = '';
       return;
     }
 
-    // Ne pré-sélectionner qu'une seule fois
-    if (recommendationsCalculated) {
-      return;
-    }
+    // Créer une clé unique basée sur la configuration actuelle
+    const currentKey = `${formData.localisation}|${formData.pays.map(p => p.code).sort().join(',')}|${formData.dateDepart}|${formData.dateRetour || ''}`;
 
-    const suggestions = generateAutoSuggestions(formData);
+    // Si la configuration a changé, réappliquer les suggestions
+    if (currentKey !== lastAutoSuggestKeyRef.current) {
+      const suggestions = generateAutoSuggestions(formData);
 
-    if (suggestions.length > 0) {
-      // Ne pré-sélectionner QUE si l'utilisateur n'a pas encore modifié manuellement
-      if (!hasUserModifiedConditionsRef.current) {
-        const current = formData.conditionsClimatiques || [];
-        const filtered = current.filter(id => id !== 'climat_aucune');
-
-        // Ajouter toutes les suggestions qui ne sont pas déjà sélectionnées
-        const newSuggestions = suggestions
-          .map(s => s.conditionId)
-          .filter(id => !filtered.includes(id));
-
-        if (newSuggestions.length > 0) {
-          updateFormData({
-            conditionsClimatiques: [...filtered, ...newSuggestions]
-          });
-        }
+      if (suggestions.length > 0) {
+        // Appliquer toutes les suggestions recommandées
+        const suggestionIds = suggestions.map(s => s.conditionId);
+        updateFormData({
+          conditionsClimatiques: suggestionIds
+        });
+      } else {
+        // Si aucune suggestion n'est proposée, sélectionner automatiquement "climat_aucune"
+        updateFormData({
+          conditionsClimatiques: ['climat_aucune']
+        });
       }
-    } else {
-      // Si aucune suggestion n'est proposée, sélectionner automatiquement "climat_aucune"
-      if (!hasUserModifiedConditionsRef.current) {
-        const current = formData.conditionsClimatiques || [];
-        if (current.length === 0 || !current.includes('climat_aucune')) {
-          updateFormData({
-            conditionsClimatiques: ['climat_aucune']
-          });
-        }
-      }
-    }
 
-    // Marquer que les recommandations ont été calculées
-    setRecommendationsCalculated(true);
+      // Mettre à jour la clé de référence
+      lastAutoSuggestKeyRef.current = currentKey;
+    }
   }, [formData.localisation, formData.pays, formData.temperature, formData.saison, formData.dateDepart, formData.dateRetour]);
 
   /**
@@ -230,12 +215,10 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
   /**
    * Logique pour les conditions climatiques spéciales
-   * ✨ Amélioration : Marque que l'utilisateur a modifié manuellement
+   * L'utilisateur peut modifier manuellement les conditions à tout moment
+   * Les auto-suggestions se réappliqueront uniquement si la destination/pays/dates changent
    */
   const handleConditionToggle = (conditionId: string) => {
-    // Marquer que l'utilisateur a fait une modification manuelle
-    hasUserModifiedConditionsRef.current = true;
-
     const current = formData.conditionsClimatiques || [];
 
     if (conditionId === 'climat_aucune') {
