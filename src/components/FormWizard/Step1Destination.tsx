@@ -498,7 +498,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                 }}
                 className="text-sm text-primary hover:text-primary hover:bg-primary/10"
               >
-                ❓ Je ne connais pas ma date de retour
+                📅 Je ne connais pas ma date de retour
               </Button>
             </div>
             <DatePicker
