@@ -2,10 +2,10 @@
   "metadata": {
     "nom": "Sections Principales TravelPrep",
     "version": "1.0",
-    "lastUpdated": "2025-11-12",
+    "lastUpdated": "2025-11-18",
     "totalSections": 13,
     "totalItems": 158,
-    "description": "Sections optionnelles de fin de formulaire."
+    "description": "Checklist complète réorganisée - fusion essentiels dans catégories thématiques"
   },
   "hygiene": {
     "id": "hygiene",
@@ -13,6 +13,13 @@
     "description": "Trousse toilette, produits hygiène, serviettes",
     "obligatoire": false,
     "items": [
+      {
+        "id": "HYG000",
+        "item": "Brosse à dents + dentifrice voyage",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Brosse pliable ou étui. Dentifrice <100ml ou pastilles. 2 mois autonomie"
+      },
       {
         "id": "HYG001",
         "item": "Trousse toilette suspendue",
@@ -29,7 +36,7 @@
       },
       {
         "id": "HYG003",
-        "item": "Gel douche solide ou format voyage",
+        "item": "Savon/gel douche portable",
         "priorite": "⭐⭐⭐",
         "delai": "J-3",
         "conseils": "Solide = 80-100 douches. Savon Alep, Marseille = naturel. <100ml si liquide"
@@ -732,6 +739,32 @@
         "priorite": "⭐⭐",
         "delai": "J-3",
         "conseils": "Protection pluie valise. Linge sale. Camping. Polyvalents. Épais (30 microns+)"
+      },
+      {
+        "id": "BAG075",
+        "item": "Bouteille eau/gourde réutilisable",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Gourde isotherme 500ml-1L. Filtre eau si pays risque. Vide à l'aéroport (remplir après sécurité). Économie + écologie"
+      },
+      {
+        "id": "BAG076",
+        "item": "Test matériel camping/randonnée (sac, tente, réchaud)",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "conseils": "Montage tente. Test réchaud. Ajustement sac à dos. Vérifier fermetures. Détection panne avant départ",
+        "filtres": [
+          "aventure",
+          "camping",
+          "randonnee"
+        ]
+      },
+      {
+        "id": "BAG077",
+        "item": "Commander matériel voyage manquant",
+        "priorite": "⭐⭐",
+        "delai": "J-30",
+        "conseils": "Liste besoins. Délai livraison. Amazon, Decathlon, magasins spécialisés. Test avant départ"
       }
     ]
   },
@@ -1316,106 +1349,6 @@
       }
     ]
   },
-  "timeline": {
-    "id": "timeline",
-    "nom": "⏰ Timeline Chronologique",
-    "description": "Calendrier J-90 au retour",
-    "obligatoire": false,
-    "note": "Timeline générée automatiquement selon dates départ/retour",
-    "jalons": [
-      {
-        "code": "J-90",
-        "nom": "3 mois avant",
-        "actions_critiques": [
-          "Vérifier validité passeport (+6 mois après retour)",
-          "Demander visa si nécessaire (délais 3-8 semaines)",
-          "Demander permis conduire international (délai 3-8 semaines)",
-          "Premiers vaccins si nécessaires (certains = 2-3 doses espacées)"
-        ],
-        "priorite": "⭐⭐⭐"
-      },
-      {
-        "code": "J-60",
-        "nom": "2 mois avant",
-        "actions_critiques": [
-          "Finaliser visa/autorisations entrée",
-          "Vaccinations suite (rappels si nécessaires)",
-          "Souscrire assurance voyage/rapatriement",
-          "Réserver vols + 2-3 premières nuits hébergement"
-        ],
-        "priorite": "⭐⭐⭐"
-      },
-      {
-        "code": "J-30",
-        "nom": "1 mois avant",
-        "actions_critiques": [
-          "Carte bancaire sans frais étranger (N26, Revolut, Wise)",
-          "Carte Européenne Assurance Maladie si UE (délai 15j)",
-          "Commander matériel manquant (sac, vêtements tech)",
-          "Prévenir banque des dates voyage",
-          "Budget détaillé par catégorie"
-        ],
-        "priorite": "⭐⭐⭐"
-      },
-      {
-        "code": "J-14",
-        "nom": "2 semaines avant",
-        "actions_critiques": [
-          "Constituer trousse pharmacie complète",
-          "Acheter adaptateur électrique + batterie externe",
-          "Photocopies documents (passeport, visa, assurance)",
-          "Scans cloud (Drive, iCloud) tous documents",
-          "Carte SIM internationale/eSIM (Airalo, Holafly)",
-          "Télécharger cartes offline (Google Maps, Maps.me)",
-          "Télécharger apps destination (transports, traduction)"
-        ],
-        "priorite": "⭐⭐⭐"
-      },
-      {
-        "code": "J-7",
-        "nom": "1 semaine avant",
-        "actions_critiques": [
-          "Noter numéros urgence (banque, assurance, ambassade)",
-          "Cash euros + 50-100€ devise locale",
-          "Commencer probiotiques (protection turista)",
-          "Préparation domicile (voisins, courrier, plantes)",
-          "Check météo destination (ajuster bagages)",
-          "Test matériel (sac, tente, réchaud si camping)"
-        ],
-        "priorite": "⭐⭐⭐"
-      },
-      {
-        "code": "J-3",
-        "nom": "3 jours avant",
-        "actions_critiques": [
-          "Faire valises (test poids 23kg soute, 10kg cabine)",
-          "Vérifier billets imprimés + sur smartphone",
-          "Contact personne confiance (itinéraire, dates, check réguliers)",
-          "Vider frigo périssables",
-          "Régler factures échéances pendant absence"
-        ],
-        "priorite": "⭐⭐⭐"
-      },
-      {
-        "code": "J-1",
-        "nom": "Veille départ",
-        "actions_critiques": [
-          "Check-in en ligne vol (H-24 avant)",
-          "Chargement COMPLET tous appareils électroniques",
-          "Gourde vide (remplir après contrôle aéroport)",
-          "Cash séparé portefeuille (50€ backup caché)",
-          "Couper eau + électricité non essentiels",
-          "Baisser chauffage hors-gel (12-15°C)",
-          "Poubelles sorties",
-          "Volets partiellement fermés (pas tous = signe absence)",
-          "Double-check documents main (passeport, billets, assurance)",
-          "Dormir 7-8h (forme optimale départ)"
-        ],
-        "priorite": "⭐⭐⭐"
-      }
-    ],
-    "items": []
-  },
   "apps": {
     "id": "apps",
     "nom": "📱 Applications recommandées",
@@ -1670,7 +1603,15 @@
         ]
       }
     },
-    "items": []
+    "items": [
+      {
+        "id": "APPS000",
+        "item": "Télécharger cartes offline (Google Maps zones destination)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-14",
+        "conseils": "Zones ville + région. GPS sans internet. MAJ régulières. Alternative : Maps.me, OsmAnd"
+      }
+    ]
   },
   "urgence": {
     "id": "urgence",
@@ -2040,209 +1981,23 @@
       }
     ]
   },
-  "essentiels": {
-    "id": "essentiels",
-    "nom": "🔑 Essentiels absolus",
-    "description": "Items indispensables pour tout voyage",
-    "obligatoire": true,
-    "items": [
-      {
-        "id": "EA001",
-        "item": "Passeport OU Carte d'identité valide (+6 mois de validité)",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-90",
-        "conseils": "Vérifier la date d'expiration. Certains pays exigent 6 mois de validité après la date de retour"
-      },
-      {
-        "id": "EA002",
-        "item": "Billets d'avion/train/bus (papier + digital)",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-30",
-        "conseils": "Imprimer ET sauvegarder dans le cloud. Certaines compagnies exigent le papier"
-      },
-      {
-        "id": "EA003",
-        "item": "Réservations hébergements (premières nuits minimum)",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-30",
-        "conseils": "Confirmation des 2-3 premières nuits obligatoire pour certaines douanes"
-      },
-      {
-        "id": "EA004",
-        "item": "Assurance voyage/rapatriement",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-14",
-        "conseils": "Numéro d'urgence 24/7 noté sur papier séparé"
-      },
-      {
-        "id": "EA005",
-        "item": "Vaccins obligatoires (selon destination)",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-60",
-        "conseils": "Certains vaccins nécessitent plusieurs doses sur 4-8 semaines"
-      },
-      {
-        "id": "EA006",
-        "item": "Ordonnances (si médicaments réguliers)",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-14",
-        "conseils": "En anglais si possible, avec DCI (nom molécule)"
-      },
-      {
-        "id": "EA007",
-        "item": "Carte groupe sanguin / Allergies notées",
-        "priorite": "⭐⭐",
-        "delai": "J-7",
-        "conseils": "Dans portefeuille + photo smartphone"
-      },
-      {
-        "id": "EA008",
-        "item": "Carte bancaire principale",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-30",
-        "conseils": "Prévenir votre banque du voyage, vérifier date expiration"
-      },
-      {
-        "id": "EA009",
-        "item": "Espèces (euros + devise locale pour arrivée)",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-7",
-        "conseils": "Prévoir 50-100€ en devise locale pour les premiers frais"
-      },
-      {
-        "id": "EA010",
-        "item": "Prévenir votre banque du voyage",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-14",
-        "conseils": "Évite le blocage automatique de carte à l'étranger"
-      },
-      {
-        "id": "EA011",
-        "item": "Téléphone chargé + chargeur",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-1",
-        "conseils": "Backup complet avant départ"
-      },
-      {
-        "id": "EA012",
-        "item": "Adaptateur universel OU adaptateur du pays visité",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-7",
-        "conseils": "Adaptateur universel recommandé (couvre 150+ pays)"
-      },
-      {
-        "id": "EA013",
-        "item": "Batterie externe chargée",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-1",
-        "conseils": "Min 10 000mAh. En cabine obligatoirement (pas en soute)"
-      },
-      {
-        "id": "EA014",
-        "item": "Numéro opposition banque (+33...)",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-3",
-        "conseils": "Noter sur papier ET dans téléphone. Accessible offline"
-      },
-      {
-        "id": "EA015",
-        "item": "Numéro assurance voyage (24/7)",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-3",
-        "conseils": "Numéro international + numéro local si disponible"
-      },
-      {
-        "id": "EA016",
-        "item": "Contact d'urgence (famille/ami)",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-3",
-        "conseils": "Personne de confiance + numéro à jour"
-      },
-      {
-        "id": "EA017",
-        "item": "Voisins/personne de confiance (si nécessaire)",
-        "priorite": "⭐⭐",
-        "delai": "J-7",
-        "conseils": "Pour courrier, plantes, urgence logement"
-      },
-      {
-        "id": "EA018",
-        "item": "Ambassade/Consulat du pays visité",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-3",
-        "conseils": "Adresse + numéro urgence 24/7"
-      },
-      {
-        "id": "EA019",
-        "item": "Brosse à dents + dentifrice",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-1",
-        "conseils": "Format voyage ou mini tube"
-      },
-      {
-        "id": "EA020",
-        "item": "Savon portable (solide ou format voyage)",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-1",
-        "conseils": "Savon solide = écologique + pratique. 100ml max liquide"
-      },
-      {
-        "id": "EA021",
-        "item": "Petite serviette de visage (microfibre)",
-        "priorite": "⭐⭐",
-        "delai": "J-1",
-        "conseils": "Séchage rapide, peu de place"
-      },
-      {
-        "id": "EA022",
-        "item": "Protections périodiques (si concerné)",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-3",
-        "conseils": "Stock pour 1 cycle complet minimum"
-      },
-      {
-        "id": "EA023",
-        "item": "Papier toilette (petit rouleau pour urgences)",
-        "priorite": "⭐⭐",
-        "delai": "J-1",
-        "conseils": "Indispensable dans certains pays"
-      },
-      {
-        "id": "EA024",
-        "item": "Bouteille d'eau ou gourde réutilisable",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-1",
-        "conseils": "Vide à l'aéroport, remplir après contrôle"
-      },
-      {
-        "id": "EA025",
-        "item": "Copies documents (papier + cloud)",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-7",
-        "conseils": "Scan passeport, visa, assurance dans Google Drive/iCloud"
-      },
-      {
-        "id": "EA026",
-        "item": "Contact personne de confiance prévenu",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-3",
-        "conseils": "Itinéraire partagé, check réguliers prévus"
-      },
-      {
-        "id": "EA027",
-        "item": "Cash d'urgence caché (50€ minimum)",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-1",
-        "conseils": "Séparé du portefeuille principal"
-      }
-    ]
-  },
   "documents": {
     "id": "documents",
     "nom": "📄 Documents & Administratif",
     "description": "Passeport, visas, assurances, copies de sécurité",
     "obligatoire": false,
     "items": [
+      {
+        "id": "DOC000",
+        "item": "Passeport (validité >6 mois après retour)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-90",
+        "conseils": "Vérifier date expiration. Renouvellement = 3-6 semaines. 6 mois validité post-voyage pour visa. Carte identité = UE uniquement",
+        "filtres": [
+          "hors_ue",
+          "long_courrier"
+        ]
+      },
       {
         "id": "DOC001",
         "item": "Visa (vérifier délais : 3 semaines à 3 mois)",
@@ -2439,6 +2194,46 @@
         "priorite": "⭐⭐",
         "delai": "J-30",
         "conseils": "Souscription dans les 48h après achat billets pour couvrir maximum de cas"
+      },
+      {
+        "id": "DOC022",
+        "item": "Check-in en ligne vol (H-24)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-1",
+        "conseils": "Économie temps aéroport. Choix siège. Carte embarquement mobile + PDF imprimé"
+      },
+      {
+        "id": "DOC023",
+        "item": "Billets avion/train/bus (confirmations)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "PDF + version papier. Codes confirmation. Vérifier noms = passeport. Horaires + terminaux"
+      },
+      {
+        "id": "DOC024",
+        "item": "Réservations hébergements (confirmations)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Email confirmation. Adresses exactes. Numéros téléphone. Conditions annulation"
+      },
+      {
+        "id": "DOC025",
+        "item": "Assurance voyage/rapatriement",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-60",
+        "conseils": "Rapatriement médical. Frais santé étrangers. Responsabilité civile. Numéro assistance 24/7. Attestation à imprimer",
+        "filtres": [
+          "hors_ue",
+          "long_courrier",
+          "aventure"
+        ]
+      },
+      {
+        "id": "DOC026",
+        "item": "Copies documents (papier + cloud)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-14",
+        "conseils": "Passeport, visa, assurance, billets. Scan cloud (Drive, Dropbox). Photocopie papier séparée. Email à soi-même"
       }
     ]
   },
@@ -2448,6 +2243,13 @@
     "description": "Cartes bancaires, devises, notifications banque",
     "obligatoire": false,
     "items": [
+      {
+        "id": "FIN000",
+        "item": "Carte bancaire principale",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-30",
+        "conseils": "Vérifier validité. Plafonds suffisants. Activation paiements étrangers"
+      },
       {
         "id": "FIN001",
         "item": "Carte bancaire sans frais à l'étranger",
@@ -2464,24 +2266,10 @@
       },
       {
         "id": "FIN003",
-        "item": "Espèces en euros",
+        "item": "Espèces (euros + devise locale)",
         "priorite": "⭐⭐",
         "delai": "J-7",
-        "conseils": "100-200€ en petites coupures (10-20€) pour change initial"
-      },
-      {
-        "id": "FIN004",
-        "item": "Devise locale (aéroport ou avant)",
-        "priorite": "⭐⭐",
-        "delai": "J-3",
-        "filtres": {
-          "destinations": [
-            "asie",
-            "afrique",
-            "amerique-sud"
-          ]
-        },
-        "conseils": "50-100€ équivalent. Taux meilleur en bureau ville qu'aéroport"
+        "conseils": "Euros = paiement arrivée + taxi aéroport. Devise locale = petits commerces, pourboires, urgences. Montant recommandé : 100-200€ en espèces total. Prévoir 50-100€ en devise locale pour les premiers frais"
       },
       {
         "id": "FIN005",
@@ -2515,7 +2303,7 @@
         "item": "Noter numéros urgence bancaire",
         "priorite": "⭐⭐⭐",
         "delai": "J-7",
-        "conseils": "Opposition carte 24/7: sur papier + smartphone. Numéro international (+33...)"
+        "conseils": "Opposition carte 24/7: sur papier + smartphone. Numéro international (+33...). Numéro international : +33... (pas de 0 initial)"
       },
       {
         "id": "FIN009",
@@ -2551,6 +2339,20 @@
           ]
         },
         "conseils": "Trail Wallet, TravelSpend, Splitwise (groupe). Suivi dépenses quotidien"
+      },
+      {
+        "id": "FIN012",
+        "item": "Prévenir banque des dates et pays de voyage",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-30",
+        "conseils": "Éviter blocage carte. App bancaire ou conseiller. Indiquer pays + dates exactes"
+      },
+      {
+        "id": "FIN013",
+        "item": "Cash urgence caché (50€ séparés)",
+        "priorite": "⭐⭐",
+        "delai": "J-1",
+        "conseils": "50€ dans chaussure, doublure sac, poche secrète. Vol carte/portefeuille. Taxi urgence. Billet retour"
       }
     ]
   },
@@ -2560,6 +2362,40 @@
     "description": "Vaccins, médicaments, pharmacie, traitements, urgences",
     "obligatoire": false,
     "items": [
+      {
+        "id": "SAN000",
+        "item": "Constituer trousse à pharmacie complète de voyage",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-14",
+        "conseils": "Antidouleurs, anti-diarrhéiques, pansements, désinfectant, antihistaminique, médicaments perso. Ordonnances si prescription"
+      },
+      {
+        "id": "SAN001",
+        "item": "Vaccins obligatoires pays destination",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-90",
+        "conseils": "Fièvre jaune, hépatite A/B, typhoïde, rage. Institut Pasteur. Carnet vaccination international. Certains = 2-3 doses (délai 1-2 mois)",
+        "filtres": [
+          "afrique",
+          "asie",
+          "amerique_sud",
+          "aventure"
+        ]
+      },
+      {
+        "id": "SAN002",
+        "item": "Ordonnances médicaments (français + anglais)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-14",
+        "conseils": "Nom générique (DCI). Traduction anglaise. Quantité voyage + 30% sécurité. Ordonnance signée datée médecin"
+      },
+      {
+        "id": "SAN003",
+        "item": "Carte groupe sanguin + allergies",
+        "priorite": "⭐⭐",
+        "delai": "J-14",
+        "conseils": "Groupe sanguin + rhésus. Allergies médicaments. Anglais. Portefeuille. App santé smartphone"
+      },
       {
         "id": "SAN001",
         "item": "Paracétamol / Ibuprofène",
@@ -2899,6 +2735,19 @@
         "priorite": "⭐⭐",
         "delai": "J-7",
         "conseils": "Qualité variable destinations. MST prévention"
+      },
+      {
+        "id": "SAN030",
+        "item": "Probiotiques anti-turista (commencer J-7)",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "conseils": "Protection flore intestinale. Ultra-Levure, Lactibiane Voyage. 1 dose/jour dès J-7. Continuer pendant voyage",
+        "filtres": [
+          "asie",
+          "afrique",
+          "amerique_sud",
+          "aventure"
+        ]
       }
     ]
   },
@@ -2921,7 +2770,11 @@
         "priorite": "⭐⭐⭐",
         "delai": "J-14",
         "filtres": {
-          "duree": ["moyen", "long", "tres-long"]
+          "duree": [
+            "moyen",
+            "long",
+            "tres-long"
+          ]
         },
         "conseils": "La Poste garde courrier gratuit 1 mois max. Renouvellement possible. Boîte pleine = signal absence"
       },
@@ -2945,7 +2798,10 @@
         "priorite": "⭐⭐⭐",
         "delai": "J-1",
         "filtres": {
-          "duree": ["long", "tres-long"]
+          "duree": [
+            "long",
+            "tres-long"
+          ]
         },
         "conseils": "Fuite pendant absence = inondation catastrophique. Vanne principale cuisine/sdb. Vider chasse d'eau après"
       },
@@ -2976,7 +2832,11 @@
         "priorite": "⭐⭐",
         "delai": "J-7",
         "filtres": {
-          "duree": ["moyen", "long", "tres-long"]
+          "duree": [
+            "moyen",
+            "long",
+            "tres-long"
+          ]
         },
         "conseils": "Simulation présence. Horaires variables (18h-23h). Lampes LED salon/chambre. 10€ minuteur basique"
       },
@@ -3000,7 +2860,10 @@
         "priorite": "⭐⭐",
         "delai": "J-14",
         "filtres": {
-          "duree": ["long", "tres-long"]
+          "duree": [
+            "long",
+            "tres-long"
+          ]
         },
         "conseils": "Goutte-à-goutte programmable, bouteilles percées, oyas. Tester 1 semaine avant. 20-50€ kits complets"
       },
@@ -3010,7 +2873,9 @@
         "priorite": "⭐⭐⭐",
         "delai": "J-30",
         "filtres": {
-          "profil": ["famille"]
+          "profil": [
+            "famille"
+          ]
         },
         "conseils": "Pension, ami, famille confirmés. Carnet santé + vaccins à jour. Coordonnées véto. Habitudes alimentaires écrites"
       },
@@ -3020,7 +2885,10 @@
         "priorite": "⭐⭐⭐",
         "delai": "J-14",
         "filtres": {
-          "duree": ["long", "tres-long"]
+          "duree": [
+            "long",
+            "tres-long"
+          ]
         },
         "conseils": "Certaines exigent déclaration absence >30j. Vérifier conditions contrat. Email/courrier recommandé"
       },
@@ -3065,6 +2933,48 @@
         "priorite": "⭐",
         "delai": "J-1",
         "conseils": "Preuve état si problème pendant absence. Assurance. Pièces principales + objets valeur"
+      },
+      {
+        "id": "DOM021",
+        "item": "Vider frigo des produits périssables",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-1",
+        "conseils": "Jeter/donner produits frais. Vider bac légumes. Lait, viande, poisson. Laisser condiments"
+      },
+      {
+        "id": "DOM022",
+        "item": "Régler factures avec échéances pendant l'absence",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Prélèvements automatiques OK. Payer factures manuelles. Vérifier découvert autorisé"
+      },
+      {
+        "id": "DOM023",
+        "item": "Couper eau (robinet général) si >3 semaines",
+        "priorite": "⭐⭐",
+        "delai": "J-1",
+        "conseils": "Fuite = dégât. Fermer robinet principal. Vider chasse d'eau. Ouvrir robinets pour vider tuyaux"
+      },
+      {
+        "id": "DOM024",
+        "item": "Baisser chauffage hors-gel (12-15°C)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-1",
+        "conseils": "Hors-gel hiver. Économie énergie. Pas éteindre complètement (gel canalisations)"
+      },
+      {
+        "id": "DOM025",
+        "item": "Sortir poubelles la veille du départ",
+        "priorite": "⭐⭐",
+        "delai": "J-1",
+        "conseils": "Éviter odeurs. Jour ramassage. Vider corbeilles. Poubelle vide au retour"
+      },
+      {
+        "id": "DOM026",
+        "item": "Volets partiellement fermés (simulation présence)",
+        "priorite": "⭐⭐",
+        "delai": "J-1",
+        "conseils": "Mi-fermés rez-de-chaussée. Ouverts étages = habité. Pas tous fermés = cambriolage. Minuteur lumière"
       }
     ]
   },
@@ -3108,7 +3018,10 @@
         "priorite": "⭐⭐",
         "delai": "J-14",
         "filtres": {
-          "profil": ["famille", "groupe"]
+          "profil": [
+            "famille",
+            "groupe"
+          ]
         },
         "conseils": "Arrivées nocturnes, groupes 4+, bagages nombreux. Welcome Pickups, GetTransfer. Confirmation papier"
       },
@@ -3139,7 +3052,9 @@
         "priorite": "⭐⭐⭐",
         "delai": "J-14",
         "filtres": {
-          "activites": ["road-trip"]
+          "activites": [
+            "road-trip"
+          ]
         },
         "conseils": "Permis international vérifié validité. Assurance comprise ou supplémentaire. GPS inclus ou smartphone. Confirmation imprimée"
       },
@@ -3170,7 +3085,11 @@
         "priorite": "⭐⭐",
         "delai": "J-1",
         "filtres": {
-          "duree": ["moyen", "long", "tres-long"]
+          "duree": [
+            "moyen",
+            "long",
+            "tres-long"
+          ]
         },
         "conseils": "Long-courrier. Gourde vide remplir après contrôle. Barres céréales, fruits secs. Repas avion = variable qualité"
       },
@@ -3223,7 +3142,9 @@
         "priorite": "⭐",
         "delai": "J-14",
         "filtres": {
-          "activites": ["gastronomie"]
+          "activites": [
+            "gastronomie"
+          ]
         },
         "conseils": "Restaurants étoilés, très populaires. TheFork = réservation + réductions. Email confirmation suffisant"
       },
@@ -3254,7 +3175,10 @@
         "priorite": "⭐⭐",
         "delai": "J-30",
         "filtres": {
-          "activites": ["randonnee", "sports-nautiques"]
+          "activites": [
+            "randonnee",
+            "sports-nautiques"
+          ]
         },
         "conseils": "Trekking haute altitude, plongée, safari. Guides locaux > agences. Vérifier assurances incluses. Acompte souvent"
       },
@@ -3309,349 +3233,32 @@
       }
     ]
   },
-  "pendant_voyage": {
-    "id": "pendant_apres",
-    "nom": "🔄 Pendant & Après le voyage",
-    "description": "Checklist sur place et retour",
-    "obligatoire": false,
-    "note": "Section divisée en 2 sous-parties : Pendant (25 items) et Après (15 items)",
+  "urgence_contacts": {
+    "id": "urgence_contacts",
+    "nom": "☎️ Contacts d'Urgence",
+    "description": "Numéros essentiels en cas de problème",
+    "obligatoire": true,
     "items": [
       {
-        "id": "PEND001",
-        "item": "Check-in hébergement (vérifier chambre état)",
+        "id": "URG_CONT001",
+        "item": "Contact d'urgence (famille/ami) + les prévenir de l'itinéraire",
         "priorite": "⭐⭐⭐",
-        "moment": "Arrivée",
-        "conseils": "Photos état lieux. Tester douche, clim, WiFi, coffre avant accepter"
+        "delai": "J-3",
+        "conseils": "Enregistrer dans téléphone. Partager itinéraire + dates + hébergements. Vérifier disponibilité pendant voyage"
       },
       {
-        "id": "PEND002",
-        "item": "Déposer objets valeur coffre hôtel",
+        "id": "URG_CONT002",
+        "item": "Numéro assistance assurance voyage (24/7)",
         "priorite": "⭐⭐⭐",
-        "moment": "Arrivée",
-        "conseils": "Passeport, cash excédentaire, bijoux. Photo contenu avant fermer"
+        "delai": "J-7",
+        "conseils": "Numéro +33 (depuis étranger). Enregistrer dans téléphone + noter sur papier. Numéro de contrat accessible"
       },
       {
-        "id": "PEND003",
-        "item": "Repérer sorties secours chambre/hébergement",
+        "id": "URG_CONT003",
+        "item": "Coordonnées Ambassade/Consulat français du pays",
         "priorite": "⭐⭐⭐",
-        "moment": "Arrivée",
-        "conseils": "Sécurité incendie. Plan évacuation porte. Compter portes jusqu'escalier"
-      },
-      {
-        "id": "PEND004",
-        "item": "Acheter carte SIM locale si besoin",
-        "priorite": "⭐⭐⭐",
-        "moment": "J1-J2",
-        "conseils": "Aéroport cher mais pratique. Ville = 30-50% moins cher. Comparer opérateurs"
-      },
-      {
-        "id": "PEND005",
-        "item": "Retirer cash distributeur (éviter aéroport)",
-        "priorite": "⭐⭐⭐",
-        "moment": "J1-J2",
-        "conseils": "Taux aéroport = arnaque. Ville/banque meilleurs taux. Retrait max = économie frais"
-      },
-      {
-        "id": "PEND006",
-        "item": "Check météo quotidien (ajuster activités)",
-        "priorite": "⭐⭐",
-        "moment": "Quotidien",
-        "conseils": "Apps locales > météo France. Flexibilité = confort. Mousson imprévisible"
-      },
-      {
-        "id": "PEND007",
-        "item": "Boire 2-3L eau/jour (hydratation essentielle)",
-        "priorite": "⭐⭐⭐",
-        "moment": "Quotidien",
-        "conseils": "Chaleur + marche = déshydratation rapide. Urine claire = bien hydraté"
-      },
-      {
-        "id": "PEND008",
-        "item": "Appliquer crème solaire matin + midi",
-        "priorite": "⭐⭐⭐",
-        "moment": "Quotidien",
-        "filtres": {
-          "destinations": [
-            "asie",
-            "afrique",
-            "amerique-sud",
-            "oceanie"
-          ],
-          "activites": [
-            "plage",
-            "randonnee"
-          ]
-        },
-        "conseils": "AVANT sortir + renouveler 2h. Zones oubliées: oreilles, pieds, nuque"
-      },
-      {
-        "id": "PEND009",
-        "item": "Sauvegarder photos quotidiennement (cloud + disque)",
-        "priorite": "⭐⭐⭐",
-        "moment": "Soir",
-        "conseils": "Vol/perte téléphone = souvenirs perdus. Google Photos auto, iCloud"
-      },
-      {
-        "id": "PEND010",
-        "item": "Noter dépenses quotidiennes (budget)",
-        "priorite": "⭐⭐",
-        "moment": "Soir",
-        "filtres": {
-          "duree": [
-            "moyen",
-            "long",
-            "tres-long"
-          ]
-        },
-        "conseils": "App Trail Wallet. Suivi = maîtrise. Petites dépenses s'accumulent"
-      },
-      {
-        "id": "PEND011",
-        "item": "Laver vêtements régulièrement (voyager léger)",
-        "priorite": "⭐⭐⭐",
-        "moment": "Tous les 3-5 jours",
-        "filtres": {
-          "typeVoyage": [
-            "backpacker",
-            "immersion"
-          ]
-        },
-        "conseils": "Laverie ou main. Séchage microfibre 2h. Rotation = peu vêtements"
-      },
-      {
-        "id": "PEND012",
-        "item": "Check emails/SMS banque (fraudes)",
-        "priorite": "⭐⭐⭐",
-        "moment": "Quotidien",
-        "conseils": "Détection fraude rapide = blocage limité. Alertes SMS essentielles"
-      },
-      {
-        "id": "PEND013",
-        "item": "Recharger batteries électroniques (soir)",
-        "priorite": "⭐⭐⭐",
-        "moment": "Quotidien soir",
-        "conseils": "Téléphone, batterie externe, appareil photo, montre. Routine = jamais HS"
-      },
-      {
-        "id": "PEND014",
-        "item": "Prendre probiotiques (si zones risque turista)",
-        "priorite": "⭐⭐",
-        "moment": "Quotidien",
-        "filtres": {
-          "destinations": [
-            "asie",
-            "afrique",
-            "amerique-sud"
-          ]
-        },
-        "conseils": "Ultra-Levure quotidien. Protection flore intestinale continue"
-      },
-      {
-        "id": "PEND015",
-        "item": "Appliquer anti-moustiques soir (prévention)",
-        "priorite": "⭐⭐⭐",
-        "moment": "Soir",
-        "filtres": {
-          "destinations": [
-            "asie",
-            "afrique",
-            "amerique-sud"
-          ]
-        },
-        "conseils": "Crépuscule = pics moustiques. Dengue, paludisme, zika prévention"
-      },
-      {
-        "id": "PEND016",
-        "item": "Vérifier fermeture moustiquaire/clim (nuit)",
-        "priorite": "⭐⭐⭐",
-        "moment": "Avant dormir",
-        "filtres": {
-          "destinations": [
-            "asie",
-            "afrique"
-          ]
-        },
-        "conseils": "1 moustique = nuit ruinée. Inspection minutieuse trous"
-      },
-      {
-        "id": "PEND017",
-        "item": "Dormir 7-8h (récupération essentielle)",
-        "priorite": "⭐⭐⭐",
-        "moment": "Quotidien nuit",
-        "conseils": "Fatigue = maladies + accidents. Écouter corps. Sieste OK"
-      },
-      {
-        "id": "PEND018",
-        "item": "Rester flexible itinéraire (opportunités)",
-        "priorite": "⭐⭐",
-        "moment": "Continu",
-        "conseils": "Meilleurs moments = imprévus. Recommandations locaux > guides. S'adapter"
-      },
-      {
-        "id": "PEND019",
-        "item": "Tester spécialités locales (immersion)",
-        "priorite": "⭐⭐",
-        "moment": "Repas",
-        "conseils": "Street food = authentique. Observer queue locaux = bon signe"
-      },
-      {
-        "id": "PEND020",
-        "item": "Apprendre 5 mots langue locale (respect)",
-        "priorite": "⭐⭐",
-        "moment": "Début voyage",
-        "conseils": "Bonjour, merci, au revoir, combien, délicieux. Sourires garantis"
-      },
-      {
-        "id": "PEND021",
-        "item": "Faire copies clé chambre (sécurité)",
-        "priorite": "⭐⭐",
-        "moment": "Arrivée",
-        "conseils": "Perte clé = galère. Copie dans bagage différent"
-      },
-      {
-        "id": "PEND022",
-        "item": "Noter n° téléphone hébergements (papier)",
-        "priorite": "⭐⭐",
-        "moment": "Check-in",
-        "conseils": "Si tel HS/volé. Papier = accessible toujours"
-      },
-      {
-        "id": "PEND023",
-        "item": "Contacter proches régulièrement (rassurer)",
-        "priorite": "⭐⭐",
-        "moment": "Tous les 2-3 jours",
-        "filtres": {
-          "profil": [
-            "solo"
-          ]
-        },
-        "conseils": "WhatsApp, SMS. Famille rassurée = voyage serein"
-      },
-      {
-        "id": "PEND024",
-        "item": "Respecter coutumes locales (observation)",
-        "priorite": "⭐⭐⭐",
-        "moment": "Continu",
-        "conseils": "Vêtements, comportements, photos. Doute = demander. Respect = accueil"
-      },
-      {
-        "id": "PEND025",
-        "item": "Profiter moment présent (déconnexion)",
-        "priorite": "⭐⭐⭐",
-        "moment": "Continu",
-        "conseils": "Moins photos, plus ressenti. Instagram peut attendre. Vivre l'instant"
-      },
-      {
-        "id": "APRES001",
-        "item": "Déballer valises dans 24-48h (organisation)",
-        "priorite": "⭐⭐",
-        "delai": "J+1 à J+2",
-        "conseils": "Évite moisissures vêtements humides. Linge sale direct machine"
-      },
-      {
-        "id": "APRES002",
-        "item": "Laver TOUS vêtements (même propres)",
-        "priorite": "⭐⭐⭐",
-        "delai": "J+1",
-        "conseils": "Punaises lit, parasites. 60°C tue tout. Même non portés = précaution"
-      },
-      {
-        "id": "APRES003",
-        "item": "Inspecter valises punaises/insectes",
-        "priorite": "⭐⭐⭐",
-        "delai": "J+1",
-        "conseils": "Coutures, coins, fermetures. Aspirateur complet. Garage/balcon 48h"
-      },
-      {
-        "id": "APRES004",
-        "item": "Sauvegarder toutes photos (3 emplacements)",
-        "priorite": "⭐⭐⭐",
-        "delai": "J+1 à J+3",
-        "conseils": "Cloud + disque externe + ordinateur. Règle 3-2-1 backup"
-      },
-      {
-        "id": "APRES005",
-        "item": "Trier photos (garder meilleures)",
-        "priorite": "⭐⭐",
-        "delai": "J+7",
-        "conseils": "500 photos → 100 superbes. Qualité > quantité. Lightroom/Photos"
-      },
-      {
-        "id": "APRES006",
-        "item": "Consulter médecin si symptômes (fièvre, diarrhée)",
-        "priorite": "⭐⭐⭐",
-        "delai": "Immédiat si symptômes",
-        "filtres": {
-          "destinations": [
-            "asie",
-            "afrique",
-            "amerique-sud"
-          ]
-        },
-        "conseils": "Paludisme = fièvre 7-30j après. Dengue idem. MENTIONNER voyage récent"
-      },
-      {
-        "id": "APRES007",
-        "item": "Vérifier relevés bancaires (fraudes)",
-        "priorite": "⭐⭐⭐",
-        "delai": "J+1 à J+7",
-        "conseils": "Transactions suspectes. Contester rapidement. 30j max généralement"
-      },
-      {
-        "id": "APRES008",
-        "item": "Désactiver forfait international (facture)",
-        "priorite": "⭐⭐⭐",
-        "delai": "J+1",
-        "conseils": "Évite frais continuation. App opérateur/téléphone"
-      },
-      {
-        "id": "APRES009",
-        "item": "Récupérer courrier/colis voisins",
-        "priorite": "⭐⭐",
-        "delai": "J+1",
-        "conseils": "Remercier voisins/personne confiance. Chocolats/souvenir apprécié"
-      },
-      {
-        "id": "APRES010",
-        "item": "Réactiver services domicile (courrier, etc)",
-        "priorite": "⭐⭐",
-        "delai": "J+1",
-        "conseils": "Poste garde courrier = réactivation auto ou demande. Vérifier"
-      },
-      {
-        "id": "APRES011",
-        "item": "Partager recommandations (aider voyageurs)",
-        "priorite": "⭐",
-        "delai": "J+7",
-        "conseils": "TripAdvisor, Google Reviews. Avis = aide communauté. Constructifs"
-      },
-      {
-        "id": "APRES012",
-        "item": "Créer album photos/vidéo souvenirs",
-        "priorite": "⭐⭐",
-        "delai": "J+14",
-        "conseils": "Google Photos, Apple Memories auto. Ou manuel mixbook.com, shutterfly"
-      },
-      {
-        "id": "APRES013",
-        "item": "Évaluer budget réel vs prévisionnel",
-        "priorite": "⭐⭐",
-        "delai": "J+7",
-        "conseils": "Leçons prochain voyage. Postes dépassés? Économies possibles?"
-      },
-      {
-        "id": "APRES014",
-        "item": "Noter destinations/activités préférées (mémoire)",
-        "priorite": "⭐",
-        "delai": "J+3 à J+7",
-        "conseils": "Carnet voyage. Recommandations amis. Souvenirs s'effacent vite"
-      },
-      {
-        "id": "APRES015",
-        "item": "Planifier prochain voyage (déjà!) 😊",
-        "priorite": "⭐",
-        "delai": "Quand envie",
-        "conseils": "Blues retour = normal. Cure = rêver nouveau voyage. Wanderlust éternel"
+        "delai": "J-7",
+        "conseils": "Adresse + téléphone urgence. Site France Diplomatie. Permanence consulaire si pays risque"
       }
     ]
   }

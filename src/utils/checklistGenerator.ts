@@ -140,11 +140,7 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
   const sections: GeneratedChecklistSection[] = [];
 
   // Récupérer les sections sélectionnées par l'utilisateur
-  // (Pour l'instant on charge toutes les sections disponibles avec items)
   const sectionsInclure = formData.sectionsInclure || [];
-
-  // Liste des sections à toujours inclure (essentiels obligatoire)
-  const sectionsToLoad = ['essentiels', ...sectionsInclure];
 
   // Parcourir les sections du JSON
   Object.keys(coreSectionsData).forEach(sectionKey => {
@@ -155,11 +151,10 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
 
     // Vérifier si la section a des items et est sélectionnée
     if (section.items && section.items.length > 0) {
-      // Charger si : obligatoire, ou dans sectionsInclure, ou essentiels
+      // Charger si : obligatoire OU dans sectionsInclure
       const shouldInclude =
         section.obligatoire ||
-        sectionsToLoad.includes(sectionKey) ||
-        sectionKey === 'essentiels';
+        sectionsInclure.includes(sectionKey);
 
       if (shouldInclude) {
         // Mapper les items avec conversion de priorité
