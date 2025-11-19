@@ -1978,6 +1978,13 @@
         "priorite": "⭐⭐",
         "delai": "J-3",
         "conseils": "ICE (In Case Emergency) contacts. Groupe sanguin, allergies, traitements. Écran verrouillé accessible. iPhone = Fiche médicale"
+      },
+      {
+        "id": "URG027",
+        "item": "Contact d'urgence (famille/ami) + les prévenir de l'itinéraire",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "conseils": "Enregistrer dans téléphone. Partager itinéraire + dates + hébergements. Vérifier disponibilité pendant voyage"
       }
     ]
   },
@@ -2234,6 +2241,20 @@
         "priorite": "⭐⭐⭐",
         "delai": "J-14",
         "conseils": "Passeport, visa, assurance, billets. Scan cloud (Drive, Dropbox). Photocopie papier séparée. Email à soi-même"
+      },
+      {
+        "id": "DOC027",
+        "item": "Numéro assistance assurance voyage (24/7)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Numéro +33 (depuis étranger). Enregistrer dans téléphone + noter sur papier. Numéro de contrat accessible"
+      },
+      {
+        "id": "DOC028",
+        "item": "Coordonnées Ambassade/Consulat français du pays",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "conseils": "Adresse + téléphone urgence. Site France Diplomatie. Permanence consulaire si pays risque"
       }
     ]
   },
@@ -3230,35 +3251,6 @@
         "priorite": "⭐⭐",
         "delai": "J-3",
         "conseils": "Location voiture, excursions prépayées. Certains exigent papier. Email parfois refusé check-in"
-      }
-    ]
-  },
-  "urgence_contacts": {
-    "id": "urgence_contacts",
-    "nom": "☎️ Contacts d'Urgence",
-    "description": "Numéros essentiels en cas de problème",
-    "obligatoire": true,
-    "items": [
-      {
-        "id": "URG_CONT001",
-        "item": "Contact d'urgence (famille/ami) + les prévenir de l'itinéraire",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-3",
-        "conseils": "Enregistrer dans téléphone. Partager itinéraire + dates + hébergements. Vérifier disponibilité pendant voyage"
-      },
-      {
-        "id": "URG_CONT002",
-        "item": "Numéro assistance assurance voyage (24/7)",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-7",
-        "conseils": "Numéro +33 (depuis étranger). Enregistrer dans téléphone + noter sur papier. Numéro de contrat accessible"
-      },
-      {
-        "id": "URG_CONT003",
-        "item": "Coordonnées Ambassade/Consulat français du pays",
-        "priorite": "⭐⭐⭐",
-        "delai": "J-7",
-        "conseils": "Adresse + téléphone urgence. Site France Diplomatie. Permanence consulaire si pays risque"
       }
     ]
   }
