@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase'
   },
   infoBox: {
-    backgroundColor: '#F5F5DC', // Fond beige clair
+    backgroundColor: '#F5F5F5', // Fond gris Dareviz
     padding: 15,
     borderRadius: 4,
     border: '1px solid #CCCCCC', // Bordure grise
@@ -129,12 +129,12 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
   };
 
   const getActivitesLabels = () => {
-    const activitesMap: any = checklistCompleteData.activites || {};
+    const activitesOptions: any[] = checklistCompleteData.activites?.options || [];
     return cleanTextForPDF(
       formData.activites
         .map(actId => {
-          const activite = activitesMap[actId];
-          return activite ? activite.label : actId;
+          const activite = activitesOptions.find((opt: any) => opt.id === actId);
+          return activite ? activite.nom : actId;
         })
         .filter(Boolean)
         .join(', ')
@@ -147,9 +147,9 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
   };
 
   const getProfilLabel = () => {
-    const profils: any = checklistCompleteData.profils || {};
-    const profil = profils[formData.profil];
-    return cleanTextForPDF(profil ? profil.label : formData.profil);
+    const profilsOptions: any[] = checklistCompleteData.profils?.options || [];
+    const profil = profilsOptions.find((opt: any) => opt.id === formData.profil);
+    return cleanTextForPDF(profil ? profil.nom : formData.profil);
   };
 
   const getPaysLabels = () => {
@@ -226,15 +226,15 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
   };
 
   const getTypeVoyageLabel = () => {
-    const types: any = checklistCompleteData.typeVoyage || {};
-    const type = types[formData.typeVoyage];
-    return cleanTextForPDF(type ? type.label : formData.typeVoyage);
+    const typesOptions: any[] = checklistCompleteData.typeVoyage?.options || [];
+    const type = typesOptions.find((opt: any) => opt.id === formData.typeVoyage);
+    return cleanTextForPDF(type ? type.nom : formData.typeVoyage);
   };
 
   const getConfortLabel = () => {
-    const conforts: any = checklistCompleteData.confort || {};
-    const confort = conforts[formData.confort];
-    return cleanTextForPDF(confort ? confort.label : formData.confort);
+    const confortsOptions: any[] = checklistCompleteData.confort?.options || [];
+    const confort = confortsOptions.find((opt: any) => opt.id === formData.confort);
+    return cleanTextForPDF(confort ? confort.nom : formData.confort);
   };
 
   const duration = calculateDuration();
@@ -277,7 +277,6 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
               <PDFIcon name="calendar" />
               <Text style={styles.labelText}>Date :</Text>
             </View>
-            <Text style={styles.infoLabel}>Date :</Text>
             <Text style={styles.infoValue}>
               {formatDate(formData.dateDepart)} {'->'} {formatDate(formData.dateRetour)} / {duration} jours
             </Text>
@@ -288,7 +287,6 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
               <PDFIcon name="calendar" />
               <Text style={styles.labelText}>Départ :</Text>
             </View>
-            <Text style={styles.infoLabel}>Depart :</Text>
             <Text style={styles.infoValue}>
               {formatDate(formData.dateDepart)} / {getDureeEstimee()}
             </Text>
@@ -301,7 +299,6 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
             <PDFIcon name="globe" />
             <Text style={styles.labelText}>Destination :</Text>
           </View>
-          <Text style={styles.infoLabel}>Destination :</Text>
           <Text style={styles.infoValue}>{getLocalisationLabel()}</Text>
         </View>
 
@@ -312,7 +309,6 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
               <PDFIcon name="map" />
               <Text style={styles.labelText}>Pays :</Text>
             </View>
-            <Text style={styles.infoLabel}>Pays :</Text>
             <Text style={styles.infoValue}>{getPaysLabels()}</Text>
           </View>
         )}
@@ -324,7 +320,6 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
               <PDFIcon name="leaf" />
               <Text style={styles.labelText}>Saison :</Text>
             </View>
-            <Text style={styles.infoLabel}>Saison :</Text>
             <Text style={styles.infoValue}>{getSaisonsLabels()}</Text>
           </View>
         )}
@@ -336,7 +331,6 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
               <PDFIcon name="thermometer" />
               <Text style={styles.labelText}>Température :</Text>
             </View>
-            <Text style={styles.infoLabel}>Temperature :</Text>
             <Text style={styles.infoValue}>{getTemperaturesLabels()}</Text>
           </View>
         )}
@@ -348,7 +342,6 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
               <PDFIcon name="cloud" />
               <Text style={styles.labelText}>Climat :</Text>
             </View>
-            <Text style={styles.infoLabel}>Climat :</Text>
             <Text style={styles.infoValue}>{getConditionsClimatiquesLabels()}</Text>
           </View>
         )}
@@ -359,7 +352,6 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
             <PDFIcon name="user" />
             <Text style={styles.labelText}>Profil :</Text>
           </View>
-          <Text style={styles.infoLabel}>Profil :</Text>
           <Text style={styles.infoValue}>
             {getProfilLabel()}
             {formData.profil === 'famille' && formData.nombreEnfants &&
@@ -375,7 +367,6 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
               <PDFIcon name="activity" />
               <Text style={styles.labelText}>Activités :</Text>
             </View>
-            <Text style={styles.infoLabel}>Activites :</Text>
             <Text style={styles.infoValue}>{getActivitesLabels()}</Text>
           </View>
         )}
@@ -387,7 +378,6 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
               <PDFIcon name="plane" />
               <Text style={styles.labelText}>Type :</Text>
             </View>
-            <Text style={styles.infoLabel}>Type :</Text>
             <Text style={styles.infoValue}>{getTypeVoyageLabel()}</Text>
           </View>
         )}
@@ -399,7 +389,6 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
               <PDFIcon name="bed" />
               <Text style={styles.labelText}>Confort :</Text>
             </View>
-            <Text style={styles.infoLabel}>Confort :</Text>
             <Text style={styles.infoValue}>{getConfortLabel()}</Text>
           </View>
         )}

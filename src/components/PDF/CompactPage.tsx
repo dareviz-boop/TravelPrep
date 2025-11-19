@@ -1,6 +1,6 @@
 import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
-import { GeneratedChecklist, ChecklistItem } from '@/utils/checklistGenerator';
+import { GeneratedChecklist, ChecklistItem, GeneratedChecklistSection } from '@/utils/checklistGenerator';
 import { PDFIcon } from './PDFIcon';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
@@ -42,54 +42,49 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#FFFFFF'
   },
-  title: {
+  // Titre principal de section (Timeline, Sélection conseillée, Activités)
+  mainSectionTitle: {
     fontSize: 14,
     fontWeight: 700,
     color: '#E85D2A',
+    marginTop: 15,
+    marginBottom: 12,
+    textTransform: 'uppercase'
+  },
+  // Barre de séparation orange pleine largeur
+  divider: {
+    borderBottom: '2px solid #E85D2A',
+    marginVertical: 12,
+    width: '100%'
+  },
+  // Jalon temporel (J-90 - J-60, etc.)
+  timelineBlock: {
     marginBottom: 15
   },
-  categoryHeader: {
-    fontSize: 12,
+  timelineHeader: {
+    fontSize: 11,
     fontWeight: 700,
-    color: '#FFFFFF',
-    backgroundColor: '#E85D2A',
-    padding: 6,
-    marginTop: 10,
-    marginBottom: 10
+    color: '#E85D2A',
+    marginBottom: 8,
+    paddingLeft: 8,
+    paddingVertical: 4,
+    borderLeft: '4px solid #E85D2A',
+    backgroundColor: '#FFF5F0'
   },
-  categoryHeaderInteresting: {
-    fontSize: 12,
-    fontWeight: 700,
-    color: '#FFFFFF',
-    backgroundColor: '#6B7280',
-    padding: 6,
-    marginTop: 10,
-    marginBottom: 10
-  },
-  section: {
-    marginBottom: 12,
-    borderBottom: '1px solid #e5e7eb',
-    paddingBottom: 8
-  },
-  sectionTitle: {
+  // Titre de catégorie (Documents & Administratifs, Santé, etc.)
+  categoryTitle: {
     fontSize: 10,
-    fontWeight: 600,
-    color: '#111827',
+    fontWeight: 700,
+    color: '#E85D2A',
     marginBottom: 6,
-    backgroundColor: '#f9fafb',
-    padding: 4,
-    borderLeft: '3px solid #E85D2A'
+    marginTop: 8,
+    paddingLeft: 6
   },
+  // Item de checklist
   item: {
     flexDirection: 'row',
     marginBottom: 3,
-    paddingLeft: 5
-  },
-  prioritySymbol: {
-    fontSize: 6,
-    fontWeight: 600,
-    marginRight: 3,
-    color: '#374151'
+    paddingLeft: 10
   },
   checkbox: {
     width: 8,
@@ -103,6 +98,16 @@ const styles = StyleSheet.create({
     fontSize: 7,
     color: '#374151',
     lineHeight: 1.3
+  },
+  // Sous-catégorie pour les apps
+  subCategoryTitle: {
+    fontSize: 9,
+    fontWeight: 600,
+    color: '#6B7280',
+    marginBottom: 4,
+    marginTop: 6,
+    paddingLeft: 10,
+    fontStyle: 'italic'
   }
 });
 
@@ -111,74 +116,280 @@ interface CompactPageProps {
   checklistData: GeneratedChecklist;
 }
 
-export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
-  const isHighPriority = (priorite?: string): boolean => {
-    const p = priorite?.toLowerCase() || '';
-    return p.includes('haute');
-  };
+// Jalons temporels pour la timeline
+const TIMELINE_MILESTONES = [
+  { id: 'j90-j60', label: 'J -90 - J-60 (3 mois a 2 mois avant)', min: 60, max: 90 },
+  { id: 'j60-j30', label: 'J -60 - J-30 (2 mois a 1 mois avant)', min: 30, max: 60 },
+  { id: 'j30-j7', label: 'J -30 - J-7 (1 mois a 1 semaine avant)', min: 7, max: 30 },
+  { id: 'j7-j1', label: 'J -7 - J-1 (1 semaine a la veille)', min: 1, max: 7 },
+  { id: 'j1', label: 'J -1 (la veille du depart)', min: 0, max: 1 }
+];
 
-  // Fonction pour extraire le numéro de jours du délai
+// Catégories pour la section Timeline (essentiels absolus)
+const TIMELINE_CATEGORIES = ['documents', 'sante', 'finances'];
+
+// Catégories pour la section Sélection conseillée
+const SELECTION_CATEGORIES = [
+  'bagages',
+  'hygiene',
+  'tech',
+  'domicile',
+  'transport',
+  'reservations',
+  'urgence',
+  'apps',
+  'pendant_voyage'
+];
+
+export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
+  // ==========================================
+  // FONCTIONS HELPERS
+  // ==========================================
+
+  // Extraire le numéro de jours du délai (J-90 → 90)
   const extractDelayNumber = (delai?: string): number => {
     if (!delai) return 0;
     const match = delai.match(/J-(\d+)/);
     return match ? parseInt(match[1]) : 0;
   };
 
-  // Trier les items par ordre chronologique
-  const sortItemsByDelay = (items: ChecklistItem[]): ChecklistItem[] => {
-    return [...items].sort((a, b) => {
-      const delayA = extractDelayNumber(a.delai);
-      const delayB = extractDelayNumber(b.delai);
-      return delayB - delayA; // Ordre décroissant : J-90 avant J-7
-    });
+  // Vérifier la priorité d'un item
+  const getPriority = (priorite?: string): 'haute' | 'moyenne' | 'basse' => {
+    if (!priorite) return 'basse';
+    const stars = (priorite.match(/⭐/g) || []).length;
+    if (stars >= 3) return 'haute';
+    if (stars === 2) return 'moyenne';
+    return 'basse';
   };
 
-  // Séparer les sections par catégorie
-  const mustHaveSections = checklistData.sections.filter(s => s.category === 'must-have');
-  const interestingSections = checklistData.sections.filter(s => s.category === 'interesting');
+  // Assigner un item à un jalon temporel
+  const getTimelineMilestone = (item: ChecklistItem): string | null => {
+    const delay = extractDelayNumber(item.delai);
+    const milestone = TIMELINE_MILESTONES.find(m => delay >= m.min && delay <= m.max);
+    return milestone ? milestone.id : null;
+  };
 
-  const renderSection = (section: any) => {
-    if (!section.items || section.items.length === 0) return null;
+  // ==========================================
+  // SECTION 1: TIMELINE DE PRÉPARATION - ESSENTIELS ABSOLUS
+  // ==========================================
 
-    const sortedItems = sortItemsByDelay(section.items);
+  const renderTimelineSection = () => {
+    // Filtrer les sections autorisées pour la timeline (documents, santé, finances)
+    const timelineSections = checklistData.sections.filter(section =>
+      TIMELINE_CATEGORIES.includes(section.id)
+    );
+
+    // Récupérer tous les items haute priorité de ces sections
+    const highPriorityItems: Array<{ item: ChecklistItem; sectionId: string; sectionName: string }> = [];
+    timelineSections.forEach(section => {
+      section.items.forEach(item => {
+        if (getPriority(item.priorite) === 'haute') {
+          highPriorityItems.push({
+            item,
+            sectionId: section.id,
+            sectionName: cleanTextForPDF(section.nom)
+          });
+        }
+      });
+    });
+
+    if (highPriorityItems.length === 0) return null;
+
+    // Grouper par jalons temporels
+    const itemsByMilestone: { [key: string]: typeof highPriorityItems } = {};
+    TIMELINE_MILESTONES.forEach(milestone => {
+      itemsByMilestone[milestone.id] = [];
+    });
+
+    highPriorityItems.forEach(({ item, sectionId, sectionName }) => {
+      const milestoneId = getTimelineMilestone(item);
+      if (milestoneId && itemsByMilestone[milestoneId]) {
+        itemsByMilestone[milestoneId].push({ item, sectionId, sectionName });
+      }
+    });
 
     return (
-      <View style={styles.section} key={section.id} wrap={false}>
-        <Text style={styles.sectionTitle}>
-          {section.emoji} {cleanTextForPDF(section.nom)}
-        </Text>
-        {sortedItems.map((item, index) => (
-          <View style={styles.item} key={item.id || `item-${index}`}>
-            {isHighPriority(item.priorite) && (
-              <PDFIcon name="flame" style={{ marginRight: 3, marginTop: 1 }} />
-            )}
-            <View style={styles.checkbox} />
-            <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-          </View>
-        ))}
-      </View>
+      <>
+        <Text style={styles.mainSectionTitle}>Timeline de Preparation - Essentiels absolus</Text>
+
+        {TIMELINE_MILESTONES.map(milestone => {
+          const items = itemsByMilestone[milestone.id];
+          if (!items || items.length === 0) return null;
+
+          // Grouper par catégorie (Documents, Santé, Finances)
+          const itemsByCategory: { [key: string]: typeof items } = {};
+          items.forEach(({ item, sectionId, sectionName }) => {
+            if (!itemsByCategory[sectionName]) {
+              itemsByCategory[sectionName] = [];
+            }
+            itemsByCategory[sectionName].push({ item, sectionId, sectionName });
+          });
+
+          return (
+            <View key={milestone.id} style={styles.timelineBlock} wrap={false}>
+              <Text style={styles.timelineHeader}>{milestone.label}</Text>
+
+              {Object.entries(itemsByCategory).map(([categoryName, categoryItems]) => (
+                <View key={categoryName}>
+                  <Text style={styles.categoryTitle}>{categoryName}</Text>
+                  {categoryItems.map(({ item }, idx) => (
+                    <View style={styles.item} key={item.id || `item-${idx}`}>
+                      <View style={styles.checkbox} />
+                      <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                    </View>
+                  ))}
+                </View>
+              ))}
+            </View>
+          );
+        })}
+      </>
     );
   };
 
+  // ==========================================
+  // SECTION 2: À PRÉVOIR - SÉLECTION CONSEILLÉE
+  // ==========================================
+
+  const renderSelectionSection = () => {
+    // Filtrer les sections pour la sélection conseillée
+    const selectionSections = checklistData.sections.filter(section =>
+      SELECTION_CATEGORIES.includes(section.id)
+    );
+
+    // Récupérer tous les items priorité moyenne
+    const mediumPriorityItems: { [sectionId: string]: { section: GeneratedChecklistSection; items: ChecklistItem[] } } = {};
+
+    selectionSections.forEach(section => {
+      const mediumItems = section.items.filter(item => getPriority(item.priorite) === 'moyenne');
+      if (mediumItems.length > 0) {
+        mediumPriorityItems[section.id] = {
+          section,
+          items: mediumItems
+        };
+      }
+    });
+
+    if (Object.keys(mediumPriorityItems).length === 0) return null;
+
+    return (
+      <>
+        <View style={styles.divider} />
+        <Text style={styles.mainSectionTitle}>A prevoir - Selection conseillee</Text>
+
+        {Object.entries(mediumPriorityItems).map(([sectionId, { section, items }]) => {
+          // Gestion spéciale pour la section "apps" avec sous-catégories
+          if (sectionId === 'apps') {
+            return (
+              <View key={sectionId} wrap={false}>
+                <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+                {renderAppsWithSubcategories(items)}
+              </View>
+            );
+          }
+
+          return (
+            <View key={sectionId} wrap={false}>
+              <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+              {items.map((item, idx) => (
+                <View style={styles.item} key={item.id || `item-${idx}`}>
+                  <View style={styles.checkbox} />
+                  <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                </View>
+              ))}
+            </View>
+          );
+        })}
+      </>
+    );
+  };
+
+  // Fonction spéciale pour rendre les apps avec sous-catégories
+  const renderAppsWithSubcategories = (items: ChecklistItem[]) => {
+    // Grouper les apps par catégorie (Navigation, Hébergement, etc.)
+    const appsByCategory: { [key: string]: ChecklistItem[] } = {};
+
+    items.forEach(item => {
+      // Extraire la catégorie du texte de l'item (format: "Catégorie: Nom de l'app")
+      const match = item.item.match(/^([^:]+):\s*(.+)$/);
+      if (match) {
+        const category = match[1].trim();
+        if (!appsByCategory[category]) {
+          appsByCategory[category] = [];
+        }
+        appsByCategory[category].push({
+          ...item,
+          item: match[2].trim() // Nom de l'app sans la catégorie
+        });
+      } else {
+        // Si pas de catégorie, mettre dans "Autres"
+        if (!appsByCategory['Autres']) {
+          appsByCategory['Autres'] = [];
+        }
+        appsByCategory['Autres'].push(item);
+      }
+    });
+
+    return (
+      <>
+        {Object.entries(appsByCategory).map(([category, categoryItems]) => (
+          <View key={category}>
+            <Text style={styles.subCategoryTitle}>{category}</Text>
+            {categoryItems.map((item, idx) => (
+              <View style={styles.item} key={item.id || `app-${idx}`}>
+                <View style={styles.checkbox} />
+                <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+              </View>
+            ))}
+          </View>
+        ))}
+      </>
+    );
+  };
+
+  // ==========================================
+  // SECTION 3: À PRÉVOIR - PRÉPARATION ACTIVITÉS
+  // ==========================================
+
+  const renderActivitiesSection = () => {
+    // Filtrer uniquement les sections d'activités
+    const activitySections = checklistData.sections.filter(section => section.source === 'activite');
+
+    if (activitySections.length === 0) return null;
+
+    return (
+      <>
+        <View style={styles.divider} />
+        <Text style={styles.mainSectionTitle}>A prevoir - Preparation activites</Text>
+
+        {activitySections.map(section => {
+          if (!section.items || section.items.length === 0) return null;
+
+          return (
+            <View key={section.id} wrap={false}>
+              <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+              {section.items.map((item, idx) => (
+                <View style={styles.item} key={item.id || `activity-${idx}`}>
+                  <View style={styles.checkbox} />
+                  <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                </View>
+              ))}
+            </View>
+          );
+        })}
+      </>
+    );
+  };
+
+  // ==========================================
+  // RENDU PRINCIPAL
+  // ==========================================
+
   return (
     <Page size="A4" style={styles.page}>
-      <Text style={styles.title}>Checklist Compacte</Text>
-
-      {/* MUST-HAVES */}
-      {mustHaveSections.length > 0 && (
-        <>
-          <Text style={styles.categoryHeader}>ESSENTIELS - MUST-HAVES</Text>
-          {mustHaveSections.map(renderSection)}
-        </>
-      )}
-
-      {/* INTÉRESSANTS */}
-      {interestingSections.length > 0 && (
-        <>
-          <Text style={styles.categoryHeaderInteresting}>COMPLEMENTAIRES - INTERESSANTS</Text>
-          {interestingSections.map(renderSection)}
-        </>
-      )}
+      {renderTimelineSection()}
+      {renderSelectionSection()}
+      {renderActivitiesSection()}
     </Page>
   );
 };
