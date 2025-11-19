@@ -609,15 +609,25 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   }
 
   // ❄️ ZONES FROIDES : Neige + Froid intense
-  const coldCountryCodes = ['GL', 'IS', 'FI', 'NO', 'SE', 'CA', 'RU'];
+  const coldCountryCodes = ['GL', 'IS', 'FI', 'NO', 'SE', 'CA', 'RU', 'AD', 'CH', 'AT', 'LI'];
   const isCold = formData.pays?.some((p: any) =>
     coldCountryCodes.includes(p.code?.toUpperCase())
   );
 
   if (isCold) {
     if (month >= 11 || month <= 3 || saisons.includes('hiver')) {
+      // Pays polaires (GL, IS, FI, NO, SE, CA, RU) = froid intense
+      const polarCountries = ['GL', 'IS', 'FI', 'NO', 'SE', 'CA', 'RU'];
+      const isPolar = formData.pays?.some((p: any) =>
+        polarCountries.includes(p.code?.toUpperCase())
+      );
+
       addSuggestion('climat_neige', 'Chutes de neige fréquentes en hiver', 'haute');
-      addSuggestion('climat_froid_intense', 'Températures polaires en hiver', 'haute');
+
+      // Froid intense seulement pour zones polaires, pas pour pays alpins
+      if (isPolar) {
+        addSuggestion('climat_froid_intense', 'Températures polaires en hiver', 'haute');
+      }
     }
   }
 
@@ -764,62 +774,69 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   }
 
   // === PARTIE 2: SUGGESTIONS DU JSON (COMPLÉMENTAIRES) ===
+  // ⚠️ Pour multi-destinations avec pays spécifiques, on privilégie la logique contextuelle (PARTIE 1)
+  // et on ignore les suggestions génériques du JSON qui seraient trop larges
 
-  const data = climatData as any;
-  const categories = [
-    'precipitations',
-    'temperatures_extremes',
-    'altitude',
-    'conditions_speciales',
-    'vents',
-    'humidite'
-  ];
+  const isMultiDestinationWithCountries = formData.localisation === 'multi-destinations' && formData.pays && formData.pays.length > 0;
 
-  categories.forEach((category) => {
-    const categoryData = data.conditionsClimatiques[category];
-    if (!categoryData?.items) return;
+  // Ne pas appliquer les suggestions génériques du JSON si on est en multi-destinations avec pays
+  if (!isMultiDestinationWithCountries) {
+    const data = climatData as any;
+    const categories = [
+      'precipitations',
+      'temperatures_extremes',
+      'altitude',
+      'conditions_speciales',
+      'vents',
+      'humidite'
+    ];
 
-    categoryData.items.forEach((item: ClimatItem) => {
-      if (formData.conditionsClimatiques?.includes(item.id) || alreadySuggested.has(item.id)) return;
-      if (!item.suggestions) return;
+    categories.forEach((category) => {
+      const categoryData = data.conditionsClimatiques[category];
+      if (!categoryData?.items) return;
 
-      const { temperature: suggestedTemps, saison: suggestedSeasons, description } = item.suggestions;
+      categoryData.items.forEach((item: ClimatItem) => {
+        if (formData.conditionsClimatiques?.includes(item.id) || alreadySuggested.has(item.id)) return;
+        if (!item.suggestions) return;
 
-      let matches = false;
-      let raison = '';
-      let priorite: 'haute' | 'moyenne' | 'basse' = 'basse';
+        const { temperature: suggestedTemps, saison: suggestedSeasons, description } = item.suggestions;
 
-      if (suggestedTemps && suggestedTemps.length > 0) {
-        const tempMatch = temperatures.some(t => suggestedTemps.includes(t));
-        if (tempMatch) {
-          matches = true;
-          raison = description || `Température adaptée (${temperatures.join(', ')})`;
-          priorite = 'moyenne';
+        let matches = false;
+        let raison = '';
+        let priorite: 'haute' | 'moyenne' | 'basse' = 'basse';
+
+        if (suggestedTemps && suggestedTemps.length > 0) {
+          const tempMatch = temperatures.some(t => suggestedTemps.includes(t));
+          if (tempMatch) {
+            matches = true;
+            raison = description || `Température adaptée (${temperatures.join(', ')})`;
+            priorite = 'moyenne';
+          }
         }
-      }
 
-      if (suggestedSeasons && suggestedSeasons.length > 0) {
-        const seasonMatch = saisons.some(s => suggestedSeasons.includes(s));
-        if (seasonMatch) {
-          matches = true;
-          if (!raison) raison = description || `Saison adaptée (${saisons.join(', ')})`;
-          priorite = 'moyenne';
+        if (suggestedSeasons && suggestedSeasons.length > 0) {
+          const seasonMatch = saisons.some(s => suggestedSeasons.includes(s));
+          if (seasonMatch) {
+            matches = true;
+            if (!raison) raison = description || `Saison adaptée (${saisons.join(', ')})`;
+            priorite = 'moyenne';
+          }
         }
-      }
 
-      if (item.filtres?.destinations && item.filtres.destinations.length > 0) {
-        const destMatch = matchesDestination(item.filtres.destinations, formData.localisation);
-        if (destMatch) {
-          matches = true;
-          if (!raison) raison = description || 'Destination adaptée';
+        if (item.filtres?.destinations && item.filtres.destinations.length > 0) {
+          const destMatch = matchesDestination(item.filtres.destinations, formData.localisation);
+          if (destMatch) {
+            matches = true;
+            if (!raison) raison = description || 'Destination adaptée';
+          }
         }
-      }
 
-      if (matches) {
-        addSuggestion(item.id, raison, priorite);
-      }
+        if (matches) {
+          addSuggestion(item.id, raison, priorite);
+        }
+      });
     });
-  });
+  }
 
   // Trier par priorité
   const priorityOrder = { haute: 1, moyenne: 2, basse: 3 };
