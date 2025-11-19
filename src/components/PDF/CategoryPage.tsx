@@ -39,7 +39,7 @@ const cleanTextForPDF = (text: string): string => {
 const styles = StyleSheet.create({
   page: {
     fontFamily: 'Helvetica',
-    fontSize: 8,
+    fontSize: 9,
     padding: 20,
     backgroundColor: '#FFFFFF'
   },
@@ -51,69 +51,76 @@ const styles = StyleSheet.create({
   },
   itemWithConseil: {
     flexDirection: 'column',
-    marginBottom: 7,
-    paddingLeft: 3
+    marginBottom: 10,
+    paddingLeft: 5
   },
   itemRow: {
     flexDirection: 'row',
-    marginBottom: 2
+    marginBottom: 3
   },
   item: {
     flexDirection: 'row',
     marginBottom: 5,
-    paddingLeft: 3
+    paddingLeft: 5
   },
   checkbox: {
     width: 8,
     height: 8,
     border: '1px solid #111827',
-    marginRight: 6,
-    marginTop: 1
+    marginRight: 8,
+    marginTop: 2
   },
   itemText: {
     flex: 1,
-    fontSize: 8,
+    fontSize: 9, // ✅ Augmenté de 8 à 9
     color: '#374151',
     lineHeight: 1.4
   },
   conseilContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginLeft: 14,
-    marginTop: 2
+    marginLeft: 18,
+    marginTop: 3
   },
   conseilText: {
-    fontSize: 6.5,
+    fontSize: 8, // ✅ Augmenté de 6.5 à 8
     color: '#616161',
     fontStyle: 'italic',
     lineHeight: 1.3,
     flex: 1
   },
   prioritySymbol: {
-    fontSize: 7,
+    fontSize: 8,
     fontWeight: 600,
-    marginRight: 4,
+    marginRight: 5,
     color: '#374151'
   },
   timelineSection: {
-    marginBottom: 15,
+    marginBottom: 18,
     borderBottom: '1px solid #e5e7eb',
-    paddingBottom: 10
+    paddingBottom: 12
   },
   timelineSectionTitle: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: 600,
     color: '#111827',
-    marginBottom: 6,
+    marginBottom: 8,
     backgroundColor: '#f9fafb',
-    padding: 4,
+    padding: 5,
     borderLeft: '3px solid #E85D2A'
   },
   deadline: {
-    fontSize: 7,
+    fontSize: 8,
     color: '#6b7280',
-    width: 60,
+    width: 65,
     textAlign: 'right'
+  },
+  pageNumber: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    fontSize: 8,
+    color: '#9ca3af'
   }
 });
 
@@ -257,6 +264,12 @@ export const CategoryPage = ({ formData, category, title }: CategoryPageProps) =
           {sortItemsByDelay(timelines.noDelay).map((item, index) => renderItem(item, index))}
         </View>
       )}
+
+      <Text
+        style={styles.pageNumber}
+        render={({ pageNumber, totalPages }) => `Page ${pageNumber} / ${totalPages}`}
+        fixed
+      />
     </Page>
   );
 };

@@ -38,7 +38,7 @@ const cleanTextForPDF = (text: string): string => {
 const styles = StyleSheet.create({
   page: {
     fontFamily: 'Helvetica',
-    fontSize: 8,
+    fontSize: 9,
     padding: 20,
     backgroundColor: '#FFFFFF'
   },
@@ -47,73 +47,73 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 700,
     color: '#E85D2A',
-    marginTop: 15,
-    marginBottom: 12,
+    marginTop: 18,
+    marginBottom: 14,
     textTransform: 'uppercase'
   },
   // Barre de séparation orange pleine largeur
   divider: {
     borderBottom: '2px solid #E85D2A',
-    marginVertical: 12,
+    marginVertical: 14,
     width: '100%'
   },
   // Jalon temporel (J-90 - J-60, etc.)
   timelineBlock: {
-    marginBottom: 15
+    marginBottom: 18
   },
   timelineHeader: {
     fontSize: 11,
     fontWeight: 700,
-    color: '#E85D2A',
-    marginBottom: 8,
-    paddingLeft: 8,
-    paddingVertical: 4,
+    color: '#111827', // ✅ Texte noir au lieu d'orange
+    marginBottom: 10,
+    paddingLeft: 10,
+    paddingVertical: 5,
     borderLeft: '4px solid #E85D2A',
-    backgroundColor: '#FFF5F0'
+    backgroundColor: '#FFF5F0' // Fond orange pâle conservé
   },
   // Titre de catégorie (Documents & Administratifs, Santé, etc.)
   categoryTitle: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: 700,
     color: '#E85D2A',
-    marginBottom: 6,
-    marginTop: 8,
+    marginBottom: 8,
+    marginTop: 10,
     paddingLeft: 6
   },
   // Item de checklist
   item: {
     flexDirection: 'row',
-    marginBottom: 3,
+    marginBottom: 4,
     paddingLeft: 10
   },
   checkbox: {
     width: 8,
     height: 8,
     border: '1px solid #111827',
-    marginRight: 6,
-    marginTop: 1
+    marginRight: 8,
+    marginTop: 2
   },
   itemText: {
     flex: 1,
-    fontSize: 7,
+    fontSize: 9, // ✅ Augmenté de 7 à 9 pour meilleure lisibilité
     color: '#374151',
-    lineHeight: 1.3
+    lineHeight: 1.4
   },
   // Symbole de priorité haute !!
   highPrioritySymbol: {
-    fontSize: 8,
+    fontSize: 10,
     fontWeight: 700,
     color: '#DC2626', // Rouge
-    marginRight: 4,
-    marginTop: 1
+    marginRight: 5,
+    marginTop: 2
   },
   // Sous-catégorie pour les apps
   subCategoryTitle: {
-    fontSize: 9,
+    fontSize: 10,
     fontWeight: 600,
     color: '#6B7280',
-    marginBottom: 4,
-    marginTop: 6,
+    marginBottom: 5,
+    marginTop: 8,
     paddingLeft: 10,
     fontStyle: 'italic'
   }
@@ -135,19 +135,6 @@ const TIMELINE_MILESTONES = [
 
 // Catégories pour la section Timeline (essentiels absolus)
 const TIMELINE_CATEGORIES = ['documents', 'sante', 'finances'];
-
-// Catégories pour la section Sélection conseillée
-const SELECTION_CATEGORIES = [
-  'bagages',
-  'hygiene',
-  'tech',
-  'domicile',
-  'transport',
-  'reservations',
-  'urgence',
-  'apps',
-  'pendant_apres'
-];
 
 export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
   // ==========================================
@@ -235,7 +222,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
           });
 
           return (
-            <View key={milestone.id} style={styles.timelineBlock} wrap={false}>
+            <View key={milestone.id} style={styles.timelineBlock}>
               <Text style={styles.timelineHeader}>{milestone.label}</Text>
 
               {Object.entries(itemsByCategory).map(([categoryName, categoryItems]) => (
@@ -262,9 +249,9 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
   // ==========================================
 
   const renderSelectionSection = () => {
-    // Filtrer les sections pour la sélection conseillée
+    // Filtrer TOUTES les sections qui ne sont ni dans Timeline ni des activités
     const selectionSections = checklistData.sections.filter(section =>
-      SELECTION_CATEGORIES.includes(section.id)
+      !TIMELINE_CATEGORIES.includes(section.id) && section.source !== 'activite'
     );
 
     // Récupérer tous les items priorité moyenne
@@ -291,7 +278,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
           // Gestion spéciale pour la section "apps" avec sous-catégories
           if (sectionId === 'apps') {
             return (
-              <View key={sectionId} wrap={false}>
+              <View key={sectionId}>
                 <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
                 {renderAppsWithSubcategories(items)}
               </View>
@@ -299,7 +286,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
           }
 
           return (
-            <View key={sectionId} wrap={false}>
+            <View key={sectionId}>
               <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
               {items.map((item, idx) => (
                 <View style={styles.item} key={item.id || `item-${idx}`}>
@@ -376,7 +363,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
           if (!section.items || section.items.length === 0) return null;
 
           return (
-            <View key={section.id} wrap={false}>
+            <View key={section.id}>
               <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
               {section.items.map((item, idx) => {
                 const priority = getPriority(item.priorite);
