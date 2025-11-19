@@ -307,25 +307,38 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
     const isMultiHemisphere = ['multi-destinations', 'amerique-centrale-caraibes'].includes(formData.localisation);
     const locLabel = getLocalisationLabel();
     const isLongTrip = isVeryLongTrip(); // Utilise la nouvelle fonction
+    const hasPays = formData.pays && formData.pays.length > 0;
+
+    // Texte de fin selon si des pays sont renseignés ou non
+    const endingText = hasPays
+      ? "Nous avons présélectionné ci-dessous les champs liés à la **saisonnalité** et au **climat** selon tes dates."
+      : "Par contre, comme vous **n'avez pas renseigné de pays**, nous ne sommes pas en mesure d'effectuer une **présélection des éléments climatiques** pour votre voyage.";
+
+    const endingTextLong = hasPays
+      ? "Les champs liés à la **saisonnalité** et au **climat** ont été présélectionnés pour toi."
+      : "Par contre, comme vous **n'avez pas renseigné de pays**, nous ne sommes pas en mesure d'effectuer une **présélection des éléments climatiques** pour votre voyage.";
 
     // Condition 1 : Multi-destination/Amérique centrale + < 3 mois
     if (isMultiHemisphere && !isLongTrip) {
-      return `**Attention :** comme tu as sélectionné **${locLabel}**, tu pourrais changer d'hémisphère et donc rencontrer un **basculement de saison**. Nous avons présélectionné ci-dessous les champs liés à la **saisonnalité** et au **climat** selon tes dates.`;
+      return `**Attention :** comme tu as sélectionné **${locLabel}**, tu pourrais changer d'hémisphère et donc rencontrer un **basculement de saison**. ${endingText}`;
     }
 
     // Condition 2 : Multi-destination/Amérique centrale + > 3 mois
     if (isMultiHemisphere && isLongTrip) {
-      return `**Attention :** avec **${locLabel}** et un séjour de plus de **3 mois**, tu risques de traverser **plusieurs saisons** en changeant d'hémisphère. \nLes champs liés à la **saisonnalité** et au **climat** ont été présélectionnés pour toi.`;
+      return `**Attention :** avec **${locLabel}** et un séjour de plus de **3 mois**, tu risques de traverser **plusieurs saisons** en changeant d'hémisphère. \n${endingTextLong}`;
     }
 
     // Condition 3 : Autre zone + < 3 mois
     if (!isMultiHemisphere && !isLongTrip) {
-      return `Comme tu as sélectionné **${locLabel}**, nous avons présélectionné les champs concernant la **saisonnalité** et le **climat** selon les dates que tu as indiquées.`;
+      const endingTextOther = hasPays
+        ? "nous avons présélectionné les champs concernant la **saisonnalité** et le **climat** selon les dates que tu as indiquées."
+        : "par contre, comme vous **n'avez pas renseigné de pays**, nous ne sommes pas en mesure d'effectuer une **présélection des éléments climatiques** pour votre voyage.";
+      return `Comme tu as sélectionné **${locLabel}**, ${endingTextOther}`;
     }
 
     // Condition 4 : Autre zone + > 3 mois
     if (!isMultiHemisphere && isLongTrip) {
-      return `Comme tu as sélectionné **${locLabel}** et que ton voyage dure plus de **3 mois**, tu rencontreras sans doute **plusieurs variations de températures et de saisons**. \nLes champs concernant la **saisonnalité** et le **climat** ont été présélectionnés pour toi.`;
+      return `Comme tu as sélectionné **${locLabel}** et que ton voyage dure plus de **3 mois**, tu rencontreras sans doute **plusieurs variations de températures et de saisons**. \n${endingTextLong}`;
     }
 
     return null;
