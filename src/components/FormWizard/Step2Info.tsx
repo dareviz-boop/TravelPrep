@@ -342,6 +342,18 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
       <div className="space-y-8 max-w-2xl mx-auto">
 
+        {/* Disclaimer si pas de date de départ */}
+        {!formData.dateDepart && (
+          <Card className="p-6 bg-yellow-50 border-2 border-yellow-400/50 shadow-lg">
+            <h3 className="font-bold text-lg mb-3 flex items-center gap-2 text-yellow-800">
+              ⚠️ Information importante
+            </h3>
+            <div className="text-sm text-yellow-900 leading-relaxed">
+              Comme vous n'avez pas renseigné de date de départ, nous ne sommes pas en mesure d'effectuer une présélection des éléments climatiques pour votre voyage.
+            </div>
+          </Card>
+        )}
+
         {/* Disclaimer climatique */}
         {disclaimerMessage && (
           <Card className="p-6 bg-muted/30 border-2 border-primary/20 shadow-lg">

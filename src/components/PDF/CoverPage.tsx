@@ -65,14 +65,15 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase'
   },
   infoBox: {
-    backgroundColor: '#f9fafb',
+    backgroundColor: '#F5F5DC', // Fond beige clair
     padding: 15,
     borderRadius: 4,
+    border: '1px solid #CCCCCC', // Bordure grise
     width: '100%',
     marginBottom: 15
   },
   divider: {
-    borderBottom: '2px solid #E85D2A',
+    borderBottom: '3px solid #E85D2A', // Ligne de séparation orange 3px
     marginVertical: 10,
     marginBottom: 15
   },
@@ -404,30 +405,8 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
         )}
       </View>
 
-      {/* Divider */}
+      {/* Divider - Ligne de séparation orange avant la suite */}
       <View style={styles.divider}></View>
-
-      {/* Début de la première section si disponible */}
-      {checklistData.sections && checklistData.sections.length > 0 && (
-        <View>
-          <Text style={{ fontSize: 12, fontWeight: 700, color: '#E85D2A', marginBottom: 8 }}>
-            {cleanTextForPDF(checklistData.sections[0].nom)}
-          </Text>
-          {checklistData.sections[0].items.slice(0, 5).map((item, idx) => (
-            <View key={idx} style={{ flexDirection: 'row', marginBottom: 4, fontSize: 8 }}>
-              <View style={{ width: 8, height: 8, border: '1px solid #111827', marginRight: 6, marginTop: 1 }}></View>
-              <Text style={{ flex: 1, fontSize: 8, color: '#374151' }}>
-                {cleanTextForPDF(item.item)}
-              </Text>
-            </View>
-          ))}
-          {checklistData.sections[0].items.length > 5 && (
-            <Text style={{ fontSize: 7, color: '#6b7280', fontStyle: 'italic', marginTop: 4 }}>
-              ... et {checklistData.sections[0].items.length - 5} autres items
-            </Text>
-          )}
-        </View>
-      )}
 
       <Text style={styles.footer}>
         Généré le {new Date().toLocaleDateString('fr-FR')} avec TravelPrep

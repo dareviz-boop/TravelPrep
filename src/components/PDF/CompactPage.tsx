@@ -92,10 +92,10 @@ const styles = StyleSheet.create({
     color: '#374151'
   },
   checkbox: {
-    width: 6,
-    height: 6,
+    width: 8,
+    height: 8,
     border: '1px solid #111827',
-    marginRight: 5,
+    marginRight: 6,
     marginTop: 1
   },
   itemText: {

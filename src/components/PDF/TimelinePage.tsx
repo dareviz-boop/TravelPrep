@@ -52,6 +52,8 @@ const styles = StyleSheet.create({
   section: {
     marginBottom: 12,
     borderBottom: '1px solid #e5e7eb',
+    borderLeft: '4px solid #E85D2A', // Barre verticale orange
+    paddingLeft: 8,
     paddingBottom: 8
   },
   sectionTitle: {
@@ -64,19 +66,19 @@ const styles = StyleSheet.create({
     borderLeft: '3px solid #E85D2A'
   },
   categoryTitle: {
-    fontSize: 8,
+    fontSize: 14, // Taille augmentée à 14pt
     fontWeight: 600,
-    color: '#6b7280',
-    marginTop: 6,
-    marginBottom: 4,
+    color: '#E85D2A', // Couleur orange
+    marginTop: 10, // Espace avant la catégorie : 10px
+    marginBottom: 10, // Espace après la catégorie : 10px
     marginLeft: 5
   },
   categoryTitleMustHave: {
-    fontSize: 8,
+    fontSize: 14, // Taille augmentée à 14pt
     fontWeight: 700,
     color: '#E85D2A',
-    marginTop: 6,
-    marginBottom: 4,
+    marginTop: 10, // Espace avant la catégorie : 10px
+    marginBottom: 10, // Espace après la catégorie : 10px
     marginLeft: 5,
     backgroundColor: '#FEF3F0',
     padding: 3,
@@ -89,7 +91,7 @@ const styles = StyleSheet.create({
   },
   itemWithConseil: {
     flexDirection: 'column',
-    marginBottom: 6,
+    marginBottom: 10, // Espacement avec l'item suivant : 10px
     paddingLeft: 5
   },
   itemRow: {
@@ -256,57 +258,69 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
           const isMustHave = categoryItems[0]?.category === 'must-have';
           const categoryTitleStyle = isMustHave ? styles.categoryTitleMustHave : styles.categoryTitle;
 
+          // Grouper les items par date calculée
+          const itemsByDate: { [date: string]: TimelineItem[] } = {};
+          sortedCategoryItems.forEach(item => {
+            const deadline = item.delai && formData.dateDepart
+              ? calculateDeadline(formData.dateDepart, item.delai)
+              : 'no-date';
+            if (!itemsByDate[deadline]) {
+              itemsByDate[deadline] = [];
+            }
+            itemsByDate[deadline].push(item);
+          });
+
           return (
             <View key={categoryName}>
               <Text style={categoryTitleStyle}>
                 {emoji} {cleanTextForPDF(categoryName)}
               </Text>
-              {sortedCategoryItems.map((item, index) => {
-                // Vérifier si on doit afficher le conseil
-                const shouldShowConseil = isDetailed && item.conseils && item.sectionSource !== 'activite';
-
-                return shouldShowConseil ? (
-                  // Item avec conseil
-                  <View style={styles.itemWithConseil} key={`${item.id || index}-${item.item}`}>
-                    <View style={styles.itemRow}>
-                      {isHighPriority(item.priorite) && (
-                        <PDFIcon name="flame" style={{ marginRight: 4, marginTop: 1 }} />
-                      )}
-                      <View style={styles.checkbox} />
-                      <Text style={styles.itemText}>
-                        {cleanTextForPDF(item.item)}
-                      </Text>
-                      {item.delai && formData.dateDepart && (
-                        <Text style={styles.deadline}>
-                          {calculateDeadline(formData.dateDepart, item.delai)}
-                        </Text>
-                      )}
-                    </View>
-                    <View style={styles.conseilContainer}>
-                      <PDFIcon name="lightbulb" style={{ marginRight: 4, marginTop: 1 }} />
-                      <Text style={styles.conseilText}>
-                        {cleanTextForPDF(item.conseils)}
-                      </Text>
-                    </View>
-                  </View>
-                ) : (
-                  // Item sans conseil
-                  <View style={styles.item} key={`${item.id || index}-${item.item}`}>
-                    {isHighPriority(item.priorite) && (
-                      <PDFIcon name="flame" style={{ marginRight: 4, marginTop: 1 }} />
-                    )}
-                    <View style={styles.checkbox} />
-                    <Text style={styles.itemText}>
-                      {cleanTextForPDF(item.item)}
+              {Object.entries(itemsByDate).map(([deadline, dateItems]) => (
+                <View key={`${categoryName}-${deadline}`}>
+                  {/* Afficher la date une seule fois pour le groupe */}
+                  {deadline !== 'no-date' && (
+                    <Text style={{ fontSize: 8, color: '#6b7280', marginBottom: 4, marginLeft: 5, fontWeight: 600 }}>
+                      {deadline}
                     </Text>
-                    {item.delai && formData.dateDepart && (
-                      <Text style={styles.deadline}>
-                        {calculateDeadline(formData.dateDepart, item.delai)}
-                      </Text>
-                    )}
-                  </View>
-                );
-              })}
+                  )}
+                  {dateItems.map((item, index) => {
+                    // Vérifier si on doit afficher le conseil
+                    const shouldShowConseil = isDetailed && item.conseils && item.sectionSource !== 'activite';
+
+                    return shouldShowConseil ? (
+                      // Item avec conseil
+                      <View style={styles.itemWithConseil} key={`${item.id || index}-${item.item}`}>
+                        <View style={styles.itemRow}>
+                          {isHighPriority(item.priorite) && (
+                            <PDFIcon name="flame" style={{ marginRight: 4, marginTop: 1 }} />
+                          )}
+                          <View style={styles.checkbox} />
+                          <Text style={styles.itemText}>
+                            {cleanTextForPDF(item.item)}
+                          </Text>
+                        </View>
+                        <View style={styles.conseilContainer}>
+                          <PDFIcon name="lightbulb" style={{ marginRight: 4, marginTop: 1 }} />
+                          <Text style={styles.conseilText}>
+                            {cleanTextForPDF(item.conseils)}
+                          </Text>
+                        </View>
+                      </View>
+                    ) : (
+                      // Item sans conseil
+                      <View style={styles.item} key={`${item.id || index}-${item.item}`}>
+                        {isHighPriority(item.priorite) && (
+                          <PDFIcon name="flame" style={{ marginRight: 4, marginTop: 1 }} />
+                        )}
+                        <View style={styles.checkbox} />
+                        <Text style={styles.itemText}>
+                          {cleanTextForPDF(item.item)}
+                        </Text>
+                      </View>
+                    );
+                  })}
+                </View>
+              ))}
             </View>
           );
         })}
@@ -318,7 +332,14 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
 
   return (
     <Page size="A4" style={styles.page}>
-      <Text style={styles.title}>Timeline de Preparation</Text>
+      <View style={{ flexDirection: 'row', marginBottom: 15 }}>
+        <Text style={{ fontSize: 20, fontWeight: 700, color: '#111827' }}>
+          Timeline de Preparation - {' '}
+        </Text>
+        <Text style={{ fontSize: 20, fontWeight: 700, color: '#E85D2A' }}>
+          Essentiels absolus
+        </Text>
+      </View>
 
       {renderTimelineSection(
         timelines.j90_j60,
