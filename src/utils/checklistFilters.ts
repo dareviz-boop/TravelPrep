@@ -578,7 +578,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   };
 
   // 🌧️ ASIE DU SUD-EST : Mousson + Climat tropical humide
-  const seTropicalCountryCodes = ['TH', 'VN', 'ID', 'KH', 'LA', 'MM', 'PH', 'MY'];
+  const seTropicalCountryCodes = ['TH', 'VN', 'ID', 'KH', 'LA', 'MM', 'PH', 'MY', 'BN', 'TL', 'SG'];
   const isSETropical = formData.pays?.some((p: any) =>
     seTropicalCountryCodes.includes(p.code?.toUpperCase())
   );
@@ -596,7 +596,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   }
 
   // 🏜️ DÉSERTS : Chaleur extrême + Aridité
-  const desertCountryCodes = ['SA', 'AE', 'QA', 'EG', 'LY', 'NE', 'TD', 'SD', 'MA', 'DZ'];
+  const desertCountryCodes = ['SA', 'AE', 'QA', 'EG', 'LY', 'NE', 'TD', 'SD', 'MA', 'DZ', 'TN', 'EH', 'KW', 'IQ', 'IR', 'BW', 'NA', 'PK', 'MN', 'UZ', 'TM', 'KZ'];
   const isDesert = formData.pays?.some((p: any) =>
     desertCountryCodes.includes(p.code?.toUpperCase())
   );
@@ -609,7 +609,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   }
 
   // ❄️ ZONES FROIDES : Neige + Froid intense
-  const coldCountryCodes = ['GL', 'IS', 'FI', 'NO', 'SE', 'CA', 'RU', 'AD', 'CH', 'AT', 'LI'];
+  const coldCountryCodes = ['GL', 'IS', 'FI', 'NO', 'SE', 'CA', 'RU', 'AD', 'CH', 'AT', 'LI', 'EE', 'LV', 'LT', 'BY', 'UA', 'PL', 'KZ', 'MN', 'KG'];
   const isCold = formData.pays?.some((p: any) =>
     coldCountryCodes.includes(p.code?.toUpperCase())
   );
@@ -633,9 +633,18 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
 
   // 🌀 CYCLONES : Zones à risque selon période
   const cycloneRegions = [
-    { countryCodes: ['PH', 'TW', 'JP'], months: [7, 8, 9, 10], id: 'climat_cyclones' },
-    { countryCodes: ['CU', 'JM', 'HT', 'DO', 'BS', 'GP', 'MQ', 'AG', 'LC', 'GD', 'VC', 'TT', 'DM', 'BB', 'AW', 'BM'], months: [6, 7, 8, 9, 10, 11], id: 'climat_cyclones' }, // Antilles & Caraïbes
-    { countryCodes: ['MG', 'MZ', 'MU', 'RE', 'SC', 'KM'], months: [11, 12, 1, 2, 3, 4], id: 'climat_cyclones' } // Océan Indien
+    // Asie-Pacifique : Typhons (juillet-octobre)
+    { countryCodes: ['PH', 'TW', 'JP', 'CN', 'VN', 'KR'], months: [7, 8, 9, 10], id: 'climat_cyclones' },
+    // Caraïbes : Ouragans (juin-novembre)
+    { countryCodes: ['CU', 'JM', 'HT', 'DO', 'BS', 'GP', 'MQ', 'AG', 'LC', 'GD', 'VC', 'TT', 'DM', 'BB', 'AW', 'BM', 'BZ', 'MX', 'GT', 'HN', 'NI', 'CR', 'PA', 'VE', 'CO', 'KY', 'TC', 'VG', 'VI', 'PR', 'SX', 'MF', 'BL', 'KN', 'AI', 'MS', 'CW'], months: [6, 7, 8, 9, 10, 11], id: 'climat_cyclones' },
+    // Océan Indien : Cyclones (novembre-avril)
+    { countryCodes: ['MG', 'MZ', 'MU', 'RE', 'SC', 'KM', 'TZ', 'ZA', 'MW'], months: [11, 12, 1, 2, 3, 4], id: 'climat_cyclones' },
+    // Pacifique Sud : Cyclones tropicaux (novembre-avril)
+    { countryCodes: ['FJ', 'VU', 'NC', 'PF', 'TO', 'WS', 'AS', 'CK', 'TV', 'KI', 'SB', 'PG'], months: [11, 12, 1, 2, 3, 4], id: 'climat_cyclones' },
+    // Golfe du Bengale : Cyclones (avril-juin, septembre-novembre)
+    { countryCodes: ['BD', 'IN', 'MM', 'LK', 'PK'], months: [4, 5, 6, 9, 10, 11], id: 'climat_cyclones' },
+    // Australie Nord : Cyclones tropicaux (novembre-avril)
+    { countryCodes: ['AU'], months: [11, 12, 1, 2, 3, 4], id: 'climat_cyclones' }
   ];
 
   cycloneRegions.forEach(region => {
@@ -648,7 +657,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   });
 
   // 🏝️ ZONES CÔTIÈRES TROPICALES : Humidité
-  const coastalTropicalCodes = ['BR', 'CO', 'CR', 'PA', 'SC', 'MV', 'MU'];
+  const coastalTropicalCodes = ['BR', 'CO', 'CR', 'PA', 'SC', 'MV', 'MU', 'GF', 'SR', 'GY', 'VE', 'NI', 'HN', 'BZ', 'MX', 'CU', 'JM', 'HT', 'DO', 'SG', 'BN', 'TL', 'PG', 'SB', 'VU', 'FJ', 'PF', 'NC', 'LK', 'BD'];
   const isCoastalTropical = formData.pays?.some((p: any) =>
     coastalTropicalCodes.includes(p.code?.toUpperCase())
   );
@@ -670,10 +679,25 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
     'NP': { high: true, extreme: true }, // Népal (Everest)
     'BT': { moderate: true, high: true }, // Bhoutan
     'EC': { moderate: true }, // Équateur (Quito)
-    'CL': { moderate: true }, // Chili (Atacama altitude)
+    'CL': { moderate: true, extreme: true }, // Chili (Atacama, Ojos del Salado 6893m)
     'CN': { high: true, extreme: true }, // Chine (Tibet)
     'KE': { moderate: true }, // Kenya (Kilimandjaro)
-    'TZ': { moderate: true } // Tanzanie (Kilimandjaro)
+    'TZ': { moderate: true }, // Tanzanie (Kilimandjaro)
+    'CO': { moderate: true, high: true }, // Colombie (Bogotá 2640m, sommets andins)
+    'GT': { moderate: true }, // Guatemala (Antigua, hauts plateaux)
+    'MX': { moderate: true }, // Mexique (Mexico City)
+    'AF': { moderate: true, high: true }, // Afghanistan (Kaboul, Hindu Kush)
+    'PK': { moderate: true, high: true, extreme: true }, // Pakistan (Hunza, K2 8611m)
+    'IN': { moderate: true, high: true, extreme: true }, // Inde (Ladakh, Kangchenjunga)
+    'KG': { moderate: true, high: true }, // Kirghizistan (Pamir)
+    'TJ': { moderate: true, high: true }, // Tadjikistan (Pamir)
+    'AM': { moderate: true }, // Arménie (Erevan, montagnes)
+    'GE': { moderate: true }, // Géorgie (Caucase)
+    'ET': { moderate: true }, // Éthiopie (Addis-Abeba 2355m)
+    'RW': { moderate: true }, // Rwanda (pays des mille collines)
+    'UG': { moderate: true }, // Ouganda (régions montagneuses)
+    'LS': { moderate: true }, // Lesotho (entièrement en altitude >1400m)
+    'AR': { moderate: true, high: true, extreme: true } // Argentine (Andes, Aconcagua 6962m)
   };
 
   const hasAltitude = formData.pays?.some((p: any) => {
@@ -704,7 +728,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   }
 
   // 🏜️ DÉSERTS ARIDES : Climats très secs
-  const aridDesertCodes = ['MA', 'DZ', 'LY', 'EG', 'JO', 'IL', 'SA', 'AE', 'OM', 'YE', 'TD', 'NE', 'ML', 'MR'];
+  const aridDesertCodes = ['MA', 'DZ', 'LY', 'EG', 'JO', 'IL', 'SA', 'AE', 'OM', 'YE', 'TD', 'NE', 'ML', 'MR', 'TN', 'EH', 'KW', 'IQ', 'IR', 'BW', 'NA', 'PK', 'MN', 'UZ', 'TM', 'KZ'];
   const isAridDesert = formData.pays?.some((p: any) =>
     aridDesertCodes.includes(p.code?.toUpperCase())
   );
@@ -724,7 +748,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   }
 
   // 🌫️ BROUILLARD : Zones maritimes tempérées
-  const fogProneCountries = ['GB', 'IE', 'NZ', 'US', 'CA', 'CL', 'AR'];
+  const fogProneCountries = ['GB', 'IE', 'NZ', 'US', 'CA', 'CL', 'AR', 'PT', 'ES', 'FR', 'BE', 'NL', 'DE', 'DK', 'NO', 'SE', 'FI', 'PE', 'EC', 'UY', 'ZA', 'AU', 'JP', 'CN'];
   const isFogProne = formData.pays?.some((p: any) =>
     fogProneCountries.includes(p.code?.toUpperCase())
   );
@@ -734,7 +758,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   }
 
   // 💨 VENTS FORTS : Zones venteuses connues
-  const windyCountries = ['IS', 'NZ', 'AR', 'CL', 'GB', 'IE', 'GL'];
+  const windyCountries = ['IS', 'NZ', 'AR', 'CL', 'GB', 'IE', 'GL', 'FK', 'UY', 'ZA', 'NA', 'FR', 'ES', 'PT', 'MN', 'KZ', 'NO', 'DK', 'NL', 'AU', 'US', 'CA'];
   const isWindy = formData.pays?.some((p: any) =>
     windyCountries.includes(p.code?.toUpperCase())
   );
@@ -744,7 +768,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   }
 
   // 🌋 ZONES VOLCANIQUES : Pays avec volcans actifs
-  const volcanicCountries = ['IS', 'ID', 'PH', 'JP', 'IT', 'CR', 'GT', 'NZ', 'CL', 'EC'];
+  const volcanicCountries = ['IS', 'ID', 'PH', 'JP', 'IT', 'CR', 'GT', 'NZ', 'CL', 'EC', 'MX', 'NI', 'SV', 'PA', 'CO', 'PE', 'BO', 'AR', 'VU', 'PG', 'SB', 'TO', 'KI', 'US', 'RU', 'ET', 'CD', 'RW', 'UG', 'KE', 'TZ', 'DJ', 'ER', 'YE', 'SA', 'TR', 'GR', 'FR'];
   const isVolcanic = formData.pays?.some((p: any) =>
     volcanicCountries.includes(p.code?.toUpperCase())
   );
@@ -754,7 +778,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   }
 
   // 🌲 JUNGLE DENSE : Forêts tropicales
-  const jungleCountries = ['BR', 'PE', 'CO', 'EC', 'VE', 'GY', 'SR', 'GF', 'MY', 'ID', 'PG', 'CG', 'GA'];
+  const jungleCountries = ['BR', 'PE', 'CO', 'EC', 'VE', 'GY', 'SR', 'GF', 'MY', 'ID', 'PG', 'CG', 'GA', 'BO', 'PA', 'CR', 'NI', 'HN', 'BZ', 'GT', 'MX', 'TH', 'VN', 'LA', 'KH', 'MM', 'BN', 'PH', 'IN', 'LK', 'BD', 'CM', 'GQ', 'CD', 'CF', 'AO', 'MG', 'SB', 'VU', 'FJ'];
   const isJungle = formData.pays?.some((p: any) =>
     jungleCountries.includes(p.code?.toUpperCase())
   );
