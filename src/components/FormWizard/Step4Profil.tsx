@@ -158,7 +158,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
         {/* Type de voyage */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
-            Type de voyage <span className="text-primary">*</span> {/* CORRECTION : Rendu obligatoire */}
+            Style de voyage <span className="text-primary">*</span> {/* CORRECTION : Rendu obligatoire */}
           </Label>
           <RadioGroup
             value={formData.typeVoyage}
@@ -193,7 +193,7 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
         {/* Niveau de confort souhaité */}
         <div className="space-y-4">
           <Label className="text-base font-semibold">
-            Niveau de confort souhaité <span className="text-primary">*</span>
+            Gamme & Budget <span className="text-primary">*</span>
           </Label>
           <RadioGroup
             value={formData.confort}
