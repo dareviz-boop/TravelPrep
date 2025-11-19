@@ -48,6 +48,24 @@ const styles = StyleSheet.create({
     color: '#E85D2A',
     marginBottom: 15
   },
+  categoryHeader: {
+    fontSize: 12,
+    fontWeight: 700,
+    color: '#FFFFFF',
+    backgroundColor: '#E85D2A',
+    padding: 6,
+    marginTop: 10,
+    marginBottom: 10
+  },
+  categoryHeaderInteresting: {
+    fontSize: 12,
+    fontWeight: 700,
+    color: '#FFFFFF',
+    backgroundColor: '#6B7280',
+    padding: 6,
+    marginTop: 10,
+    marginBottom: 10
+  },
   section: {
     marginBottom: 12,
     borderBottom: '1px solid #e5e7eb',
@@ -115,32 +133,52 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
     });
   };
 
+  // Séparer les sections par catégorie
+  const mustHaveSections = checklistData.sections.filter(s => s.category === 'must-have');
+  const interestingSections = checklistData.sections.filter(s => s.category === 'interesting');
+
+  const renderSection = (section: any) => {
+    if (!section.items || section.items.length === 0) return null;
+
+    const sortedItems = sortItemsByDelay(section.items);
+
+    return (
+      <View style={styles.section} key={section.id} wrap={false}>
+        <Text style={styles.sectionTitle}>
+          {section.emoji} {cleanTextForPDF(section.nom)}
+        </Text>
+        {sortedItems.map((item, index) => (
+          <View style={styles.item} key={item.id || `item-${index}`}>
+            {isHighPriority(item.priorite) && (
+              <PDFIcon name="flame" style={{ marginRight: 3, marginTop: 1 }} />
+            )}
+            <View style={styles.checkbox} />
+            <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+          </View>
+        ))}
+      </View>
+    );
+  };
+
   return (
     <Page size="A4" style={styles.page}>
       <Text style={styles.title}>Checklist Compacte</Text>
 
-      {checklistData.sections.map((section) => {
-        if (!section.items || section.items.length === 0) return null;
+      {/* MUST-HAVES */}
+      {mustHaveSections.length > 0 && (
+        <>
+          <Text style={styles.categoryHeader}>ESSENTIELS - MUST-HAVES</Text>
+          {mustHaveSections.map(renderSection)}
+        </>
+      )}
 
-        const sortedItems = sortItemsByDelay(section.items);
-
-        return (
-          <View style={styles.section} key={section.id} wrap={false}>
-            <Text style={styles.sectionTitle}>
-              {section.emoji} {cleanTextForPDF(section.nom)}
-            </Text>
-            {sortedItems.map((item, index) => (
-              <View style={styles.item} key={item.id || `item-${index}`}>
-                {isHighPriority(item.priorite) && (
-                  <PDFIcon name="flame" style={{ marginRight: 3, marginTop: 1 }} />
-                )}
-                <View style={styles.checkbox} />
-                <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-              </View>
-            ))}
-          </View>
-        );
-      })}
+      {/* INTÉRESSANTS */}
+      {interestingSections.length > 0 && (
+        <>
+          <Text style={styles.categoryHeaderInteresting}>COMPLEMENTAIRES - INTERESSANTS</Text>
+          {interestingSections.map(renderSection)}
+        </>
+      )}
     </Page>
   );
 };

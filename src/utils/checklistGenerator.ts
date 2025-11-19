@@ -40,12 +40,101 @@ function mapStarsToPriority(stars: string): string {
   return 'basse';
 }
 
+/**
+ * Détermine dans quelle section core un item climatique devrait être placé
+ * Basé sur des mots-clés dans le nom de l'item
+ */
+function mapClimatItemToSection(itemName: string): string {
+  const itemLower = itemName.toLowerCase();
+
+  // HYGIÈNE : crèmes, protections solaires, produits de soin
+  if (itemLower.match(/crème|baume|protection (uv|solaire)|spf|hydratant|déodorant|shampooing|savon|gel douche|dentifrice|brosse|rasoir|coupe-ongles|pince|sérum|lotion/)) {
+    return 'hygiene';
+  }
+
+  // SANTÉ : médicaments, premiers soins, traitement médical
+  if (itemLower.match(/médicament|paracétamol|ibuprofène|antihistaminique|antibiotique|pansement|désinfectant|thermomètre|antifongique|électrolytes|trousse (premiers secours|médicale)|comprimés|gélules|purification eau|traitement/)) {
+    return 'sante';
+  }
+
+  // TECH : électronique, batteries, chargeurs
+  if (itemLower.match(/batterie|chargeur|câble|adaptateur|électronique|lampe (frontale|torche)|power bank|solaire (panneau|chargeur)|gps|téléphone|appareil photo|ordinateur|tablette|e-reader/)) {
+    return 'tech';
+  }
+
+  // BAGAGES : vêtements, sacs, accessoires de voyage
+  // Par défaut, tout le reste va dans bagages
+  return 'bagages';
+}
+
+/**
+ * Vérifie si deux items sont similaires (pour éviter les doublons)
+ * Utilise une similarité basique : mots-clés communs
+ */
+function areItemsSimilar(item1: string, item2: string): boolean {
+  const normalize = (str: string) => str
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // Enlever les accents
+    .replace(/[^\w\s]/g, ' ') // Enlever la ponctuation
+    .trim();
+
+  const normalized1 = normalize(item1);
+  const normalized2 = normalize(item2);
+
+  // Si exactement identiques après normalisation
+  if (normalized1 === normalized2) return true;
+
+  // Extraire les mots principaux (>3 caractères)
+  const words1 = new Set(normalized1.split(/\s+/).filter(w => w.length > 3));
+  const words2 = new Set(normalized2.split(/\s+/).filter(w => w.length > 3));
+
+  // Si aucun mot significatif
+  if (words1.size === 0 || words2.size === 0) return false;
+
+  // Calculer l'intersection
+  const intersection = new Set([...words1].filter(w => words2.has(w)));
+
+  // Similarité : au moins 60% de mots en commun
+  const similarity = intersection.size / Math.min(words1.size, words2.size);
+
+  return similarity >= 0.6;
+}
+
+/**
+ * Fusionne les items climatiques dans une section existante en évitant les doublons
+ */
+function mergeClimatItemsIntoSection(
+  section: GeneratedChecklistSection,
+  climatItems: ChecklistItem[]
+): GeneratedChecklistSection {
+  const mergedItems = [...section.items];
+
+  climatItems.forEach(climatItem => {
+    // Vérifier si un item similaire existe déjà
+    const isDuplicate = mergedItems.some(existingItem =>
+      areItemsSimilar(existingItem.item, climatItem.item)
+    );
+
+    // Ajouter seulement si pas de doublon
+    if (!isDuplicate) {
+      mergedItems.push(climatItem);
+    }
+  });
+
+  return {
+    ...section,
+    items: mergedItems
+  };
+}
+
 export interface GeneratedChecklistSection {
   id: string;
   nom: string;
   emoji?: string;
   items: ChecklistItem[];
   source: 'core' | 'activite' | 'climat' | 'destination_specifique';
+  category?: 'must-have' | 'interesting';
   conseils?: string;
 }
 
@@ -89,16 +178,23 @@ export function generateCompleteChecklist(formData: FormData): GeneratedChecklis
   const sections: GeneratedChecklistSection[] = [];
 
   // === 1. SECTIONS PRINCIPALES depuis checklist_core_sections.json ===
-  const coreSections = getCoreSections(formData);
+  let coreSections = getCoreSections(formData);
+
+  // === 2. FUSIONNER LES ITEMS CLIMATIQUES DANS LES SECTIONS CORE ===
+  const climatItems = getClimatItemsGroupedBySection(formData);
+  coreSections = coreSections.map(section => {
+    const sectionClimatItems = climatItems[section.id] || [];
+    if (sectionClimatItems.length > 0) {
+      return mergeClimatItemsIntoSection(section, sectionClimatItems);
+    }
+    return section;
+  });
+
   sections.push(...coreSections);
 
-  // === 2. ITEMS PAR ACTIVITÉS SÉLECTIONNÉES ===
+  // === 3. ITEMS PAR ACTIVITÉS SÉLECTIONNÉES ===
   const activitesSections = getActivitesSections(formData);
   sections.push(...activitesSections);
-
-  // === 3. ITEMS CLIMATIQUES (filtrage intelligent) ===
-  const climatSections = getClimatSections(formData);
-  sections.push(...climatSections);
 
   // === 4. FILTRER SELON PROFIL/CONFORT/DURÉE ===
   const filteredSections = filterByProfile(sections, formData);
@@ -166,12 +262,17 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
           conseils: item.conseils || ''
         }));
 
+        // Déterminer la catégorie : Must-Haves ou Intéressants
+        const mustHaveIds = ['documents', 'finances', 'sante'];
+        const category = mustHaveIds.includes(sectionKey) ? 'must-have' : 'interesting';
+
         sections.push({
           id: section.id,
           nom: section.nom,
           emoji: section.nom.match(/^[\u{1F000}-\u{1F9FF}]/u)?.[0],
           items: mappedItems,
           source: 'core',
+          category: category,
           conseils: section.description || ''
         });
       }
@@ -224,6 +325,7 @@ function getActivitesSections(formData: FormData): GeneratedChecklistSection[] {
         emoji: '🎯',
         items: filteredItems,
         source: 'activite',
+        category: 'interesting',
         conseils: `Équipements spécifiques pour ${activity.nom}`
       });
     }
@@ -233,27 +335,38 @@ function getActivitesSections(formData: FormData): GeneratedChecklistSection[] {
 }
 
 // ==========================================
-// SECTIONS : CLIMAT
+// SECTIONS : CLIMAT (FUSION DANS SECTIONS CORE)
 // ==========================================
 
-function getClimatSections(formData: FormData): GeneratedChecklistSection[] {
+/**
+ * Récupère les items climatiques et les groupe par section de destination
+ * @returns Un objet avec les items climatiques groupés par section (hygiene, sante, bagages, tech)
+ */
+function getClimatItemsGroupedBySection(formData: FormData): Record<string, ChecklistItem[]> {
   // Utiliser le système de filtrage intelligent
   const climatSections = getClimatEquipment(formData);
 
-  // Convertir vers le format GeneratedChecklistSection
-  return climatSections.map(section => {
-    // Les items peuvent être des strings ou des objets DestinationSpecifiqueItem
-    const formattedItems: ChecklistItem[] = section.items.map(item => {
+  const groupedItems: Record<string, ChecklistItem[]> = {
+    hygiene: [],
+    sante: [],
+    bagages: [],
+    tech: []
+  };
+
+  climatSections.forEach(section => {
+    section.items.forEach(item => {
+      let climatItem: ChecklistItem;
+
       if (typeof item === 'string') {
         // Item climat simple (string)
-        return {
+        climatItem = {
           item: item,
           priorite: 'moyenne', // Priorité par défaut
-          conseils: ''
+          conseils: section.conseils || ''
         };
       } else {
         // Item destination spécifique (objet complet)
-        return {
+        climatItem = {
           id: item.id,
           item: item.item,
           priorite: item.priorite,
@@ -263,17 +376,16 @@ function getClimatSections(formData: FormData): GeneratedChecklistSection[] {
           conseils: item.conseils
         };
       }
-    });
 
-    return {
-      id: section.id,
-      nom: section.nom,
-      emoji: '🌦️',
-      items: formattedItems,
-      source: section.source as 'climat' | 'destination_specifique',
-      conseils: section.conseils
-    };
+      // Déterminer dans quelle section mettre cet item
+      const targetSection = mapClimatItemToSection(climatItem.item);
+      if (groupedItems[targetSection]) {
+        groupedItems[targetSection].push(climatItem);
+      }
+    });
   });
+
+  return groupedItems;
 }
 
 // ==========================================
