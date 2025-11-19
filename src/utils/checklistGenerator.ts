@@ -46,6 +46,7 @@ export interface GeneratedChecklistSection {
   emoji?: string;
   items: ChecklistItem[];
   source: 'core' | 'activite' | 'climat' | 'destination_specifique';
+  category?: 'must-have' | 'interesting';
   conseils?: string;
 }
 
@@ -166,12 +167,17 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
           conseils: item.conseils || ''
         }));
 
+        // Déterminer la catégorie : Must-Haves ou Intéressants
+        const mustHaveIds = ['documents', 'finances', 'sante'];
+        const category = mustHaveIds.includes(sectionKey) ? 'must-have' : 'interesting';
+
         sections.push({
           id: section.id,
           nom: section.nom,
           emoji: section.nom.match(/^[\u{1F000}-\u{1F9FF}]/u)?.[0],
           items: mappedItems,
           source: 'core',
+          category: category,
           conseils: section.description || ''
         });
       }
@@ -224,6 +230,7 @@ function getActivitesSections(formData: FormData): GeneratedChecklistSection[] {
         emoji: '🎯',
         items: filteredItems,
         source: 'activite',
+        category: 'interesting',
         conseils: `Équipements spécifiques pour ${activity.nom}`
       });
     }
@@ -271,6 +278,7 @@ function getClimatSections(formData: FormData): GeneratedChecklistSection[] {
       emoji: '🌦️',
       items: formattedItems,
       source: section.source as 'climat' | 'destination_specifique',
+      category: 'interesting',
       conseils: section.conseils
     };
   });

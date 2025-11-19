@@ -71,6 +71,17 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     marginLeft: 5
   },
+  categoryTitleMustHave: {
+    fontSize: 8,
+    fontWeight: 700,
+    color: '#E85D2A',
+    marginTop: 6,
+    marginBottom: 4,
+    marginLeft: 5,
+    backgroundColor: '#FEF3F0',
+    padding: 3,
+    borderLeft: '2px solid #E85D2A'
+  },
   item: {
     flexDirection: 'row',
     marginBottom: 4,
@@ -134,6 +145,7 @@ interface TimelineItem extends ChecklistItem {
   sectionName: string;
   sectionEmoji?: string;
   sectionSource?: 'core' | 'activite' | 'climat' | 'destination_specifique';
+  category?: 'must-have' | 'interesting';
 }
 
 export const TimelinePage = ({ formData, checklistData, isDetailed = false }: TimelinePageProps) => {
@@ -164,7 +176,8 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
           ...item,
           sectionName: section.nom,
           sectionEmoji: section.emoji,
-          sectionSource: section.source
+          sectionSource: section.source,
+          category: section.category
         };
 
         const delai = item.delai?.toUpperCase() || '';
@@ -239,9 +252,13 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
           // Trier les items par ordre chronologique dans cette catégorie
           const sortedCategoryItems = sortItemsByDelay(categoryItems);
 
+          // Déterminer le style selon la catégorie
+          const isMustHave = categoryItems[0]?.category === 'must-have';
+          const categoryTitleStyle = isMustHave ? styles.categoryTitleMustHave : styles.categoryTitle;
+
           return (
             <View key={categoryName}>
-              <Text style={styles.categoryTitle}>
+              <Text style={categoryTitleStyle}>
                 {emoji} {cleanTextForPDF(categoryName)}
               </Text>
               {sortedCategoryItems.map((item, index) => {
