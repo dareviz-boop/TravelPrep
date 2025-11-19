@@ -39,7 +39,7 @@ const cleanTextForPDF = (text: string): string => {
 const styles = StyleSheet.create({
   page: {
     fontFamily: 'Helvetica',
-    fontSize: 8,
+    fontSize: 9,
     padding: 20,
     backgroundColor: '#FFFFFF'
   },
@@ -50,74 +50,75 @@ const styles = StyleSheet.create({
     marginBottom: 15
   },
   section: {
-    marginBottom: 12,
+    marginBottom: 14,
     borderBottom: '1px solid #e5e7eb',
     borderLeft: '4px solid #E85D2A', // Barre verticale orange
-    paddingLeft: 8,
-    paddingBottom: 8
+    paddingLeft: 10,
+    paddingBottom: 10
   },
   sectionTitle: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: 600,
     color: '#111827',
-    marginBottom: 6,
+    marginBottom: 8,
     backgroundColor: '#f9fafb',
-    padding: 4,
+    padding: 5,
     borderLeft: '3px solid #E85D2A'
   },
   categoryTitle: {
-    fontSize: 14, // Taille augmentée à 14pt
+    fontSize: 14,
     fontWeight: 600,
-    color: '#E85D2A', // Couleur orange
-    marginTop: 10, // Espace avant la catégorie : 10px
-    marginBottom: 10, // Espace après la catégorie : 10px
+    color: '#E85D2A',
+    marginTop: 12,
+    marginBottom: 10,
     marginLeft: 5
   },
   categoryTitleMustHave: {
-    fontSize: 14, // Taille augmentée à 14pt
+    fontSize: 14,
     fontWeight: 700,
     color: '#E85D2A',
-    marginTop: 10, // Espace avant la catégorie : 10px
-    marginBottom: 10, // Espace après la catégorie : 10px
+    marginTop: 12,
+    marginBottom: 10,
     marginLeft: 5,
     backgroundColor: '#FEF3F0',
-    padding: 3,
+    padding: 4,
     borderLeft: '2px solid #E85D2A'
   },
   item: {
     flexDirection: 'row',
-    marginBottom: 4,
+    marginBottom: 5,
     paddingLeft: 5
   },
   itemWithConseil: {
     flexDirection: 'column',
-    marginBottom: 10, // Espacement avec l'item suivant : 10px
+    marginBottom: 12,
     paddingLeft: 5
   },
   itemRow: {
     flexDirection: 'row',
-    marginBottom: 2
+    marginBottom: 3
   },
   checkbox: {
-    width: 8,
-    height: 8,
+    width: 10,
+    height: 10,
     border: '1px solid #111827',
-    marginRight: 6,
-    marginTop: 1
+    marginRight: 8,
+    marginTop: 2
   },
   itemText: {
     flex: 1,
-    fontSize: 8,
-    color: '#374151'
+    fontSize: 9, // ✅ Augmenté de 8 à 9
+    color: '#374151',
+    lineHeight: 1.4
   },
   conseilContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginLeft: 14,
-    marginTop: 2
+    marginLeft: 18,
+    marginTop: 3
   },
   conseilText: {
-    fontSize: 6.5,
+    fontSize: 8, // ✅ Augmenté de 6.5 à 8
     color: '#616161',
     fontStyle: 'italic',
     lineHeight: 1.3,
