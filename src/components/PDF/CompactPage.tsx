@@ -138,7 +138,7 @@ const SELECTION_CATEGORIES = [
   'reservations',
   'urgence',
   'apps',
-  'pendant_voyage'
+  'pendant_apres'
 ];
 
 export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
@@ -154,11 +154,12 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
   };
 
   // Vérifier la priorité d'un item
+  // Les priorités sont déjà converties en texte par mapStarsToPriority() dans checklistGenerator.ts
   const getPriority = (priorite?: string): 'haute' | 'moyenne' | 'basse' => {
     if (!priorite) return 'basse';
-    const stars = (priorite.match(/⭐/g) || []).length;
-    if (stars >= 3) return 'haute';
-    if (stars === 2) return 'moyenne';
+    const p = priorite.toLowerCase().trim();
+    if (p === 'haute') return 'haute';
+    if (p === 'moyenne') return 'moyenne';
     return 'basse';
   };
 
