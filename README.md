@@ -1,4 +1,4 @@
-# 🧳 TravelPrep - Générateur de Checklist de Voyage Intelligent
+# TravelPrep - Générateur de Checklist de Voyage Intelligent
 
 [![Tests](https://img.shields.io/badge/tests-123%2F123%20passing-brightgreen)](.)
 [![Destinations](https://img.shields.io/badge/destinations-150-blue)](.)
@@ -6,56 +6,56 @@
 
 **Version**: 5.0
 **Dernière mise à jour**: 16 novembre 2025
-**Statut**: ✅ Production-Ready
+**Statut**: Production-Ready
 
 ---
 
-## 📋 Table des Matières
+## Table des Matières
 
-- [Aperçu du Projet](#-aperçu-du-projet)
-- [Caractéristiques Principales](#-caractéristiques-principales)
-- [Installation](#-installation)
-- [Technologies Utilisées](#-technologies-utilisées)
-- [Système de Filtrage Climatique](#-système-de-filtrage-climatique)
-- [Base de Données](#-base-de-données-126-destinations)
-- [Tests Automatisés](#-tests-automatisés)
-- [Utilisation](#-utilisation)
-- [Déploiement](#-déploiement)
+- [Aperçu du Projet](#aperçu-du-projet)
+- [Caractéristiques Principales](#caractéristiques-principales)
+- [Installation](#installation)
+- [Technologies Utilisées](#technologies-utilisées)
+- [Système de Filtrage Climatique](#système-de-filtrage-climatique)
+- [Base de Données](#base-de-données-150-destinations)
+- [Tests Automatisés](#tests-automatisés)
+- [Utilisation](#utilisation)
+- [Déploiement](#déploiement)
 
 ---
 
-## 🎯 Aperçu du Projet
+## Aperçu du Projet
 
 TravelPrep est une application web intelligente qui génère des checklists de voyage personnalisées en fonction de :
 
-- 🌍 **La destination** (150 destinations mondiales)
-- 🗓️ **Les dates de voyage** (avec détection automatique des saisons)
-- 🌡️ **Les conditions climatiques** (système intelligent de suggestions)
-- 🎿 **Les activités prévues** (randonnée, plage, sports d'hiver, etc.)
-- 👥 **Le profil du voyageur** (solo, famille, couple, groupe)
-- ⭐ **Le niveau de confort** (backpacker, standard, luxe)
+- **La destination** (150 destinations mondiales)
+- **Les dates de voyage** (avec détection automatique des saisons)
+- **Les conditions climatiques** (système intelligent de suggestions)
+- **Les activités prévues** (randonnée, plage, sports d'hiver, etc.)
+- **Le profil du voyageur** (solo, famille, couple, groupe)
+- **Le niveau de confort** (backpacker, standard, luxe)
 
 **URL du projet**: [https://lovable.dev/projects/11416c89-d980-4d58-9c0f-28513560b365](https://lovable.dev/projects/11416c89-d980-4d58-9c0f-28513560b365)
 
 ---
 
-## ✨ Caractéristiques Principales
+## Caractéristiques Principales
 
-### 🤖 Intelligence Climatique
+### Intelligence Climatique
 
 - **Auto-détection des saisons** selon l'hémisphère et le pays
 - **Auto-détection des températures** basée sur une base de données de 150 destinations
 - **Suggestions automatiques** de conditions climatiques (mousson, cyclones, canicule, etc.)
 - **Filtrage intelligent** des équipements selon la destination et la période
 
-### 📊 Couverture Mondiale
+### Couverture Mondiale
 
 - **150 destinations** avec données climatiques précises
 - **12 régions géographiques** (Europe, Asie, Afrique, Amériques, Océanie)
 - **30+ conditions climatiques** (mousson, typhons, désert, neige, altitude, jungle, etc.)
 - **Gestion des deux hémisphères** (inversion des saisons)
 
-### 🧪 Qualité & Tests
+### Qualité & Tests
 
 - **123 tests automatisés** (100% de succès)
 - **13 catégories de tests** couvrant tous les scénarios
@@ -64,7 +64,7 @@ TravelPrep est une application web intelligente qui génère des checklists de v
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ### Prérequis
 
@@ -95,7 +95,7 @@ npx tsx test-runner-complete.ts
 
 ---
 
-## 🛠️ Technologies Utilisées
+## Technologies Utilisées
 
 - **Frontend**: React + TypeScript
 - **Build**: Vite
@@ -105,7 +105,7 @@ npx tsx test-runner-complete.ts
 
 ---
 
-## 🌦️ Système de Filtrage Climatique
+## Système de Filtrage Climatique
 
 ### Architecture
 
@@ -160,14 +160,14 @@ Détecte les températures moyennes:
 
 #### 3. `generateAutoSuggestions(formData): SuggestionItem[]`
 Génère des suggestions intelligentes basées sur:
-- 🌧️ **Mousson** (Asie du Sud-Est mai-octobre)
-- 🌀 **Cyclones/Typhons** (zones tropicales saison cyclonique)
-- 🏜️ **Désert aride** (Sahara, Moyen-Orient)
-- 🔥 **Canicule** (températures > 35°C)
-- ❄️ **Neige** (zones froides + hiver)
-- 🥶 **Froid intense** (zones polaires)
-- ⛰️ **Altitude** (Népal, Himalaya, Andes)
-- 🌴 **Jungle dense** (Amazonie, Afrique centrale)
+- **Mousson** (Asie du Sud-Est mai-octobre)
+- **Cyclones/Typhons** (zones tropicales saison cyclonique)
+- **Désert aride** (Sahara, Moyen-Orient)
+- **Canicule** (températures > 35°C)
+- **Neige** (zones froides + hiver)
+- **Froid intense** (zones polaires)
+- **Altitude** (Népal, Himalaya, Andes)
+- **Jungle dense** (Amazonie, Afrique centrale)
 
 #### 4. `getClimatEquipment(formData): ChecklistSection[]`
 Filtre et génère les sections d'équipements selon:
@@ -178,7 +178,7 @@ Filtre et génère les sections d'équipements selon:
 
 ---
 
-## 📍 Base de Données (150 Destinations)
+## Base de Données (150 Destinations)
 
 ### Répartition par Région
 
@@ -193,7 +193,7 @@ Filtre et génère les sections d'équipements selon:
 
 ### Nouvelles Destinations Ajoutées
 
-**🆕 v5.0 (16 novembre 2025) - 24 nouvelles destinations:**
+**v5.0 (16 novembre 2025) - 24 nouvelles destinations:**
 
 **Europe** (4): Norvège, Suède, Hongrie, Luxembourg, Moldavie, Ukraine
 
@@ -239,37 +239,37 @@ Pour chaque destination:
 
 ---
 
-## 🧪 Tests Automatisés
+## Tests Automatisés
 
 ### Résultats Finaux (v5.0)
 
 ```
 ╔════════════════════════════════════════════════════════════════╗
-║    🧪 TRAVELPREP - TESTS EXHAUSTIFS CONDITIONS LOGIQUES       ║
+║     TRAVELPREP - TESTS EXHAUSTIFS CONDITIONS LOGIQUES         ║
 ╚════════════════════════════════════════════════════════════════╝
 
 Total de tests : 123
-✅ Réussis     : 123
-❌ Échoués     : 0
-📈 Taux succès : 100.0%
+Réussis     : 123
+Échoués     : 0
+Taux succès : 100.0%
 
-📦 Résultats par catégorie :
+Résultats par catégorie :
 
-   ✅ 1. Auto-détection saisons           : 3/3 (100%)
-   ✅ 2. Auto-détection températures      : 3/3 (100%)
-   ✅ 3. Suggestions climatiques          : 15/15 (100%)
-   ✅ 4. Filtrage équipements             : 3/3 (100%)
-   ✅ 5. Cas limites                      : 4/4 (100%)
-   ✅ 6. Territoires d'outre-mer          : 5/5 (100%)
-   ✅ 7. Îles du Pacifique                : 3/3 (100%)
-   ✅ 8. Afrique étendue                  : 5/5 (100%)
-   ✅ 9. Asie étendue                     : 5/5 (100%)
-   ✅ 10. Europe étendue                  : 5/5 (100%)
-   ✅ 11. Amériques étendues              : 5/5 (100%)
-   ✅ 12. Nouvelles destinations 2025     : 37/37 (100%)
-   ✅ 13. Extension 150 destinations      : 30/30 (100%)
+   1. Auto-détection saisons           : 3/3 (100%)
+   2. Auto-détection températures      : 3/3 (100%)
+   3. Suggestions climatiques          : 15/15 (100%)
+   4. Filtrage équipements             : 3/3 (100%)
+   5. Cas limites                      : 4/4 (100%)
+   6. Territoires d'outre-mer          : 5/5 (100%)
+   7. Îles du Pacifique                : 3/3 (100%)
+   8. Afrique étendue                  : 5/5 (100%)
+   9. Asie étendue                     : 5/5 (100%)
+   10. Europe étendue                  : 5/5 (100%)
+   11. Amériques étendues              : 5/5 (100%)
+   12. Nouvelles destinations 2025     : 37/37 (100%)
+   13. Extension 150 destinations      : 30/30 (100%)
 
-📊 STATISTIQUES AVANCÉES:
+STATISTIQUES AVANCÉES:
 
    • Tests exécutés           : 123
    • Temps total d'exécution  : 11ms
@@ -277,20 +277,20 @@ Total de tests : 123
    • Catégories testées       : 13
    • Conditions climatiques testées : 30+
 
-🎉 TOUS LES TESTS SONT PASSÉS AVEC SUCCÈS !
+TOUS LES TESTS SONT PASSÉS AVEC SUCCÈS !
 ```
 
 ### Exemples de Tests
 
-**Test 1**: Vietnam juillet → Mousson détectée ✅
-**Test 2**: Australie janvier → Été austral ✅
-**Test 3**: Hong Kong août → Subtropical chaud ✅
-**Test 4**: Namibie juillet → Désert du Namib ✅
-**Test 5**: Croatie juillet → Été méditerranéen ✅
+**Test 1**: Vietnam juillet → Mousson détectée
+**Test 2**: Australie janvier → Été austral
+**Test 3**: Hong Kong août → Subtropical chaud
+**Test 4**: Namibie juillet → Désert du Namib
+**Test 5**: Croatie juillet → Été méditerranéen
 
 ---
 
-## 📖 Utilisation
+## Utilisation
 
 ### 1. Remplir le Formulaire
 
@@ -305,22 +305,22 @@ Total de tests : 123
 Le système suggère automatiquement des conditions climatiques :
 
 **Exemple** : Voyage en Thaïlande en juillet
-- 🌧️ **Mousson** [Fortement recommandé]
-- 🔥 **Chaleur extrême** [Recommandé]
-- 🌴 **Tropical humide** [Recommandé]
+- **Mousson** [Fortement recommandé]
+- **Chaleur extrême** [Recommandé]
+- **Tropical humide** [Recommandé]
 
 ### 3. Génération PDF
 
 Cliquez sur "Générer ma checklist" pour obtenir un PDF personnalisé avec:
-- ✅ Items essentiels
-- ✅ Équipements par activité
-- ✅ Adaptations climatiques
-- ✅ Conseils spécifiques
-- ✅ Priorités et délais
+- Items essentiels
+- Équipements par activité
+- Adaptations climatiques
+- Conseils spécifiques
+- Priorités et délais
 
 ---
 
-## 🌐 Déploiement
+## Déploiement
 
 ### Via Lovable
 
@@ -334,7 +334,7 @@ Aller dans **Project > Settings > Domains** et cliquer sur **Connect Domain**.
 
 ---
 
-## 📊 Métriques du Projet
+## Métriques du Projet
 
 | Métrique | Valeur |
 |----------|--------|
@@ -348,52 +348,52 @@ Aller dans **Project > Settings > Domains** et cliquer sur **Connect Domain**.
 
 ---
 
-## 🏆 Statut de Qualité
+## Statut de Qualité
 
 ```
-✅ PRODUCTION-READY
-✅ Tests: 100% (123/123)
-✅ Performance: Excellente
-✅ Code Coverage: 100%
-✅ Base de données: Complète (150 destinations)
-✅ Documentation: À jour
+PRODUCTION-READY
+Tests: 100% (123/123)
+Performance: Excellente
+Code Coverage: 100%
+Base de données: Complète (150 destinations)
+Documentation: À jour
 ```
 
 ---
 
-## 📝 Changelog
+## Changelog
 
 ### v5.0 (16 novembre 2025)
 
-- ✅ **+24 destinations** (126 → 150 destinations)
-- ✅ **+30 nouveaux tests** (93 → 123 tests)
-- ✅ **100% de réussite** sur tous les tests
-- ✅ **Couverture complète cyclones** Caraïbes et Océan Indien
-- ✅ **9 pays ajoutés** à checklistComplete.json
-- ✅ **Tests de non-régression** validés
+- **+24 destinations** (126 → 150 destinations)
+- **+30 nouveaux tests** (93 → 123 tests)
+- **100% de réussite** sur tous les tests
+- **Couverture complète cyclones** Caraïbes et Océan Indien
+- **9 pays ajoutés** à checklistComplete.json
+- **Tests de non-régression** validés
 
 ### v4.0 (16 novembre 2025)
 
-- ✅ **+36 destinations** (89 → 126 destinations)
-- ✅ **+37 nouveaux tests** (56 → 93 tests)
-- ✅ **100% de réussite** sur tous les tests
-- ✅ Documentation consolidée en un seul fichier
+- **+36 destinations** (89 → 126 destinations)
+- **+37 nouveaux tests** (56 → 93 tests)
+- **100% de réussite** sur tous les tests
+- Documentation consolidée en un seul fichier
 
 ### v3.0 (15 novembre 2025)
 
-- ✅ Extension base climatique à 74 pays
-- ✅ 56 tests automatisés
-- ✅ Système de suggestions intelligent
+- Extension base climatique à 74 pays
+- 56 tests automatisés
+- Système de suggestions intelligent
 
 ### v2.0 (14 novembre 2025)
 
-- ✅ Filtrage climatique intelligent
-- ✅ Auto-détection saisons/températures
-- ✅ Base de 34 pays
+- Filtrage climatique intelligent
+- Auto-détection saisons/températures
+- Base de 34 pays
 
 ---
 
-## 🤝 Contribution
+## Contribution
 
 Ce projet utilise [Lovable](https://lovable.dev) pour le développement.
 
@@ -405,7 +405,7 @@ Les modifications peuvent être faites via:
 
 ---
 
-## 📧 Contact & Support
+## Contact & Support
 
 - **Projet**: TravelPrep v5.0
 - **Lovable**: [https://lovable.dev/projects/11416c89-d980-4d58-9c0f-28513560b365](https://lovable.dev/projects/11416c89-d980-4d58-9c0f-28513560b365)
@@ -414,4 +414,4 @@ Les modifications peuvent être faites via:
 
 ---
 
-**Fait avec ❤️ par l'équipe TravelPrep**
+**Fait avec amour par l'équipe TravelPrep**
