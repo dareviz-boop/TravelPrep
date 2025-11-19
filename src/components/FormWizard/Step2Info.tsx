@@ -97,6 +97,16 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   }, [formData.localisation, formData.pays, formData.temperature, formData.saison, formData.dateDepart, formData.dateRetour]);
 
   /**
+   * 🔧 Initialisation par défaut : Sélectionner "climat_aucune" si conditionsClimatiques est vide
+   * Se déclenche une seule fois au montage du composant
+   */
+  useEffect(() => {
+    if (!formData.conditionsClimatiques || formData.conditionsClimatiques.length === 0) {
+      updateFormData({ conditionsClimatiques: ['climat_aucune'] });
+    }
+  }, []); // Tableau vide = exécution une seule fois au montage
+
+  /**
    * 🌍 Auto-détection des saisons : Attribution automatique selon pays, date et durée
    * Déclenché quand date de départ, date de retour, durée ou pays changent
    * ✨ Met à jour automatiquement à chaque changement de dates
