@@ -1738,31 +1738,31 @@
       {
         "id": "backpacker",
         "nom": "Backpacker",
-        "description": "Voyage au rythme local, transports publics, hébergements économiques",
+        "description": "Aventure, spontanéité, immersion totale",
         "emoji": "🎒"
       },
       {
         "id": "immersion",
         "nom": "Immersion locale",
-        "description": "Rencontres authentiques, homestays, vie quotidienne locale",
+        "description": "Rencontres authentiques, homestays, vie au rythme local",
         "emoji": "🌍"
       },
       {
         "id": "flexible",
         "nom": "Flexibilité",
-        "description": "Mix confort et découverte, équilibré",
+        "description": "Équilibre parfait entre découverte et détente, au gré des envies",
         "emoji": "⚖️"
       },
       {
         "id": "confort-organise",
-        "nom": "Confort organisé",
-        "description": "Itinéraire planifié, hébergements confortables, prestations qualité",
+        "nom": "Sérénité & Planification",
+        "description": "Itinéraire structuré à l'avance, logistique 100% gérée, zéro stress",
         "emoji": "🏨"
       },
       {
         "id": "luxe",
-        "nom": "Luxe & Prestige",
-        "description": "Services premium, expériences exclusives, confort maximum",
+        "nom": "Expériences Exclusives",
+        "description": "Accès privilégiés, lieux uniques, attention aux détails et services sur-mesure",
         "emoji": "💎"
       }
     ]
@@ -1773,31 +1773,31 @@
       {
         "id": "economique",
         "nom": "Économique",
-        "description": "Auberges, dortoirs, cuisine partagée, transports locaux",
+        "description": "Essentiel à petit prix : auberges, dortoirs, transports locaux",
         "emoji": "🏕️"
       },
       {
         "id": "confortable",
         "nom": "Confortable",
-        "description": "Hôtels 2-3★, chambres privées, petits restaurants locaux",
+        "description": "Simple et efficace : hôtels 2-3★, chambres privées, petits restaurants",
         "emoji": "🏠"
       },
       {
         "id": "standard",
         "nom": "Standard",
-        "description": "Hôtels 3★, chambres confortables, bon rapport qualité/prix",
+        "description": "Juste milieu : hôtels 3★ de charme, chambres confortables, bon rapport qualité/prix.",
         "emoji": "🏨"
       },
       {
         "id": "premium",
         "nom": "Premium",
-        "description": "Hôtels 4★, restaurants de qualité, activités organisées",
+        "description": "Standing supérieur : hôtels 4★, services soignés, belles adresses",
         "emoji": "🌟"
       },
       {
         "id": "luxe",
         "nom": "Luxe",
-        "description": "Hôtels 5★, services concierge, expériences VIP, confort maximal",
+        "description": "Excellence : hôtels 5★, conciergerie, prestations haut de gamme",
         "emoji": "👑"
       }
     ]
