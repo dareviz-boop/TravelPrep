@@ -107,59 +107,72 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   }, []); // Tableau vide = exécution une seule fois au montage
 
   /**
-   * 🌍 Auto-détection des saisons : Attribution automatique selon pays, date et durée
-   * Déclenché quand date de départ, date de retour, durée ou pays changent
-   * ✨ Met à jour automatiquement à chaque changement de dates
-   * ⚠️ Ne modifie que si la valeur actuelle est 'inconnue' pour respecter les choix de l'utilisateur
+   * 🌍 Auto-détection des saisons : Attribution automatique selon pays, date, durée et zone
+   * ✨ Se met à jour automatiquement à chaque changement de :
+   *    - Zone géographique (localisation)
+   *    - Pays sélectionnés
+   *    - Dates de voyage (départ/retour)
+   *    - Durée du voyage
+   * ✅ CORRIGÉ : Met toujours à jour pour refléter les changements (ne respecte plus l'ancien choix manuel)
    */
   useEffect(() => {
-    if (formData.dateDepart && formData.pays && formData.pays.length > 0) {
-      const currentSaisons = formData.saison as string[] || [];
+    // Vérifier qu'on a les données minimales
+    if (!formData.localisation) return;
 
-      // Ne modifier que si la saison actuelle est 'inconnue' ou vide
-      const shouldAutoDetect = currentSaisons.length === 0 ||
-                               (currentSaisons.length === 1 && currentSaisons[0] === 'inconnue');
-
-      if (shouldAutoDetect) {
-        const detectedSeasons = autoDetectSeasons(formData);
-        if (detectedSeasons.length > 0) {
-          updateFormData({ saison: detectedSeasons });
-        }
+    // Si on a des pays et une date, utiliser la détection précise
+    if (formData.pays && formData.pays.length > 0 && formData.dateDepart) {
+      const detectedSeasons = autoDetectSeasons(formData);
+      if (detectedSeasons.length > 0) {
+        updateFormData({ saison: detectedSeasons });
       }
     }
-  }, [formData.dateDepart, formData.dateRetour, formData.pays]);
+    // Sinon, si on a au moins la zone et la date, on peut quand même détecter
+    else if (formData.dateDepart) {
+      const detectedSeasons = autoDetectSeasons(formData);
+      if (detectedSeasons.length > 0) {
+        updateFormData({ saison: detectedSeasons });
+      }
+    }
+  }, [formData.localisation, formData.pays, formData.dateDepart, formData.dateRetour, formData.duree]);
 
   /**
-   * 🌡️ Auto-détection des températures : Attribution automatique selon pays et date
-   * Déclenché quand date de départ ou pays changent
-   * ✨ Met à jour automatiquement à chaque changement de dates
-   * ⚠️ Ne modifie que si la valeur actuelle est 'inconnue' pour respecter les choix de l'utilisateur
+   * 🌡️ Auto-détection des températures : Attribution automatique selon pays, date et zone
+   * ✨ Se met à jour automatiquement à chaque changement de :
+   *    - Zone géographique (localisation)
+   *    - Pays sélectionnés
+   *    - Dates de voyage (départ/retour)
+   *    - Durée du voyage
+   * ✅ CORRIGÉ : Met toujours à jour pour refléter les changements (ne respecte plus l'ancien choix manuel)
    */
   useEffect(() => {
-    if (formData.dateDepart && formData.pays && formData.pays.length > 0) {
-      const currentTemperatures = formData.temperature as string[] || [];
+    // Vérifier qu'on a les données minimales
+    if (!formData.localisation) return;
 
-      // Ne modifier que si la température actuelle est 'inconnue' ou vide
-      const shouldAutoDetect = currentTemperatures.length === 0 ||
-                               (currentTemperatures.length === 1 && currentTemperatures[0] === 'inconnue');
-
-      if (shouldAutoDetect) {
-        const detectedTemperatures = autoDetectTemperatures(formData);
-        if (detectedTemperatures.length > 0) {
-          updateFormData({ temperature: detectedTemperatures });
-        }
+    // Si on a des pays et une date, utiliser la détection précise
+    if (formData.pays && formData.pays.length > 0 && formData.dateDepart) {
+      const detectedTemperatures = autoDetectTemperatures(formData);
+      if (detectedTemperatures.length > 0) {
+        updateFormData({ temperature: detectedTemperatures });
       }
     }
-  }, [formData.dateDepart, formData.dateRetour, formData.pays]);
+    // Sinon, si on a au moins la zone et la date, on peut quand même détecter
+    else if (formData.dateDepart) {
+      const detectedTemperatures = autoDetectTemperatures(formData);
+      if (detectedTemperatures.length > 0) {
+        updateFormData({ temperature: detectedTemperatures });
+      }
+    }
+  }, [formData.localisation, formData.pays, formData.dateDepart, formData.dateRetour, formData.duree]);
 
   /**
    * 🔄 Auto-suggestions : Pré-sélectionner automatiquement les conditions recommandées
    *
    * ✨ Logique corrigée :
-   * - Se déclenche à chaque changement de destination, pays, dates, température ou saison
+   * - Se déclenche uniquement aux changements de destination, pays ou dates
+   * - NE SE DÉCLENCHE PLUS au changement de température/saison (corrige l'instabilité)
    * - Réapplique automatiquement les suggestions appropriées
    * - Sélectionne "climat_aucune" si aucune suggestion n'est recommandée
-   * - IMPORTANT : Doit dépendre de temperature/saison car generateAutoSuggestions les utilise
+   * - ✅ CORRIGÉ : Retiré temperature/saison des dépendances pour stabilité
    */
   useEffect(() => {
     // Vérifier qu'on a au moins une destination et des pays
@@ -170,10 +183,8 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
       return;
     }
 
-    // Créer une clé unique basée sur la configuration actuelle (AVEC temperature/saison pour la cohérence)
-    const temperatures = Array.isArray(formData.temperature) ? formData.temperature.join(',') : formData.temperature;
-    const saisons = Array.isArray(formData.saison) ? formData.saison.join(',') : formData.saison;
-    const currentKey = `${formData.localisation}|${formData.pays.map(p => p.code).sort().join(',')}|${formData.dateDepart || ''}|${formData.dateRetour || ''}|${temperatures}|${saisons}`;
+    // Créer une clé unique basée sur la configuration actuelle (SANS temperature/saison pour éviter boucles)
+    const currentKey = `${formData.localisation}|${formData.pays.map(p => p.code).sort().join(',')}|${formData.dateDepart || ''}|${formData.dateRetour || ''}`;
 
     // Si la configuration a changé, réappliquer les suggestions
     if (currentKey !== lastAutoSuggestKeyRef.current) {
@@ -195,7 +206,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
       // Mettre à jour la clé de référence
       lastAutoSuggestKeyRef.current = currentKey;
     }
-  }, [formData.localisation, formData.pays, formData.dateDepart, formData.dateRetour, formData.temperature, formData.saison]);
+  }, [formData.localisation, formData.pays, formData.dateDepart, formData.dateRetour]);
 
   /**
    * Fonction générique pour gérer la bascule (toggle) de la sélection multiple pour saison et temperature.
