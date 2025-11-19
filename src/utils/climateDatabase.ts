@@ -212,7 +212,7 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
 
   // === OCÉANIE ===
   'AU': { code: 'AU', hemisphere: 'south', zones: ['subtropical', 'desert_hot', 'mediterranean'],
-    avgTemp: { jan: 27, feb: 27, mar: 25, apr: 22, may: 18, jun: 15, jul: 14, aug: 15, sep: 18, oct: 21, nov: 23, dec: 25 },
+    avgTemp: { jan: 32, feb: 31, mar: 28, apr: 24, may: 20, jun: 17, jul: 16, aug: 17, sep: 20, oct: 23, nov: 26, dec: 30 },
     seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
   },
   'NZ': { code: 'NZ', hemisphere: 'south', zones: ['oceanic'],
@@ -760,7 +760,10 @@ export function getRegionalClimate(regionCode: string): Partial<CountryClimate> 
 export function getTemperatureCategory(avgTemp: number): string[] {
   const temps: string[] = [];
 
-  if (avgTemp < -5) temps.push('tres-froide');
+  if (avgTemp < -5) {
+    temps.push('tres-froide');
+    temps.push('froide'); // Très froide implique aussi froide
+  }
   else if (avgTemp < 10) temps.push('froide');
   else if (avgTemp < 20) temps.push('temperee');
   else if (avgTemp < 30) temps.push('chaude');

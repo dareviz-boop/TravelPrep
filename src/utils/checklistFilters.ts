@@ -614,6 +614,15 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
     }
   }
 
+  // 🌡️ AUSTRALIE EN ÉTÉ : Canicule et forte chaleur
+  const isAustralia = formData.pays?.some((p: any) => p.code?.toUpperCase() === 'AU');
+  if (isAustralia) {
+    // Été austral : décembre, janvier, février
+    if ((month >= 12 || month <= 2) || temperatures.includes('tres-chaude')) {
+      addSuggestion('climat_canicule', 'Vagues de chaleur fréquentes en été australien', 'haute');
+    }
+  }
+
   // ❄️ ZONES FROIDES : Neige + Froid intense
   const coldCountryCodes = ['GL', 'IS', 'FI', 'NO', 'SE', 'CA', 'RU', 'AD', 'CH', 'AT', 'LI', 'EE', 'LV', 'LT', 'BY', 'UA', 'PL', 'KZ', 'MN', 'KG'];
   const isCold = formData.pays?.some((p: any) =>
