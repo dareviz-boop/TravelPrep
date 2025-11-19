@@ -262,11 +262,6 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
   // ==========================================
 
   const renderSelectionSection = () => {
-    // TODO: Section désactivée temporairement - affiche uniquement les items priorité MOYENNE
-    // À réactiver plus tard si nécessaire
-    return null;
-
-    /* CODE CONSERVÉ POUR RÉFÉRENCE
     // Filtrer les sections pour la sélection conseillée
     const selectionSections = checklistData.sections.filter(section =>
       SELECTION_CATEGORIES.includes(section.id)
@@ -317,7 +312,6 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
         })}
       </>
     );
-    */
   };
 
   // Fonction spéciale pour rendre les apps avec sous-catégories
@@ -381,21 +375,19 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
         {activitySections.map(section => {
           if (!section.items || section.items.length === 0) return null;
 
-          // Filtrer uniquement les items priorité HAUTE
-          const highPriorityItems = section.items.filter(item => getPriority(item.priorite) === 'haute');
-
-          if (highPriorityItems.length === 0) return null;
-
           return (
             <View key={section.id} wrap={false}>
               <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
-              {highPriorityItems.map((item, idx) => (
-                <View style={styles.item} key={item.id || `activity-${idx}`}>
-                  <Text style={styles.highPrioritySymbol}>!!</Text>
-                  <View style={styles.checkbox} />
-                  <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                </View>
-              ))}
+              {section.items.map((item, idx) => {
+                const priority = getPriority(item.priorite);
+                return (
+                  <View style={styles.item} key={item.id || `activity-${idx}`}>
+                    {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                    <View style={styles.checkbox} />
+                    <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                  </View>
+                );
+              })}
             </View>
           );
         })}
@@ -408,10 +400,10 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
   // ==========================================
 
   return (
-    <Page size="A4" style={styles.page}>
+    <>
       {renderTimelineSection()}
       {renderSelectionSection()}
       {renderActivitiesSection()}
-    </Page>
+    </>
   );
 };

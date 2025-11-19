@@ -2,6 +2,7 @@ import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
 import checklistCompleteData from '@/data/checklistComplete.json';
 import { PDFIcon } from './PDFIcon';
+import { CompactPage } from './CompactPage';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
 // Helvetica ne supporte PAS les emojis Unicode, ils apparaissent corrompus
@@ -396,6 +397,11 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
 
       {/* Divider - Ligne de séparation orange avant la suite */}
       <View style={styles.divider}></View>
+
+      {/* Intégrer la timeline si format compact */}
+      {formData.formatPDF === 'compact' && checklistData && (
+        <CompactPage formData={formData} checklistData={checklistData} />
+      )}
 
       <Text style={styles.footer}>
         Généré le {new Date().toLocaleDateString('fr-FR')} avec TravelPrep
