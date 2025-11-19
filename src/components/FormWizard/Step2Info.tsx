@@ -168,10 +168,11 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
    * 🔄 Auto-suggestions : Pré-sélectionner automatiquement les conditions recommandées
    *
    * ✨ Logique corrigée :
-   * - Se déclenche à chaque changement de destination, pays, dates, température ou saison
+   * - Se déclenche uniquement aux changements de destination, pays ou dates
+   * - NE SE DÉCLENCHE PLUS au changement de température/saison (corrige l'instabilité)
    * - Réapplique automatiquement les suggestions appropriées
    * - Sélectionne "climat_aucune" si aucune suggestion n'est recommandée
-   * - IMPORTANT : Doit dépendre de temperature/saison car generateAutoSuggestions les utilise
+   * - ✅ CORRIGÉ : Retiré temperature/saison des dépendances pour stabilité
    */
   useEffect(() => {
     // Vérifier qu'on a au moins une destination et des pays
@@ -182,10 +183,8 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
       return;
     }
 
-    // Créer une clé unique basée sur la configuration actuelle (AVEC temperature/saison pour la cohérence)
-    const temperatures = Array.isArray(formData.temperature) ? formData.temperature.join(',') : formData.temperature;
-    const saisons = Array.isArray(formData.saison) ? formData.saison.join(',') : formData.saison;
-    const currentKey = `${formData.localisation}|${formData.pays.map(p => p.code).sort().join(',')}|${formData.dateDepart || ''}|${formData.dateRetour || ''}|${temperatures}|${saisons}`;
+    // Créer une clé unique basée sur la configuration actuelle (SANS temperature/saison pour éviter boucles)
+    const currentKey = `${formData.localisation}|${formData.pays.map(p => p.code).sort().join(',')}|${formData.dateDepart || ''}|${formData.dateRetour || ''}`;
 
     // Si la configuration a changé, réappliquer les suggestions
     if (currentKey !== lastAutoSuggestKeyRef.current) {
@@ -207,7 +206,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
       // Mettre à jour la clé de référence
       lastAutoSuggestKeyRef.current = currentKey;
     }
-  }, [formData.localisation, formData.pays, formData.dateDepart, formData.dateRetour, formData.temperature, formData.saison]);
+  }, [formData.localisation, formData.pays, formData.dateDepart, formData.dateRetour]);
 
   /**
    * Fonction générique pour gérer la bascule (toggle) de la sélection multiple pour saison et temperature.
