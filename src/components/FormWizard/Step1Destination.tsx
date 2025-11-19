@@ -415,9 +415,29 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
 
         {/* Date de départ */}
         <div className="space-y-3 bg-card p-6 rounded-xl border-2 border-border shadow-sm hover:shadow-md transition-shadow">
-          <Label className="text-lg font-bold text-foreground">
-            Date de départ <span className="text-muted-foreground text-sm font-normal">(optionnel)</span>
-          </Label>
+          <div className="flex items-center justify-between mb-2">
+            <Label className="text-lg font-bold text-foreground">
+              Date de départ <span className="text-muted-foreground text-sm font-normal">(optionnel)</span>
+            </Label>
+            {formData.dateDepart && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  updateFormData({ dateDepart: '' });
+                  toast({
+                    title: "Date effacée",
+                    description: "La date de départ a été supprimée",
+                  });
+                }}
+                className="text-sm hover:bg-destructive/10 border-2 hover:border-destructive/50 hover:text-destructive"
+              >
+                <X className="w-4 h-4 mr-1" />
+                Effacer la date
+              </Button>
+            )}
+          </div>
           <DatePicker
             date={formData.dateDepart ? new Date(formData.dateDepart) : undefined}
             onSelect={(selectedDate) => {
@@ -488,18 +508,38 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               <Label className="text-lg font-bold text-foreground">
                 Date de retour <span className="text-muted-foreground text-sm font-normal">(optionnel)</span>
               </Label>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  setKnowsReturnDate(false);
-                  // Ne pas effacer dateRetour pour conserver la valeur si l'utilisateur change d'avis
-                }}
-                className="text-sm hover:bg-primary/10 border-2"
-              >
-                📅 Je ne connais pas ma date de retour
-              </Button>
+              <div className="flex gap-2">
+                {formData.dateRetour && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      updateFormData({ dateRetour: '' });
+                      toast({
+                        title: "Date effacée",
+                        description: "La date de retour a été supprimée",
+                      });
+                    }}
+                    className="text-sm hover:bg-destructive/10 border-2 hover:border-destructive/50 hover:text-destructive"
+                  >
+                    <X className="w-4 h-4 mr-1" />
+                    Effacer la date
+                  </Button>
+                )}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setKnowsReturnDate(false);
+                    // Ne pas effacer dateRetour pour conserver la valeur si l'utilisateur change d'avis
+                  }}
+                  className="text-sm hover:bg-primary/10 border-2"
+                >
+                  📅 Je ne connais pas ma date de retour
+                </Button>
+              </div>
             </div>
             <DatePicker
               date={formData.dateRetour ? new Date(formData.dateRetour) : undefined}
