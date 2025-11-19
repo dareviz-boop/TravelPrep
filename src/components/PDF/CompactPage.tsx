@@ -87,8 +87,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10
   },
   checkbox: {
-    width: 10,
-    height: 10,
+    width: 8,
+    height: 8,
     border: '1px solid #111827',
     marginRight: 8,
     marginTop: 2

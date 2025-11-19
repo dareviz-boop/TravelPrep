@@ -106,6 +106,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 8,
     color: '#9ca3af'
+  },
+  pageNumber: {
+    position: 'absolute',
+    bottom: 20,
+    right: 30,
+    fontSize: 8,
+    color: '#9ca3af'
   }
 });
 
@@ -406,6 +413,11 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
       <Text style={styles.footer}>
         Généré le {new Date().toLocaleDateString('fr-FR')} avec TravelPrep
       </Text>
+      <Text
+        style={styles.pageNumber}
+        render={({ pageNumber, totalPages }) => `Page ${pageNumber} / ${totalPages}`}
+        fixed
+      />
     </Page>
   );
 };

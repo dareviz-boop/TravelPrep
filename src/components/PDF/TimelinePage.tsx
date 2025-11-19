@@ -99,8 +99,8 @@ const styles = StyleSheet.create({
     marginBottom: 3
   },
   checkbox: {
-    width: 10,
-    height: 10,
+    width: 8,
+    height: 8,
     border: '1px solid #111827',
     marginRight: 8,
     marginTop: 2
@@ -135,6 +135,13 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     marginRight: 4,
     color: '#374151'
+  },
+  pageNumber: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    fontSize: 8,
+    color: '#9ca3af'
   }
 });
 
@@ -366,6 +373,12 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
         timelines.other,
         'Autres éléments'
       )}
+
+      <Text
+        style={styles.pageNumber}
+        render={({ pageNumber, totalPages }) => `Page ${pageNumber} / ${totalPages}`}
+        fixed
+      />
     </Page>
   );
 };
