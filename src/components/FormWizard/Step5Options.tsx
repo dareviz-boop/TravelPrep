@@ -83,11 +83,19 @@ interface Step5OptionsProps {
 export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) => {
 
   // Lecture directe du JSON uniformisé
-  const sectionsData = (checklistData.categories.options as GenericOption[]).map((category: GenericOption) => ({
-    id: category.id,
-    label: `${category.emoji || ''} ${category.nom || category.label || ''}`,
-    desc: category.description || '',
-  }));
+  // 🔧 FILTRAGE : On retire "essentiels" et "timeline" (obsolètes, items redistribués)
+  const sectionsData = (checklistData.categories.options as GenericOption[])
+    .filter((category: GenericOption) => category.id !== 'essentiels' && category.id !== 'timeline')
+    .map((category: GenericOption) => ({
+      id: category.id,
+      label: `${category.emoji || ''} ${category.nom || category.label || ''}`,
+      desc: category.description || '',
+    }));
+
+  // 🎯 Groupes de sections pour l'affichage
+  const essentielsAbsolusIds = ['documents', 'finances', 'sante'];
+  const sectionsRecommandees = sectionsData.filter(s => !essentielsAbsolusIds.includes(s.id));
+  const sectionsEssentielles = sectionsData.filter(s => essentielsAbsolusIds.includes(s.id));
 
   const handleSectionToggle = (sectionId: string) => {
     const allIds = sectionsData.map(s => s.id);
@@ -380,80 +388,116 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
           </div>
         </Card>
 
-        
-        {/* Sections à inclure */}
-        <div className="space-y-4">
-          
-          <Label className="text-base font-semibold">
-            Sections à inclure
-          </Label>
 
-          {/* Bouton Tout Sélectionner / Tout Désélectionner */}
-          <div className="flex justify-end">
-              <button
-                  type="button"
-                  onClick={() => {
-                      const allIds = sectionsData.map(s => s.id);
-                      const currentSelected = formData.sectionsInclure || allIds;
-                      const shouldSelectAll = currentSelected.length !== allIds.length;
-                      
-                      updateFormData({ 
-                          // Si on sélectionne tout, on envoie undefined. Si on désélectionne tout, on envoie une liste vide.
-                          sectionsInclure: shouldSelectAll ? undefined : [] 
-                      });
-                  }}
-                  className="text-sm text-primary hover:underline font-semibold"
-              >
-                  {(formData.sectionsInclure === undefined || formData.sectionsInclure.length === sectionsData.length)
-                      ? 'Tout dé-sélectionner'
-                      : 'Tout sélectionner'
-                  }
-              </button>
+        {/* Sections à inclure */}
+        <div className="space-y-6">
+
+          {/* 🎨 TITRE PRINCIPAL AGRANDI */}
+          <div className="flex justify-between items-center">
+            <Label className="text-xl font-bold text-primary">
+              📝 Sections à inclure
+            </Label>
+
+            {/* Bouton Tout Sélectionner / Tout Désélectionner */}
+            <button
+                type="button"
+                onClick={() => {
+                    const allIds = sectionsData.map(s => s.id);
+                    const currentSelected = formData.sectionsInclure || allIds;
+                    const shouldSelectAll = currentSelected.length !== allIds.length;
+
+                    updateFormData({
+                        // Si on sélectionne tout, on envoie undefined. Si on désélectionne tout, on envoie une liste vide.
+                        sectionsInclure: shouldSelectAll ? undefined : []
+                    });
+                }}
+                className="text-sm text-primary hover:underline font-semibold"
+            >
+                {(formData.sectionsInclure === undefined || formData.sectionsInclure.length === sectionsData.length)
+                    ? 'Tout dé-sélectionner'
+                    : 'Tout sélectionner'
+                }
+            </button>
           </div>
 
-          <div className="grid grid-cols-1 gap-3">
-            {sectionsData.map((section) => {
-              // Vérifie si la section est incluse (si sectionsInclure est undefined, tout sauf "essentiels" est coché)
-              const allIds = sectionsData.map(s => s.id);
-              const defaultSections = allIds.filter(id => id !== 'essentiels');
-              const isSelected = formData.sectionsInclure === undefined
-                ? defaultSections.includes(section.id)
-                : formData.sectionsInclure.includes(section.id);
-                
-              return (
-                  <div
-                    key={section.id}
-                    className={cn(
-                      "flex items-start space-x-3 p-3 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
-                      isSelected ? "border-primary bg-primary/10" : "border-border"
-                    )}
-                    onClick={() => handleSectionToggle(section.id)}
-                  >
-                    <Checkbox
-                      id={`section-${section.id}`}
-                      checked={isSelected}
-                      // OnCheckedChange est retiré car le onClick du div parent gère le basculement.
-                      onCheckedChange={() => {}} 
-                      className="mt-1"
-                    />
-                    <Label className="flex-1 cursor-pointer">
-                        <div className="font-semibold text-base mb-1 flex items-center">
-                            {section.label}
-                        </div>
-                        <div className="text-sm text-muted-foreground">
-                            {section.desc}
-                        </div>
-                    </Label>
-                  </div>
-              );
-            })}
+          {/* 🔥 GROUPE : Essentiels Absolus */}
+          <div className="space-y-3">
+            <h4 className="text-base font-semibold text-foreground">🔥 Essentiels Absolus</h4>
+            <div className="grid grid-cols-1 gap-3">
+              {sectionsEssentielles.map((section) => {
+                const isSelected = formData.sectionsInclure === undefined || formData.sectionsInclure.includes(section.id);
+
+                return (
+                    <div
+                      key={section.id}
+                      className={cn(
+                        "flex items-start space-x-3 p-3 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
+                        isSelected ? "border-primary bg-primary/10" : "border-border"
+                      )}
+                      onClick={() => handleSectionToggle(section.id)}
+                    >
+                      <Checkbox
+                        id={`section-${section.id}`}
+                        checked={isSelected}
+                        onCheckedChange={() => {}}
+                        className="mt-1"
+                      />
+                      <Label className="flex-1 cursor-pointer">
+                          <div className="font-semibold text-base mb-1 flex items-center">
+                              {section.label}
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                              {section.desc}
+                          </div>
+                      </Label>
+                    </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* ✨ GROUPE : Sections recommandées */}
+          <div className="space-y-3">
+            <h4 className="text-base font-semibold text-foreground">✨ Sections recommandées</h4>
+            <div className="grid grid-cols-1 gap-3">
+              {sectionsRecommandees.map((section) => {
+                const isSelected = formData.sectionsInclure === undefined || formData.sectionsInclure.includes(section.id);
+
+                return (
+                    <div
+                      key={section.id}
+                      className={cn(
+                        "flex items-start space-x-3 p-3 rounded-xl border-2 transition-all cursor-pointer hover:border-primary/50",
+                        isSelected ? "border-primary bg-primary/10" : "border-border"
+                      )}
+                      onClick={() => handleSectionToggle(section.id)}
+                    >
+                      <Checkbox
+                        id={`section-${section.id}`}
+                        checked={isSelected}
+                        onCheckedChange={() => {}}
+                        className="mt-1"
+                      />
+                      <Label className="flex-1 cursor-pointer">
+                          <div className="font-semibold text-base mb-1 flex items-center">
+                              {section.label}
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                              {section.desc}
+                          </div>
+                      </Label>
+                    </div>
+                );
+              })}
+            </div>
           </div>
         </div>
 
         {/* Format PDF (Harmonisation avec peer sr-only et cn) */}
         <div className="space-y-4">
-          <Label className="text-base font-semibold">
-            Format du PDF <span className="text-primary">*</span>
+          {/* 🎨 TITRE PRINCIPAL AGRANDI */}
+          <Label className="text-xl font-bold text-primary">
+            📄 Format du PDF <span className="text-primary">*</span>
           </Label>
           <RadioGroup
             value={formData.formatPDF}
