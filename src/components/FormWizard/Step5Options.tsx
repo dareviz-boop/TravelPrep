@@ -91,8 +91,9 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
 
   const handleSectionToggle = (sectionId: string) => {
     const allIds = sectionsData.map(s => s.id);
-    // Si sectionsInclure est undefined (tout est sélectionné par défaut), on utilise la liste complète
-    const current = formData.sectionsInclure === undefined ? allIds : formData.sectionsInclure;
+    // Si sectionsInclure est undefined, on utilise toutes les sections SAUF "essentiels"
+    const defaultSections = allIds.filter(id => id !== 'essentiels');
+    const current = formData.sectionsInclure === undefined ? defaultSections : formData.sectionsInclure;
     
     const updated = current.includes(sectionId)
       ? current.filter((id) => id !== sectionId)
@@ -412,8 +413,12 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
 
           <div className="grid grid-cols-1 gap-3">
             {sectionsData.map((section) => {
-              // Vérifie si la section est incluse (si sectionsInclure est undefined, tout est coché)
-              const isSelected = formData.sectionsInclure === undefined || formData.sectionsInclure.includes(section.id);
+              // Vérifie si la section est incluse (si sectionsInclure est undefined, tout sauf "essentiels" est coché)
+              const allIds = sectionsData.map(s => s.id);
+              const defaultSections = allIds.filter(id => id !== 'essentiels');
+              const isSelected = formData.sectionsInclure === undefined
+                ? defaultSections.includes(section.id)
+                : formData.sectionsInclure.includes(section.id);
                 
               return (
                   <div
