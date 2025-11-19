@@ -136,19 +136,6 @@ const TIMELINE_MILESTONES = [
 // Catégories pour la section Timeline (essentiels absolus)
 const TIMELINE_CATEGORIES = ['documents', 'sante', 'finances'];
 
-// Catégories pour la section Sélection conseillée
-const SELECTION_CATEGORIES = [
-  'bagages',
-  'hygiene',
-  'tech',
-  'domicile',
-  'transport',
-  'reservations',
-  'urgence',
-  'apps',
-  'pendant_apres'
-];
-
 export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
   // ==========================================
   // FONCTIONS HELPERS
@@ -235,7 +222,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
           });
 
           return (
-            <View key={milestone.id} style={styles.timelineBlock} wrap={false}>
+            <View key={milestone.id} style={styles.timelineBlock}>
               <Text style={styles.timelineHeader}>{milestone.label}</Text>
 
               {Object.entries(itemsByCategory).map(([categoryName, categoryItems]) => (
@@ -262,9 +249,9 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
   // ==========================================
 
   const renderSelectionSection = () => {
-    // Filtrer les sections pour la sélection conseillée
+    // Filtrer TOUTES les sections qui ne sont ni dans Timeline ni des activités
     const selectionSections = checklistData.sections.filter(section =>
-      SELECTION_CATEGORIES.includes(section.id)
+      !TIMELINE_CATEGORIES.includes(section.id) && section.source !== 'activite'
     );
 
     // Récupérer tous les items priorité moyenne
@@ -291,7 +278,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
           // Gestion spéciale pour la section "apps" avec sous-catégories
           if (sectionId === 'apps') {
             return (
-              <View key={sectionId} wrap={false}>
+              <View key={sectionId}>
                 <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
                 {renderAppsWithSubcategories(items)}
               </View>
@@ -299,7 +286,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
           }
 
           return (
-            <View key={sectionId} wrap={false}>
+            <View key={sectionId}>
               <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
               {items.map((item, idx) => (
                 <View style={styles.item} key={item.id || `item-${idx}`}>
@@ -376,7 +363,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
           if (!section.items || section.items.length === 0) return null;
 
           return (
-            <View key={section.id} wrap={false}>
+            <View key={section.id}>
               <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
               {section.items.map((item, idx) => {
                 const priority = getPriority(item.priorite);

@@ -86,14 +86,8 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   // Format: "localisation|pays1,pays2|dateDepart|dateRetour"
   const lastAutoSuggestKeyRef = useRef<string>('');
 
-  // ✅ CORRECTION : Réinitialiser la ref au montage du composant
-  // Cela force le recalcul des suggestions quand on revient sur cette étape
-  useEffect(() => {
-    lastAutoSuggestKeyRef.current = '';
-  }, []); // Se déclenche uniquement au montage
-
   // Calculer les recommandations avec useMemo pour qu'elles soient toujours disponibles
-  // ✅ CORRECTION : Ajouter temperature et saison aux dépendances pour que les cloches persistent
+  // Les cloches sont basées uniquement sur la configuration actuelle (localisation, pays, dates)
   const recommendedConditions = useMemo(() => {
     if (!formData.localisation || !formData.dateDepart || !formData.pays || formData.pays.length === 0) {
       return new Set<string>();
@@ -101,7 +95,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
     const suggestions = generateAutoSuggestions(formData);
     return new Set(suggestions.map(s => s.conditionId));
-  }, [formData.localisation, formData.pays, formData.dateDepart, formData.dateRetour, formData.temperature, formData.saison]);
+  }, [formData.localisation, formData.pays, formData.dateDepart, formData.dateRetour]);
 
   /**
    * 🔧 Initialisation par défaut : Sélectionner "climat_aucune" si conditionsClimatiques est vide
