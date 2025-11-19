@@ -86,7 +86,14 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   // Format: "localisation|pays1,pays2|dateDepart|dateRetour"
   const lastAutoSuggestKeyRef = useRef<string>('');
 
+  // ✅ CORRECTION : Réinitialiser la ref au montage du composant
+  // Cela force le recalcul des suggestions quand on revient sur cette étape
+  useEffect(() => {
+    lastAutoSuggestKeyRef.current = '';
+  }, []); // Se déclenche uniquement au montage
+
   // Calculer les recommandations avec useMemo pour qu'elles soient toujours disponibles
+  // ✅ CORRECTION : Retirer temperature et saison des dépendances pour éviter les boucles
   const recommendedConditions = useMemo(() => {
     if (!formData.localisation || !formData.dateDepart || !formData.pays || formData.pays.length === 0) {
       return new Set<string>();
@@ -94,7 +101,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
     const suggestions = generateAutoSuggestions(formData);
     return new Set(suggestions.map(s => s.conditionId));
-  }, [formData.localisation, formData.pays, formData.temperature, formData.saison, formData.dateDepart, formData.dateRetour]);
+  }, [formData.localisation, formData.pays, formData.dateDepart, formData.dateRetour]);
 
   /**
    * 🔧 Initialisation par défaut : Sélectionner "climat_aucune" si conditionsClimatiques est vide
@@ -170,9 +177,9 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
    * ✨ Logique corrigée :
    * - Se déclenche uniquement aux changements de destination, pays ou dates
    * - NE SE DÉCLENCHE PLUS au changement de température/saison (corrige l'instabilité)
-   * - Réapplique automatiquement les suggestions appropriées
-   * - Sélectionne "climat_aucune" si aucune suggestion n'est recommandée
-   * - ✅ CORRIGÉ : Retiré temperature/saison des dépendances pour stabilité
+   * - FUSIONNE les nouvelles suggestions avec les conditions déjà sélectionnées
+   * - Sélectionne "climat_aucune" si aucune suggestion n'est recommandée ET aucune condition manuelle
+   * - ✅ CORRIGÉ : Fusion intelligente au lieu d'écrasement complet
    */
   useEffect(() => {
     // Vérifier qu'on a au moins une destination et des pays
@@ -191,16 +198,24 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
       const suggestions = generateAutoSuggestions(formData);
 
       if (suggestions.length > 0) {
-        // Appliquer toutes les suggestions recommandées
+        // ✅ FUSION intelligente : conserver les conditions manuelles + ajouter les nouvelles suggestions
         const suggestionIds = suggestions.map(s => s.conditionId);
+        const existingConditions = (formData.conditionsClimatiques || []).filter(c => c !== 'climat_aucune');
+
+        // Fusionner et dédupliquer
+        const mergedConditions = [...new Set([...existingConditions, ...suggestionIds])];
+
         updateFormData({
-          conditionsClimatiques: suggestionIds
+          conditionsClimatiques: mergedConditions
         });
       } else {
-        // Si aucune suggestion n'est proposée, sélectionner automatiquement "climat_aucune"
-        updateFormData({
-          conditionsClimatiques: ['climat_aucune']
-        });
+        // Si aucune suggestion n'est proposée ET aucune condition manuelle, sélectionner "climat_aucune"
+        const existingConditions = (formData.conditionsClimatiques || []).filter(c => c !== 'climat_aucune');
+        if (existingConditions.length === 0) {
+          updateFormData({
+            conditionsClimatiques: ['climat_aucune']
+          });
+        }
       }
 
       // Mettre à jour la clé de référence
