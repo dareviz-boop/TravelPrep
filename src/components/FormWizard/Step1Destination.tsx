@@ -416,7 +416,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
         {/* Date de départ */}
         <div className="space-y-3 bg-card p-6 rounded-xl border-2 border-border shadow-sm hover:shadow-md transition-shadow">
           <Label className="text-lg font-bold text-foreground">
-            Date de départ <span className="text-primary">*</span>
+            Date de départ <span className="text-muted-foreground text-sm font-normal">(optionnel)</span>
           </Label>
           <DatePicker
             date={formData.dateDepart ? new Date(formData.dateDepart) : undefined}
@@ -542,8 +542,8 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
           </div>
         )}
 
-        {/* Durée estimée - affichée par défaut */}
-        {formData.dateDepart && !knowsReturnDate && (
+        {/* Durée estimée - affichée toujours (même sans date de départ) */}
+        {!knowsReturnDate && (
           <div className="space-y-4 bg-card p-6 rounded-xl border-2 border-border shadow-sm">
             <Label className="text-lg font-bold text-foreground">
               Durée estimée du voyage <span className="text-primary">*</span>

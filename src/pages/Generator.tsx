@@ -29,10 +29,10 @@ const Generator = () => {
     agesEnfants: [],
     typeVoyage: "flexible",
     confort: "standard",
-    sectionsInclure: [],
+    sectionsInclure: ['documents', 'finances', 'sante'], // Sélection par défaut des 3 sections essentielles
     formatPDF: "detaille",
     formatFichier: "pdf",
-    nomClient: "", 
+    nomClient: "",
     prenomClient: "",
     email: "",
   });
@@ -53,13 +53,14 @@ const Generator = () => {
 
 const validateStep = (step: number): boolean => {
     switch (step) {
-      case 0: // Étape 1 : Destinations (Nom, Localisation, Dates/Durée)
-        if (!formData.nomVoyage || !formData.dateDepart || !formData.localisation) {
-          toast.error("Veuillez remplir le nom du voyage, la date de départ et la zone géographique.");
+      case 0: // Étape 1 : Destinations (Nom, Localisation, Durée obligatoire)
+        if (!formData.nomVoyage || !formData.localisation) {
+          toast.error("Veuillez remplir le nom du voyage et la zone géographique.");
           return false;
         }
+        // Vérifier que la durée estimée est renseignée (obligatoire)
         if (!formData.dateRetour && !formData.duree) {
-            toast.error("Veuillez renseigner la date de retour OU la durée estimée.");
+            toast.error("Veuillez renseigner la date de retour OU la durée estimée du voyage.");
             return false;
         }
         return true;
