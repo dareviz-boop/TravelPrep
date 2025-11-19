@@ -4,7 +4,6 @@ import { GeneratedChecklist } from '@/utils/checklistGenerator';
 import { CoverPage } from './CoverPage';
 import { TimelinePage } from './TimelinePage';
 import { CategoryPage } from './CategoryPage';
-import { CompactPage } from './CompactPage';
 import { BagagesPage } from './BagagesPage';
 import checklistCompleteData from '@/data/checklistComplete.json';
 
@@ -30,9 +29,9 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
   const isDetailedPDF = formData.formatPDF === 'detaille';
 
   // Filtrer les sections selon sectionsInclure
-  // Si sectionsInclure est undefined, tout est inclus par défaut
+  // Si sectionsInclure est undefined OU vide, tout est inclus par défaut
   const sectionsInclure = formData.sectionsInclure;
-  const shouldIncludeAll = sectionsInclure === undefined;
+  const shouldIncludeAll = !sectionsInclure || sectionsInclure.length === 0;
 
   // Filtrer les sections selon sectionsInclure
   const filteredSections = shouldIncludeAll
@@ -53,9 +52,13 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
 
   return (
     <Document>
-      <CoverPage formData={formData} checklistData={checklistData} referenceData={checklistCompleteData} />
+      <CoverPage
+        formData={formData}
+        checklistData={filteredChecklistData}
+        referenceData={checklistCompleteData}
+      />
 
-      {isDetailedPDF ? (
+      {isDetailedPDF && (
         <>
           {/* Format détaillé : Timeline sans activités + pages par activité avec timeline */}
           <TimelinePage formData={formData} checklistData={filteredChecklistData} isDetailed={true} />
@@ -68,12 +71,8 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
             />
           ))}
         </>
-      ) : (
-        <>
-          {/* Format compact : Page compacte avec toutes les sections */}
-          <CompactPage formData={formData} checklistData={filteredChecklistData} />
-        </>
       )}
+      {/* Format compact : Intégré directement dans CoverPage */}
     </Document>
   );
 };

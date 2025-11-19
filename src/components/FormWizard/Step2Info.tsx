@@ -93,7 +93,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   }, []); // Se déclenche uniquement au montage
 
   // Calculer les recommandations avec useMemo pour qu'elles soient toujours disponibles
-  // ✅ CORRECTION : Retirer temperature et saison des dépendances pour éviter les boucles
+  // ✅ CORRECTION : Ajouter temperature et saison aux dépendances pour que les cloches persistent
   const recommendedConditions = useMemo(() => {
     if (!formData.localisation || !formData.dateDepart || !formData.pays || formData.pays.length === 0) {
       return new Set<string>();
@@ -101,7 +101,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
     const suggestions = generateAutoSuggestions(formData);
     return new Set(suggestions.map(s => s.conditionId));
-  }, [formData.localisation, formData.pays, formData.dateDepart, formData.dateRetour]);
+  }, [formData.localisation, formData.pays, formData.dateDepart, formData.dateRetour, formData.temperature, formData.saison]);
 
   /**
    * 🔧 Initialisation par défaut : Sélectionner "climat_aucune" si conditionsClimatiques est vide
