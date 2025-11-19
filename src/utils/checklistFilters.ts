@@ -396,11 +396,17 @@ export function autoDetectSeasons(formData: FormData): Saison[] {
 
   travelMonths.push(startMonth);
 
-  // Si date de retour définie, ajouter tous les mois intermédiaires
+  // Si date de retour définie, ajouter tous les mois intermédiaires ET le mois de fin
   if (formData.dateRetour) {
     const endDate = new Date(formData.dateRetour);
     const endMonth = endDate.getMonth() + 1;
 
+    // Ajouter le mois de fin d'abord
+    if (!travelMonths.includes(endMonth)) {
+      travelMonths.push(endMonth);
+    }
+
+    // Puis ajouter tous les mois intermédiaires
     let currentMonth = startMonth;
     while (currentMonth !== endMonth) {
       currentMonth++;
