@@ -99,6 +99,14 @@ const styles = StyleSheet.create({
     color: '#374151',
     lineHeight: 1.3
   },
+  // Symbole de priorité haute !!
+  highPrioritySymbol: {
+    fontSize: 8,
+    fontWeight: 700,
+    color: '#DC2626', // Rouge
+    marginRight: 4,
+    marginTop: 1
+  },
   // Sous-catégorie pour les apps
   subCategoryTitle: {
     fontSize: 9,
@@ -138,7 +146,7 @@ const SELECTION_CATEGORIES = [
   'reservations',
   'urgence',
   'apps',
-  'pendant_voyage'
+  'pendant_apres'
 ];
 
 export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
@@ -154,11 +162,12 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
   };
 
   // Vérifier la priorité d'un item
+  // Les priorités sont déjà converties en texte par mapStarsToPriority() dans checklistGenerator.ts
   const getPriority = (priorite?: string): 'haute' | 'moyenne' | 'basse' => {
     if (!priorite) return 'basse';
-    const stars = (priorite.match(/⭐/g) || []).length;
-    if (stars >= 3) return 'haute';
-    if (stars === 2) return 'moyenne';
+    const p = priorite.toLowerCase().trim();
+    if (p === 'haute') return 'haute';
+    if (p === 'moyenne') return 'moyenne';
     return 'basse';
   };
 
@@ -234,6 +243,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
                   <Text style={styles.categoryTitle}>{categoryName}</Text>
                   {categoryItems.map(({ item }, idx) => (
                     <View style={styles.item} key={item.id || `item-${idx}`}>
+                      <Text style={styles.highPrioritySymbol}>!!</Text>
                       <View style={styles.checkbox} />
                       <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
                     </View>
@@ -252,6 +262,11 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
   // ==========================================
 
   const renderSelectionSection = () => {
+    // TODO: Section désactivée temporairement - affiche uniquement les items priorité MOYENNE
+    // À réactiver plus tard si nécessaire
+    return null;
+
+    /* CODE CONSERVÉ POUR RÉFÉRENCE
     // Filtrer les sections pour la sélection conseillée
     const selectionSections = checklistData.sections.filter(section =>
       SELECTION_CATEGORIES.includes(section.id)
@@ -302,6 +317,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
         })}
       </>
     );
+    */
   };
 
   // Fonction spéciale pour rendre les apps avec sous-catégories
@@ -365,11 +381,17 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
         {activitySections.map(section => {
           if (!section.items || section.items.length === 0) return null;
 
+          // Filtrer uniquement les items priorité HAUTE
+          const highPriorityItems = section.items.filter(item => getPriority(item.priorite) === 'haute');
+
+          if (highPriorityItems.length === 0) return null;
+
           return (
             <View key={section.id} wrap={false}>
               <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
-              {section.items.map((item, idx) => (
+              {highPriorityItems.map((item, idx) => (
                 <View style={styles.item} key={item.id || `activity-${idx}`}>
+                  <Text style={styles.highPrioritySymbol}>!!</Text>
                   <View style={styles.checkbox} />
                   <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
                 </View>
