@@ -86,9 +86,6 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   // Format: "localisation|pays1,pays2|dateDepart|dateRetour"
   const lastAutoSuggestKeyRef = useRef<string>('');
 
-  // Ref pour tracker si l'utilisateur a manuellement interagi avec les conditions climatiques
-  const userHasInteractedRef = useRef<boolean>(false);
-
   // Calculer les recommandations avec useMemo pour qu'elles soient toujours disponibles
   const recommendedConditions = useMemo(() => {
     if (!formData.localisation || !formData.dateDepart || !formData.pays || formData.pays.length === 0) {
@@ -149,51 +146,46 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
    * 🔄 Auto-suggestions : Pré-sélectionner automatiquement les conditions recommandées
    *
    * ✨ Logique corrigée :
-   * - Se déclenche uniquement à la première initialisation
-   * - Ne se réapplique PAS automatiquement quand l'utilisateur change de destination
-   * - Respecte strictement les choix manuels de l'utilisateur
-   * - Une fois que l'utilisateur a interagi, ses choix sont préservés
+   * - Se déclenche à chaque changement de destination, pays, dates, température ou saison
+   * - Réapplique automatiquement les suggestions appropriées
+   * - Sélectionne "climat_aucune" si aucune suggestion n'est recommandée
+   * - IMPORTANT : Doit dépendre de temperature/saison car generateAutoSuggestions les utilise
    */
   useEffect(() => {
-    // Vérifier qu'on a au moins une destination, des pays et une date de départ
-    if (!formData.localisation || !formData.dateDepart || !formData.pays || formData.pays.length === 0) {
+    // Vérifier qu'on a au moins une destination et des pays
+    // Note : dateDepart est optionnel maintenant
+    if (!formData.localisation || !formData.pays || formData.pays.length === 0) {
       // Réinitialiser la clé si les données sont incomplètes
       lastAutoSuggestKeyRef.current = '';
       return;
     }
 
-    // Créer une clé unique basée sur la configuration actuelle (SANS temperature/saison)
-    const currentKey = `${formData.localisation}|${formData.pays.map(p => p.code).sort().join(',')}|${formData.dateDepart}|${formData.dateRetour || ''}`;
+    // Créer une clé unique basée sur la configuration actuelle (AVEC temperature/saison pour la cohérence)
+    const temperatures = Array.isArray(formData.temperature) ? formData.temperature.join(',') : formData.temperature;
+    const saisons = Array.isArray(formData.saison) ? formData.saison.join(',') : formData.saison;
+    const currentKey = `${formData.localisation}|${formData.pays.map(p => p.code).sort().join(',')}|${formData.dateDepart || ''}|${formData.dateRetour || ''}|${temperatures}|${saisons}`;
 
-    // Si la configuration a changé
+    // Si la configuration a changé, réappliquer les suggestions
     if (currentKey !== lastAutoSuggestKeyRef.current) {
-      // Ne réappliquer QUE si :
-      // 1. C'est la première initialisation (lastAutoSuggestKeyRef est vide)
-      // 2. ET l'utilisateur n'a jamais interagi avec les conditions
-      const isFirstInitialization = lastAutoSuggestKeyRef.current === '';
-      const shouldApplySuggestions = isFirstInitialization && !userHasInteractedRef.current;
+      const suggestions = generateAutoSuggestions(formData);
 
-      if (shouldApplySuggestions) {
-        const suggestions = generateAutoSuggestions(formData);
-
-        if (suggestions.length > 0) {
-          // Appliquer toutes les suggestions recommandées
-          const suggestionIds = suggestions.map(s => s.conditionId);
-          updateFormData({
-            conditionsClimatiques: suggestionIds
-          });
-        } else {
-          // Si aucune suggestion n'est proposée, sélectionner automatiquement "climat_aucune"
-          updateFormData({
-            conditionsClimatiques: ['climat_aucune']
-          });
-        }
+      if (suggestions.length > 0) {
+        // Appliquer toutes les suggestions recommandées
+        const suggestionIds = suggestions.map(s => s.conditionId);
+        updateFormData({
+          conditionsClimatiques: suggestionIds
+        });
+      } else {
+        // Si aucune suggestion n'est proposée, sélectionner automatiquement "climat_aucune"
+        updateFormData({
+          conditionsClimatiques: ['climat_aucune']
+        });
       }
 
       // Mettre à jour la clé de référence
       lastAutoSuggestKeyRef.current = currentKey;
     }
-  }, [formData.localisation, formData.pays, formData.dateDepart, formData.dateRetour]);
+  }, [formData.localisation, formData.pays, formData.dateDepart, formData.dateRetour, formData.temperature, formData.saison]);
 
   /**
    * Fonction générique pour gérer la bascule (toggle) de la sélection multiple pour saison et temperature.
@@ -243,12 +235,9 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   /**
    * Logique pour les conditions climatiques spéciales
    * L'utilisateur peut modifier manuellement les conditions à tout moment
-   * Une fois qu'il a interagi, ses choix sont préservés
+   * Les auto-suggestions se réappliqueront si la destination/pays/dates changent
    */
   const handleConditionToggle = (conditionId: string) => {
-    // Marquer que l'utilisateur a interagi avec les conditions
-    userHasInteractedRef.current = true;
-
     const current = formData.conditionsClimatiques || [];
 
     if (conditionId === 'climat_aucune') {
