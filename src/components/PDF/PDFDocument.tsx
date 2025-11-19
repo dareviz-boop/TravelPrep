@@ -38,12 +38,7 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
   const filteredSections = shouldIncludeAll
     ? checklistData.sections
     : checklistData.sections.filter(section => {
-        // Essentiels absolus : vérifier si "essentiels" est dans sectionsInclure
-        if (section.id === 'essentiels' || section.source === 'core') {
-          return sectionsInclure.includes('essentiels');
-        }
-
-        // Pour les autres sections (activités, climat), vérifier si leur ID est dans sectionsInclure
+        // Vérifier si l'ID de la section est dans sectionsInclure
         return sectionsInclure.includes(section.id);
       });
 
