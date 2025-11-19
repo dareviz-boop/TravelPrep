@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Input Focus</title>
+    <style>
+        body {
+            padding: 50px;
+            font-family: system-ui;
+        }
+
+        .test-input {
+            width: 100%;
+            max-width: 500px;
+            height: 56px;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .test-input:focus {
+            border-color: #E85D2A; /* Orange primary */
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        p {
+            margin-top: 10px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Focus Input</h1>
+
+    <label for="test">Nom du voyage (TEST avec CSS pur)</label>
+    <input
+        type="text"
+        id="test"
+        class="test-input"
+        placeholder="Cliquez ici pour tester"
+    >
+    <p>✅ Si vous voyez le contour ORANGE au clic (sans anneau autour), le CSS fonctionne.</p>
+    <p>❌ Si vous voyez un anneau/ring bleu ou orange AUTOUR du champ, c'est le navigateur par défaut.</p>
+</body>
+</html>
