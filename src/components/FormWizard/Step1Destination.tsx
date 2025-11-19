@@ -161,10 +161,10 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
           </Label>
           <Input
             id="nomVoyage"
-            placeholder="🔴🔴🔴 CONTOUR ROUGE ICI 🔴🔴🔴"
+            placeholder="Ex: Voyage au pays des pandas - 2028"
             value={formData.nomVoyage}
             onChange={(e) => updateFormData({ nomVoyage: e.target.value })}
-            className="h-14 text-base border-4 border-red-500 focus-visible:border-red-500"
+            className="h-14 text-base border-2 focus-visible:border-primary"
             required
           />
           <p className="text-sm text-muted-foreground">
