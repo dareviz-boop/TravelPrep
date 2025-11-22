@@ -1353,7 +1353,7 @@
     "id": "apps",
     "nom": "📱 Applications recommandées",
     "description": "Apps offline et online essentielles",
-    "obligatoire": true,
+    "obligatoire": false,
     "note": "41 applications réparties en 10 catégories selon usage",
     "categories": {
       "navigation": {
