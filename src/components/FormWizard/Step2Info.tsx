@@ -86,16 +86,36 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   // Format: "localisation|pays1,pays2|dateDepart|dateRetour"
   const lastAutoSuggestKeyRef = useRef<string>('');
 
+  // 🔔 Ref pour tracker la dernière configuration de l'étape 1 (pour geler les recommandations)
+  // Format: "localisation|pays1,pays2|dateDepart|dateRetour|duree"
+  const lastStep1KeyRef = useRef<string>('');
+
+  // 🔔 Ref pour stocker les recommandations gelées (ne changent que si étape 1 change)
+  const frozenRecommendationsRef = useRef<Set<string>>(new Set());
+
   // Calculer les recommandations avec useMemo pour qu'elles soient toujours disponibles
-  // Les cloches sont basées uniquement sur la configuration actuelle (localisation, pays, dates)
+  // 🔔 Les cloches sont basées UNIQUEMENT sur la configuration de l'étape 1 (localisation, pays, dates, durée)
+  // et restent persistantes même si l'utilisateur modifie l'étape 2 (température, saison, etc.)
   const recommendedConditions = useMemo(() => {
     if (!formData.localisation || !formData.dateDepart || !formData.pays || formData.pays.length === 0) {
+      frozenRecommendationsRef.current = new Set();
+      lastStep1KeyRef.current = '';
       return new Set<string>();
     }
 
-    const suggestions = generateAutoSuggestions(formData);
-    return new Set(suggestions.map(s => s.conditionId));
-  }, [formData.localisation, formData.pays, formData.dateDepart, formData.dateRetour]);
+    // Créer une clé unique basée UNIQUEMENT sur la configuration de l'étape 1
+    const step1Key = `${formData.localisation}|${formData.pays.map(p => p.code).sort().join(',')}|${formData.dateDepart || ''}|${formData.dateRetour || ''}|${formData.duree || ''}`;
+
+    // Si la clé de l'étape 1 a changé, recalculer les recommandations
+    if (step1Key !== lastStep1KeyRef.current) {
+      const suggestions = generateAutoSuggestions(formData);
+      frozenRecommendationsRef.current = new Set(suggestions.map(s => s.conditionId));
+      lastStep1KeyRef.current = step1Key;
+    }
+
+    // Retourner les recommandations gelées (ne changent que si étape 1 change)
+    return frozenRecommendationsRef.current;
+  }, [formData]); // Dépend de formData pour se recalculer à chaque render, mais utilise la ref pour geler les valeurs
 
   /**
    * 🔧 Initialisation par défaut : Sélectionner "climat_aucune" si conditionsClimatiques est vide
