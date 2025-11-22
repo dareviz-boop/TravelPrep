@@ -175,6 +175,10 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     avgTemp: { jan: 12, feb: 13, mar: 15, apr: 17, may: 20, jun: 23, jul: 26, aug: 26, sep: 24, oct: 20, nov: 16, dec: 13 },
     seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
   },
+  'EH': { code: 'EH', hemisphere: 'north', zones: ['desert_hot'], // Sahara Occidental
+    avgTemp: { jan: 20, feb: 21, mar: 23, apr: 25, may: 27, jun: 30, jul: 32, aug: 33, sep: 31, oct: 28, nov: 24, dec: 21 },
+    seasons: { summer: [5,6,7,8,9], winter: [11,12,1,2,3,4], spring: [], autumn: [10] }
+  },
   'ZA': { code: 'ZA', hemisphere: 'south', zones: ['subtropical', 'mediterranean'],
     avgTemp: { jan: 24, feb: 24, mar: 22, apr: 19, may: 16, jun: 13, jul: 13, aug: 14, sep: 17, oct: 19, nov: 21, dec: 23 },
     seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
