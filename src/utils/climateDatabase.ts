@@ -61,8 +61,20 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     avgTemp: { jan: 1, feb: 2, mar: 6, apr: 10, may: 14, jun: 17, jul: 19, aug: 19, sep: 15, oct: 10, nov: 5, dec: 2 },
     seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
   },
-  'GB': { code: 'GB', hemisphere: 'north', zones: ['oceanic'],
-    avgTemp: { jan: 5, feb: 5, mar: 7, apr: 9, may: 12, jun: 15, jul: 17, aug: 17, sep: 15, oct: 11, nov: 8, dec: 6 },
+  'GB-ENG': { code: 'GB-ENG', hemisphere: 'north', zones: ['oceanic'],
+    avgTemp: { jan: 5, feb: 5, mar: 7, apr: 10, may: 13, jun: 16, jul: 18, aug: 18, sep: 15, oct: 12, nov: 8, dec: 6 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+  'GB-SCT': { code: 'GB-SCT', hemisphere: 'north', zones: ['oceanic'],
+    avgTemp: { jan: 3, feb: 3, mar: 5, apr: 7, may: 10, jun: 13, jul: 14, aug: 14, sep: 12, oct: 9, nov: 6, dec: 4 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+  'GB-WLS': { code: 'GB-WLS', hemisphere: 'north', zones: ['oceanic'],
+    avgTemp: { jan: 5, feb: 5, mar: 7, apr: 9, may: 12, jun: 15, jul: 16, aug: 16, sep: 14, oct: 11, nov: 8, dec: 6 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+  'GB-NIR': { code: 'GB-NIR', hemisphere: 'north', zones: ['oceanic'],
+    avgTemp: { jan: 4, feb: 4, mar: 6, apr: 8, may: 11, jun: 13, jul: 15, aug: 15, sep: 13, oct: 10, nov: 7, dec: 5 },
     seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
   },
   'GR': { code: 'GR', hemisphere: 'north', zones: ['mediterranean'],

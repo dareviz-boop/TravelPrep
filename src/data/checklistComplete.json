@@ -1,11 +1,11 @@
 {
   "metadata": {
     "version": "3.1",
-    "lastUpdated": "2025-11-16",
+    "lastUpdated": "2025-11-22",
     "totalItems": 750,
-    "totalPays": 232,
+    "totalPays": 235,
     "categories": 20,
-    "noteExpert": "Version complète enrichie - Tous les pays et territoires ajoutés"
+    "noteExpert": "Version complète enrichie - Tous les pays et territoires ajoutés - Royaume-Uni séparé en Angleterre, Écosse, Pays de Galles et Irlande du Nord"
   },
   "localisations": {
     "europe": {
@@ -223,10 +223,28 @@
           "flag": "🇷🇴"
         },
         {
-          "code": "GB",
-          "nom": "Royaume-Uni",
-          "nomEn": "United Kingdom",
+          "code": "GB-ENG",
+          "nom": "Angleterre",
+          "nomEn": "England",
+          "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿"
+        },
+        {
+          "code": "GB-SCT",
+          "nom": "Écosse",
+          "nomEn": "Scotland",
+          "flag": "🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+        },
+        {
+          "code": "GB-NIR",
+          "nom": "Irlande du Nord",
+          "nomEn": "Northern Ireland",
           "flag": "🇬🇧"
+        },
+        {
+          "code": "GB-WLS",
+          "nom": "Pays de Galles",
+          "nomEn": "Wales",
+          "flag": "🏴󠁧󠁢󠁷󠁬󠁳󠁿"
         },
         {
           "code": "RU",
