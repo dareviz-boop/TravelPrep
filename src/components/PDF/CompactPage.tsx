@@ -42,14 +42,24 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#FFFFFF'
   },
-  // Titre principal de section (Timeline, Sélection conseillée, Activités)
-  mainSectionTitle: {
-    fontSize: 14,
-    fontWeight: 700,
-    color: '#E85D2A',
+  // Container pour le titre en deux parties (style détaillé)
+  mainSectionTitleContainer: {
+    flexDirection: 'row',
     marginTop: 18,
     marginBottom: 14,
-    textTransform: 'uppercase'
+    flexWrap: 'wrap'
+  },
+  // Première partie du titre (noir)
+  mainSectionTitlePart1: {
+    fontSize: 18,
+    fontWeight: 700,
+    color: '#111827'
+  },
+  // Deuxième partie du titre (orange, emphase)
+  mainSectionTitlePart2: {
+    fontSize: 18,
+    fontWeight: 700,
+    color: '#E85D2A'
   },
   // Barre de séparation orange pleine largeur
   divider: {
@@ -206,7 +216,10 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
 
     return (
       <>
-        <Text style={styles.mainSectionTitle}>Timeline de Preparation - Essentiels absolus</Text>
+        <View style={styles.mainSectionTitleContainer}>
+          <Text style={styles.mainSectionTitlePart1}>Timeline de Preparation - </Text>
+          <Text style={styles.mainSectionTitlePart2}>Essentiels absolus</Text>
+        </View>
 
         {TIMELINE_MILESTONES.map(milestone => {
           const items = itemsByMilestone[milestone.id];
@@ -272,7 +285,10 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
     return (
       <>
         <View style={styles.divider} />
-        <Text style={styles.mainSectionTitle}>A prevoir - Selection conseillee</Text>
+        <View style={styles.mainSectionTitleContainer}>
+          <Text style={styles.mainSectionTitlePart1}>A prevoir - </Text>
+          <Text style={styles.mainSectionTitlePart2}>Selection conseillee</Text>
+        </View>
 
         {Object.entries(mediumPriorityItems).map(([sectionId, { section, items }]) => {
           // Gestion spéciale pour la section "apps" avec sous-catégories
@@ -357,7 +373,10 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
     return (
       <>
         <View style={styles.divider} />
-        <Text style={styles.mainSectionTitle}>A prevoir - Preparation activites</Text>
+        <View style={styles.mainSectionTitleContainer}>
+          <Text style={styles.mainSectionTitlePart1}>A prevoir - </Text>
+          <Text style={styles.mainSectionTitlePart2}>Preparation activites</Text>
+        </View>
 
         {activitySections.map(section => {
           if (!section.items || section.items.length === 0) return null;
