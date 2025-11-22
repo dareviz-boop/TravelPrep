@@ -224,9 +224,12 @@ export const CategoryPage = ({ formData, category, title }: CategoryPageProps) =
             </Text>
           )}
         </View>
-        <Text style={styles.conseilText}>
-          💡 {cleanTextForPDF(item.conseils)}
-        </Text>
+        <View style={styles.conseilContainer}>
+          <PDFIcon name="lightbulb" style={{ marginRight: 4, marginTop: 1 }} />
+          <Text style={styles.conseilText}>
+            {cleanTextForPDF(item.conseils)}
+          </Text>
+        </View>
       </View>
     ) : (
       // Item sans conseil

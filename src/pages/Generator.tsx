@@ -202,7 +202,9 @@ const validateStep = (step: number): boolean => {
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `${formData.nomVoyage.replace(/\s+/g, '_')}_TravelPrep.pdf`;
+      // Nom de fichier selon le format : "pdf compact TravelPrep.pdf" ou "pdf detaille TravelPrep.pdf"
+      const formatPrefix = formData.formatPDF === 'compact' ? 'pdf compact' : 'pdf detaille';
+      link.download = `${formatPrefix} TravelPrep.pdf`;
       link.click();
       URL.revokeObjectURL(url);
 

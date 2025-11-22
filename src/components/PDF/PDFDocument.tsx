@@ -5,6 +5,7 @@ import { CoverPage } from './CoverPage';
 import { TimelinePage } from './TimelinePage';
 import { CategoryPage } from './CategoryPage';
 import { BagagesPage } from './BagagesPage';
+import { ApplicationsPage } from './ApplicationsPage';
 import checklistCompleteData from '@/data/checklistComplete.json';
 
 // 🔧 FIX: Ne pas charger de polices externes pour éviter les erreurs d'encodage
@@ -50,6 +51,9 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
   // Filtrer uniquement les sections d'activités pour les pages détaillées
   const activiteSections = filteredSections.filter(section => section.source === 'activite');
 
+  // Récupérer la section apps si elle existe
+  const appsSection = filteredSections.find(section => section.id === 'apps') || null;
+
   return (
     <Document>
       <CoverPage
@@ -70,6 +74,8 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
               title={section.nom}
             />
           ))}
+          {/* Page Applications recommandées */}
+          <ApplicationsPage formData={formData} appsSection={appsSection} />
         </>
       )}
       {/* Format compact : Intégré directement dans CoverPage */}
