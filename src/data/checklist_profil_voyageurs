@@ -1,8 +1,831 @@
+{
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2025-11-22",
+    "description": "Checklist organisée par profil de voyageur",
+    "profiles": ["solo", "couple", "famille", "groupeAmis", "professionnel"]
+  },
 
-// ---------------------------------------------------------------------------------------
-// PROFIL DE VOYAGEUR
-// (valeur existant dans le formulaire : Solo, couple, famille, groupe d'amis, voyage professionnel)
+  "voyageSolo": {
+    "description": "Section Voyage Solitaire (15 items)",
+    "filtres": {"typeVoyageur": ["solo"]},
+    "items": [
+      {
+        "id": "SOLO001",
+        "item": "Cadenas supplémentaire pour dortoir",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "quantite": "1-2",
+        "specifications": ["TSA approuvé", "Combinaison", "Résistant"],
+        "conseils": "Sécuriser casier auberge. Code mémorisable. Backup en cas perte"
+      },
+      {
+        "id": "SOLO002",
+        "item": "Powerbank grande capacité 20000mAh+",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Charge rapide", "Multi-ports", "Certifié vol"],
+        "conseils": "Autonomie critique en solo. GPS drainant. Anker/RAVPower recommandé"
+      },
+      {
+        "id": "SOLO003",
+        "item": "Sifflet de sécurité + alarme personnelle",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Fort décibels >120dB", "Compact", "Porte-clés"],
+        "conseils": "Sécurité solo. Randonées isolées. Situations urgence"
+      },
+      {
+        "id": "SOLO004",
+        "item": "Journal de voyage + stylo",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "specifications": ["Compact", "Pages numérotées", "Reliure solide"],
+        "conseils": "Réflexions personnelles. Souvenirs précis. Rencontres mémorables"
+      },
+      {
+        "id": "SOLO005",
+        "item": "Appareil photo + trépied compact",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Trépied <500g", "Télécommande Bluetooth", "Pliable"],
+        "conseils": "Photos solo quality. Autoportraits. Coucher soleil. GorillaPod flexible"
+      },
+      {
+        "id": "SOLO006",
+        "item": "Carte SIM locale prépayée",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-1",
+        "specifications": ["Data 3-5GB", "Appels inclus", "Activation simple"],
+        "conseils": "Crucial en solo. GPS temps réel. Urgences. Communication. Aéroport/ville"
+      },
+      {
+        "id": "SOLO007",
+        "item": "Application de rencontre voyageurs (Meetup/Couchsurfing)",
+        "priorite": "⭐⭐",
+        "delai": "J-14",
+        "specifications": ["Profil vérifié", "Events locaux", "Chat actif"],
+        "conseils": "Rencontres authentiques. Éviter isolement. Conseils locaux. Sorties groupe"
+      },
+      {
+        "id": "SOLO008",
+        "item": "Guide papier Lonely Planet/Routard",
+        "priorite": "⭐⭐",
+        "delai": "J-14",
+        "specifications": ["Édition récente", "Cartes détaillées", "Section solo traveler"],
+        "conseils": "Fiabilité sans internet. Plans B. Lecture transports. Annotations"
+      },
+      {
+        "id": "SOLO009",
+        "item": "Bouteille filtrante eau (LifeStraw/Grayl)",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Filtre virus/bactéries", "650ml min", "Sans produits chimiques"],
+        "conseils": "Autonomie hydratation. Zones eau douteuse. Économies. Écologique"
+      },
+      {
+        "id": "SOLO010",
+        "item": "Lampe frontale rechargeable",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["200+ lumens", "USB rechargeable", "Mode rouge"],
+        "conseils": "Dortoirs nuit. Randonnées crépuscule. Pannes électriques. Lecture"
+      },
+      {
+        "id": "SOLO011",
+        "item": "Trousse premiers soins complète",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Pansements variés", "Désinfectant", "Anti-diarrhée", "Antidouleur"],
+        "conseils": "Personne pour aider. Autonomie santé. Petits bobos fréquents"
+      },
+      {
+        "id": "SOLO012",
+        "item": "Livre audio / Podcast playlist offline",
+        "priorite": "⭐",
+        "delai": "J-3",
+        "specifications": ["10+ heures contenu", "Téléchargé", "Langues pratique"],
+        "conseils": "Longs trajets. Solitude positive. Apprentissage. Divertissement"
+      },
+      {
+        "id": "SOLO013",
+        "item": "Câble antivol sac à dos",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Acier tressé", "Code/clé", "2m longueur"],
+        "conseils": "Trains/bus. Terrasses cafés. Plages. Pacsafe recommandé"
+      },
+      {
+        "id": "SOLO014",
+        "item": "Assurance voyage premium solo",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-30",
+        "specifications": ["Rapatriement", "Annulation", "Vol/perte", "Assistance 24/7"],
+        "conseils": "Crucial seul. Urgence médicale. Vol bagages. Chapka/ACS recommandé"
+      },
+      {
+        "id": "SOLO015",
+        "item": "Traceur GPS Spot/Garmin inReach",
+        "priorite": "⭐",
+        "delai": "J-14",
+        "specifications": ["SOS satellite", "Partage position", "Messages"],
+        "conseils": "Treks isolés. Zones hors réseau. Sécurité famille. 15€/mois"
+      }
+    ]
+  },
 
+  "voyageCouple": {
+    "description": "Section Couple Romantique (15 items)",
+    "filtres": {"typeVoyageur": ["couple"]},
+    "items": [
+      {
+        "id": "COUPLE001",
+        "item": "Mini enceinte Bluetooth portable",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Waterproof", "10h autonomie", "Compact <200g"],
+        "conseils": "Ambiance plage/chambre. Playlist romantique. JBL Clip/Bose SoundLink"
+      },
+      {
+        "id": "COUPLE002",
+        "item": "Appareil photo + trépied + télécommande",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Stabilisé", "Retardateur 10s", "Trépied flexible"],
+        "conseils": "Photos couple quality. Couchers soleil. Souvenirs à deux. Selfie-stick alternatif"
+      },
+      {
+        "id": "COUPLE003",
+        "item": "Polaroid instantané ou appareil jetable",
+        "priorite": "⭐",
+        "delai": "J-7",
+        "quantite": "20-30 films",
+        "specifications": ["Films backup", "Compact", "Instax Mini 11"],
+        "conseils": "Souvenirs tangibles immédiats. Nostalgie. Cadeaux locaux rencontrés"
+      },
+      {
+        "id": "COUPLE004",
+        "item": "Playlist romantique téléchargée (3h+)",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "specifications": ["Offline Spotify/Apple", "Variété mood", "Chansons communes"],
+        "conseils": "Dîners romantiques. Trajets route. Moments détente. Mémoire musicale"
+      },
+      {
+        "id": "COUPLE005",
+        "item": "Jeu de cartes conversation couple",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Questions profondes", "Compact", "36 questions love"],
+        "conseils": "Trajets longs. Restaurants attente. Connexion émotionnelle. Redécouverte"
+      },
+      {
+        "id": "COUPLE006",
+        "item": "Liste films romantiques téléchargés (5-10)",
+        "priorite": "⭐",
+        "delai": "J-3",
+        "specifications": ["Netflix/Prime offline", "Classiques + nouveaux", "Sous-titres"],
+        "conseils": "Soirées chambre hôtel. Vols longs. Jours pluie. Cocooning"
+      },
+      {
+        "id": "COUPLE007",
+        "item": "Adaptateur multi-USB (2 ports minimum)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Universel prises", "USB-C + USB-A", "Compact"],
+        "conseils": "2 smartphones. 1 prise chambre parfois. Éviter disputes. Anker recommandé"
+      },
+      {
+        "id": "COUPLE008",
+        "item": "Splitter audio écouteurs (Jack Y)",
+        "priorite": "⭐",
+        "delai": "J-7",
+        "specifications": ["2x jack 3.5mm", "Qualité son", "Court 10cm"],
+        "conseils": "Film ensemble vol. Musique partagée. Podcasts. Intimité sonore"
+      },
+      {
+        "id": "COUPLE009",
+        "item": "Oreillers gonflables confort x2",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Ergonomiques", "Housse lavable", "Compact dégonflé"],
+        "conseils": "Vols longs. Bus nuit. Sommeil à deux. Trtl Pillow recommandé"
+      },
+      {
+        "id": "COUPLE010",
+        "item": "Kit pique-nique romantique",
+        "priorite": "⭐",
+        "delai": "J-3",
+        "specifications": ["Nappe compacte", "Couverts 2 personnes", "Tire-bouchon", "Verres pliables"],
+        "conseils": "Sunset beach. Parcs. Économies resto. Moments intimes nature"
+      },
+      {
+        "id": "COUPLE011",
+        "item": "Bougies LED ou guirlande lumineuse USB",
+        "priorite": "⭐",
+        "delai": "J-7",
+        "specifications": ["Rechargeables", "Flamme réaliste", "Compact"],
+        "conseils": "Ambiance chambre hôtel. Dîners terrasse. Romantisme. Sécurisé"
+      },
+      {
+        "id": "COUPLE012",
+        "item": "Carnet de voyage commun + 2 stylos",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Relié solide", "Pages blanches", "Compact A5"],
+        "conseils": "Journal à deux. Dessins. Tickets collés. Souvenir post-voyage précieux"
+      },
+      {
+        "id": "COUPLE013",
+        "item": "Maillots assortis / Tenues coordonnées",
+        "priorite": "⭐",
+        "delai": "J-14",
+        "specifications": ["Couleurs harmonieuses", "Confortables", "Photos Instagram"],
+        "conseils": "Photos couple aesthetic. Plage. Optionnel mais fun. Tendance"
+      },
+      {
+        "id": "COUPLE014",
+        "item": "Mini kit massage (huile + bougie)",
+        "priorite": "⭐",
+        "delai": "J-7",
+        "specifications": ["Format voyage <100ml", "Parfum agréable", "Non gras"],
+        "conseils": "Relaxation. Intimité. Après randonnée. Soirées détente"
+      },
+      {
+        "id": "COUPLE015",
+        "item": "Batterie externe partagée 20000mAh+",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Double port", "Charge rapide", "Affichage %"],
+        "conseils": "2 smartphones. GPS intensif. Photos. Partage ressources. Anker PowerCore"
+      }
+    ]
+  },
+
+  "voyageGroupeAmis": {
+    "description": "Section Groupe d'Amis (15 items)",
+    "filtres": {"typeVoyageur": ["groupeAmis"]},
+    "items": [
+      {
+        "id": "AMIS001",
+        "item": "Application cagnotte (Tricount/Splitwise)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-14",
+        "specifications": ["Installée tous smartphones", "Comptes créés", "Devise destination"],
+        "conseils": "Essentiel éviter conflits argent. Équilibre dépenses. Remboursements clairs"
+      },
+      {
+        "id": "AMIS002",
+        "item": "Talkie-walkies longue portée (3-5km)",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "quantite": "1 par personne",
+        "specifications": ["Rechargeables USB", "Canaux multiples", "Compact"],
+        "conseils": "Ski. Festivals. Marchés bondés. Zones sans réseau. Fun + pratique"
+      },
+      {
+        "id": "AMIS003",
+        "item": "Jeux société compacts (3-5 jeux)",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Uno", "Dobble", "Loup-Garou cartes", "Times Up cartes"],
+        "conseils": "Soirées appart/auberge. Trajets train. Plage. Attentes aéroport. Ambiance groupe"
+      },
+      {
+        "id": "AMIS004",
+        "item": "Jeu de cartes traditionnel + règles",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "specifications": ["54 cartes plastifiées", "Compact", "Règles classiques imprimées"],
+        "conseils": "Poker. Président. Bataille. Universel. Léger. Indémodable"
+      },
+      {
+        "id": "AMIS005",
+        "item": "Enceinte Bluetooth puissante (20W+)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Waterproof IP67", "15h+ autonomie", "Basses quality"],
+        "conseils": "Plage. Pool party. Appart location. JBL Charge/UE Boom. Ambiance groupe"
+      },
+      {
+        "id": "AMIS006",
+        "item": "Cadenas différenciés (couleurs/codes)",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "quantite": "1 par personne",
+        "specifications": ["TSA", "Codes uniques", "Couleurs distinctes"],
+        "conseils": "Identification rapide. Casiers auberge. Éviter confusion. Organisation"
+      },
+      {
+        "id": "AMIS007",
+        "item": "Batterie externe personnelle (10000mAh min)",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "quantite": "1 par personne",
+        "specifications": ["Marquée au nom", "Charge rapide", "Compact"],
+        "conseils": "Chacun responsable. Éviter emprunts. Autonomie. Pas dépendance groupe"
+      },
+      {
+        "id": "AMIS008",
+        "item": "Trousse toilette compacte individuelle",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Suspendue crochet", "Compartiments", "Waterproof"],
+        "conseils": "Pas partage hygiene. Sdb commune auberge. Organisation. Respect"
+      },
+      {
+        "id": "AMIS009",
+        "item": "GoPro ou caméra action partagée",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["4K", "Waterproof", "Cartes SD 128GB", "Perche"],
+        "conseils": "Sports. Soirées. Souvenirs dynamiques. Montage post-trip. Partage groupe"
+      },
+      {
+        "id": "AMIS010",
+        "item": "Trousse pharmacie groupe commune",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Anti-douleur", "Anti-diarrhée", "Pansements", "Désinfectant"],
+        "conseils": "Partagée équitable. Bobos fréquents groupe. Économies. Responsable désigné"
+      },
+      {
+        "id": "AMIS011",
+        "item": "Sac étanche commun 20L",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Dry bag", "Transparence partielle", "Sangle portage"],
+        "conseils": "Plage. Bateau. Rafting. Téléphones/portefeuilles. Sea to Summit"
+      },
+      {
+        "id": "AMIS012",
+        "item": "Glacière souple pliable 15-20L",
+        "priorite": "⭐",
+        "delai": "J-7",
+        "specifications": ["Isotherme 6h", "Pliable vide", "Anses solides"],
+        "conseils": "Pique-niques. Bières fraîches plage. Road trips. Économies"
+      },
+      {
+        "id": "AMIS013",
+        "item": "Playlist groupe collaborative Spotify",
+        "priorite": "⭐⭐",
+        "delai": "J-14",
+        "specifications": ["Chacun ajoute titres", "10h+ musique", "Offline téléchargé"],
+        "conseils": "Goûts variés. Trajets voiture. Soirées. Éviter disputes musique"
+      },
+      {
+        "id": "AMIS014",
+        "item": "Ballon gonflable / Frisbee",
+        "priorite": "⭐",
+        "delai": "J-3",
+        "specifications": ["Compact dégonflé", "Léger <200g", "Résistant"],
+        "conseils": "Plages. Parcs. Activité groupe. Rencontres locaux. Aerobie recommandé"
+      },
+      {
+        "id": "AMIS015",
+        "item": "Kit beer pong portable (optionnel)",
+        "priorite": "⭐",
+        "delai": "J-7",
+        "specifications": ["Gobelets pliables", "Balles ping-pong x6", "Compact"],
+        "conseils": "Soirées auberge. Appart location. Ambiance fête. Fun groupe"
+      }
+    ]
+  },
+
+  "voyageFamilleBebe": {
+    "description": "Section Famille Bébé 0-2 ans (20 items)",
+    "filtres": {"typeVoyageur": ["famille"], "ageEnfants": ["0-2"]},
+    "items": [
+      {
+        "id": "BEBE001",
+        "item": "Porte-bébé ergonomique",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Ergobaby/BabyBjörn", "0-3 ans", "Support lombaire", "Position physiologique"],
+        "conseils": "Visites longues. Transports bondés. Mains libres. Alternance avec poussette"
+      },
+      {
+        "id": "BEBE002",
+        "item": "Poussette canne ultra-légère",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["<6kg", "Babyzen Yoyo/Pockit", "Cabine avion OK", "Pliage 1 main"],
+        "conseils": "Essentielle ville. Longues marches. Siestes déplacement. Compacte valise"
+      },
+      {
+        "id": "BEBE003",
+        "item": "Couches stock 1 semaine + lingettes",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "quantite": "50-70 couches",
+        "specifications": ["Taille actuelle", "Marque habituelle", "Lingettes x3 packs"],
+        "conseils": "Qualité variable destinations. Marques inconnues. Stock sécurité. Réappro local après"
+      },
+      {
+        "id": "BEBE004",
+        "item": "Biberons x3 + tétines rechange",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Dr Brown's anti-coliques", "Tétines x6", "Bouchons étanches"],
+        "conseils": "Rotation nettoyage. Perte possible. Débit adapté âge. Stérilisation"
+      },
+      {
+        "id": "BEBE005",
+        "item": "Lait infantile stock 2 semaines",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Marque habituelle", "Format voyage", "Dosettes individuelles si possible"],
+        "conseils": "Marque spécifique introuvable. Transition difficile. Quantité large. Vérifier douanes"
+      },
+      {
+        "id": "BEBE006",
+        "item": "Doseur lait + brosse biberon",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Doseur précis", "Brosse spéciale", "Compact"],
+        "conseils": "Hygiène biberon. Dosage exact. Nettoyage efficace"
+      },
+      {
+        "id": "BEBE007",
+        "item": "Chauffe-biberon portable 12V/USB",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Voiture adaptateur", "USB rechargeable", "Thermostat"],
+        "conseils": "Biberons température idéale. Trajets longs. Nuits. Philips Avent recommandé"
+      },
+      {
+        "id": "BEBE008",
+        "item": "Bavoirs imperméables x5-7",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "specifications": ["Plastique/silicone", "Pliables", "Poche récupération"],
+        "conseils": "Repas salissants. Lavage facile. Compacts. Changements fréquents"
+      },
+      {
+        "id": "BEBE009",
+        "item": "Bodies + pyjamas x7-10",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "quantite": "10 bodies + 5 pyjamas",
+        "specifications": ["Taille actuelle + 1 au-dessus", "Coton respirant", "Pressions faciles"],
+        "conseils": "Changements fréquents. Accidents. Météo variable. Lessive possible"
+      },
+      {
+        "id": "BEBE010",
+        "item": "Gigoteuse/turbulette adaptée climat",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["TOG 0.5 été / 2.5 hiver", "Taille adaptée", "Zippée"],
+        "conseils": "Sommeil sécurisé. Température nuit. Confort familier. Pas couverture bébé"
+      },
+      {
+        "id": "BEBE011",
+        "item": "Lit parapluie léger",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["<6kg", "Babybjörn Travel Light", "Montage facile", "Sac transport"],
+        "conseils": "Hôtels sans lit bébé. Sécurité sommeil. Familier. Alternative: demander hôtel avant"
+      },
+      {
+        "id": "BEBE012",
+        "item": "Drap housse lit parapluie 60x120cm + alèse",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "quantite": "2 draps + 1 alèse",
+        "specifications": ["Coton doux", "Élastiques solides", "Alèse imperméable"],
+        "conseils": "Hygiène. Accidents nuit. Backup. Familier odeur"
+      },
+      {
+        "id": "BEBE013",
+        "item": "Doudou + tétines x2 backup",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "quantite": "Doudou principal + identique backup + 3 tétines",
+        "specifications": ["Identiques si possible", "Attachés ensemble", "Lavables"],
+        "conseils": "CRITIQUE - perte = catastrophe! Backup identique essentiel. Attacher. Laver régulier"
+      },
+      {
+        "id": "BEBE014",
+        "item": "Thermomètre bébé frontal/oreille",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Braun ThermoScan", "Précis ±0.2°C", "Piles spare"],
+        "conseils": "Fièvre fréquente voyage. Surveillance santé. Rapide usage. Fiable"
+      },
+      {
+        "id": "BEBE015",
+        "item": "Paracétamol bébé Doliprane + pipette",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Dosage poids/âge", "Forme liquide", "Notice conservée"],
+        "conseils": "Fièvre. Douleurs. Vaccins. Indispensable. Ordonnance si besoin. Stocker frais"
+      },
+      {
+        "id": "BEBE016",
+        "item": "Sérum physiologique unidoses x20",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Stérile", "5ml unidoses", "Date validité"],
+        "conseils": "Nez bouché. Yeux. Hygiène. Clim avion. Climat sec. Multi-usage"
+      },
+      {
+        "id": "BEBE017",
+        "item": "Crème change + liniment",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Mustela", "100ml format voyage", "Bepanthen backup"],
+        "conseils": "Érythème fessier. Chaleur aggrave. Prévention. Quantité suffisante"
+      },
+      {
+        "id": "BEBE018",
+        "item": "Protection solaire bébé SPF 50+ minérale",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Dès 6 mois", "Écran minéral", "Waterproof", "Hypoallergénique"],
+        "conseils": "Peau fragile. Soleil intense. Renouveler 2h. Avène/La Roche-Posay"
+      },
+      {
+        "id": "BEBE019",
+        "item": "Chapeau/casquette bébé large bord + cordon",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Protection nuque", "Cordon sécurisé", "Léger respirant"],
+        "conseils": "Soleil direct dangereux. Visière large. Attache anti-perte. UPF 50+"
+      },
+      {
+        "id": "BEBE020",
+        "item": "Moustiquaire poussette/lit",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Élastique adaptable", "Maille fine", "Légère transportable"],
+        "conseils": "Zones tropicales. Dengue paludisme. Sommeil protégé. Double usage"
+      }
+    ]
+  },
+
+  "voyageFamilleEnfant3a5": {
+    "description": "Section Famille Enfants 3-5 ans (10 items)",
+    "filtres": {"typeVoyageur": ["famille"], "ageEnfants": ["3-5"]},
+    "items": [
+      {
+        "id": "ENF3-5_001",
+        "item": "Petit sac à dos enfant 5-8L ludique",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Personnage préféré", "Léger <300g", "Bretelles ajustables", "Poignée parent"],
+        "conseils": "Responsabilisation. Doudou dedans. Snacks. Autonomie. Skip Hop Zoo recommandé"
+      },
+      {
+        "id": "ENF3-5_002",
+        "item": "Gourde anti-fuite 350ml avec paille",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["100% étanche", "Paille souple", "Poignée transport", "Motifs amusants"],
+        "conseils": "Hydratation facile. Pas renversement. Chaleur. CamelBak Eddy Kids"
+      },
+      {
+        "id": "ENF3-5_003",
+        "item": "Snacks favoris variés stock large",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "quantite": "15-20 portions",
+        "specifications": ["Compotes gourde", "Biscuits individuels", "Fruits secs", "Pas chocolat fonte"],
+        "conseils": "Crises faim. Caprice repas. Attentes. Réconfort. Marques familières"
+      },
+      {
+        "id": "ENF3-5_004",
+        "item": "Tablette + films/dessins animés Disney/Pixar",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "specifications": ["10+ films téléchargés", "Contrôle parental", "Housse protection", "Casque adapté"],
+        "conseils": "Trajets longs. Attentes aéroport. Jours pluie. Temps calme. Amazon Fire Kids"
+      },
+      {
+        "id": "ENF3-5_005",
+        "item": "Livres imagiers + autocollants x3-5",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Repositionnables", "Thèmes variés", "Compacts", "Résistants"],
+        "conseils": "Occupation calme. Resto attente. Créativité. Usborne/Gründ recommandés"
+      },
+      {
+        "id": "ENF3-5_006",
+        "item": "Cahier coloriage + crayons cire lavables",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Crayola lavables", "Cahier épais", "Pochette rangement", "Taille-crayon"],
+        "conseils": "Activité calme partout. Resto. Transports. Développement. Pas feutres qui sèchent"
+      },
+      {
+        "id": "ENF3-5_007",
+        "item": "Doudou principal + backup identique",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "specifications": ["Identiques parfaits", "Lavables", "Attachés ensemble"],
+        "conseils": "ESSENTIEL sommeil. Perte = drame. Backup obligatoire. Attache sac"
+      },
+      {
+        "id": "ENF3-5_008",
+        "item": "Veilleuse portable rechargeable USB",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Douce lumière", "Autonomie 8h+", "Tactile simple", "Personnage mignon"],
+        "conseils": "Lieux inconnus rassurent. Nuits hôtel. Peurs noir. Pabobo/Vtech"
+      },
+      {
+        "id": "ENF3-5_009",
+        "item": "Réhausseur siège repas portable pliable",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Compact plié", "Sangles sécurité", "Nettoyable", "Léger <1kg"],
+        "conseils": "Restos sans chaise haute. Hauteur table. Confort repas. Munchkin Boost"
+      },
+      {
+        "id": "ENF3-5_010",
+        "item": "Kit petits jouets surprise voyage x5",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Petits prix", "Variés", "Compacts", "Nouveauté"],
+        "conseils": "Récompenses comportement. Motivation trajets. Surprises. Action/Hema"
+      }
+    ]
+  },
+
+  "voyageFamilleEnfant6a12": {
+    "description": "Section Famille Enfants 6-12 ans (12 items - incluant spécificités 10-12 ans)",
+    "filtres": {"typeVoyageur": ["famille"], "ageEnfants": ["6-12"]},
+    "items": [
+      {
+        "id": "ENF6-12_001",
+        "item": "Sac à dos enfant ergonomique 15-20L",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Deuter/Osprey Kids", "Dos aéré", "Ceinture ventrale", "Porte-gourde"],
+        "conseils": "Randonnées. Excursions. Autonomie affaires. Responsabilisation. 10-12ans: 20L"
+      },
+      {
+        "id": "ENF6-12_002",
+        "item": "Gourde sport 600-750ml incassable",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Inox/Tritan", "Sport cap", "Isotherme option", "Mousqueton"],
+        "conseils": "Hydratation active. Sports. Randos. Contigo/Klean Kanteen. 10-12ans préfèrent design ados"
+      },
+      {
+        "id": "ENF6-12_003",
+        "item": "Snacks énergétiques + barres céréales variées",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "quantite": "20-25 portions",
+        "specifications": ["Barres céréales", "Fruits secs", "Compotes", "Chocolat si climat OK"],
+        "conseils": "Énergie activités. Faim fréquente. Randonnées. 10-12ans mangent plus"
+      },
+      {
+        "id": "ENF6-12_004",
+        "item": "Tablette/liseuse + contenu éducatif et ludique",
+        "priorite": "⭐⭐",
+        "delai": "J-3",
+        "specifications": ["Films ados 10-12ans", "Jeux éducatifs", "Livres numériques", "Casque audio"],
+        "conseils": "Trajets longs. Contenu varié âge. Kindle Kids/iPad. 10-12ans: contenus + matures"
+      },
+      {
+        "id": "ENF6-12_005",
+        "item": "Livres aventure/BD + carnet voyage personnel",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "quantite": "3-4 livres + 1 carnet",
+        "specifications": ["Séries aimées", "BD légères", "Carnet A5", "Stylos couleur"],
+        "conseils": "Lecture plaisir. Journal intime voyage. Souvenirs. 10-12ans: romans ados, Harry Potter"
+      },
+      {
+        "id": "ENF6-12_006",
+        "item": "Jeux cartes stratégie (Uno, Skyjo, Timeline)",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Compacts", "Famille", "Rapides 15-20min", "Boîte solide"],
+        "conseils": "Soirées. Attentes. En famille. Stimulation. 10-12ans apprécient stratégie"
+      },
+      {
+        "id": "ENF6-12_007",
+        "item": "Appareil photo enfant ou jetable",
+        "priorite": "⭐",
+        "delai": "J-7",
+        "specifications": ["Robuste chocs", "Simple usage", "Dragonne", "Carte SD 32GB"],
+        "conseils": "Leur regard voyage. Souvenirs personnels. Responsabilité. 10-12ans: vrai appareil compact"
+      },
+      {
+        "id": "ENF6-12_008",
+        "item": "Lampe frontale enfant légère",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["LED 50-100 lumens", "Sangle ajustable", "Piles/USB", "Légère"],
+        "conseils": "Campings. Aventures nuit. Lecture tente. Autonomie. Petzl Tikkid"
+      },
+      {
+        "id": "ENF6-12_009",
+        "item": "Bracelet identification + téléphone local gravé",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-3",
+        "specifications": ["Résistant eau", "Gravure claire", "Confortable", "Discret"],
+        "conseils": "Lieux bondés. Parcs. Festivals. Sécurité. 10-12ans: smartphone avec applis localisation OK"
+      },
+      {
+        "id": "ENF6-12_010",
+        "item": "Kit protection solaire SPF 50+ sport",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Waterproof", "Format stick visage", "Spray corps", "Baume lèvres SPF"],
+        "conseils": "Activités extérieures. Peau sensible. Renouveler fréquent. 10-12ans: autonomie application"
+      },
+      {
+        "id": "ENF6-12_011",
+        "item": "Casquette/bob respirant + lunettes soleil UV400",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Quick-dry", "Cordon optionnel", "Lunettes incassables", "Étui rigide"],
+        "conseils": "Protection solaire. Sports. Randos. 10-12ans: style important, impliquer choix"
+      },
+      {
+        "id": "ENF6-12_012",
+        "item": "Console portable + jeux (Switch/Steam Deck)",
+        "priorite": "⭐",
+        "delai": "J-7",
+        "specifications": ["Housse protection", "Jeux téléchargés", "Écouteurs", "Chargeur"],
+        "conseils": "10-12ans spécifiquement. Longs vols. Temps libre. Gérer temps écran. Récompense"
+      }
+    ]
+  },
+
+  "voyageFamilleAdo13plus": {
+    "description": "Section Famille Adolescents 13+ ans (8 items)",
+    "filtres": {"typeVoyageur": ["famille"], "ageEnfants": ["13+"]},
+    "items": [
+      {
+        "id": "ADO001",
+        "item": "Sac à dos urbain/randonnée 25-30L stylé",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Design tendance", "Port laptop", "Anti-vol zips", "USB externe"],
+        "conseils": "Autonomie totale. Style important. Eastpak/Herschel/North Face. Leur choix"
+      },
+      {
+        "id": "ADO002",
+        "item": "Smartphone + carte SIM locale data illimitée",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-1",
+        "specifications": ["Plan data 10GB+", "Applis localisation", "Partage position famille", "Roaming off"],
+        "conseils": "Communication. GPS. Photos réseaux sociaux. Autonomie. Life360 famille"
+      },
+      {
+        "id": "ADO003",
+        "item": "Powerbank rapide 20000mAh + câbles multiples",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Charge rapide PD", "USB-C + Lightning", "Affichage %", "Compact"],
+        "conseils": "Usage intensif smartphone. Réseaux sociaux. Photos. Musique. Anker essentiel"
+      },
+      {
+        "id": "ADO004",
+        "item": "Écouteurs Bluetooth noise-cancelling",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["ANC qualité", "15h+ autonomie", "Pliables", "Étui transport"],
+        "conseils": "Musique. Podcasts. Vols longs. Bulle personnelle. Sony/Bose/AirPods"
+      },
+      {
+        "id": "ADO005",
+        "item": "Appareil photo reflex/hybride ou GoPro",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Passion photo", "Carte SD 128GB", "Batterie spare", "Sac protection"],
+        "conseils": "Créativité. Souvenirs qualité. Instagram. YouTube vlogs. Responsabilisation équipement"
+      },
+      {
+        "id": "ADO006",
+        "item": "Trousse toilette complète produits personnels",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Hygiène complète", "Déo", "Parfum", "Soins peau ados", "Protection féminine"],
+        "conseils": "Autonomie hygiène. Puberté. Intimité. Produits habituels. Discrétion"
+      },
+      {
+        "id": "ADO007",
+        "item": "Vêtements stylés autonomie totale choix",
+        "priorite": "⭐⭐",
+        "delai": "J-14",
+        "specifications": ["Leur style", "Marques préférées", "Confort + apparence", "Polyvalents"],
+        "conseils": "Image importante. Les impliquer choix. Confiance. Cohérence activités prévues"
+      },
+      {
+        "id": "ADO008",
+        "item": "Argent de poche carte prépayée/espèces",
+        "priorite": "⭐⭐",
+        "delai": "J-7",
+        "specifications": ["Revolut Junior/Pixpay", "Budget défini", "Espèces locales", "Limites claires"],
+        "conseils": "Autonomie financière. Responsabilisation. Souvenirs perso. Budget journalier raisonnable"
+      }
+    ]
+  },
 
   "voyageProfessionnel": {
     "description": "Section Voyage Professionnel (18 items COMPLETS)",
@@ -157,59 +980,5 @@
         "conseils": "Confort attente. Wifi fiable. Travail serein. Buffet inclus. Douches. 99$/an"
       }
     ]
-  },
-    },
   }
 }
-
-
-
-## 👨‍👩‍👧‍👦 5. FAMILLE & ENFANTS (35 items)
-### A. BÉBÉ 0-2 ANS (20 items) ✅ COMPLET
-- BEBE001: Porte-bébé ergonomique (Ergobaby/BabyBjörn 0-3 ans)
-- BEBE002: Poussette canne ultra-légère <6kg (Babyzen Yoyo/Pockit cabine OK)
-- BEBE003: Couches stock 1 semaine + lingettes (qualité variable destinations)
-- BEBE004: Biberons x3 + tétines rechange (Dr Brown's anti-coliques)
-- BEBE005: Lait infantile stock 2 semaines si marque spécifique
-- BEBE006: Doseur lait + brosse biberon
-- BEBE007: Chauffe-biberon portable 12V/USB
-- BEBE008: Bavoirs x5-7 (plastique imperméables pliables)
-- BEBE009: Bodies + pyjamas x7-10 (changements fréquents)
-- BEBE010: Gigoteuse/turbulette (TOG adapté: 0,5 été / 2,5 hiver)
-- BEBE011: Lit parapluie léger <6kg (Babybjörn Travel Light)
-- BEBE012: Drap housse lit parapluie 60x120cm + alèse
-- BEBE013: Doudou + tétine x2 backup (CRITIQUE - perte = drame!)
-- BEBE014: Thermomètre bébé frontal/oreille (Braun ThermoScan)
-- BEBE015: Paracétamol bébé Doliprane + pipette (dosage poids)
-- BEBE016: Sérum physiologique unidoses x20
-- BEBE017: Crème change + liniment (Mustela)
-- BEBE018: Protection solaire bébé SPF 50+ minérale (dès 6 mois)
-- BEBE019: Chapeau/casquette bébé large bord avec cordon
-- BEBE020: Moustiquaire poussette/lit (zones tropicales - dengue, paludisme)
-### B. ENFANTS 3-12 ANS (15 items) ✅ COMPLET
-- ENF001: Sac à dos enfant ergonomique 10-15L (Deuter/Osprey)
-- ENF002: Gourde incassable 500ml paille/sport cap (Contigo/CamelBak)
-- ENF003: Snacks favoris stock conséquent (compotes, biscuits, fruits secs)
-- ENF004: Tablette + films/dessins animés téléchargés offline (Netflix/Disney+)
-- ENF005: Livres/cahiers activités x3-5 (coloriage, autocollants, cherche-et-trouve)
-- ENF006: Jeux cartes compacts (Uno, 7 familles)
-- ENF007: Jouets/peluche doudou préférés x2-3 petits (limiter quantité)
-- ENF008: Veilleuse portable USB rechargeable (rassure lieux inconnus)
-- ENF009: Bracelet identification nom + téléphone local (lieux bondés)
-- ENF010: Crème solaire enfant SPF 50+ x2 tubes (peau sensible waterproof)
-- ENF011: Casquette/chapeau enfant avec cordon anti-perte
-- ENF012: Lunettes soleil enfant UV400 incassables avec cordon
-- ENF013: Paracétamol/Ibuprofène enfant (dosage âge/poids)
-- ENF014: Spray/stick anti-moustiques enfant (DEET max 30% ou IR3535 dès 6 mois)
-- ENF015: Petits cadeaux surprise voyage x3-5 (motivation trajets)
-
-
-💑 COUPLE ROMANTIQUE
-Items
-Ambiance Playlist, Mini enceinte Bluetooth, Appareil photo + trépied, polaroid ou appareil photo jetable, liste de sujets à aborder
-Adaptateur multi-USB, Écouteurs splitter, Oreillers gonflables x2, petit jeu à deux (devinette, quizz, etc...), liste de films à voir
-
-👥 GROUPE AMIS
-Items
-Organisation Cagnotte (Tricount/Splitwise), Talkie-walkies, Jeux société
-Cadenas différenciés, Batterie externe perso, Trousse toilette compacte
