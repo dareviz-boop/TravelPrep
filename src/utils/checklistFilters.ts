@@ -763,7 +763,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   }
 
   // 🌫️ BROUILLARD : Zones maritimes tempérées
-  const fogProneCountries = ['GB', 'IE', 'NZ', 'US', 'CA', 'CL', 'AR', 'PT', 'ES', 'FR', 'BE', 'NL', 'DE', 'DK', 'NO', 'SE', 'FI', 'PE', 'EC', 'UY', 'ZA', 'AU', 'JP', 'CN'];
+  const fogProneCountries = ['GB-ENG', 'GB-SCT', 'GB-WLS', 'GB-NIR', 'IE', 'NZ', 'US', 'CA', 'CL', 'AR', 'PT', 'ES', 'FR', 'BE', 'NL', 'DE', 'DK', 'NO', 'SE', 'FI', 'PE', 'EC', 'UY', 'ZA', 'AU', 'JP', 'CN'];
   const isFogProne = formData.pays?.some((p: any) =>
     fogProneCountries.includes(p.code?.toUpperCase())
   );
@@ -773,7 +773,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   }
 
   // 💨 VENTS FORTS : Zones venteuses connues
-  const windyCountries = ['IS', 'NZ', 'AR', 'CL', 'GB', 'IE', 'GL', 'FK', 'UY', 'ZA', 'NA', 'FR', 'ES', 'PT', 'MN', 'KZ', 'NO', 'DK', 'NL', 'AU', 'US', 'CA'];
+  const windyCountries = ['IS', 'NZ', 'AR', 'CL', 'GB-ENG', 'GB-SCT', 'GB-WLS', 'GB-NIR', 'IE', 'GL', 'FK', 'UY', 'ZA', 'NA', 'FR', 'ES', 'PT', 'MN', 'KZ', 'NO', 'DK', 'NL', 'AU', 'US', 'CA'];
   const isWindy = formData.pays?.some((p: any) =>
     windyCountries.includes(p.code?.toUpperCase())
   );

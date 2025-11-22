@@ -530,9 +530,9 @@ const suggestionTests: TestCase[] = [
     id: 'sug_15',
     name: 'Brouillard zones tempérées',
     category: '3. Suggestions climatiques',
-    description: 'UK automne → brouillard',
+    description: 'Angleterre automne → brouillard',
     formData: {
-      pays: [{ code: 'GB', nom: 'Royaume-Uni' }],
+      pays: [{ code: 'GB-ENG', nom: 'Angleterre' }],
       dateDepart: '2025-10-15',
       localisation: 'europe',
       saison: ['automne']
