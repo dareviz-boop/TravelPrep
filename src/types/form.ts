@@ -38,6 +38,10 @@ export interface FormData {
   temperature: Temperature[];  // Tableau pour multi-sélection
   saison: Saison[];           // Tableau pour multi-sélection
   conditionsClimatiques: string[];
+
+  // 🔔 Recommandations climatiques gelées (basées sur étape 1 uniquement)
+  // Persiste même si le composant Step2Info se démonte/remonte
+  recommendedConditions?: string[];
   
   // Page 3: Activités
   activites: Activite[];

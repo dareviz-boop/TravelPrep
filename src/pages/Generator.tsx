@@ -24,6 +24,7 @@ const Generator = () => {
     temperature: ["inconnue"],
     saison: ["inconnue"],
     conditionsClimatiques: [],
+    recommendedConditions: [], // 🔔 Recommandations gelées (basées sur étape 1)
     activites: [],
     profil: "couple",
     agesEnfants: [],

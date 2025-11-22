@@ -90,17 +90,17 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   // Format: "localisation|pays1,pays2|dateDepart|dateRetour|duree"
   const lastStep1KeyRef = useRef<string>('');
 
-  // 🔔 Ref pour stocker les recommandations gelées (ne changent que si étape 1 change)
-  const frozenRecommendationsRef = useRef<Set<string>>(new Set());
-
-  // Calculer les recommandations avec useMemo pour qu'elles soient toujours disponibles
-  // 🔔 Les cloches sont basées UNIQUEMENT sur la configuration de l'étape 1 (localisation, pays, dates, durée)
-  // et restent persistantes même si l'utilisateur modifie l'étape 2 (température, saison, etc.)
-  const recommendedConditions = useMemo(() => {
+  // 🔔 Calculer et stocker les recommandations dans formData.recommendedConditions
+  // Ces recommandations persistent même si le composant se démonte/remonte (changement d'étape)
+  // Elles ne changent QUE si les données de l'étape 1 changent (localisation, pays, dates, durée)
+  useEffect(() => {
     if (!formData.localisation || !formData.dateDepart || !formData.pays || formData.pays.length === 0) {
-      frozenRecommendationsRef.current = new Set();
+      // Réinitialiser si données incomplètes
+      if (formData.recommendedConditions && formData.recommendedConditions.length > 0) {
+        updateFormData({ recommendedConditions: [] });
+      }
       lastStep1KeyRef.current = '';
-      return new Set<string>();
+      return;
     }
 
     // Créer une clé unique basée UNIQUEMENT sur la configuration de l'étape 1
@@ -109,13 +109,19 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
     // Si la clé de l'étape 1 a changé, recalculer les recommandations
     if (step1Key !== lastStep1KeyRef.current) {
       const suggestions = generateAutoSuggestions(formData);
-      frozenRecommendationsRef.current = new Set(suggestions.map(s => s.conditionId));
+      const newRecommendations = suggestions.map(s => s.conditionId);
+
+      // Mettre à jour dans formData (persiste même si le composant se démonte)
+      updateFormData({ recommendedConditions: newRecommendations });
+
       lastStep1KeyRef.current = step1Key;
     }
+  }, [formData.localisation, formData.pays, formData.dateDepart, formData.dateRetour, formData.duree]);
 
-    // Retourner les recommandations gelées (ne changent que si étape 1 change)
-    return frozenRecommendationsRef.current;
-  }, [formData]); // Dépend de formData pour se recalculer à chaque render, mais utilise la ref pour geler les valeurs
+  // 🔔 Convertir en Set pour faciliter les lookups (isRecommended)
+  const recommendedConditions = useMemo(() => {
+    return new Set(formData.recommendedConditions || []);
+  }, [formData.recommendedConditions]);
 
   /**
    * 🔧 Initialisation par défaut : Sélectionner "climat_aucune" si conditionsClimatiques est vide
