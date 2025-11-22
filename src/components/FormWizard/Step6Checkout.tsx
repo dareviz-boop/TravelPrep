@@ -46,6 +46,34 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
     formData.formatPDF
   ]);
 
+  // 🔧 FIX: Mémoriser les données pour le PDF en excluant les champs de contact
+  // Cela empêche le rafraîchissement du PDF lors de la saisie nom/prénom/email
+  const pdfFormData = useMemo(() => ({
+    ...formData,
+    // Exclure les champs de contact qui changent pendant la saisie
+    prenomClient: '',
+    nomClient: '',
+    email: '',
+    optIn: false
+  }), [
+    formData.nomVoyage,
+    formData.dateDepart,
+    formData.dateRetour,
+    formData.duree,
+    formData.localisation,
+    formData.pays,
+    formData.temperature,
+    formData.saison,
+    formData.conditionsClimatiques,
+    formData.activites,
+    formData.profil,
+    formData.agesEnfants,
+    formData.typeVoyage,
+    formData.confort,
+    formData.sectionsInclure,
+    formData.formatPDF
+  ]);
+
   // Charger les composants PDF de manière dynamique avec retry
   useEffect(() => {
     const loadPDF = async (retryCount = 0) => {
@@ -182,7 +210,7 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
         {showPDF && PDFComponents && !pdfError && (
           <div className="w-full h-[600px] border-2 border-border rounded-lg overflow-hidden shadow-lg">
             <PDFComponents.PDFViewer width="100%" height="100%" showToolbar={true}>
-              <PDFComponents.TravelPrepPDF formData={formData} checklistData={generatedChecklist} />
+              <PDFComponents.TravelPrepPDF formData={pdfFormData} checklistData={generatedChecklist} />
             </PDFComponents.PDFViewer>
           </div>
         )}

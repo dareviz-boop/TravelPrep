@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     marginTop: 3
   },
   conseilText: {
-    fontSize: 8, // ✅ Augmenté de 6.5 à 8
+    fontSize: 9, // ✅ Augmenté à 9 pour meilleure lisibilité à l'impression
     color: '#616161',
     fontStyle: 'italic',
     lineHeight: 1.3,
