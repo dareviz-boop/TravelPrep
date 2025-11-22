@@ -91,6 +91,12 @@ const styles = StyleSheet.create({
   },
   prioritySymbol: {
     fontSize: 8,
+    fontWeight: 700,
+    marginRight: 5,
+    color: '#DC2626' // Rouge pour haute priorité
+  },
+  priorityText: {
+    fontSize: 7,
     fontWeight: 600,
     marginRight: 5,
     color: '#374151'
@@ -214,7 +220,7 @@ export const CategoryPage = ({ formData, category, title }: CategoryPageProps) =
       <View style={styles.itemWithConseil} key={item.id || `item-${index}`}>
         <View style={styles.itemRow}>
           {isHighPriority(item.priorite) && (
-            <PDFIcon name="flame" style={{ marginRight: 4, marginTop: 1 }} />
+            <Text style={styles.prioritySymbol}>!!</Text>
           )}
           <View style={styles.checkbox} />
           <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
@@ -224,15 +230,18 @@ export const CategoryPage = ({ formData, category, title }: CategoryPageProps) =
             </Text>
           )}
         </View>
-        <Text style={styles.conseilText}>
-          💡 {cleanTextForPDF(item.conseils)}
-        </Text>
+        <View style={styles.conseilContainer}>
+          <PDFIcon name="lightbulb" style={{ marginRight: 4, marginTop: 1 }} />
+          <Text style={styles.conseilText}>
+            {cleanTextForPDF(item.conseils)}
+          </Text>
+        </View>
       </View>
     ) : (
       // Item sans conseil
       <View style={styles.item} key={item.id || `item-${index}`}>
         {isHighPriority(item.priorite) && (
-          <PDFIcon name="flame" style={{ marginRight: 4, marginTop: 1 }} />
+          <Text style={styles.prioritySymbol}>!!</Text>
         )}
         <View style={styles.checkbox} />
         <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>

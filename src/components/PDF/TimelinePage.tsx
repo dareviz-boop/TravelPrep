@@ -131,9 +131,15 @@ const styles = StyleSheet.create({
     textAlign: 'right'
   },
   prioritySymbol: {
+    fontSize: 8,
+    fontWeight: 700,
+    marginRight: 5,
+    color: '#DC2626' // Rouge pour haute priorité
+  },
+  priorityText: {
     fontSize: 7,
     fontWeight: 600,
-    marginRight: 4,
+    marginRight: 5,
     color: '#374151'
   },
   pageNumber: {
@@ -300,7 +306,7 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
                       <View style={styles.itemWithConseil} key={`${item.id || index}-${item.item}`}>
                         <View style={styles.itemRow}>
                           {isHighPriority(item.priorite) && (
-                            <PDFIcon name="flame" style={{ marginRight: 4, marginTop: 1 }} />
+                            <Text style={styles.prioritySymbol}>!!</Text>
                           )}
                           <View style={styles.checkbox} />
                           <Text style={styles.itemText}>
@@ -318,7 +324,7 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
                       // Item sans conseil
                       <View style={styles.item} key={`${item.id || index}-${item.item}`}>
                         {isHighPriority(item.priorite) && (
-                          <PDFIcon name="flame" style={{ marginRight: 4, marginTop: 1 }} />
+                          <Text style={styles.prioritySymbol}>!!</Text>
                         )}
                         <View style={styles.checkbox} />
                         <Text style={styles.itemText}>
