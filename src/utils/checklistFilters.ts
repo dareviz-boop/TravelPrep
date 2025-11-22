@@ -477,6 +477,7 @@ export function autoDetectSeasons(formData: FormData): Saison[] {
 /**
  * Détermine automatiquement les températures probables selon les pays et date
  * Utilise la base de données climatique mondiale pour des résultats précis
+ * Prend en compte toute la période du voyage (pas juste la date de départ)
  * @param formData - Données du formulaire
  * @returns Array de températures applicables (tres-froide, froide, temperee, chaude, tres-chaude)
  */
@@ -484,11 +485,39 @@ export function autoDetectTemperatures(formData: FormData): Temperature[] {
   if (!formData.pays || formData.pays.length === 0 || !formData.dateDepart) return [];
 
   const temperatures: Set<string> = new Set();
-  const month = new Date(formData.dateDepart).getMonth() + 1; // 1-12
+
+  // Collecter les mois du voyage
+  const travelMonths: number[] = [];
+  const startDate = new Date(formData.dateDepart);
+  const startMonth = startDate.getMonth() + 1; // 1-12
+
+  travelMonths.push(startMonth);
+
+  // Si date de retour définie, ajouter tous les mois intermédiaires ET le mois de fin
+  if (formData.dateRetour) {
+    const endDate = new Date(formData.dateRetour);
+    const endMonth = endDate.getMonth() + 1;
+
+    // Ajouter le mois de fin d'abord
+    if (!travelMonths.includes(endMonth)) {
+      travelMonths.push(endMonth);
+    }
+
+    // Puis ajouter tous les mois intermédiaires
+    let currentMonth = startMonth;
+    while (currentMonth !== endMonth) {
+      currentMonth++;
+      if (currentMonth > 12) currentMonth = 1;
+      if (!travelMonths.includes(currentMonth)) {
+        travelMonths.push(currentMonth);
+      }
+      // Sécurité: max 12 itérations
+      if (travelMonths.length > 12) break;
+    }
+  }
 
   // Mapper les mois aux propriétés de avgTemp
   const monthKeys = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-  const monthKey = monthKeys[month - 1] as keyof CountryClimate['avgTemp'];
 
   // === STRATÉGIE 1: PAYS SPÉCIFIQUES (données précises) ===
   let hasFoundCountry = false;
@@ -499,9 +528,13 @@ export function autoDetectTemperatures(formData: FormData): Temperature[] {
 
     if (climate && climate.avgTemp) {
       hasFoundCountry = true;
-      const avgTemp = climate.avgTemp[monthKey];
-      const tempCategories = getTemperatureCategory(avgTemp);
-      tempCategories.forEach(t => temperatures.add(t));
+      // Parcourir tous les mois du voyage
+      travelMonths.forEach(month => {
+        const monthKey = monthKeys[month - 1] as keyof CountryClimate['avgTemp'];
+        const avgTemp = climate.avgTemp[monthKey];
+        const tempCategories = getTemperatureCategory(avgTemp);
+        tempCategories.forEach(t => temperatures.add(t));
+      });
     }
   });
 
@@ -515,27 +548,32 @@ export function autoDetectTemperatures(formData: FormData): Temperature[] {
     const regionalClimate = getRegionalClimate(formData.localisation);
 
     if (regionalClimate?.avgTemp) {
-      const avgTemp = regionalClimate.avgTemp[monthKey];
-      if (avgTemp !== undefined) {
-        const tempCategories = getTemperatureCategory(avgTemp);
-        tempCategories.forEach(t => temperatures.add(t));
-
-        if (temperatures.size > 0) {
-          return Array.from(temperatures) as Temperature[];
+      travelMonths.forEach(month => {
+        const monthKey = monthKeys[month - 1] as keyof CountryClimate['avgTemp'];
+        const avgTemp = regionalClimate.avgTemp[monthKey];
+        if (avgTemp !== undefined) {
+          const tempCategories = getTemperatureCategory(avgTemp);
+          tempCategories.forEach(t => temperatures.add(t));
         }
+      });
+
+      if (temperatures.size > 0) {
+        return Array.from(temperatures) as Temperature[];
       }
     }
   }
 
   // === STRATÉGIE 3: FALLBACK GÉNÉRIQUE (si aucune donnée trouvée) ===
   // Utiliser une estimation basique pour l'hémisphère nord tempéré
-  if (month >= 6 && month <= 8) {
-    temperatures.add('chaude'); // Été
-  } else if (month >= 12 || month <= 2) {
-    temperatures.add('froide'); // Hiver
-  } else {
-    temperatures.add('temperee'); // Printemps/automne
-  }
+  travelMonths.forEach(month => {
+    if (month >= 6 && month <= 8) {
+      temperatures.add('chaude'); // Été
+    } else if (month >= 12 || month <= 2) {
+      temperatures.add('froide'); // Hiver
+    } else {
+      temperatures.add('temperee'); // Printemps/automne
+    }
+  });
 
   return Array.from(temperatures) as Temperature[];
 }
@@ -567,7 +605,8 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
 
   // Helper pour ajouter une suggestion
   const addSuggestion = (id: string, raison: string, priorite: 'haute' | 'moyenne' | 'basse' = 'moyenne') => {
-    if (formData.conditionsClimatiques?.includes(id) || alreadySuggested.has(id)) return;
+    // Ne pas ajouter si déjà suggéré (éviter les doublons)
+    if (alreadySuggested.has(id)) return;
 
     // Trouver les détails dans le JSON
     const item = findConditionById(id);
@@ -754,6 +793,16 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
     addSuggestion('climat_amplitude_thermique', 'Forte amplitude thermique jour/nuit', 'moyenne');
   }
 
+  // 🌬️ HARMATTAN : Vent de sable du Sahara (novembre-mars)
+  const harmattanCountries = ['MA', 'DZ', 'EH', 'MR', 'ML', 'NE', 'TD', 'SD', 'NG', 'BF', 'GH', 'BJ', 'TG', 'CI', 'SN', 'GM'];
+  const isHarmattanZone = formData.pays?.some((p: any) =>
+    harmattanCountries.includes(p.code?.toUpperCase())
+  );
+
+  if (isHarmattanZone && (month >= 11 || month <= 3)) {
+    addSuggestion('climat_harmattan', 'Vent de sable du Sahara (novembre-mars)', 'haute');
+  }
+
   // 🌡️ AMPLITUDE THERMIQUE : Déserts et montagnes
   if (temperatures.includes('tres-chaude') || temperatures.includes('tres-froide') || hasAltitude) {
     // Ajouter seulement si pas déjà ajouté par désert aride
@@ -835,7 +884,8 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
       if (!categoryData?.items) return;
 
       categoryData.items.forEach((item: ClimatItem) => {
-        if (formData.conditionsClimatiques?.includes(item.id) || alreadySuggested.has(item.id)) return;
+        // Ne pas ajouter si déjà suggéré (éviter les doublons)
+        if (alreadySuggested.has(item.id)) return;
         if (!item.suggestions) return;
 
         const { temperature: suggestedTemps, saison: suggestedSeasons, description } = item.suggestions;
