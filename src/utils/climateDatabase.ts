@@ -1248,12 +1248,6 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   'SH': { code: 'SH', hemisphere: 'south', zones: ['oceanic', 'subtropical'], // Sainte-Hélène
     avgTemp: { jan: 24, feb: 25, mar: 25, apr: 24, may: 23, jun: 21, jul: 20, aug: 20, sep: 20, oct: 21, nov: 22, dec: 23 },
     seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
-  },
-
-  // === TERRES AUSTRALES ===
-  'TF': { code: 'TF', hemisphere: 'south', zones: ['subarctic', 'oceanic'], // Terres australes françaises (Kerguelen)
-    avgTemp: { jan: 7, feb: 7, mar: 7, apr: 6, may: 5, jun: 4, jul: 3, aug: 3, sep: 4, oct: 5, nov: 6, dec: 6 },
-    seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
   }
 };
 

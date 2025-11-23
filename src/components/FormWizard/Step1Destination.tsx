@@ -23,8 +23,6 @@ const getAllPaysOptions = (): Pays[] => {
 
   // Récupère toutes les valeurs (objets de zones) et les fusionne
   const allPays = Object.values(checklistData.localisations)
-    // Filtre la zone 'multi-destinations' elle-même, car elle n'a pas de liste de pays dans le JSON
-    .filter((loc) => loc.code !== 'multi-destinations')
     .flatMap((loc) => loc.pays || []); // Utilise flatMap pour créer un tableau simple
 
   // 🟢 AJOUT : Tri par ordre alphabétique du nom français

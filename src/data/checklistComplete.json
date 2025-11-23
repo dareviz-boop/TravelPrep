@@ -1,11 +1,11 @@
 {
   "metadata": {
     "version": "3.1",
-    "lastUpdated": "2025-11-22",
+    "lastUpdated": "2025-11-23",
     "totalItems": 750,
-    "totalPays": 235,
+    "totalPays": 236,
     "categories": 20,
-    "noteExpert": "Version complète enrichie - Tous les pays et territoires ajoutés - Royaume-Uni séparé en Angleterre, Écosse, Pays de Galles et Irlande du Nord"
+    "noteExpert": "Version complète enrichie - Tous les pays et territoires ajoutés - Royaume-Uni séparé en Angleterre, Écosse, Pays de Galles et Irlande du Nord - Antarctique disponible en mode Multi-destinations"
   },
   "localisations": {
     "europe": {
@@ -1446,7 +1446,14 @@
       "nom": "🌍 Multi-destinations / Tour du monde",
       "code": "multi-destinations",
       "texteSelection": "Sélectionne les principales destinations de ton voyage (max 10)",
-      "pays": []
+      "pays": [
+        {
+          "code": "AQ",
+          "nom": "Antarctique",
+          "nomEn": "Antarctica",
+          "flag": "🇦🇶"
+        }
+      ]
     }
   },
   "saisons": {
