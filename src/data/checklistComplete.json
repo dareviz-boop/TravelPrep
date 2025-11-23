@@ -1514,8 +1514,14 @@
       {
         "id": "tres-chaude",
         "nom": "Très chaude",
-        "description": "> 30°C (Chaleur intense)",
+        "description": "30°C à 38°C (Chaleur intense)",
         "emoji": "🔥"
+      },
+      {
+        "id": "chaleur-extreme",
+        "nom": "Chaleur extrême",
+        "description": "> 38°C (Chaleur caniculaire)",
+        "emoji": "🌡️"
       },
       {
         "id": "inconnue",
