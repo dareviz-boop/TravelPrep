@@ -1242,6 +1242,7 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   'KP': { code: 'KP', hemisphere: 'north', zones: ['continental'], // Corée du Nord
     avgTemp: { jan: -8, feb: -5, mar: 2, apr: 10, may: 16, jun: 21, jul: 24, aug: 24, sep: 18, oct: 11, nov: 2, dec: -5 },
     seasons: { summer: [6,7,8], winter: [11,12,1,2,3], spring: [4,5], autumn: [9,10] }
+  },
 
   // === ÎLES ISOLÉES ATLANTIQUE SUD ===
   'SH': { code: 'SH', hemisphere: 'south', zones: ['oceanic', 'subtropical'], // Sainte-Hélène
@@ -1253,8 +1254,7 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   'TF': { code: 'TF', hemisphere: 'south', zones: ['subarctic', 'oceanic'], // Terres australes françaises (Kerguelen)
     avgTemp: { jan: 7, feb: 7, mar: 7, apr: 6, may: 5, jun: 4, jul: 3, aug: 3, sep: 4, oct: 5, nov: 6, dec: 6 },
     seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
-  },
-  },
+  }
 };
 
 /**

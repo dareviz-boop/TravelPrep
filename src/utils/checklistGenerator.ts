@@ -48,17 +48,17 @@ function mapClimatItemToSection(itemName: string): string {
   const itemLower = itemName.toLowerCase();
 
   // HYGIÈNE : crèmes, protections solaires, produits de soin
-  if (itemLower.match(/crème|baume|protection (uv|solaire)|spf|hydratant|déodorant|shampooing|savon|gel douche|dentifrice|brosse|rasoir|coupe-ongles|pince|sérum|lotion/)) {
+  if (itemLower.match(/crème|baume|protection (uv|solaire)|spf|hydratant|déodorant|shampooing|savon|gel douche|dentifrice|brosse|rasoir|coupe-ongles|pince|sérum|lotion|talc/)) {
     return 'hygiene';
   }
 
-  // SANTÉ : médicaments, premiers soins, traitement médical
-  if (itemLower.match(/médicament|paracétamol|ibuprofène|antihistaminique|antibiotique|pansement|désinfectant|thermomètre|antifongique|électrolytes|trousse (premiers secours|médicale)|comprimés|gélules|purification eau|traitement/)) {
+  // SANTÉ : médicaments, premiers soins, traitement médical, équipements médicaux
+  if (itemLower.match(/médicament|paracétamol|ibuprofène|antihistaminique|antibiotique|pansement|désinfectant|thermomètre|antifongique|électrolytes|trousse (premiers secours|médicale)|comprimés|gélules|purification eau|traitement|sels? réhydratation|pastilles? sel|oxymètre|oxygen|oxygène|aspirine|diamox|acétazolamide|dexaméthasone|antipaludique|malarone|doxycycline|coca tea|sorochi|gingko|vinagre|masque oxygène|régulateur|caisson hyperbare/)) {
     return 'sante';
   }
 
-  // TECH : électronique, batteries, chargeurs
-  if (itemLower.match(/batterie|chargeur|câble|adaptateur|électronique|lampe (frontale|torche)|power bank|solaire (panneau|chargeur)|gps|téléphone|appareil photo|ordinateur|tablette|e-reader/)) {
+  // TECH : électronique, batteries, chargeurs, appareils
+  if (itemLower.match(/batterie|chargeur|câble|adaptateur|électronique|lampe (frontale|torche)|power ?bank|solaire (panneau|chargeur)|gps|téléphone|appareil photo|ordinateur|tablette|e-reader|radio|ventilateur|balise|brumisateur|monitoring|spo2/)) {
     return 'tech';
   }
 
