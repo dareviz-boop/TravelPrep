@@ -795,11 +795,11 @@ export function getRegionalClimate(regionCode: string): Partial<CountryClimate> 
  * Catégories de température :
  * - Très Froide : < 0°C
  * - Froide : 0-10°C
- * - Fraîche : 10-15°C
- * - Tempérée : 15-20°C
+ * - Tempérée : 10-20°C
  * - Douce : 20-25°C
- * - Chaude : 25-38°C
- * - Très Chaude : > 38°C (canicule)
+ * - Chaude : 25-30°C
+ * - Très Chaude : 30-38°C (Chaleur intense)
+ * - Chaleur Extrême : > 38°C (Zone torride)
  */
 export function getTemperatureCategory(avgTemp: number): string[] {
   const temps: string[] = [];
@@ -809,16 +809,16 @@ export function getTemperatureCategory(avgTemp: number): string[] {
     temps.push('tres-froide');
   } else if (avgTemp < 10) {
     temps.push('froide');
-  } else if (avgTemp < 15) {
-    temps.push('fraiche');
   } else if (avgTemp < 20) {
     temps.push('temperee');
   } else if (avgTemp < 25) {
     temps.push('douce');
-  } else if (avgTemp < 38) {
+  } else if (avgTemp < 30) {
     temps.push('chaude');
-  } else {
+  } else if (avgTemp < 38) {
     temps.push('tres-chaude');
+  } else {
+    temps.push('chaleur-extreme');
   }
 
   // Ajouter des catégories adjacentes pour la flexibilité du filtrage
@@ -827,22 +827,22 @@ export function getTemperatureCategory(avgTemp: number): string[] {
     temps.push('froide');
   }
 
-  // Zone de transition fraîche-tempérée (12-17°C)
-  if (avgTemp >= 12 && avgTemp < 17) {
-    if (!temps.includes('fraiche')) temps.push('fraiche');
-    if (!temps.includes('temperee')) temps.push('temperee');
-  }
-
-  // Zone de transition tempérée-douce (18-22°C)
-  if (avgTemp >= 18 && avgTemp < 22) {
+  // Zone de transition tempérée-douce (15-22°C)
+  if (avgTemp >= 15 && avgTemp < 22) {
     if (!temps.includes('temperee')) temps.push('temperee');
     if (!temps.includes('douce')) temps.push('douce');
   }
 
-  // Zone de transition douce-chaude (23-27°C)
-  if (avgTemp >= 23 && avgTemp < 27) {
+  // Zone de transition douce-chaude (23-28°C)
+  if (avgTemp >= 23 && avgTemp < 28) {
     if (!temps.includes('douce')) temps.push('douce');
     if (!temps.includes('chaude')) temps.push('chaude');
+  }
+
+  // Zone de transition chaude-très chaude (28-32°C)
+  if (avgTemp >= 28 && avgTemp < 32) {
+    if (!temps.includes('chaude')) temps.push('chaude');
+    if (!temps.includes('tres-chaude')) temps.push('tres-chaude');
   }
 
   return [...new Set(temps)]; // Dédupliquer

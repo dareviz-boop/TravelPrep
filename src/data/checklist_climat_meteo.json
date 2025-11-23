@@ -1,13 +1,13 @@
 {
   "metadata": {
-    "version": "3.1",
+    "version": "3.2",
     "lastUpdated": "2025-11-23",
-    "totalConditions": 28,
+    "totalConditions": 29,
     "totalDestinationsSpecifiques": 36,
     "description": "Version corrigée avec températures et conditions climatiques révisées",
     "author": "TravelPrep Team",
     "migrationType": "nouveaux IDs cohérents (climat_xxx)",
-    "note": "Destiné à l'intégration avec le système de filtrage automatique. Ajout: Tempêtes de sable, Canicule corrigée. Pays ajoutés: Pitcairn, Congo, Érythrée, Micronésie"
+    "note": "Températures: Très chaude (30-38°C), Chaleur extrême (>38°C). Tempêtes de sable: périodes Asie ajoutées. Pays ajoutés: Pitcairn, Congo, Érythrée, Micronésie"
   },
 
   "conditionsClimatiques": {
@@ -217,9 +217,46 @@
           },
           "suggestions": {
             "temperature": ["tres-chaude"],
-            "description": "Ajouté AUTOMATIQUEMENT si température très chaude (>38°C)"
+            "description": "Ajouté AUTOMATIQUEMENT si température très chaude (30-38°C)"
           },
-          "conseils": "Canicule: chaleur 38-50°C prolongée. Risque VITAL insolation/coup de chaleur/déshydratation. Boire 5-6L/jour MINIMUM. Urine claire = bonne hydratation, foncée = DANGER. Activités 5h-10h et 18h-21h UNIQUEMENT. Repos 11h-17h à l'ombre/climatisé OBLIGATOIRE. Électrolytes toutes les 2h (perte sels). Signes alerte coup de chaleur: vertiges, nausées, confusion, peau sèche/rouge, arrêt transpiration = URGENCE MÉDICALE. Crème solaire toutes les 2h. Vêtements longs légers PARADOXALEMENT plus frais que shorts. Éviter alcool/café (déshydratation). Douches tièdes fréquentes"
+          "conseils": "Canicule: chaleur 30-38°C prolongée. Risque ÉLEVÉ insolation/coup de chaleur/déshydratation. Boire 4-5L/jour MINIMUM. Urine claire = bonne hydratation, foncée = DANGER. Activités 6h-10h et 18h-21h de préférence. Repos 11h-17h à l'ombre/climatisé recommandé. Électrolytes toutes les 2h (perte sels). Signes alerte coup de chaleur: vertiges, nausées, confusion, peau sèche/rouge, arrêt transpiration = URGENCE MÉDICALE. Crème solaire toutes les 2h. Vêtements longs légers PARADOXALEMENT plus frais que shorts. Éviter alcool/café (déshydratation). Douches tièdes fréquentes"
+        },
+        {
+          "id": "climat_chaleur_extreme",
+          "nom": "🔥 Chaleur extrême >38°C (Zone torride)",
+          "emoji": "🔥",
+          "priorite": "haute",
+          "delai": "J-21",
+          "equipement": [
+            "Vêtements légers anti-UV techniques",
+            "Chapeau saharien large bord + voile nuque",
+            "Lunettes soleil UV400 catégorie 4",
+            "Crème solaire SPF 50+ minérale waterproof",
+            "Gourde isotherme 3L + réserve eau 10L",
+            "Électrolytes concentration double",
+            "Pastilles sel",
+            "Ventilateur solaire portable",
+            "Brumisateur corporel 500ml",
+            "Serviette rafraîchissante PVA x2",
+            "Parasol réfléchissant anti-UV",
+            "Thermomètre digital + hygromètre",
+            "Sels réhydratation orale WHO",
+            "Glacière portable / Sac isotherme",
+            "Compresses froides réutilisables"
+          ],
+          "filtres": {
+            "destinations": ["afrique", "asie", "oceanie"],
+            "activites": [],
+            "periode": [
+              {"debut": 5, "fin": 9, "region": "Déserts Afrique/Asie"},
+              {"debut": 12, "fin": 2, "region": "Australie centre/déserts"}
+            ]
+          },
+          "suggestions": {
+            "temperature": ["chaleur-extreme"],
+            "description": "Ajouté AUTOMATIQUEMENT si température extrême (>38°C)"
+          },
+          "conseils": "CHALEUR EXTRÊME 38-55°C : DANGER DE MORT. Sortie extérieure LIMITÉE à 5h-9h et 19h-21h UNIQUEMENT. Repos absolu climatisé 10h-18h OBLIGATOIRE. Boire 8-10L/jour + sels. Électrolytes x2 dose toutes les heures en activité. Mouiller vêtements régulièrement. Compresses froides nuque/poignets. SIGNES VITAUX: confusion, arrêt transpiration, peau sèche brûlante, pouls rapide faible = COUP DE CHALEUR MORTEL = URGENCE ABSOLUE refroidissement + 15/18. Urine foncée/absente = déshydratation sévère. Vêtements longs blancs obligatoires. JAMAIS peau nue au soleil. Prévoir abris climatisés sur itinéraire. Voyage déconseillé personnes fragiles (enfants, seniors, pathologies)"
         },
         {
           "id": "climat_froid_intense",
@@ -676,11 +713,13 @@
             "activites": ["randonnee", "road-trip", "backpacking"],
             "periode": [
               {"debut": 3, "fin": 9, "region": "Sahara"},
-              {"debut": 11, "fin": 3, "region": "Afrique Ouest"}
+              {"debut": 11, "fin": 3, "region": "Afrique Ouest"},
+              {"debut": 3, "fin": 6, "region": "Asie (Moyen-Orient, Arabie, Déserts d'Asie centrale)"},
+              {"debut": 9, "fin": 11, "region": "Asie (Déserts de Gobi, Taklamakan)"}
             ]
           },
           "suggestions": {
-            "temperature": ["chaude", "tres-chaude"],
+            "temperature": ["chaude", "tres-chaude", "chaleur-extreme"],
             "description": "Suggéré pour zones désertiques en saison chaude"
           },
           "conseils": "Tempêtes de sable DANGEREUSES: visibilité 0m, vents 80-100 km/h, sable pénètre partout. SIGNES AVANT-COUREURS: mur brun/orange à l'horizon, baisse température soudaine, ciel jaune-orange. RÉACTION: s'abriter IMMÉDIATEMENT bâtiment/véhicule/rochers. Si impossible: s'asseoir dos au vent, couvrir nez/bouche avec tissu humide, protéger yeux. NE JAMAIS continuer marche (désorientation totale). Attendre fin tempête (1-3h). Après: vérifier équipement, rincer yeux sérum physiologique, nettoyer électronique. Véhicule: moteur arrêté (sable aspiration), fenêtres fermées, phares allumés"

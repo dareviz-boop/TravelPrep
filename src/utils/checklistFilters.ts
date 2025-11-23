@@ -648,8 +648,10 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
 
   if (isDesert) {
     addSuggestion('climat_sec_aride', 'Climat désertique très sec', 'haute');
-    if (month >= 5 && month <= 9 || temperatures.includes('tres-chaude')) {
-      addSuggestion('climat_canicule', 'Chaleur extrême en période estivale', 'haute');
+    if (temperatures.includes('chaleur-extreme')) {
+      addSuggestion('climat_chaleur_extreme', 'Chaleur extrême >38°C en zones désertiques', 'haute');
+    } else if (month >= 5 && month <= 9 || temperatures.includes('tres-chaude')) {
+      addSuggestion('climat_canicule', 'Chaleur intense en période estivale', 'haute');
     }
   }
 
@@ -657,7 +659,9 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   const isAustralia = formData.pays?.some((p: any) => p.code?.toUpperCase() === 'AU');
   if (isAustralia) {
     // Été austral : décembre, janvier, février
-    if ((month >= 12 || month <= 2) || temperatures.includes('tres-chaude')) {
+    if (temperatures.includes('chaleur-extreme')) {
+      addSuggestion('climat_chaleur_extreme', 'Chaleur extrême dans les déserts australiens', 'haute');
+    } else if ((month >= 12 || month <= 2) || temperatures.includes('tres-chaude')) {
       addSuggestion('climat_canicule', 'Vagues de chaleur fréquentes en été australien', 'haute');
     }
   }
