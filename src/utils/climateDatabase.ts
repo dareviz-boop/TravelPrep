@@ -944,6 +944,88 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     avgTemp: { jan: 6, feb: 6, mar: 8, apr: 10, may: 13, jun: 16, jul: 18, aug: 18, sep: 16, oct: 13, nov: 9, dec: 7 },
     seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
   },
+
+  // === COUVERTURE MAXIMALE MONDIALE - 19 DESTINATIONS ADDITIONNELLES ===
+
+  // HAUTE PRIORITÉ - Destinations viables (7)
+  'IR': { code: 'IR', hemisphere: 'north', zones: ['desert_hot', 'continental', 'highland'], // Iran
+    avgTemp: { jan: 7, feb: 10, mar: 15, apr: 21, may: 27, jun: 32, jul: 35, aug: 34, sep: 30, oct: 23, nov: 15, dec: 9 },
+    seasons: { summer: [5,6,7,8,9], winter: [11,12,1,2,3], spring: [4], autumn: [10] }
+  },
+  'TG': { code: 'TG', hemisphere: 'north', zones: ['tropical'], // Togo
+    avgTemp: { jan: 27, feb: 28, mar: 29, apr: 28, may: 28, jun: 26, jul: 25, aug: 25, sep: 26, oct: 27, nov: 27, dec: 27 },
+    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+  },
+  'BJ': { code: 'BJ', hemisphere: 'north', zones: ['tropical'], // Bénin
+    avgTemp: { jan: 27, feb: 29, mar: 29, apr: 29, may: 28, jun: 27, jul: 26, aug: 25, sep: 26, oct: 27, nov: 28, dec: 27 },
+    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+  },
+  'GM': { code: 'GM', hemisphere: 'north', zones: ['tropical', 'subtropical'], // Gambie
+    avgTemp: { jan: 24, feb: 25, mar: 27, apr: 28, may: 29, jun: 29, jul: 28, aug: 28, sep: 28, oct: 29, nov: 27, dec: 25 },
+    seasons: { summer: [11,12,1,2,3,4], winter: [6,7,8,9], spring: [], autumn: [5,10] }
+  },
+  'GG': { code: 'GG', hemisphere: 'north', zones: ['oceanic'], // Guernesey
+    avgTemp: { jan: 7, feb: 7, mar: 8, apr: 10, may: 13, jun: 15, jul: 17, aug: 17, sep: 16, oct: 13, nov: 10, dec: 8 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+  'BF': { code: 'BF', hemisphere: 'north', zones: ['tropical', 'subtropical'], // Burkina Faso
+    avgTemp: { jan: 25, feb: 28, mar: 32, apr: 34, may: 33, jun: 31, jul: 28, aug: 27, sep: 28, oct: 30, nov: 28, dec: 26 },
+    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+  },
+  'GB': { code: 'GB', hemisphere: 'north', zones: ['oceanic'], // Royaume-Uni (global)
+    avgTemp: { jan: 5, feb: 5, mar: 7, apr: 9, may: 12, jun: 15, jul: 17, aug: 17, sep: 14, oct: 11, nov: 7, dec: 5 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+
+  // MOYENNE PRIORITÉ - Petites destinations (12)
+  'GN': { code: 'GN', hemisphere: 'north', zones: ['tropical'], // Guinée
+    avgTemp: { jan: 26, feb: 27, mar: 28, apr: 28, may: 28, jun: 26, jul: 25, aug: 25, sep: 25, oct: 26, nov: 27, dec: 26 },
+    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+  },
+  'BI': { code: 'BI', hemisphere: 'south', zones: ['tropical', 'highland'], // Burundi
+    avgTemp: { jan: 23, feb: 23, mar: 23, apr: 23, may: 23, jun: 22, jul: 22, aug: 23, sep: 24, oct: 24, nov: 23, dec: 23 },
+    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+  },
+  'SL': { code: 'SL', hemisphere: 'north', zones: ['tropical'], // Sierra Leone
+    avgTemp: { jan: 27, feb: 28, mar: 28, apr: 28, may: 28, jun: 27, jul: 26, aug: 25, sep: 26, oct: 27, nov: 27, dec: 27 },
+    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+  },
+  'ML': { code: 'ML', hemisphere: 'north', zones: ['desert_hot', 'tropical'], // Mali
+    avgTemp: { jan: 25, feb: 28, mar: 32, apr: 35, may: 36, jun: 34, jul: 31, aug: 29, sep: 31, oct: 32, nov: 29, dec: 26 },
+    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+  },
+  'NE': { code: 'NE', hemisphere: 'north', zones: ['desert_hot'], // Niger
+    avgTemp: { jan: 23, feb: 26, mar: 31, apr: 35, may: 37, jun: 36, jul: 33, aug: 31, sep: 33, oct: 33, nov: 29, dec: 24 },
+    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+  },
+  'LR': { code: 'LR', hemisphere: 'north', zones: ['tropical'], // Liberia
+    avgTemp: { jan: 26, feb: 27, mar: 28, apr: 27, may: 27, jun: 26, jul: 25, aug: 25, sep: 25, oct: 26, nov: 27, dec: 26 },
+    seasons: { summer: [11,12,1,2,3], winter: [5,6,7,8,9], spring: [10], autumn: [4] }
+  },
+  'MR': { code: 'MR', hemisphere: 'north', zones: ['desert_hot'], // Mauritanie
+    avgTemp: { jan: 22, feb: 24, mar: 27, apr: 30, may: 32, jun: 33, jul: 32, aug: 32, sep: 33, oct: 32, nov: 28, dec: 23 },
+    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+  },
+  'GW': { code: 'GW', hemisphere: 'north', zones: ['tropical'], // Guinée-Bissau
+    avgTemp: { jan: 26, feb: 27, mar: 28, apr: 28, may: 29, jun: 28, jul: 27, aug: 27, sep: 27, oct: 28, nov: 28, dec: 26 },
+    seasons: { summer: [11,12,1,2,3,4], winter: [6,7,8,9], spring: [], autumn: [5,10] }
+  },
+  'TD': { code: 'TD', hemisphere: 'north', zones: ['desert_hot', 'tropical'], // Tchad
+    avgTemp: { jan: 24, feb: 27, mar: 31, apr: 34, may: 35, jun: 34, jul: 31, aug: 30, sep: 31, oct: 32, nov: 29, dec: 25 },
+    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+  },
+  'GQ': { code: 'GQ', hemisphere: 'north', zones: ['tropical', 'equatorial'], // Guinée Équatoriale
+    avgTemp: { jan: 26, feb: 26, mar: 26, apr: 26, may: 26, jun: 25, jul: 24, aug: 24, sep: 25, oct: 25, nov: 25, dec: 26 },
+    seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
+  },
+  'BQ': { code: 'BQ', hemisphere: 'north', zones: ['tropical'], // Bonaire, Sint Eustatius et Saba
+    avgTemp: { jan: 26, feb: 26, mar: 27, apr: 27, may: 28, jun: 28, jul: 28, aug: 29, sep: 29, oct: 28, nov: 27, dec: 27 },
+    seasons: { summer: [], winter: [], spring: [], autumn: [] } // Climat constant
+  },
+  'KP': { code: 'KP', hemisphere: 'north', zones: ['continental'], // Corée du Nord
+    avgTemp: { jan: -8, feb: -5, mar: 2, apr: 10, may: 16, jun: 21, jul: 24, aug: 24, sep: 18, oct: 11, nov: 2, dec: -5 },
+    seasons: { summer: [6,7,8], winter: [11,12,1,2,3], spring: [4,5], autumn: [9,10] }
+  },
 };
 
 /**
