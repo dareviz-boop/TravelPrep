@@ -139,6 +139,10 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     avgTemp: { jan: 20, feb: 23, mar: 28, apr: 32, may: 35, jun: 33, jul: 30, aug: 29, sep: 29, oct: 28, nov: 24, dec: 20 },
     seasons: { summer: [3,4,5], winter: [12,1,2], spring: [], autumn: [6,7,8,9,10,11] } // Mousson
   },
+  'BD': { code: 'BD', hemisphere: 'north', zones: ['tropical'], // Bangladesh
+    avgTemp: { jan: 19, feb: 22, mar: 27, apr: 29, may: 30, jun: 30, jul: 29, aug: 29, sep: 29, oct: 28, nov: 24, dec: 20 },
+    seasons: { summer: [3,4,5], winter: [11,12,1,2], spring: [], autumn: [6,7,8,9,10] } // Mousson juin-septembre
+  },
   'KH': { code: 'KH', hemisphere: 'north', zones: ['tropical'],
     avgTemp: { jan: 26, feb: 28, mar: 29, apr: 30, may: 29, jun: 28, jul: 28, aug: 28, sep: 27, oct: 27, nov: 26, dec: 25 },
     seasons: { summer: [3,4,5], winter: [11,12,1,2], spring: [], autumn: [6,7,8,9,10] }
@@ -164,6 +168,10 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   'QA': { code: 'QA', hemisphere: 'north', zones: ['desert_hot'],
     avgTemp: { jan: 18, feb: 19, mar: 23, apr: 28, may: 34, jun: 37, jul: 39, aug: 38, sep: 35, oct: 31, nov: 26, dec: 21 },
     seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
+  },
+  'IR': { code: 'IR', hemisphere: 'north', zones: ['desert_hot', 'continental'], // Iran
+    avgTemp: { jan: 7, feb: 10, mar: 15, apr: 21, may: 27, jun: 32, jul: 35, aug: 34, sep: 29, oct: 22, nov: 14, dec: 9 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
   },
 
   // === AFRIQUE ===
@@ -249,6 +257,10 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   },
   'FJ': { code: 'FJ', hemisphere: 'south', zones: ['tropical'],
     avgTemp: { jan: 27, feb: 27, mar: 27, apr: 26, may: 25, jun: 24, jul: 23, aug: 23, sep: 24, oct: 25, nov: 26, dec: 27 },
+    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+  },
+  'VU': { code: 'VU', hemisphere: 'south', zones: ['tropical'], // Vanuatu
+    avgTemp: { jan: 27, feb: 27, mar: 27, apr: 26, may: 25, jun: 23, jul: 22, aug: 22, sep: 23, oct: 24, nov: 26, dec: 27 },
     seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
   },
 
@@ -511,6 +523,10 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     avgTemp: { jan: 8, feb: 9, mar: 12, apr: 16, may: 20, jun: 24, jul: 27, aug: 27, sep: 23, oct: 18, nov: 13, dec: 10 },
     seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
   },
+  'MK': { code: 'MK', hemisphere: 'north', zones: ['continental', 'mediterranean'], // Macédoine du Nord
+    avgTemp: { jan: 1, feb: 3, mar: 8, apr: 13, may: 18, jun: 22, jul: 24, aug: 24, sep: 20, oct: 14, nov: 8, dec: 3 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
   'EE': { code: 'EE', hemisphere: 'north', zones: ['continental'], // Estonie
     avgTemp: { jan: -5, feb: -5, mar: -1, apr: 5, may: 11, jun: 15, jul: 17, aug: 16, sep: 11, oct: 6, nov: 1, dec: -3 },
     seasons: { summer: [6,7,8], winter: [11,12,1,2,3], spring: [4,5], autumn: [9,10] }
@@ -571,6 +587,10 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   },
   'UZ': { code: 'UZ', hemisphere: 'north', zones: ['continental', 'desert_cold'], // Ouzbékistan
     avgTemp: { jan: 0, feb: 2, mar: 9, apr: 16, may: 22, jun: 27, jul: 29, aug: 27, sep: 22, oct: 15, nov: 8, dec: 3 },
+    seasons: { summer: [6,7,8], winter: [11,12,1,2,3], spring: [4,5], autumn: [9,10] }
+  },
+  'TM': { code: 'TM', hemisphere: 'north', zones: ['desert_hot', 'continental'], // Turkménistan
+    avgTemp: { jan: 2, feb: 4, mar: 11, apr: 18, may: 25, jun: 30, jul: 32, aug: 30, sep: 24, oct: 17, nov: 10, dec: 5 },
     seasons: { summer: [6,7,8], winter: [11,12,1,2,3], spring: [4,5], autumn: [9,10] }
   },
 
@@ -680,9 +700,17 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     avgTemp: { jan: -1, feb: 1, mar: 8, apr: 14, may: 19, jun: 24, jul: 26, aug: 25, sep: 20, oct: 13, nov: 7, dec: 2 },
     seasons: { summer: [6,7,8], winter: [11,12,1,2,3], spring: [4,5], autumn: [9,10] }
   },
+  'MN': { code: 'MN', hemisphere: 'north', zones: ['continental', 'desert_cold'], // Mongolie
+    avgTemp: { jan: -25, feb: -18, mar: -7, apr: 3, may: 11, jun: 17, jul: 19, aug: 17, sep: 10, oct: 1, nov: -11, dec: -21 },
+    seasons: { summer: [6,7,8], winter: [10,11,12,1,2,3,4], spring: [5], autumn: [9] }
+  },
   'BN': { code: 'BN', hemisphere: 'north', zones: ['tropical', 'equatorial'], // Brunei
     avgTemp: { jan: 27, feb: 27, mar: 28, apr: 28, may: 28, jun: 28, jul: 28, aug: 28, sep: 28, oct: 28, nov: 27, dec: 27 },
     seasons: { summer: [], winter: [], spring: [], autumn: [] } // Équatorial constant
+  },
+  'KW': { code: 'KW', hemisphere: 'north', zones: ['desert_hot'], // Koweït
+    avgTemp: { jan: 14, feb: 16, mar: 21, apr: 27, may: 34, jun: 38, jul: 40, aug: 40, sep: 36, oct: 29, nov: 22, dec: 16 },
+    seasons: { summer: [5,6,7,8,9], winter: [12,1,2], spring: [3,4], autumn: [10,11] }
   },
 
   // === AFRIQUE ADDITIONNELLE ===
@@ -710,6 +738,38 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     avgTemp: { jan: 23, feb: 23, mar: 22, apr: 19, may: 16, jun: 13, jul: 13, aug: 15, sep: 18, oct: 20, nov: 21, dec: 22 },
     seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
   },
+  'NE': { code: 'NE', hemisphere: 'north', zones: ['desert_hot'], // Niger
+    avgTemp: { jan: 23, feb: 26, mar: 31, apr: 35, may: 37, jun: 37, jul: 35, aug: 33, sep: 35, oct: 33, nov: 28, dec: 24 },
+    seasons: { summer: [3,4,5,6,7,8,9,10], winter: [11,12,1,2], spring: [], autumn: [] }
+  },
+  'ML': { code: 'ML', hemisphere: 'north', zones: ['desert_hot', 'tropical'], // Mali
+    avgTemp: { jan: 24, feb: 27, mar: 31, apr: 34, may: 36, jun: 35, jul: 32, aug: 31, sep: 32, oct: 32, nov: 28, dec: 25 },
+    seasons: { summer: [3,4,5,6,7,8,9,10], winter: [11,12,1,2], spring: [], autumn: [] }
+  },
+  'MR': { code: 'MR', hemisphere: 'north', zones: ['desert_hot'], // Mauritanie
+    avgTemp: { jan: 22, feb: 24, mar: 27, apr: 30, may: 33, jun: 34, jul: 33, aug: 33, sep: 34, oct: 32, nov: 27, dec: 23 },
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
+  },
+  'BF': { code: 'BF', hemisphere: 'north', zones: ['tropical', 'desert_hot'], // Burkina Faso
+    avgTemp: { jan: 25, feb: 28, mar: 32, apr: 34, may: 34, jun: 32, jul: 30, aug: 29, sep: 30, oct: 31, nov: 29, dec: 26 },
+    seasons: { summer: [3,4,5,6,7,8,9,10], winter: [11,12,1,2], spring: [], autumn: [] }
+  },
+  'CM': { code: 'CM', hemisphere: 'north', zones: ['tropical', 'equatorial'], // Cameroun
+    avgTemp: { jan: 26, feb: 27, mar: 27, apr: 27, may: 27, jun: 26, jul: 25, aug: 25, sep: 25, oct: 26, nov: 26, dec: 26 },
+    seasons: { summer: [12,1,2,3], winter: [6,7,8], spring: [9,10,11], autumn: [4,5] }
+  },
+  'DJ': { code: 'DJ', hemisphere: 'north', zones: ['desert_hot'], // Djibouti
+    avgTemp: { jan: 27, feb: 28, mar: 29, apr: 31, may: 33, jun: 35, jul: 37, aug: 36, sep: 34, oct: 32, nov: 29, dec: 27 },
+    seasons: { summer: [5,6,7,8,9], winter: [11,12,1,2], spring: [3,4], autumn: [10] }
+  },
+  'SO': { code: 'SO', hemisphere: 'north', zones: ['desert_hot', 'tropical'], // Somalie
+    avgTemp: { jan: 28, feb: 28, mar: 29, apr: 30, may: 30, jun: 29, jul: 28, aug: 28, sep: 29, oct: 29, nov: 29, dec: 28 },
+    seasons: { summer: [], winter: [], spring: [], autumn: [] } // Climat chaud constant
+  },
+  'LY': { code: 'LY', hemisphere: 'north', zones: ['desert_hot'], // Libye
+    avgTemp: { jan: 13, feb: 15, mar: 18, apr: 22, may: 27, jun: 31, jul: 33, aug: 33, sep: 30, oct: 26, nov: 20, dec: 15 },
+    seasons: { summer: [5,6,7,8,9], winter: [11,12,1,2], spring: [3,4], autumn: [10] }
+  },
 
   // === AMÉRIQUE DU SUD ADDITIONNELLE ===
   'GY': { code: 'GY', hemisphere: 'north', zones: ['tropical', 'equatorial'], // Guyana
@@ -721,6 +781,11 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     seasons: { summer: [], winter: [], spring: [], autumn: [] } // Équatorial constant
   },
 
+  // === ZONES POLAIRES ===
+  'AQ': { code: 'AQ', hemisphere: 'south', zones: ['arctic'], // Antarctique
+    avgTemp: { jan: -28, feb: -40, mar: -54, apr: -57, may: -58, jun: -59, jul: -61, aug: -60, sep: -58, oct: -50, nov: -36, dec: -28 },
+    seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
+  },
   // === CARAÏBES & AMÉRIQUE CENTRALE ADDITIONNELLES (13 destinations majeures) ===
   'PR': { code: 'PR', hemisphere: 'north', zones: ['tropical'], // Puerto Rico
     avgTemp: { jan: 24, feb: 24, mar: 25, apr: 26, may: 27, jun: 28, jul: 29, aug: 29, sep: 28, oct: 27, nov: 26, dec: 25 },
