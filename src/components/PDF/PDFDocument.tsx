@@ -6,6 +6,8 @@ import { TimelinePage } from './TimelinePage';
 import { CategoryPage } from './CategoryPage';
 import { BagagesPage } from './BagagesPage';
 import { ApplicationsPage } from './ApplicationsPage';
+import { DetailedSectionsPage } from './DetailedSectionsPage';
+import { PendantApresPage } from './PendantApresPage';
 import checklistCompleteData from '@/data/checklistComplete.json';
 
 // 🔧 FIX: Ne pas charger de polices externes pour éviter les erreurs d'encodage
@@ -52,11 +54,29 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
     sections: filteredSections
   };
 
-  // Filtrer uniquement les sections d'activités pour les pages détaillées
+  // ========== FORMAT DÉTAILLÉ : Organisation des sections selon l'étape 5 ==========
+
+  // 1. Essentiels Absolus : documents, finances, sante
+  const ESSENTIAL_IDS = ['documents', 'finances', 'sante'];
+  const essentialSections = filteredSections.filter(section =>
+    ESSENTIAL_IDS.includes(section.id)
+  );
+
+  // 2. Sections recommandées : toutes les autres sauf essentiels, activités, apps, pendant_apres
+  const SPECIAL_IDS = [...ESSENTIAL_IDS, 'apps', 'pendant_apres'];
+  const recommendedSections = filteredSections.filter(section =>
+    section.source !== 'activite' &&
+    !SPECIAL_IDS.includes(section.id)
+  );
+
+  // 3. Applications recommandées
+  const appsSection = filteredSections.find(section => section.id === 'apps') || null;
+
+  // 4. Activités
   const activiteSections = filteredSections.filter(section => section.source === 'activite');
 
-  // Récupérer la section apps si elle existe
-  const appsSection = filteredSections.find(section => section.id === 'apps') || null;
+  // 5. Pendant & Après le voyage
+  const pendantApresSection = filteredSections.find(section => section.id === 'pendant_apres') || null;
 
   return (
     <Document>
@@ -69,17 +89,45 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
 
       {isDetailedPDF && (
         <>
-          {/* Format détaillé : Pages par activité + Applications */}
-          {activiteSections.map((section) => (
-            <CategoryPage
-              key={section.id}
+          {/* 1. Essentiels Absolus (avec dates précises) */}
+          {essentialSections.length > 0 && (
+            <DetailedSectionsPage
               formData={formData}
-              category={section}
-              title={section.nom}
+              sections={essentialSections}
+              title="Essentiels Absolus"
+              isEssentials={true}
             />
-          ))}
-          {/* Page Applications recommandées */}
-          <ApplicationsPage formData={formData} appsSection={appsSection} />
+          )}
+
+          {/* 2. Sections Recommandées (timeline uniquement, pas de dates) */}
+          {recommendedSections.length > 0 && (
+            <DetailedSectionsPage
+              formData={formData}
+              sections={recommendedSections}
+              title="Sections Recommandées"
+              isEssentials={false}
+            />
+          )}
+
+          {/* 3. Applications Recommandées */}
+          {appsSection && (
+            <ApplicationsPage formData={formData} appsSection={appsSection} />
+          )}
+
+          {/* 4. Activités (timeline uniquement, pas de dates) */}
+          {activiteSections.length > 0 && (
+            <DetailedSectionsPage
+              formData={formData}
+              sections={activiteSections}
+              title="Préparation Activités"
+              isEssentials={false}
+            />
+          )}
+
+          {/* 5. Pendant & Après le voyage */}
+          {pendantApresSection && (
+            <PendantApresPage formData={formData} section={pendantApresSection} />
+          )}
         </>
       )}
       {/* Format compact : Intégré directement dans CoverPage */}
