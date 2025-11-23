@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "version": "3.2",
+    "version": "3.3",
     "lastUpdated": "2025-11-23",
-    "totalConditions": 29,
+    "totalConditions": 27,
     "totalDestinationsSpecifiques": 36,
     "description": "Version corrigée avec températures et conditions climatiques révisées",
     "author": "TravelPrep Team",
@@ -318,35 +318,6 @@
             "periode": []
           },
           "conseils": "Déserts/montagnes: 40°C jour → 0°C nuit (Δ40°C!). Système oignon 5-6 couches modulables. Matin/soir: froid. Midi: chaleur. Doudoune fine compressible indispensable soir. Sac couchage -5°C minimum (déserts altitude). Prévoir crème solaire ET protection froid. Hydratation constante malgré froid nuit"
-        },
-        {
-          "id": "climat_desert_extreme",
-          "nom": "☀️ Canicule désertique (>45°C)",
-          "emoji": "☀️",
-          "priorite": "haute",
-          "delai": "J-14",
-          "equipement": [
-            "Chèche/turban protection totale",
-            "Vêtements longs blancs/clairs",
-            "Tunique ample manches longues",
-            "Pantalon lin/coton léger",
-            "Lunettes enveloppantes catégorie 4",
-            "Gourde 3L + réserve eau 5L",
-            "Comprimés purification eau",
-            "Électrolytes concentration double",
-            "Pastilles sel",
-            "Crème solaire + stick lèvres",
-            "Ventilateur solaire portable"
-          ],
-          "filtres": {
-            "destinations": ["afrique", "asie", "oceanie"],
-            "activites": ["randonnee", "road-trip", "backpacking"],
-            "periode": [
-              {"debut": 5, "fin": 9, "region": "Sahara"},
-              {"debut": 11, "fin": 3, "region": "Australie centre"}
-            ]
-          },
-          "conseils": "45-55°C sol. Déshydratation FOUDROYANTE. Boire 8-10L/jour. Électrolytes x2 dose. Marche 5h-9h et 17h-20h UNIQUEMENT. Repos ombre/climatisé 10h-17h OBLIGATOIRE. Vêtements longs protègent mieux que courts. Chèche protège visage sable/soleil. Pastilles sel préviennent crampes. Urine foncée = danger immédiat"
         }
       ]
     },
@@ -779,30 +750,6 @@
             "periode": []
           },
           "conseils": "Humidité 85-95%. Rien ne sèche. Moisissures 24-48h. Vêtements: synthétique UNIQUEMENT (sèche 3x plus vite). Coton prohibé (moisit). Sachets silice dans chaque pochette (électronique, vêtements, chaussures). Tout sécher CHAQUE soir (ventilateur/climatisation). Mycoses pieds fréquentes: poudre antifongique quotidienne. Chaussures: alterner paires. Odeurs: spray désinfectant"
-        },
-        {
-          "id": "climat_secheresse",
-          "nom": "🏜 Sécheresse extrême (<20%)",
-          "emoji": "🏜",
-          "priorite": "moyenne",
-          "delai": "J-7",
-          "equipement": [
-            "Crème hydratante intensive x2",
-            "Baume lèvres réparateur x3",
-            "Sérum physiologique doses",
-            "Spray nasal humidifiant",
-            "Collyre hydratant",
-            "Huile/baume nez",
-            "Hydratant mains intensif",
-            "Humidificateur portable USB",
-            "Spray brumisateur visage"
-          ],
-          "filtres": {
-            "destinations": ["afrique", "oceanie", "asie"],
-            "activites": ["randonnee", "road-trip"],
-            "periode": []
-          },
-          "conseils": "Humidité <20%. Déshydratation cutanée sévère. Lèvres gercent en 24h. Saignements nez fréquents. Yeux secs irritation. Électricité statique importante. Routine VITALE: crème hydratante matin + soir. Baume lèvres 5-6x/jour. Sérum physiologique nez 3x/jour prévention saignements. Collyre yeux 4x/jour. Boire 4-5L/jour (même sans soif). Humidificateur chambre nuit (si possible)"
         }
       ]
     },
@@ -834,7 +781,7 @@
       "trigger": {
         "destinations": ["afrique", "asie", "oceanie"],
         "activites": ["randonnee", "road-trip", "backpacking"],
-        "ou_conditions": ["climat_sec_aride", "climat_desert_extreme"]
+        "ou_conditions": ["climat_sec_aride", "climat_canicule"]
       },
       "items": [
         {

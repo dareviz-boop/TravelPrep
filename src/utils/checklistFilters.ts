@@ -793,7 +793,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
 
   if (isAridDesert) {
     addSuggestion('climat_desert_aride', 'Désert aride avec conditions extrêmes', 'haute');
-    addSuggestion('climat_secheresse', 'Sécheresse extrême (<20% humidité)', 'moyenne');
+    addSuggestion('climat_canicule', 'Canicule / Vague de chaleur dans les zones arides', 'moyenne');
     addSuggestion('climat_amplitude_thermique', 'Forte amplitude thermique jour/nuit', 'moyenne');
   }
 
@@ -860,9 +860,9 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
     addSuggestion('climat_humidite', 'Humidité très élevée (>85%)', 'moyenne');
   }
 
-  // 🏜️ SÉCHERESSE EXTRÊME : Régions très sèches
-  if ((isDesert || isAridDesert) && !alreadySuggested.has('climat_secheresse')) {
-    addSuggestion('climat_secheresse', 'Sécheresse extrême (<20% humidité)', 'moyenne');
+  // 🌡️ CANICULE : Régions très sèches et chaudes
+  if ((isDesert || isAridDesert) && !alreadySuggested.has('climat_canicule')) {
+    addSuggestion('climat_canicule', 'Canicule / Vague de chaleur dans les déserts', 'moyenne');
   }
 
   // === PARTIE 2: SUGGESTIONS DU JSON (COMPLÉMENTAIRES) ===
