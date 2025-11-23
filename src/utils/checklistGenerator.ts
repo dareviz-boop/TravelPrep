@@ -253,8 +253,34 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
         sectionsInclure.includes(sectionKey);
 
       if (shouldInclude) {
-        // Mapper les items avec conversion de priorité
-        const mappedItems: ChecklistItem[] = section.items.map((item: any) => ({
+        // Filtrer les items selon leurs filtres (profil, destination, durée)
+        const filteredItems = section.items.filter((item: any) => {
+          // Si l'item a des filtres profil
+          if (item.filtres?.profil) {
+            if (!item.filtres.profil.includes(formData.profil)) {
+              return false;
+            }
+          }
+
+          // Si l'item a des filtres destination
+          if (item.filtres?.destinations) {
+            if (!item.filtres.destinations.includes(formData.localisation)) {
+              return false;
+            }
+          }
+
+          // Si l'item a des filtres durée
+          if (item.filtres?.duree) {
+            if (!item.filtres.duree.includes(formData.duree)) {
+              return false;
+            }
+          }
+
+          return true;
+        });
+
+        // Mapper les items filtrés avec conversion de priorité
+        const mappedItems: ChecklistItem[] = filteredItems.map((item: any) => ({
           id: item.id,
           item: item.item,
           priorite: mapStarsToPriority(item.priorite || '⭐⭐'),
