@@ -178,7 +178,7 @@ export const CoverPage = ({ formData, checklistData, referenceData, isDetailed =
     // Si toutes les températures sont sélectionnées (5 températures : très-froide, froide, temperee, chaude, très-chaude)
     const allTemps = ['tres-froide', 'froide', 'temperee', 'chaude', 'tres-chaude'];
     if (filtered.length === allTemps.length && allTemps.every(t => filtered.includes(t as any))) {
-      return 'Toutes, de tres froides a tres chaudes';
+      return 'Toutes, de tres froides à chaleur extrême';
     }
 
     return cleanTextForPDF(
