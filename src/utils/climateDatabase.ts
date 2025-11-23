@@ -240,8 +240,8 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
 
   // === OCÉANIE ===
   'AU': { code: 'AU', hemisphere: 'south', zones: ['subtropical', 'desert_hot', 'mediterranean'],
-    avgTemp: { jan: 27, feb: 27, mar: 25, apr: 22, may: 18, jun: 15, jul: 14, aug: 16, sep: 19, oct: 22, nov: 25, dec: 27 },
-    seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] } // Moyenne nationale incluant régions tempérées
+    avgTemp: { jan: 29, feb: 29, mar: 27, apr: 24, may: 20, jun: 18, jul: 17, aug: 19, sep: 22, oct: 25, nov: 27, dec: 29 },
+    seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] } // Moyenne incluant nord tropical (31°C constant) + intérieur désertique chaud + côtes tempérées
   },
   'NZ': { code: 'NZ', hemisphere: 'south', zones: ['oceanic'],
     avgTemp: { jan: 19, feb: 19, mar: 17, apr: 15, may: 12, jun: 10, jul: 9, aug: 10, sep: 12, oct: 14, nov: 16, dec: 18 },
