@@ -1,8 +1,10 @@
 import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
+import { GeneratedChecklist } from '@/utils/checklistGenerator';
 import checklistCompleteData from '@/data/checklistComplete.json';
 import { PDFIcon } from './PDFIcon';
 import { CompactPage } from './CompactPage';
+import { TimelineContent } from './TimelineContent';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
 // Helvetica ne supporte PAS les emojis Unicode, ils apparaissent corrompus
@@ -118,11 +120,12 @@ const styles = StyleSheet.create({
 
 interface CoverPageProps {
   formData: FormData;
-  checklistData: any;
+  checklistData: GeneratedChecklist;
   referenceData: any;
+  isDetailed?: boolean;
 }
 
-export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageProps) => {
+export const CoverPage = ({ formData, checklistData, referenceData, isDetailed = false }: CoverPageProps) => {
   const calculateDuration = () => {
     if (!formData.dateRetour) return null;
     const start = new Date(formData.dateDepart);
@@ -408,6 +411,11 @@ export const CoverPage = ({ formData, checklistData, referenceData }: CoverPageP
       {/* Intégrer la timeline si format compact */}
       {formData.formatPDF === 'compact' && checklistData && (
         <CompactPage formData={formData} checklistData={checklistData} />
+      )}
+
+      {/* Intégrer la timeline si format détaillé */}
+      {isDetailed && checklistData && (
+        <TimelineContent formData={formData} checklistData={checklistData} isDetailed={true} showTitle={true} />
       )}
 
       <Text style={styles.footer}>

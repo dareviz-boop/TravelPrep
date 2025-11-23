@@ -38,7 +38,11 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
   const filteredSections = shouldIncludeAll
     ? checklistData.sections
     : checklistData.sections.filter(section => {
-        // Vérifier si l'ID de la section est dans sectionsInclure
+        // TOUJOURS inclure les sections d'activités (car elles ne sont pas dans l'UI de sélection)
+        if (section.source === 'activite') {
+          return true;
+        }
+        // Pour les sections core, vérifier si l'ID est dans sectionsInclure
         return sectionsInclure.includes(section.id);
       });
 
@@ -60,12 +64,12 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
         formData={formData}
         checklistData={filteredChecklistData}
         referenceData={checklistCompleteData}
+        isDetailed={isDetailedPDF}
       />
 
       {isDetailedPDF && (
         <>
-          {/* Format détaillé : Timeline sans activités + pages par activité avec timeline */}
-          <TimelinePage formData={formData} checklistData={filteredChecklistData} isDetailed={true} />
+          {/* Format détaillé : Pages par activité + Applications */}
           {activiteSections.map((section) => (
             <CategoryPage
               key={section.id}
