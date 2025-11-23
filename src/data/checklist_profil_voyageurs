@@ -762,7 +762,7 @@
     "items": [
       {
         "id": "ADO001",
-        "item": "Sac à dos urbain/randonnée 25-30L stylé",
+        "item": "Sac à dos urbain/randonnée 25-30L",
         "priorite": "⭐⭐⭐",
         "delai": "J-7",
         "specifications": ["Design tendance", "Port laptop", "Anti-vol zips", "USB externe"],
@@ -810,7 +810,7 @@
       },
       {
         "id": "ADO007",
-        "item": "Vêtements stylés autonomie totale choix",
+        "item": "Vêtements de son choix - autonomie totale",
         "priorite": "⭐⭐",
         "delai": "J-14",
         "specifications": ["Leur style", "Marques préférées", "Confort + apparence", "Polyvalents"],
