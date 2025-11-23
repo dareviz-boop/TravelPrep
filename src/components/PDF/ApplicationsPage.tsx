@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   },
   itemText: {
     flex: 1,
-    fontSize: 9,
+    fontSize: 10,
     color: '#374151',
     lineHeight: 1.4
   },

@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   },
   itemText: {
     flex: 1,
-    fontSize: 9, // ✅ Augmenté de 7 à 9 pour meilleure lisibilité
+    fontSize: 10,
     color: '#374151',
     lineHeight: 1.4
   },
@@ -136,11 +136,11 @@ interface CompactPageProps {
 
 // Jalons temporels pour la timeline
 const TIMELINE_MILESTONES = [
-  { id: 'j90-j60', label: 'J -90 - J-60 (3 mois a 2 mois avant)', min: 60, max: 90 },
-  { id: 'j60-j30', label: 'J -60 - J-30 (2 mois a 1 mois avant)', min: 30, max: 60 },
-  { id: 'j30-j7', label: 'J -30 - J-7 (1 mois a 1 semaine avant)', min: 7, max: 30 },
-  { id: 'j7-j1', label: 'J -7 - J-1 (1 semaine a la veille)', min: 1, max: 7 },
-  { id: 'j1', label: 'J -1 (la veille du depart)', min: 0, max: 1 }
+  { id: 'j90-j60', label: 'J-90 - J-60 (3 mois à 2 mois avant)', min: 60, max: 90 },
+  { id: 'j60-j30', label: 'J-60 - J-30 (2 mois à 1 mois avant)', min: 30, max: 60 },
+  { id: 'j30-j7', label: 'J-30 - J-7 (1 mois à 1 semaine avant)', min: 7, max: 30 },
+  { id: 'j7-j1', label: 'J-7 - J-1 (1 semaine à la veille)', min: 1, max: 7 },
+  { id: 'j1', label: 'J-1 (la veille du départ)', min: 0, max: 1 }
 ];
 
 // Catégories pour la section Timeline (essentiels absolus)
@@ -217,7 +217,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
     return (
       <>
         <View style={styles.mainSectionTitleContainer}>
-          <Text style={styles.mainSectionTitlePart1}>Timeline de Preparation - </Text>
+          <Text style={styles.mainSectionTitlePart1}>Timeline de Préparation - </Text>
           <Text style={styles.mainSectionTitlePart2}>Essentiels absolus</Text>
         </View>
 
@@ -286,8 +286,8 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
       <>
         <View style={styles.divider} />
         <View style={styles.mainSectionTitleContainer}>
-          <Text style={styles.mainSectionTitlePart1}>A prevoir - </Text>
-          <Text style={styles.mainSectionTitlePart2}>Selection conseillee</Text>
+          <Text style={styles.mainSectionTitlePart1}>À prévoir - </Text>
+          <Text style={styles.mainSectionTitlePart2}>Sélection conseillée</Text>
         </View>
 
         {Object.entries(mediumPriorityItems).map(([sectionId, { section, items }]) => {
@@ -374,8 +374,8 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
       <>
         <View style={styles.divider} />
         <View style={styles.mainSectionTitleContainer}>
-          <Text style={styles.mainSectionTitlePart1}>A prevoir - </Text>
-          <Text style={styles.mainSectionTitlePart2}>Preparation activites</Text>
+          <Text style={styles.mainSectionTitlePart1}>À prévoir - </Text>
+          <Text style={styles.mainSectionTitlePart2}>Préparation activités</Text>
         </View>
 
         {activitySections.map(section => {
