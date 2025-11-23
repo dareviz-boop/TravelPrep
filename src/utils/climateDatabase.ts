@@ -113,7 +113,7 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   },
   'ID': { code: 'ID', hemisphere: 'both', zones: ['equatorial'],
     avgTemp: { jan: 27, feb: 27, mar: 27, apr: 28, may: 28, jun: 27, jul: 27, aug: 27, sep: 28, oct: 28, nov: 28, dec: 27 },
-    seasons: { summer: [4,5,6,7,8,9,10], winter: [11,12,1,2,3], spring: [], autumn: [] } // Saison sèche/humide
+    seasons: { summer: [], winter: [], spring: [], autumn: [] } // Climat équatorial constant
   },
   'MY': { code: 'MY', hemisphere: 'north', zones: ['equatorial'],
     avgTemp: { jan: 27, feb: 27, mar: 28, apr: 28, may: 28, jun: 28, jul: 27, aug: 27, sep: 27, oct: 27, nov: 27, dec: 27 },
@@ -175,11 +175,11 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     avgTemp: { jan: 26, feb: 26, mar: 27, apr: 26, may: 26, jun: 24, jul: 24, aug: 25, sep: 26, oct: 26, nov: 26, dec: 26 },
     seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
   },
-  'ER': { code: 'ER', hemisphere: 'north', zones: ['desert_hot', 'tropical'], // Érythrée
+  'ER': { code: 'ER', hemisphere: 'north', zones: ['desert_hot', 'tropical', 'highland'], // Érythrée
     avgTemp: { jan: 22, feb: 23, mar: 25, apr: 27, may: 29, jun: 32, jul: 34, aug: 33, sep: 31, oct: 28, nov: 25, dec: 23 },
     seasons: { summer: [5,6,7,8,9], winter: [11,12,1,2,3], spring: [4], autumn: [10] }
   },
-  'EG': { code: 'EG', hemisphere: 'north', zones: ['desert_hot'],
+  'EG': { code: 'EG', hemisphere: 'north', zones: ['desert_hot', 'mediterranean'],
     avgTemp: { jan: 14, feb: 16, mar: 20, apr: 24, may: 28, jun: 30, jul: 31, aug: 31, sep: 29, oct: 26, nov: 21, dec: 16 },
     seasons: { summer: [5,6,7,8,9], winter: [12,1,2], spring: [3,4], autumn: [10,11] }
   },
@@ -240,7 +240,7 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
 
   // === OCÉANIE ===
   'AU': { code: 'AU', hemisphere: 'south', zones: ['subtropical', 'desert_hot', 'mediterranean'],
-    avgTemp: { jan: 38, feb: 37, mar: 32, apr: 26, may: 21, jun: 17, jul: 16, aug: 18, sep: 22, oct: 27, nov: 32, dec: 36 },
+    avgTemp: { jan: 29, feb: 29, mar: 27, apr: 26, may: 21, jun: 17, jul: 16, aug: 18, sep: 22, oct: 27, nov: 28, dec: 30 },
     seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
   },
   'NZ': { code: 'NZ', hemisphere: 'south', zones: ['oceanic'],
@@ -295,7 +295,7 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   },
   'GF': { code: 'GF', hemisphere: 'north', zones: ['equatorial'], // Guyane Française
     avgTemp: { jan: 27, feb: 27, mar: 27, apr: 27, may: 27, jun: 27, jul: 27, aug: 28, sep: 28, oct: 28, nov: 27, dec: 27 },
-    seasons: { summer: [8,9,10,11], winter: [1,2,3,4,5,6,7,12], spring: [], autumn: [] }
+    seasons: { summer: [], winter: [], spring: [], autumn: [] } // Climat équatorial constant
   },
 
   // === OCÉANIE - ÎLES DU PACIFIQUE ===
@@ -435,7 +435,7 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     avgTemp: { jan: 27, feb: 27, mar: 28, apr: 28, may: 27, jun: 27, jul: 27, aug: 27, sep: 27, oct: 27, nov: 27, dec: 27 },
     seasons: { summer: [12,1,2,3], winter: [5,6,7,8,9,10,11], spring: [], autumn: [4] }
   },
-  'BS': { code: 'BS', hemisphere: 'north', zones: ['tropical'], // Bahamas
+  'BS': { code: 'BS', hemisphere: 'north', zones: ['tropical', 'subtropical'], // Bahamas
     avgTemp: { jan: 21, feb: 21, mar: 22, apr: 24, may: 26, jun: 28, jul: 29, aug: 29, sep: 28, oct: 26, nov: 24, dec: 22 },
     seasons: { summer: [5,6,7,8,9,10], winter: [11,12,1,2,3,4], spring: [], autumn: [] }
   },
@@ -545,7 +545,7 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     avgTemp: { jan: 15, feb: 16, mar: 19, apr: 23, may: 26, jun: 28, jul: 29, aug: 29, sep: 27, oct: 25, nov: 21, dec: 17 },
     seasons: { summer: [5,6,7,8,9], winter: [12,1,2], spring: [3,4], autumn: [10,11] }
   },
-  'JO': { code: 'JO', hemisphere: 'north', zones: ['desert_hot'], // Jordanie
+  'JO': { code: 'JO', hemisphere: 'north', zones: ['desert_hot', 'mediterranean', 'highland'], // Jordanie
     avgTemp: { jan: 9, feb: 11, mar: 14, apr: 19, may: 24, jun: 27, jul: 29, aug: 29, sep: 27, oct: 23, nov: 17, dec: 12 },
     seasons: { summer: [5,6,7,8,9], winter: [11,12,1,2,3], spring: [4], autumn: [10] }
   },
