@@ -45,7 +45,8 @@
           ],
           "filtres": {
             "destinations": ["asie", "amerique-centrale-caraibes", "afrique"],
-            "activites": ["randonnee", "camping", "backpacking"],
+            "pays": ["IN", "BD", "PK", "NP", "BT", "LK", "MV", "MM", "TH", "KH", "LA", "VN", "MY", "SG", "ID", "PH", "BN", "TL", "MX", "BZ", "GT", "HN", "SV", "NI", "CR", "PA", "CU", "JM", "HT", "DO", "SN", "GM", "GW", "GN", "SL", "LR", "CI", "GH", "TG", "BJ", "NG", "CM", "GQ", "GA"],
+            "activites": [],
             "periode": [
               {"debut": 5, "fin": 10, "region": "Asie"},
               {"debut": 5, "fin": 11, "region": "Caraïbes"},
@@ -80,7 +81,7 @@
           ],
           "filtres": {
             "destinations": ["afrique", "oceanie", "asie"],
-            "activites": ["randonnee", "road-trip", "backpacking"],
+            "activites": [],
             "periode": [
               {"debut": 10, "fin": 4, "region": "Afrique australe"},
               {"debut": 11, "fin": 4, "region": "Australie"}
@@ -99,8 +100,6 @@
           "priorite": "moyenne",
           "delai": "J-7",
           "equipement": [
-            "Paratonnerre portable (randonnée altitude)",
-            "Sac étanche roll-top 20-30L",
             "Lampe frontale haute puissance (coupures)",
             "Bougies + allumettes étanches",
             "Powerbank 20000mAh chargé",
@@ -110,7 +109,7 @@
           ],
           "filtres": {
             "destinations": ["amerique-centrale-caraibes", "afrique", "asie", "oceanie", "amerique-sud"],
-            "activites": ["randonnee", "camping"],
+            "activites": [],
             "periode": [
               {"debut": 3, "fin": 7}
             ]
@@ -137,6 +136,7 @@
           ],
           "filtres": {
             "destinations": ["amerique-centrale-caraibes", "asie", "oceanie"],
+            "pays": ["US", "CA", "MX", "CU", "JM", "HT", "DO", "PR", "BS", "BB", "LC", "VC", "GD", "TT", "BZ", "GT", "HN", "NI", "CR", "PA", "PH", "JP", "CN", "TW", "VN", "TH", "KR", "KP", "MM", "IN", "BD", "LK", "MV", "MG", "MZ", "MU", "RE", "KM", "SC", "AU", "FJ", "NC", "PF", "MY"],
             "activites": [],
             "periode": [
               {"debut": 6, "fin": 11, "region": "Atlantique"},
@@ -155,20 +155,17 @@
           "equipement": [
             "Vêtements thermiques couches multiples",
             "Doudoune chaude -20°C",
-            "Pantalon ski imperméable",
             "Gants hiver doublés + sous-gants",
             "Bonnet chaud couvre-oreilles",
             "Cache-cou/tour de cou thermique",
             "Chaussures hiver crampons amovibles",
-            "Lunettes ski catégorie 4",
             "Crampons à glace chaussures",
-            "Pelle neige pliable",
             "Couverture survie thermique",
             "Chauffe-mains chimiques x10"
           ],
           "filtres": {
             "destinations": ["europe", "amerique-nord", "asie", "amerique-sud", "oceanie"],
-            "activites": ["sports-hiver", "randonnee"],
+            "activites": [],
             "periode": [
               {"debut": 11, "fin": 3, "region": "hémisphère nord"},
               {"debut": 6, "fin": 9, "region": "hémisphère sud"}
@@ -274,7 +271,6 @@
             "Cache-cou thermique Merino",
             "Chaussettes thermiques hautes x5",
             "Bottes grand froid -60°C (Sorel/Kamik)",
-            "Lunettes ski catégorie 4 + masque",
             "Chauffe-mains/pieds chimiques x20",
             "Thermos isotherme 1L (boissons chaudes)",
             "Baume lèvres réparateur intensif",
@@ -282,7 +278,7 @@
           ],
           "filtres": {
             "destinations": ["europe", "amerique-nord", "asie", "amerique-sud", "oceanie"],
-            "activites": ["randonnee", "sports-hiver", "camping"],
+            "activites": [],
             "periode": [
               {"debut": 11, "fin": 3, "region": "hémisphère nord"},
               {"debut": 5, "fin": 9, "region": "hémisphère sud"}
@@ -309,12 +305,11 @@
             "Shorts + pantalons convertibles",
             "Buff multifonction (froid/soleil)",
             "Gants légers + bonnet fin",
-            "Sac compression vêtements",
             "Chaussettes mi-saison x4"
           ],
           "filtres": {
             "destinations": ["afrique", "amerique-sud", "asie"],
-            "activites": ["randonnee", "camping", "backpacking"],
+            "activites": [],
             "periode": []
           },
           "conseils": "Déserts/montagnes: 40°C jour → 0°C nuit (Δ40°C!). Système oignon 5-6 couches modulables. Matin/soir: froid. Midi: chaleur. Doudoune fine compressible indispensable soir. Sac couchage -5°C minimum (déserts altitude). Prévoir crème solaire ET protection froid. Hydratation constante malgré froid nuit"
@@ -429,7 +424,7 @@
           ],
           "filtres": {
             "destinations": ["amerique-sud", "afrique", "asie", "oceanie"],
-            "activites": ["backpacking", "randonnee", "camping"],
+            "activites": [],
             "periode": []
           },
           "conseils": "Humidité 80-95% constante. Température 28-35°C. Maladies tropicales: paludisme, dengue, zika, fièvre jaune. Anti-moustiques DEET 50% appliqué 4x/jour. Moustiquaire imprégnée VITALE sommeil. Antipaludiques prophylaxie selon zone. Vêtements longs clairs crépuscule/nuit (moustiques). Mycoses pieds fréquentes: chaussures séchage rapide, poudre antifongique. Tout sécher chaque soir. Sachets silice dans électronique"
@@ -622,7 +617,6 @@
             "Pierres lestage",
             "Chapeau à cordon serrage",
             "Foulard protection visage",
-            "Lunettes de ski (poussière)",
             "Application alertes météo"
           ],
           "filtres": {
