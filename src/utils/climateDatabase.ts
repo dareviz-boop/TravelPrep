@@ -113,7 +113,7 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   },
   'ID': { code: 'ID', hemisphere: 'both', zones: ['equatorial'],
     avgTemp: { jan: 27, feb: 27, mar: 27, apr: 28, may: 28, jun: 27, jul: 27, aug: 27, sep: 28, oct: 28, nov: 28, dec: 27 },
-    seasons: { summer: [4,5,6,7,8,9,10], winter: [11,12,1,2,3], spring: [], autumn: [] } // Saison sèche/humide
+    seasons: { summer: [4,5,6,7,8,9,10], winter: [11,12,1,2,3], spring: [], autumn: [] } // Saison sèche (avr-oct) / humide (nov-mar)
   },
   'MY': { code: 'MY', hemisphere: 'north', zones: ['equatorial'],
     avgTemp: { jan: 27, feb: 27, mar: 28, apr: 28, may: 28, jun: 28, jul: 27, aug: 27, sep: 27, oct: 27, nov: 27, dec: 27 },
@@ -175,11 +175,11 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     avgTemp: { jan: 26, feb: 26, mar: 27, apr: 26, may: 26, jun: 24, jul: 24, aug: 25, sep: 26, oct: 26, nov: 26, dec: 26 },
     seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
   },
-  'ER': { code: 'ER', hemisphere: 'north', zones: ['desert_hot', 'tropical'], // Érythrée
+  'ER': { code: 'ER', hemisphere: 'north', zones: ['desert_hot', 'tropical', 'highland'], // Érythrée
     avgTemp: { jan: 22, feb: 23, mar: 25, apr: 27, may: 29, jun: 32, jul: 34, aug: 33, sep: 31, oct: 28, nov: 25, dec: 23 },
     seasons: { summer: [5,6,7,8,9], winter: [11,12,1,2,3], spring: [4], autumn: [10] }
   },
-  'EG': { code: 'EG', hemisphere: 'north', zones: ['desert_hot'],
+  'EG': { code: 'EG', hemisphere: 'north', zones: ['desert_hot', 'mediterranean'],
     avgTemp: { jan: 14, feb: 16, mar: 20, apr: 24, may: 28, jun: 30, jul: 31, aug: 31, sep: 29, oct: 26, nov: 21, dec: 16 },
     seasons: { summer: [5,6,7,8,9], winter: [12,1,2], spring: [3,4], autumn: [10,11] }
   },
@@ -240,8 +240,8 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
 
   // === OCÉANIE ===
   'AU': { code: 'AU', hemisphere: 'south', zones: ['subtropical', 'desert_hot', 'mediterranean'],
-    avgTemp: { jan: 38, feb: 37, mar: 32, apr: 26, may: 21, jun: 17, jul: 16, aug: 18, sep: 22, oct: 27, nov: 32, dec: 36 },
-    seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
+    avgTemp: { jan: 29, feb: 29, mar: 27, apr: 24, may: 20, jun: 18, jul: 17, aug: 19, sep: 22, oct: 25, nov: 27, dec: 29 },
+    seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] } // Moyenne incluant nord tropical (31°C constant) + intérieur désertique chaud + côtes tempérées
   },
   'NZ': { code: 'NZ', hemisphere: 'south', zones: ['oceanic'],
     avgTemp: { jan: 19, feb: 19, mar: 17, apr: 15, may: 12, jun: 10, jul: 9, aug: 10, sep: 12, oct: 14, nov: 16, dec: 18 },
@@ -295,7 +295,7 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   },
   'GF': { code: 'GF', hemisphere: 'north', zones: ['equatorial'], // Guyane Française
     avgTemp: { jan: 27, feb: 27, mar: 27, apr: 27, may: 27, jun: 27, jul: 27, aug: 28, sep: 28, oct: 28, nov: 27, dec: 27 },
-    seasons: { summer: [8,9,10,11], winter: [1,2,3,4,5,6,7,12], spring: [], autumn: [] }
+    seasons: { summer: [7,8,9,10,11], winter: [12,1,2,3,4,5,6], spring: [], autumn: [] } // Saison sèche (jul-nov) / humide (déc-jun)
   },
 
   // === OCÉANIE - ÎLES DU PACIFIQUE ===
@@ -435,7 +435,7 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     avgTemp: { jan: 27, feb: 27, mar: 28, apr: 28, may: 27, jun: 27, jul: 27, aug: 27, sep: 27, oct: 27, nov: 27, dec: 27 },
     seasons: { summer: [12,1,2,3], winter: [5,6,7,8,9,10,11], spring: [], autumn: [4] }
   },
-  'BS': { code: 'BS', hemisphere: 'north', zones: ['tropical'], // Bahamas
+  'BS': { code: 'BS', hemisphere: 'north', zones: ['tropical', 'subtropical'], // Bahamas
     avgTemp: { jan: 21, feb: 21, mar: 22, apr: 24, may: 26, jun: 28, jul: 29, aug: 29, sep: 28, oct: 26, nov: 24, dec: 22 },
     seasons: { summer: [5,6,7,8,9,10], winter: [11,12,1,2,3,4], spring: [], autumn: [] }
   },
@@ -545,7 +545,7 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     avgTemp: { jan: 15, feb: 16, mar: 19, apr: 23, may: 26, jun: 28, jul: 29, aug: 29, sep: 27, oct: 25, nov: 21, dec: 17 },
     seasons: { summer: [5,6,7,8,9], winter: [12,1,2], spring: [3,4], autumn: [10,11] }
   },
-  'JO': { code: 'JO', hemisphere: 'north', zones: ['desert_hot'], // Jordanie
+  'JO': { code: 'JO', hemisphere: 'north', zones: ['desert_hot', 'mediterranean', 'highland'], // Jordanie
     avgTemp: { jan: 9, feb: 11, mar: 14, apr: 19, may: 24, jun: 27, jul: 29, aug: 29, sep: 27, oct: 23, nov: 17, dec: 12 },
     seasons: { summer: [5,6,7,8,9], winter: [11,12,1,2,3], spring: [4], autumn: [10] }
   },
@@ -719,6 +719,312 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   'SR': { code: 'SR', hemisphere: 'north', zones: ['tropical', 'equatorial'], // Suriname
     avgTemp: { jan: 27, feb: 27, mar: 27, apr: 27, may: 27, jun: 27, jul: 27, aug: 28, sep: 28, oct: 28, nov: 28, dec: 27 },
     seasons: { summer: [], winter: [], spring: [], autumn: [] } // Équatorial constant
+  },
+
+  // === CARAÏBES & AMÉRIQUE CENTRALE ADDITIONNELLES (13 destinations majeures) ===
+  'PR': { code: 'PR', hemisphere: 'north', zones: ['tropical'], // Puerto Rico
+    avgTemp: { jan: 24, feb: 24, mar: 25, apr: 26, may: 27, jun: 28, jul: 29, aug: 29, sep: 28, oct: 27, nov: 26, dec: 25 },
+    seasons: { summer: [5,6,7,8,9,10], winter: [11,12,1,2,3,4], spring: [], autumn: [] }
+  },
+  'KY': { code: 'KY', hemisphere: 'north', zones: ['tropical'], // Îles Caïmans
+    avgTemp: { jan: 24, feb: 24, mar: 25, apr: 26, may: 28, jun: 29, jul: 29, aug: 29, sep: 29, oct: 28, nov: 26, dec: 25 },
+    seasons: { summer: [5,6,7,8,9,10], winter: [11,12,1,2,3,4], spring: [], autumn: [] }
+  },
+  'TC': { code: 'TC', hemisphere: 'north', zones: ['tropical'], // Turks-et-Caïcos
+    avgTemp: { jan: 24, feb: 24, mar: 25, apr: 26, may: 28, jun: 29, jul: 30, aug: 30, sep: 29, oct: 28, nov: 26, dec: 25 },
+    seasons: { summer: [5,6,7,8,9,10], winter: [11,12,1,2,3,4], spring: [], autumn: [] }
+  },
+  'VG': { code: 'VG', hemisphere: 'north', zones: ['tropical'], // Îles Vierges britanniques
+    avgTemp: { jan: 25, feb: 25, mar: 26, apr: 27, may: 28, jun: 29, jul: 29, aug: 29, sep: 29, oct: 28, nov: 27, dec: 26 },
+    seasons: { summer: [5,6,7,8,9,10], winter: [11,12,1,2,3,4], spring: [], autumn: [] }
+  },
+  'VI': { code: 'VI', hemisphere: 'north', zones: ['tropical'], // Îles Vierges américaines
+    avgTemp: { jan: 25, feb: 25, mar: 26, apr: 27, may: 28, jun: 29, jul: 29, aug: 29, sep: 29, oct: 28, nov: 27, dec: 26 },
+    seasons: { summer: [5,6,7,8,9,10], winter: [11,12,1,2,3,4], spring: [], autumn: [] }
+  },
+  'CW': { code: 'CW', hemisphere: 'north', zones: ['tropical', 'desert_hot'], // Curaçao
+    avgTemp: { jan: 26, feb: 26, mar: 27, apr: 28, may: 28, jun: 28, jul: 28, aug: 29, sep: 29, oct: 28, nov: 27, dec: 27 },
+    seasons: { summer: [], winter: [], spring: [], autumn: [] } // Climat constant très sec
+  },
+  'SX': { code: 'SX', hemisphere: 'north', zones: ['tropical'], // Sint Maarten
+    avgTemp: { jan: 25, feb: 25, mar: 26, apr: 27, may: 28, jun: 29, jul: 29, aug: 29, sep: 29, oct: 28, nov: 27, dec: 26 },
+    seasons: { summer: [5,6,7,8,9,10], winter: [11,12,1,2,3,4], spring: [], autumn: [] }
+  },
+  'KN': { code: 'KN', hemisphere: 'north', zones: ['tropical'], // Saint-Kitts-et-Nevis
+    avgTemp: { jan: 26, feb: 26, mar: 26, apr: 27, may: 28, jun: 28, jul: 28, aug: 28, sep: 28, oct: 28, nov: 27, dec: 26 },
+    seasons: { summer: [5,6,7,8,9,10], winter: [11,12,1,2,3,4], spring: [], autumn: [] }
+  },
+  'AI': { code: 'AI', hemisphere: 'north', zones: ['tropical'], // Anguilla
+    avgTemp: { jan: 25, feb: 25, mar: 26, apr: 27, may: 28, jun: 29, jul: 29, aug: 29, sep: 29, oct: 28, nov: 27, dec: 26 },
+    seasons: { summer: [5,6,7,8,9,10], winter: [11,12,1,2,3,4], spring: [], autumn: [] }
+  },
+  'NI': { code: 'NI', hemisphere: 'north', zones: ['tropical'], // Nicaragua
+    avgTemp: { jan: 26, feb: 27, mar: 28, apr: 29, may: 28, jun: 27, jul: 27, aug: 27, sep: 27, oct: 27, nov: 26, dec: 26 },
+    seasons: { summer: [12,1,2,3,4], winter: [5,6,7,8,9,10,11], spring: [], autumn: [] }
+  },
+  'HN': { code: 'HN', hemisphere: 'north', zones: ['tropical'], // Honduras
+    avgTemp: { jan: 23, feb: 24, mar: 26, apr: 27, may: 27, jun: 26, jul: 26, aug: 26, sep: 26, oct: 25, nov: 24, dec: 23 },
+    seasons: { summer: [11,12,1,2,3,4], winter: [5,6,7,8,9,10], spring: [], autumn: [] }
+  },
+  'SV': { code: 'SV', hemisphere: 'north', zones: ['tropical'], // El Salvador
+    avgTemp: { jan: 23, feb: 24, mar: 26, apr: 27, may: 27, jun: 26, jul: 26, aug: 26, sep: 25, oct: 25, nov: 24, dec: 23 },
+    seasons: { summer: [11,12,1,2,3,4], winter: [5,6,7,8,9,10], spring: [], autumn: [] }
+  },
+  'MS': { code: 'MS', hemisphere: 'north', zones: ['tropical'], // Montserrat
+    avgTemp: { jan: 26, feb: 26, mar: 26, apr: 27, may: 28, jun: 28, jul: 28, aug: 28, sep: 28, oct: 28, nov: 27, dec: 26 },
+    seasons: { summer: [5,6,7,8,9,10], winter: [11,12,1,2,3,4], spring: [], autumn: [] }
+  },
+
+  // === ASIE & MOYEN-ORIENT ADDITIONNELS (7 destinations) ===
+  'PK': { code: 'PK', hemisphere: 'north', zones: ['subtropical', 'highland', 'desert_hot'], // Pakistan
+    avgTemp: { jan: 12, feb: 15, mar: 20, apr: 26, may: 31, jun: 34, jul: 32, aug: 30, sep: 29, oct: 24, nov: 18, dec: 13 },
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
+  },
+  'BD': { code: 'BD', hemisphere: 'north', zones: ['tropical', 'subtropical'], // Bangladesh
+    avgTemp: { jan: 19, feb: 22, mar: 27, apr: 29, may: 29, jun: 29, jul: 29, aug: 29, sep: 29, oct: 28, nov: 24, dec: 20 },
+    seasons: { summer: [3,4,5], winter: [11,12,1,2], spring: [], autumn: [6,7,8,9,10] }
+  },
+  'MN': { code: 'MN', hemisphere: 'north', zones: ['continental', 'desert_cold'], // Mongolie
+    avgTemp: { jan: -20, feb: -15, mar: -5, apr: 5, may: 13, jun: 18, jul: 20, aug: 18, sep: 12, oct: 3, nov: -8, dec: -17 },
+    seasons: { summer: [6,7,8], winter: [11,12,1,2,3], spring: [4,5], autumn: [9,10] }
+  },
+  'BH': { code: 'BH', hemisphere: 'north', zones: ['desert_hot'], // Bahreïn
+    avgTemp: { jan: 17, feb: 18, mar: 21, apr: 26, may: 31, jun: 34, jul: 36, aug: 36, sep: 34, oct: 30, nov: 25, dec: 20 },
+    seasons: { summer: [5,6,7,8,9], winter: [11,12,1,2,3], spring: [4], autumn: [10] }
+  },
+  'KW': { code: 'KW', hemisphere: 'north', zones: ['desert_hot'], // Koweït
+    avgTemp: { jan: 13, feb: 15, mar: 20, apr: 27, may: 34, jun: 38, jul: 40, aug: 40, sep: 36, oct: 30, nov: 22, dec: 16 },
+    seasons: { summer: [5,6,7,8,9], winter: [11,12,1,2,3], spring: [4], autumn: [10] }
+  },
+  'LB': { code: 'LB', hemisphere: 'north', zones: ['mediterranean', 'highland'], // Liban
+    avgTemp: { jan: 11, feb: 12, mar: 14, apr: 18, may: 22, jun: 25, jul: 28, aug: 28, sep: 26, oct: 23, nov: 17, dec: 13 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+  'TL': { code: 'TL', hemisphere: 'south', zones: ['tropical'], // Timor-Leste
+    avgTemp: { jan: 27, feb: 27, mar: 27, apr: 27, may: 26, jun: 25, jul: 24, aug: 25, sep: 26, oct: 27, nov: 28, dec: 28 },
+    seasons: { summer: [11,12,1,2,3], winter: [5,6,7,8], spring: [9,10], autumn: [4] }
+  },
+
+  // === OCÉANIE & PACIFIQUE ADDITIONNELS (8 destinations) ===
+  'VU': { code: 'VU', hemisphere: 'south', zones: ['tropical'], // Vanuatu
+    avgTemp: { jan: 27, feb: 27, mar: 27, apr: 26, may: 25, jun: 24, jul: 23, aug: 23, sep: 24, oct: 25, nov: 26, dec: 27 },
+    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+  },
+  'SB': { code: 'SB', hemisphere: 'south', zones: ['tropical', 'equatorial'], // Îles Salomon
+    avgTemp: { jan: 27, feb: 27, mar: 27, apr: 27, may: 27, jun: 26, jul: 26, aug: 26, sep: 26, oct: 27, nov: 27, dec: 27 },
+    seasons: { summer: [11,12,1,2,3], winter: [], spring: [9,10], autumn: [4,5,6,7,8] }
+  },
+  'PW': { code: 'PW', hemisphere: 'north', zones: ['tropical', 'equatorial'], // Palau
+    avgTemp: { jan: 27, feb: 27, mar: 27, apr: 28, may: 28, jun: 28, jul: 27, aug: 27, sep: 27, oct: 27, nov: 27, dec: 27 },
+    seasons: { summer: [], winter: [], spring: [], autumn: [] } // Équatorial constant
+  },
+  'GU': { code: 'GU', hemisphere: 'north', zones: ['tropical'], // Guam
+    avgTemp: { jan: 27, feb: 27, mar: 27, apr: 28, may: 28, jun: 28, jul: 28, aug: 28, sep: 28, oct: 28, nov: 28, dec: 27 },
+    seasons: { summer: [12,1,2,3,4,5], winter: [6,7,8,9,10,11], spring: [], autumn: [] }
+  },
+  'KI': { code: 'KI', hemisphere: 'both', zones: ['equatorial'], // Kiribati
+    avgTemp: { jan: 28, feb: 28, mar: 28, apr: 28, may: 28, jun: 28, jul: 28, aug: 28, sep: 28, oct: 28, nov: 28, dec: 28 },
+    seasons: { summer: [], winter: [], spring: [], autumn: [] } // Équatorial constant
+  },
+  'MH': { code: 'MH', hemisphere: 'north', zones: ['tropical'], // Îles Marshall
+    avgTemp: { jan: 27, feb: 27, mar: 28, apr: 28, may: 28, jun: 28, jul: 28, aug: 28, sep: 28, oct: 28, nov: 28, dec: 27 },
+    seasons: { summer: [], winter: [], spring: [], autumn: [] } // Tropical constant
+  },
+  'TV': { code: 'TV', hemisphere: 'south', zones: ['equatorial'], // Tuvalu
+    avgTemp: { jan: 29, feb: 29, mar: 29, apr: 29, may: 29, jun: 28, jul: 28, aug: 28, sep: 28, oct: 28, nov: 29, dec: 29 },
+    seasons: { summer: [], winter: [], spring: [], autumn: [] } // Équatorial constant
+  },
+  'NU': { code: 'NU', hemisphere: 'south', zones: ['tropical'], // Niue
+    avgTemp: { jan: 26, feb: 26, mar: 26, apr: 25, may: 24, jun: 23, jul: 22, aug: 22, sep: 23, oct: 24, nov: 25, dec: 26 },
+    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+  },
+
+  // === AFRIQUE ADDITIONNELLE (6 destinations) ===
+  'NG': { code: 'NG', hemisphere: 'north', zones: ['tropical', 'subtropical'], // Nigeria
+    avgTemp: { jan: 27, feb: 29, mar: 30, apr: 30, may: 28, jun: 27, jul: 26, aug: 25, sep: 26, oct: 27, nov: 28, dec: 27 },
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
+  },
+  'CI': { code: 'CI', hemisphere: 'north', zones: ['tropical'], // Côte d'Ivoire
+    avgTemp: { jan: 27, feb: 28, mar: 29, apr: 28, may: 28, jun: 26, jul: 25, aug: 25, sep: 26, oct: 27, nov: 27, dec: 27 },
+    seasons: { summer: [12,1,2,3], winter: [6,7,8], spring: [9,10,11], autumn: [4,5] }
+  },
+  'CM': { code: 'CM', hemisphere: 'north', zones: ['tropical', 'equatorial'], // Cameroun
+    avgTemp: { jan: 26, feb: 27, mar: 27, apr: 27, may: 27, jun: 26, jul: 25, aug: 25, sep: 25, oct: 26, nov: 26, dec: 26 },
+    seasons: { summer: [3,4,5,6,7,8], winter: [11,12,1,2], spring: [], autumn: [9,10] }
+  },
+  'GA': { code: 'GA', hemisphere: 'both', zones: ['tropical', 'equatorial'], // Gabon
+    avgTemp: { jan: 27, feb: 27, mar: 27, apr: 27, may: 27, jun: 26, jul: 25, aug: 25, sep: 26, oct: 26, nov: 26, dec: 27 },
+    seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
+  },
+  'AO': { code: 'AO', hemisphere: 'south', zones: ['tropical', 'subtropical'], // Angola
+    avgTemp: { jan: 26, feb: 26, mar: 26, apr: 25, may: 23, jun: 20, jul: 19, aug: 21, sep: 24, oct: 26, nov: 26, dec: 26 },
+    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+  },
+  'DJ': { code: 'DJ', hemisphere: 'north', zones: ['desert_hot'], // Djibouti
+    avgTemp: { jan: 25, feb: 26, mar: 28, apr: 30, may: 32, jun: 35, jul: 38, aug: 37, sep: 34, oct: 31, nov: 28, dec: 26 },
+    seasons: { summer: [5,6,7,8,9], winter: [11,12,1,2], spring: [3,4], autumn: [10] }
+  },
+
+  // === EUROPE ADDITIONNELLE (9 destinations) ===
+  'FO': { code: 'FO', hemisphere: 'north', zones: ['oceanic', 'subarctic'], // Îles Féroé
+    avgTemp: { jan: 3, feb: 3, mar: 4, apr: 5, may: 7, jun: 10, jul: 11, aug: 11, sep: 10, oct: 8, nov: 5, dec: 4 },
+    seasons: { summer: [6,7,8], winter: [11,12,1,2,3], spring: [4,5], autumn: [9,10] }
+  },
+  'GI': { code: 'GI', hemisphere: 'north', zones: ['mediterranean'], // Gibraltar
+    avgTemp: { jan: 13, feb: 13, mar: 15, apr: 16, may: 19, jun: 22, jul: 25, aug: 25, sep: 23, oct: 20, nov: 16, dec: 14 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+  'LI': { code: 'LI', hemisphere: 'north', zones: ['continental', 'highland'], // Liechtenstein
+    avgTemp: { jan: -1, feb: 0, mar: 4, apr: 8, may: 13, jun: 16, jul: 18, aug: 17, sep: 14, oct: 9, nov: 4, dec: 0 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+  'SM': { code: 'SM', hemisphere: 'north', zones: ['mediterranean'], // San Marino
+    avgTemp: { jan: 4, feb: 5, mar: 8, apr: 12, may: 16, jun: 20, jul: 23, aug: 23, sep: 19, oct: 14, nov: 9, dec: 5 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+  'VA': { code: 'VA', hemisphere: 'north', zones: ['mediterranean'], // Vatican
+    avgTemp: { jan: 8, feb: 9, mar: 12, apr: 15, may: 19, jun: 23, jul: 26, aug: 26, sep: 22, oct: 17, nov: 12, dec: 9 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+  'BY': { code: 'BY', hemisphere: 'north', zones: ['continental'], // Bélarus
+    avgTemp: { jan: -6, feb: -5, mar: 0, apr: 8, may: 15, jun: 18, jul: 20, aug: 19, sep: 14, oct: 8, nov: 2, dec: -3 },
+    seasons: { summer: [6,7,8], winter: [11,12,1,2,3], spring: [4,5], autumn: [9,10] }
+  },
+  'MK': { code: 'MK', hemisphere: 'north', zones: ['continental', 'mediterranean'], // Macédoine du Nord
+    avgTemp: { jan: 1, feb: 3, mar: 8, apr: 13, may: 18, jun: 22, jul: 24, aug: 24, sep: 19, oct: 13, nov: 7, dec: 2 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+  'XK': { code: 'XK', hemisphere: 'north', zones: ['continental', 'mediterranean'], // Kosovo
+    avgTemp: { jan: 0, feb: 2, mar: 7, apr: 12, may: 17, jun: 21, jul: 23, aug: 23, sep: 18, oct: 12, nov: 6, dec: 1 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+  'NR': { code: 'NR', hemisphere: 'south', zones: ['tropical'], // Nauru
+    avgTemp: { jan: 28, feb: 28, mar: 28, apr: 28, may: 28, jun: 28, jul: 28, aug: 28, sep: 28, oct: 28, nov: 28, dec: 28 },
+    seasons: { summer: [], winter: [], spring: [], autumn: [] } // Équatorial constant
+  },
+
+  // === DESTINATIONS ADDITIONNELLES POUR 100% COUVERTURE (10 pays) ===
+  'PS': { code: 'PS', hemisphere: 'north', zones: ['mediterranean', 'desert_hot'], // Palestine
+    avgTemp: { jan: 12, feb: 13, mar: 15, apr: 19, may: 23, jun: 26, jul: 28, aug: 28, sep: 27, oct: 24, nov: 18, dec: 14 },
+    seasons: { summer: [5,6,7,8,9], winter: [11,12,1,2,3], spring: [4], autumn: [10] }
+  },
+  'TM': { code: 'TM', hemisphere: 'north', zones: ['desert_hot', 'desert_cold', 'continental'], // Turkménistan
+    avgTemp: { jan: 0, feb: 3, mar: 10, apr: 18, may: 25, jun: 31, jul: 33, aug: 31, sep: 25, oct: 16, nov: 9, dec: 3 },
+    seasons: { summer: [5,6,7,8,9], winter: [11,12,1,2,3], spring: [4], autumn: [10] }
+  },
+  'YT': { code: 'YT', hemisphere: 'south', zones: ['tropical'], // Mayotte
+    avgTemp: { jan: 27, feb: 27, mar: 27, apr: 27, may: 26, jun: 25, jul: 24, aug: 24, sep: 25, oct: 26, nov: 27, dec: 27 },
+    seasons: { summer: [11,12,1,2,3], winter: [5,6,7,8], spring: [9,10], autumn: [4] }
+  },
+  'BL': { code: 'BL', hemisphere: 'north', zones: ['tropical'], // Saint-Barthélemy
+    avgTemp: { jan: 25, feb: 25, mar: 26, apr: 27, may: 28, jun: 29, jul: 29, aug: 29, sep: 29, oct: 28, nov: 27, dec: 26 },
+    seasons: { summer: [5,6,7,8,9,10], winter: [11,12,1,2,3,4], spring: [], autumn: [] }
+  },
+  'MF': { code: 'MF', hemisphere: 'north', zones: ['tropical'], // Saint-Martin (France)
+    avgTemp: { jan: 25, feb: 25, mar: 26, apr: 27, may: 28, jun: 29, jul: 29, aug: 29, sep: 29, oct: 28, nov: 27, dec: 26 },
+    seasons: { summer: [5,6,7,8,9,10], winter: [11,12,1,2,3,4], spring: [], autumn: [] }
+  },
+  'WF': { code: 'WF', hemisphere: 'south', zones: ['tropical'], // Wallis-et-Futuna
+    avgTemp: { jan: 27, feb: 27, mar: 27, apr: 27, may: 26, jun: 25, jul: 24, aug: 24, sep: 25, oct: 26, nov: 27, dec: 27 },
+    seasons: { summer: [11,12,1,2,3], winter: [5,6,7,8], spring: [9,10], autumn: [4] }
+  },
+  'PM': { code: 'PM', hemisphere: 'north', zones: ['oceanic', 'subarctic'], // Saint-Pierre-et-Miquelon
+    avgTemp: { jan: -3, feb: -4, mar: -2, apr: 2, may: 6, jun: 11, jul: 15, aug: 16, sep: 12, oct: 7, nov: 3, dec: -1 },
+    seasons: { summer: [6,7,8], winter: [11,12,1,2,3], spring: [4,5], autumn: [9,10] }
+  },
+  'AX': { code: 'AX', hemisphere: 'north', zones: ['oceanic', 'continental'], // Îles Åland
+    avgTemp: { jan: -3, feb: -4, mar: -1, apr: 4, may: 10, jun: 14, jul: 17, aug: 16, sep: 11, oct: 6, nov: 2, dec: -1 },
+    seasons: { summer: [6,7,8], winter: [11,12,1,2,3], spring: [4,5], autumn: [9,10] }
+  },
+  'IM': { code: 'IM', hemisphere: 'north', zones: ['oceanic'], // Île de Man
+    avgTemp: { jan: 5, feb: 5, mar: 6, apr: 8, may: 11, jun: 13, jul: 15, aug: 15, sep: 13, oct: 10, nov: 7, dec: 6 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+  'JE': { code: 'JE', hemisphere: 'north', zones: ['oceanic'], // Jersey
+    avgTemp: { jan: 6, feb: 6, mar: 8, apr: 10, may: 13, jun: 16, jul: 18, aug: 18, sep: 16, oct: 13, nov: 9, dec: 7 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+
+  // === COUVERTURE MAXIMALE MONDIALE - 19 DESTINATIONS ADDITIONNELLES ===
+
+  // HAUTE PRIORITÉ - Destinations viables (7)
+  'IR': { code: 'IR', hemisphere: 'north', zones: ['desert_hot', 'continental', 'highland'], // Iran
+    avgTemp: { jan: 7, feb: 10, mar: 15, apr: 21, may: 27, jun: 32, jul: 35, aug: 34, sep: 30, oct: 23, nov: 15, dec: 9 },
+    seasons: { summer: [5,6,7,8,9], winter: [11,12,1,2,3], spring: [4], autumn: [10] }
+  },
+  'TG': { code: 'TG', hemisphere: 'north', zones: ['tropical'], // Togo
+    avgTemp: { jan: 27, feb: 28, mar: 29, apr: 28, may: 28, jun: 26, jul: 25, aug: 25, sep: 26, oct: 27, nov: 27, dec: 27 },
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
+  },
+  'BJ': { code: 'BJ', hemisphere: 'north', zones: ['tropical'], // Bénin
+    avgTemp: { jan: 27, feb: 29, mar: 29, apr: 29, may: 28, jun: 27, jul: 26, aug: 25, sep: 26, oct: 27, nov: 28, dec: 27 },
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
+  },
+  'GM': { code: 'GM', hemisphere: 'north', zones: ['tropical', 'subtropical'], // Gambie
+    avgTemp: { jan: 24, feb: 25, mar: 27, apr: 28, may: 29, jun: 29, jul: 28, aug: 28, sep: 28, oct: 29, nov: 27, dec: 25 },
+    seasons: { summer: [11,12,1,2,3,4], winter: [6,7,8,9], spring: [], autumn: [5,10] }
+  },
+  'GG': { code: 'GG', hemisphere: 'north', zones: ['oceanic'], // Guernesey
+    avgTemp: { jan: 7, feb: 7, mar: 8, apr: 10, may: 13, jun: 15, jul: 17, aug: 17, sep: 16, oct: 13, nov: 10, dec: 8 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+  'BF': { code: 'BF', hemisphere: 'north', zones: ['tropical', 'subtropical'], // Burkina Faso
+    avgTemp: { jan: 25, feb: 28, mar: 32, apr: 34, may: 33, jun: 31, jul: 28, aug: 27, sep: 28, oct: 30, nov: 28, dec: 26 },
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
+  },
+  'GB': { code: 'GB', hemisphere: 'north', zones: ['oceanic'], // Royaume-Uni (global)
+    avgTemp: { jan: 5, feb: 5, mar: 7, apr: 9, may: 12, jun: 15, jul: 17, aug: 17, sep: 14, oct: 11, nov: 7, dec: 5 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+
+  // MOYENNE PRIORITÉ - Petites destinations (12)
+  'GN': { code: 'GN', hemisphere: 'north', zones: ['tropical'], // Guinée
+    avgTemp: { jan: 26, feb: 27, mar: 28, apr: 28, may: 28, jun: 26, jul: 25, aug: 25, sep: 25, oct: 26, nov: 27, dec: 26 },
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
+  },
+  'BI': { code: 'BI', hemisphere: 'south', zones: ['tropical', 'highland'], // Burundi
+    avgTemp: { jan: 23, feb: 23, mar: 23, apr: 23, may: 23, jun: 22, jul: 22, aug: 23, sep: 24, oct: 24, nov: 23, dec: 23 },
+    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+  },
+  'SL': { code: 'SL', hemisphere: 'north', zones: ['tropical'], // Sierra Leone
+    avgTemp: { jan: 27, feb: 28, mar: 28, apr: 28, may: 28, jun: 27, jul: 26, aug: 25, sep: 26, oct: 27, nov: 27, dec: 27 },
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
+  },
+  'ML': { code: 'ML', hemisphere: 'north', zones: ['desert_hot', 'tropical'], // Mali
+    avgTemp: { jan: 25, feb: 28, mar: 32, apr: 35, may: 36, jun: 34, jul: 31, aug: 29, sep: 31, oct: 32, nov: 29, dec: 26 },
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
+  },
+  'NE': { code: 'NE', hemisphere: 'north', zones: ['desert_hot'], // Niger
+    avgTemp: { jan: 23, feb: 26, mar: 31, apr: 35, may: 37, jun: 36, jul: 33, aug: 31, sep: 33, oct: 33, nov: 29, dec: 24 },
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
+  },
+  'LR': { code: 'LR', hemisphere: 'north', zones: ['tropical'], // Liberia
+    avgTemp: { jan: 26, feb: 27, mar: 28, apr: 27, may: 27, jun: 26, jul: 25, aug: 25, sep: 25, oct: 26, nov: 27, dec: 26 },
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
+  },
+  'MR': { code: 'MR', hemisphere: 'north', zones: ['desert_hot'], // Mauritanie
+    avgTemp: { jan: 22, feb: 24, mar: 27, apr: 30, may: 32, jun: 33, jul: 32, aug: 32, sep: 33, oct: 32, nov: 28, dec: 23 },
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
+  },
+  'GW': { code: 'GW', hemisphere: 'north', zones: ['tropical'], // Guinée-Bissau
+    avgTemp: { jan: 26, feb: 27, mar: 28, apr: 28, may: 29, jun: 28, jul: 27, aug: 27, sep: 27, oct: 28, nov: 28, dec: 26 },
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
+  },
+  'TD': { code: 'TD', hemisphere: 'north', zones: ['desert_hot', 'tropical'], // Tchad
+    avgTemp: { jan: 24, feb: 27, mar: 31, apr: 34, may: 35, jun: 34, jul: 31, aug: 30, sep: 31, oct: 32, nov: 29, dec: 25 },
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
+  },
+  'GQ': { code: 'GQ', hemisphere: 'both', zones: ['equatorial'], // Guinée Équatoriale
+    avgTemp: { jan: 26, feb: 26, mar: 26, apr: 26, may: 26, jun: 25, jul: 24, aug: 24, sep: 25, oct: 25, nov: 25, dec: 26 },
+    seasons: { summer: [], winter: [], spring: [], autumn: [] } // Équatorial constant
+  },
+  'BQ': { code: 'BQ', hemisphere: 'north', zones: ['tropical'], // Bonaire, Sint Eustatius et Saba
+    avgTemp: { jan: 26, feb: 26, mar: 27, apr: 27, may: 28, jun: 28, jul: 28, aug: 29, sep: 29, oct: 28, nov: 27, dec: 27 },
+    seasons: { summer: [], winter: [], spring: [], autumn: [] } // Climat constant
+  },
+  'KP': { code: 'KP', hemisphere: 'north', zones: ['continental'], // Corée du Nord
+    avgTemp: { jan: -8, feb: -5, mar: 2, apr: 10, may: 16, jun: 21, jul: 24, aug: 24, sep: 18, oct: 11, nov: 2, dec: -5 },
+    seasons: { summer: [6,7,8], winter: [11,12,1,2,3], spring: [4,5], autumn: [9,10] }
   },
 };
 
