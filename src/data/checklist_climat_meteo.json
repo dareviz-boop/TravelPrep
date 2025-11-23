@@ -1,13 +1,13 @@
 {
   "metadata": {
-    "version": "3.0",
-    "lastUpdated": "2025-11-14",
-    "totalConditions": 24,
+    "version": "3.3",
+    "lastUpdated": "2025-11-23",
+    "totalConditions": 27,
     "totalDestinationsSpecifiques": 36,
-    "description": "Version fusionnée et optimisée - Conditions climatiques + Destinations spécifiques",
+    "description": "Version corrigée avec températures et conditions climatiques révisées",
     "author": "TravelPrep Team",
     "migrationType": "nouveaux IDs cohérents (climat_xxx)",
-    "note": "Destiné à l'intégration avec le système de filtrage automatique"
+    "note": "Températures: Très chaude (30-38°C), Chaleur extrême (>38°C). Tempêtes de sable: périodes Asie ajoutées. Pays ajoutés: Pitcairn, Congo, Érythrée, Micronésie"
   },
 
   "conditionsClimatiques": {
@@ -189,8 +189,8 @@
       "items": [
         {
           "id": "climat_canicule",
-          "nom": "🔥 Chaleur extrême (>40°C)",
-          "emoji": "🔥",
+          "nom": "🌡️ Canicule / Vague de chaleur",
+          "emoji": "🌡️",
           "priorite": "haute",
           "delai": "J-14",
           "equipement": [
@@ -208,7 +208,7 @@
             "Sels réhydratation orale"
           ],
           "filtres": {
-            "destinations": ["afrique", "asie", "oceanie", "amerique-nord"],
+            "destinations": ["afrique", "asie", "oceanie", "amerique-nord", "europe"],
             "activites": [],
             "periode": [
               {"debut": 6, "fin": 9, "region": "hémisphère nord"},
@@ -217,9 +217,46 @@
           },
           "suggestions": {
             "temperature": ["tres-chaude"],
-            "description": "Ajouté AUTOMATIQUEMENT si température très chaude"
+            "description": "Ajouté AUTOMATIQUEMENT si température très chaude (30-38°C)"
           },
-          "conseils": "Chaleur 40-50°C. Risque VITAL insolation/déshydratation. Boire 5-6L/jour. Urine claire = bonne hydratation. Activités 5h-10h et 18h-21h UNIQUEMENT. Repos 11h-17h climatisé obligatoire. Électrolytes toutes les 2h effort. Signes alerte: vertiges, nausées, confusion, peau sèche = URGENCE. Crème solaire toutes les 2h. Vêtements longs PARADOXALEMENT plus frais. Éviter alcool/café (déshydratation)"
+          "conseils": "Canicule: chaleur 30-38°C prolongée. Risque ÉLEVÉ insolation/coup de chaleur/déshydratation. Boire 4-5L/jour MINIMUM. Urine claire = bonne hydratation, foncée = DANGER. Activités 6h-10h et 18h-21h de préférence. Repos 11h-17h à l'ombre/climatisé recommandé. Électrolytes toutes les 2h (perte sels). Signes alerte coup de chaleur: vertiges, nausées, confusion, peau sèche/rouge, arrêt transpiration = URGENCE MÉDICALE. Crème solaire toutes les 2h. Vêtements longs légers PARADOXALEMENT plus frais que shorts. Éviter alcool/café (déshydratation). Douches tièdes fréquentes"
+        },
+        {
+          "id": "climat_chaleur_extreme",
+          "nom": "🔥 Chaleur extrême >38°C (Zone torride)",
+          "emoji": "🔥",
+          "priorite": "haute",
+          "delai": "J-21",
+          "equipement": [
+            "Vêtements légers anti-UV techniques",
+            "Chapeau saharien large bord + voile nuque",
+            "Lunettes soleil UV400 catégorie 4",
+            "Crème solaire SPF 50+ minérale waterproof",
+            "Gourde isotherme 3L + réserve eau 10L",
+            "Électrolytes concentration double",
+            "Pastilles sel",
+            "Ventilateur solaire portable",
+            "Brumisateur corporel 500ml",
+            "Serviette rafraîchissante PVA x2",
+            "Parasol réfléchissant anti-UV",
+            "Thermomètre digital + hygromètre",
+            "Sels réhydratation orale WHO",
+            "Glacière portable / Sac isotherme",
+            "Compresses froides réutilisables"
+          ],
+          "filtres": {
+            "destinations": ["afrique", "asie", "oceanie"],
+            "activites": [],
+            "periode": [
+              {"debut": 5, "fin": 9, "region": "Déserts Afrique/Asie"},
+              {"debut": 12, "fin": 2, "region": "Australie centre/déserts"}
+            ]
+          },
+          "suggestions": {
+            "temperature": ["chaleur-extreme"],
+            "description": "Ajouté AUTOMATIQUEMENT si température extrême (>38°C)"
+          },
+          "conseils": "CHALEUR EXTRÊME 38-55°C : DANGER DE MORT. Sortie extérieure LIMITÉE à 5h-9h et 19h-21h UNIQUEMENT. Repos absolu climatisé 10h-18h OBLIGATOIRE. Boire 8-10L/jour + sels. Électrolytes x2 dose toutes les heures en activité. Mouiller vêtements régulièrement. Compresses froides nuque/poignets. SIGNES VITAUX: confusion, arrêt transpiration, peau sèche brûlante, pouls rapide faible = COUP DE CHALEUR MORTEL = URGENCE ABSOLUE refroidissement + 15/18. Urine foncée/absente = déshydratation sévère. Vêtements longs blancs obligatoires. JAMAIS peau nue au soleil. Prévoir abris climatisés sur itinéraire. Voyage déconseillé personnes fragiles (enfants, seniors, pathologies)"
         },
         {
           "id": "climat_froid_intense",
@@ -260,8 +297,8 @@
         },
         {
           "id": "climat_amplitude_thermique",
-          "nom": "🌡️ Amplitude thermique extrême",
-          "emoji": "🌡️",
+          "nom": "🌓 Amplitude thermique extrême",
+          "emoji": "🌓",
           "priorite": "moyenne",
           "delai": "J-10",
           "equipement": [
@@ -281,35 +318,6 @@
             "periode": []
           },
           "conseils": "Déserts/montagnes: 40°C jour → 0°C nuit (Δ40°C!). Système oignon 5-6 couches modulables. Matin/soir: froid. Midi: chaleur. Doudoune fine compressible indispensable soir. Sac couchage -5°C minimum (déserts altitude). Prévoir crème solaire ET protection froid. Hydratation constante malgré froid nuit"
-        },
-        {
-          "id": "climat_desert_extreme",
-          "nom": "🏜️ Canicule désertique (>45°C)",
-          "emoji": "🏜️",
-          "priorite": "haute",
-          "delai": "J-14",
-          "equipement": [
-            "Chèche/turban protection totale",
-            "Vêtements longs blancs/clairs",
-            "Tunique ample manches longues",
-            "Pantalon lin/coton léger",
-            "Lunettes enveloppantes catégorie 4",
-            "Gourde 3L + réserve eau 5L",
-            "Comprimés purification eau",
-            "Électrolytes concentration double",
-            "Pastilles sel",
-            "Crème solaire + stick lèvres",
-            "Ventilateur solaire portable"
-          ],
-          "filtres": {
-            "destinations": ["afrique", "asie", "oceanie"],
-            "activites": ["randonnee", "road-trip", "backpacking"],
-            "periode": [
-              {"debut": 5, "fin": 9, "region": "Sahara"},
-              {"debut": 11, "fin": 3, "region": "Australie centre"}
-            ]
-          },
-          "conseils": "45-55°C sol. Déshydratation FOUDROYANTE. Boire 8-10L/jour. Électrolytes x2 dose. Marche 5h-9h et 17h-20h UNIQUEMENT. Repos ombre/climatisé 10h-17h OBLIGATOIRE. Vêtements longs protègent mieux que courts. Chèche protège visage sable/soleil. Pastilles sel préviennent crampes. Urine foncée = danger immédiat"
         }
       ]
     },
@@ -538,8 +546,8 @@
         },
         {
           "id": "climat_arctique",
-          "nom": "❄️ Banquise / Arctique",
-          "emoji": "❄️",
+          "nom": "🧊 Banquise / Arctique",
+          "emoji": "🧊",
           "priorite": "haute",
           "delai": "J-30",
           "equipement": [
@@ -652,6 +660,42 @@
           "conseils": "Tornado Alley: Oklahoma, Kansas, Texas. Saison avril-juin. ALERTES: suivre NOAA Weather Radio. Tornado Watch = conditions favorables. Tornado Warning = tornade détectée = ABRI IMMÉDIAT. Abri: sous-sol, pièce intérieure sans fenêtre, baignoire. JAMAIS rester voiture ou mobile-home. Position sécurité: recroquevillé, mains sur tête. Débris volants = danger mortel"
         },
         {
+          "id": "climat_tempetes_sable",
+          "nom": "🏜️ Tempêtes de sable",
+          "emoji": "🏜️",
+          "priorite": "haute",
+          "delai": "J-10",
+          "equipement": [
+            "Masque respiratoire FFP2/N95",
+            "Lunettes hermétiques enveloppantes",
+            "Foulard/chèche protection intégrale",
+            "Vêtements couvrants épais",
+            "Sacs étanches pour équipement",
+            "Bâche protection sac à dos",
+            "Sérum physiologique yeux (doses)",
+            "Baume nasal protection muqueuses",
+            "Crème barrière visage",
+            "GPS étanche + boussole backup",
+            "Lampe frontale haute puissance",
+            "Radio météo portable"
+          ],
+          "filtres": {
+            "destinations": ["afrique", "asie", "oceanie"],
+            "activites": ["randonnee", "road-trip", "backpacking"],
+            "periode": [
+              {"debut": 3, "fin": 9, "region": "Sahara"},
+              {"debut": 11, "fin": 3, "region": "Afrique Ouest"},
+              {"debut": 3, "fin": 6, "region": "Asie (Moyen-Orient, Arabie, Déserts d'Asie centrale)"},
+              {"debut": 9, "fin": 11, "region": "Asie (Déserts de Gobi, Taklamakan)"}
+            ]
+          },
+          "suggestions": {
+            "temperature": ["chaude", "tres-chaude", "chaleur-extreme"],
+            "description": "Suggéré pour zones désertiques en saison chaude"
+          },
+          "conseils": "Tempêtes de sable DANGEREUSES: visibilité 0m, vents 80-100 km/h, sable pénètre partout. SIGNES AVANT-COUREURS: mur brun/orange à l'horizon, baisse température soudaine, ciel jaune-orange. RÉACTION: s'abriter IMMÉDIATEMENT bâtiment/véhicule/rochers. Si impossible: s'asseoir dos au vent, couvrir nez/bouche avec tissu humide, protéger yeux. NE JAMAIS continuer marche (désorientation totale). Attendre fin tempête (1-3h). Après: vérifier équipement, rincer yeux sérum physiologique, nettoyer électronique. Véhicule: moteur arrêté (sable aspiration), fenêtres fermées, phares allumés"
+        },
+        {
           "id": "climat_harmattan",
           "nom": "🌬️ Harmattan (vent de sable)",
           "emoji": "🌬️",
@@ -706,30 +750,6 @@
             "periode": []
           },
           "conseils": "Humidité 85-95%. Rien ne sèche. Moisissures 24-48h. Vêtements: synthétique UNIQUEMENT (sèche 3x plus vite). Coton prohibé (moisit). Sachets silice dans chaque pochette (électronique, vêtements, chaussures). Tout sécher CHAQUE soir (ventilateur/climatisation). Mycoses pieds fréquentes: poudre antifongique quotidienne. Chaussures: alterner paires. Odeurs: spray désinfectant"
-        },
-        {
-          "id": "climat_secheresse",
-          "nom": "🏜️ Sécheresse extrême (<20%)",
-          "emoji": "🏜️",
-          "priorite": "moyenne",
-          "delai": "J-7",
-          "equipement": [
-            "Crème hydratante intensive x2",
-            "Baume lèvres réparateur x3",
-            "Sérum physiologique doses",
-            "Spray nasal humidifiant",
-            "Collyre hydratant",
-            "Huile/baume nez",
-            "Hydratant mains intensif",
-            "Humidificateur portable USB",
-            "Spray brumisateur visage"
-          ],
-          "filtres": {
-            "destinations": ["afrique", "oceanie", "asie"],
-            "activites": ["randonnee", "road-trip"],
-            "periode": []
-          },
-          "conseils": "Humidité <20%. Déshydratation cutanée sévère. Lèvres gercent en 24h. Saignements nez fréquents. Yeux secs irritation. Électricité statique importante. Routine VITALE: crème hydratante matin + soir. Baume lèvres 5-6x/jour. Sérum physiologique nez 3x/jour prévention saignements. Collyre yeux 4x/jour. Boire 4-5L/jour (même sans soif). Humidificateur chambre nuit (si possible)"
         }
       ]
     },
@@ -761,7 +781,7 @@
       "trigger": {
         "destinations": ["afrique", "asie", "oceanie"],
         "activites": ["randonnee", "road-trip", "backpacking"],
-        "ou_conditions": ["climat_sec_aride", "climat_desert_extreme"]
+        "ou_conditions": ["climat_sec_aride", "climat_canicule"]
       },
       "items": [
         {

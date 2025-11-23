@@ -1,6 +1,6 @@
 export type Localisation = 'europe' | 'asie' | 'afrique' | 'amerique-nord' | 'amerique-centrale-caraibes' | 'amerique-sud' | 'oceanie' | 'multi-destinations';
 export type Duree = 'court' | 'moyen' | 'long' | 'tres-long';
-export type Temperature = 'tres-froide' | 'froide' | 'temperee' | 'chaude' | 'tres-chaude' | 'inconnue';
+export type Temperature = 'tres-froide' | 'froide' | 'temperee' | 'chaude' | 'tres-chaude' | 'chaleur-extreme' | 'inconnue';
 export type Saison = 'ete' | 'hiver' | 'printemps' | 'automne' | 'inconnue';
 export type Activite = 'randonnee' | 'plage' | 'sports-nautiques' | 'city-trip' | 'backpacking' | 'camping' | 'sports-hiver' | 'road-trip' | 'vie-nocturne' | 'velo' | 'gastronomie' | 'shopping' | 'photographie';
 export type Profil = 'solo' | 'couple' | 'famille' | 'groupe' | 'pro';

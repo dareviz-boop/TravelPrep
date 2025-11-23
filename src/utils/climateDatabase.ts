@@ -167,6 +167,18 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   },
 
   // === AFRIQUE ===
+  'CG': { code: 'CG', hemisphere: 'both', zones: ['tropical', 'equatorial'], // Congo (République du)
+    avgTemp: { jan: 26, feb: 27, mar: 27, apr: 27, may: 27, jun: 25, jul: 24, aug: 25, sep: 26, oct: 26, nov: 26, dec: 26 },
+    seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
+  },
+  'CD': { code: 'CD', hemisphere: 'both', zones: ['tropical', 'equatorial'], // Congo (RDC)
+    avgTemp: { jan: 26, feb: 26, mar: 27, apr: 26, may: 26, jun: 24, jul: 24, aug: 25, sep: 26, oct: 26, nov: 26, dec: 26 },
+    seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
+  },
+  'ER': { code: 'ER', hemisphere: 'north', zones: ['desert_hot', 'tropical'], // Érythrée
+    avgTemp: { jan: 22, feb: 23, mar: 25, apr: 27, may: 29, jun: 32, jul: 34, aug: 33, sep: 31, oct: 28, nov: 25, dec: 23 },
+    seasons: { summer: [5,6,7,8,9], winter: [11,12,1,2,3], spring: [4], autumn: [10] }
+  },
   'EG': { code: 'EG', hemisphere: 'north', zones: ['desert_hot'],
     avgTemp: { jan: 14, feb: 16, mar: 20, apr: 24, may: 28, jun: 30, jul: 31, aug: 31, sep: 29, oct: 26, nov: 21, dec: 16 },
     seasons: { summer: [5,6,7,8,9], winter: [12,1,2], spring: [3,4], autumn: [10,11] }
@@ -228,7 +240,7 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
 
   // === OCÉANIE ===
   'AU': { code: 'AU', hemisphere: 'south', zones: ['subtropical', 'desert_hot', 'mediterranean'],
-    avgTemp: { jan: 32, feb: 31, mar: 28, apr: 24, may: 20, jun: 17, jul: 16, aug: 17, sep: 20, oct: 23, nov: 26, dec: 30 },
+    avgTemp: { jan: 38, feb: 37, mar: 32, apr: 26, may: 21, jun: 17, jul: 16, aug: 18, sep: 22, oct: 27, nov: 32, dec: 36 },
     seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
   },
   'NZ': { code: 'NZ', hemisphere: 'south', zones: ['oceanic'],
@@ -287,9 +299,17 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   },
 
   // === OCÉANIE - ÎLES DU PACIFIQUE ===
+  'PN': { code: 'PN', hemisphere: 'south', zones: ['subtropical'], // Pitcairn
+    avgTemp: { jan: 25, feb: 26, mar: 25, apr: 24, may: 22, jun: 21, jul: 20, aug: 20, sep: 21, oct: 22, nov: 23, dec: 24 },
+    seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
+  },
   'PG': { code: 'PG', hemisphere: 'both', zones: ['tropical', 'equatorial'], // Papouasie-Nouvelle-Guinée
     avgTemp: { jan: 27, feb: 27, mar: 27, apr: 27, may: 27, jun: 26, jul: 26, aug: 26, sep: 26, oct: 27, nov: 27, dec: 27 },
     seasons: { summer: [], winter: [], spring: [], autumn: [] }
+  },
+  'FM': { code: 'FM', hemisphere: 'north', zones: ['tropical', 'equatorial'], // Micronésie (États fédérés)
+    avgTemp: { jan: 27, feb: 27, mar: 27, apr: 28, may: 28, jun: 28, jul: 28, aug: 28, sep: 28, oct: 28, nov: 27, dec: 27 },
+    seasons: { summer: [], winter: [], spring: [], autumn: [] } // Tropical constant
   },
   'WS': { code: 'WS', hemisphere: 'south', zones: ['tropical'], // Samoa
     avgTemp: { jan: 27, feb: 27, mar: 27, apr: 27, may: 26, jun: 26, jul: 25, aug: 25, sep: 26, oct: 26, nov: 27, dec: 27 },
@@ -772,23 +792,49 @@ export function getRegionalClimate(regionCode: string): Partial<CountryClimate> 
 
 /**
  * Détermine la température pour un mois donné
+ * Catégories de température :
+ * - Très Froide : < 0°C
+ * - Froide : 0-10°C
+ * - Tempérée : 10-20°C
+ * - Chaude : 20-30°C
+ * - Très Chaude : 30-38°C (Chaleur intense)
+ * - Chaleur Extrême : > 38°C (Zone torride)
  */
 export function getTemperatureCategory(avgTemp: number): string[] {
   const temps: string[] = [];
 
-  if (avgTemp < -5) {
+  // Catégorie principale basée sur la température
+  if (avgTemp < 0) {
     temps.push('tres-froide');
-    temps.push('froide'); // Très froide implique aussi froide
+  } else if (avgTemp < 10) {
+    temps.push('froide');
+  } else if (avgTemp < 20) {
+    temps.push('temperee');
+  } else if (avgTemp < 30) {
+    temps.push('chaude');
+  } else if (avgTemp < 38) {
+    temps.push('tres-chaude');
+  } else {
+    temps.push('chaleur-extreme');
   }
-  else if (avgTemp < 10) temps.push('froide');
-  else if (avgTemp < 20) temps.push('temperee');
-  else if (avgTemp < 30) temps.push('chaude');
-  else temps.push('tres-chaude');
 
-  // Ajouter des températures adjacentes pour plus de flexibilité
-  if (avgTemp >= -5 && avgTemp < 5) temps.push('froide');
-  if (avgTemp >= 15 && avgTemp < 25) temps.push('temperee', 'chaude');
-  if (avgTemp >= 28) temps.push('chaude', 'tres-chaude');
+  // Ajouter des catégories adjacentes pour la flexibilité du filtrage
+  // Températures très froides incluent aussi froide
+  if (avgTemp < 0) {
+    temps.push('froide');
+  }
+
+  // Zone de transition tempérée-chaude (15-25°C)
+  if (avgTemp >= 15 && avgTemp < 25) {
+    if (!temps.includes('temperee')) temps.push('temperee');
+    if (!temps.includes('chaude')) temps.push('chaude');
+  }
+
+  // Zone de transition chaude-très chaude (28-33°C)
+  if (avgTemp >= 28 && avgTemp < 33) {
+    if (!temps.includes('chaude')) temps.push('chaude');
+    if (!temps.includes('tres-chaude')) temps.push('tres-chaude');
+  }
 
   return [...new Set(temps)]; // Dédupliquer
 }
