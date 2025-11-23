@@ -680,9 +680,17 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     avgTemp: { jan: -1, feb: 1, mar: 8, apr: 14, may: 19, jun: 24, jul: 26, aug: 25, sep: 20, oct: 13, nov: 7, dec: 2 },
     seasons: { summer: [6,7,8], winter: [11,12,1,2,3], spring: [4,5], autumn: [9,10] }
   },
+  'MN': { code: 'MN', hemisphere: 'north', zones: ['continental', 'desert_cold'], // Mongolie
+    avgTemp: { jan: -25, feb: -18, mar: -7, apr: 3, may: 11, jun: 17, jul: 19, aug: 17, sep: 10, oct: 1, nov: -11, dec: -21 },
+    seasons: { summer: [6,7,8], winter: [10,11,12,1,2,3,4], spring: [5], autumn: [9] }
+  },
   'BN': { code: 'BN', hemisphere: 'north', zones: ['tropical', 'equatorial'], // Brunei
     avgTemp: { jan: 27, feb: 27, mar: 28, apr: 28, may: 28, jun: 28, jul: 28, aug: 28, sep: 28, oct: 28, nov: 27, dec: 27 },
     seasons: { summer: [], winter: [], spring: [], autumn: [] } // Équatorial constant
+  },
+  'KW': { code: 'KW', hemisphere: 'north', zones: ['desert_hot'], // Koweït
+    avgTemp: { jan: 14, feb: 16, mar: 21, apr: 27, may: 34, jun: 38, jul: 40, aug: 40, sep: 36, oct: 29, nov: 22, dec: 16 },
+    seasons: { summer: [5,6,7,8,9], winter: [12,1,2], spring: [3,4], autumn: [10,11] }
   },
 
   // === AFRIQUE ADDITIONNELLE ===
@@ -710,6 +718,14 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     avgTemp: { jan: 23, feb: 23, mar: 22, apr: 19, may: 16, jun: 13, jul: 13, aug: 15, sep: 18, oct: 20, nov: 21, dec: 22 },
     seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
   },
+  'NE': { code: 'NE', hemisphere: 'north', zones: ['desert_hot'], // Niger
+    avgTemp: { jan: 23, feb: 26, mar: 31, apr: 35, may: 37, jun: 37, jul: 35, aug: 33, sep: 35, oct: 33, nov: 28, dec: 24 },
+    seasons: { summer: [3,4,5,6,7,8,9,10], winter: [11,12,1,2], spring: [], autumn: [] }
+  },
+  'ML': { code: 'ML', hemisphere: 'north', zones: ['desert_hot', 'tropical'], // Mali
+    avgTemp: { jan: 24, feb: 27, mar: 31, apr: 34, may: 36, jun: 35, jul: 32, aug: 31, sep: 32, oct: 32, nov: 28, dec: 25 },
+    seasons: { summer: [3,4,5,6,7,8,9,10], winter: [11,12,1,2], spring: [], autumn: [] }
+  },
 
   // === AMÉRIQUE DU SUD ADDITIONNELLE ===
   'GY': { code: 'GY', hemisphere: 'north', zones: ['tropical', 'equatorial'], // Guyana
@@ -719,6 +735,12 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   'SR': { code: 'SR', hemisphere: 'north', zones: ['tropical', 'equatorial'], // Suriname
     avgTemp: { jan: 27, feb: 27, mar: 27, apr: 27, may: 27, jun: 27, jul: 27, aug: 28, sep: 28, oct: 28, nov: 28, dec: 27 },
     seasons: { summer: [], winter: [], spring: [], autumn: [] } // Équatorial constant
+  },
+
+  // === ZONES POLAIRES ===
+  'AQ': { code: 'AQ', hemisphere: 'south', zones: ['arctic'], // Antarctique
+    avgTemp: { jan: -28, feb: -40, mar: -54, apr: -57, may: -58, jun: -59, jul: -61, aug: -60, sep: -58, oct: -50, nov: -36, dec: -28 },
+    seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
   },
 };
 
