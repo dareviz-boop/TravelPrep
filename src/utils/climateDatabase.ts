@@ -240,8 +240,8 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
 
   // === OCÉANIE ===
   'AU': { code: 'AU', hemisphere: 'south', zones: ['subtropical', 'desert_hot', 'mediterranean'],
-    avgTemp: { jan: 32, feb: 32, mar: 29, apr: 26, may: 21, jun: 17, jul: 16, aug: 18, sep: 22, oct: 27, nov: 30, dec: 32 },
-    seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] } // Nord tropical chaud + Outback désertique
+    avgTemp: { jan: 27, feb: 27, mar: 25, apr: 22, may: 18, jun: 15, jul: 14, aug: 16, sep: 19, oct: 22, nov: 25, dec: 27 },
+    seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] } // Moyenne nationale incluant régions tempérées
   },
   'NZ': { code: 'NZ', hemisphere: 'south', zones: ['oceanic'],
     avgTemp: { jan: 19, feb: 19, mar: 17, apr: 15, may: 12, jun: 10, jul: 9, aug: 10, sep: 12, oct: 14, nov: 16, dec: 18 },
@@ -842,7 +842,7 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   // === AFRIQUE ADDITIONNELLE (6 destinations) ===
   'NG': { code: 'NG', hemisphere: 'north', zones: ['tropical', 'subtropical'], // Nigeria
     avgTemp: { jan: 27, feb: 29, mar: 30, apr: 30, may: 28, jun: 27, jul: 26, aug: 25, sep: 26, oct: 27, nov: 28, dec: 27 },
-    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
   },
   'CI': { code: 'CI', hemisphere: 'north', zones: ['tropical'], // Côte d'Ivoire
     avgTemp: { jan: 27, feb: 28, mar: 29, apr: 28, may: 28, jun: 26, jul: 25, aug: 25, sep: 26, oct: 27, nov: 27, dec: 27 },
@@ -850,7 +850,7 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   },
   'CM': { code: 'CM', hemisphere: 'north', zones: ['tropical', 'equatorial'], // Cameroun
     avgTemp: { jan: 26, feb: 27, mar: 27, apr: 27, may: 27, jun: 26, jul: 25, aug: 25, sep: 25, oct: 26, nov: 26, dec: 26 },
-    seasons: { summer: [11,12,1,2], winter: [6,7,8], spring: [9,10], autumn: [3,4,5] }
+    seasons: { summer: [3,4,5,6,7,8], winter: [11,12,1,2], spring: [], autumn: [9,10] }
   },
   'GA': { code: 'GA', hemisphere: 'both', zones: ['tropical', 'equatorial'], // Gabon
     avgTemp: { jan: 27, feb: 27, mar: 27, apr: 27, may: 27, jun: 26, jul: 25, aug: 25, sep: 26, oct: 26, nov: 26, dec: 27 },
@@ -954,11 +954,11 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   },
   'TG': { code: 'TG', hemisphere: 'north', zones: ['tropical'], // Togo
     avgTemp: { jan: 27, feb: 28, mar: 29, apr: 28, may: 28, jun: 26, jul: 25, aug: 25, sep: 26, oct: 27, nov: 27, dec: 27 },
-    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
   },
   'BJ': { code: 'BJ', hemisphere: 'north', zones: ['tropical'], // Bénin
     avgTemp: { jan: 27, feb: 29, mar: 29, apr: 29, may: 28, jun: 27, jul: 26, aug: 25, sep: 26, oct: 27, nov: 28, dec: 27 },
-    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
   },
   'GM': { code: 'GM', hemisphere: 'north', zones: ['tropical', 'subtropical'], // Gambie
     avgTemp: { jan: 24, feb: 25, mar: 27, apr: 28, may: 29, jun: 29, jul: 28, aug: 28, sep: 28, oct: 29, nov: 27, dec: 25 },
@@ -970,7 +970,7 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   },
   'BF': { code: 'BF', hemisphere: 'north', zones: ['tropical', 'subtropical'], // Burkina Faso
     avgTemp: { jan: 25, feb: 28, mar: 32, apr: 34, may: 33, jun: 31, jul: 28, aug: 27, sep: 28, oct: 30, nov: 28, dec: 26 },
-    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
   },
   'GB': { code: 'GB', hemisphere: 'north', zones: ['oceanic'], // Royaume-Uni (global)
     avgTemp: { jan: 5, feb: 5, mar: 7, apr: 9, may: 12, jun: 15, jul: 17, aug: 17, sep: 14, oct: 11, nov: 7, dec: 5 },
@@ -980,7 +980,7 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   // MOYENNE PRIORITÉ - Petites destinations (12)
   'GN': { code: 'GN', hemisphere: 'north', zones: ['tropical'], // Guinée
     avgTemp: { jan: 26, feb: 27, mar: 28, apr: 28, may: 28, jun: 26, jul: 25, aug: 25, sep: 25, oct: 26, nov: 27, dec: 26 },
-    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
   },
   'BI': { code: 'BI', hemisphere: 'south', zones: ['tropical', 'highland'], // Burundi
     avgTemp: { jan: 23, feb: 23, mar: 23, apr: 23, may: 23, jun: 22, jul: 22, aug: 23, sep: 24, oct: 24, nov: 23, dec: 23 },
@@ -988,35 +988,35 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   },
   'SL': { code: 'SL', hemisphere: 'north', zones: ['tropical'], // Sierra Leone
     avgTemp: { jan: 27, feb: 28, mar: 28, apr: 28, may: 28, jun: 27, jul: 26, aug: 25, sep: 26, oct: 27, nov: 27, dec: 27 },
-    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
   },
   'ML': { code: 'ML', hemisphere: 'north', zones: ['desert_hot', 'tropical'], // Mali
     avgTemp: { jan: 25, feb: 28, mar: 32, apr: 35, may: 36, jun: 34, jul: 31, aug: 29, sep: 31, oct: 32, nov: 29, dec: 26 },
-    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
   },
   'NE': { code: 'NE', hemisphere: 'north', zones: ['desert_hot'], // Niger
     avgTemp: { jan: 23, feb: 26, mar: 31, apr: 35, may: 37, jun: 36, jul: 33, aug: 31, sep: 33, oct: 33, nov: 29, dec: 24 },
-    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
   },
   'LR': { code: 'LR', hemisphere: 'north', zones: ['tropical'], // Liberia
     avgTemp: { jan: 26, feb: 27, mar: 28, apr: 27, may: 27, jun: 26, jul: 25, aug: 25, sep: 25, oct: 26, nov: 27, dec: 26 },
-    seasons: { summer: [11,12,1,2,3], winter: [5,6,7,8,9], spring: [10], autumn: [4] }
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
   },
   'MR': { code: 'MR', hemisphere: 'north', zones: ['desert_hot'], // Mauritanie
     avgTemp: { jan: 22, feb: 24, mar: 27, apr: 30, may: 32, jun: 33, jul: 32, aug: 32, sep: 33, oct: 32, nov: 28, dec: 23 },
-    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
   },
   'GW': { code: 'GW', hemisphere: 'north', zones: ['tropical'], // Guinée-Bissau
     avgTemp: { jan: 26, feb: 27, mar: 28, apr: 28, may: 29, jun: 28, jul: 27, aug: 27, sep: 27, oct: 28, nov: 28, dec: 26 },
-    seasons: { summer: [11,12,1,2,3,4], winter: [6,7,8,9], spring: [], autumn: [5,10] }
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
   },
   'TD': { code: 'TD', hemisphere: 'north', zones: ['desert_hot', 'tropical'], // Tchad
     avgTemp: { jan: 24, feb: 27, mar: 31, apr: 34, may: 35, jun: 34, jul: 31, aug: 30, sep: 31, oct: 32, nov: 29, dec: 25 },
-    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
   },
-  'GQ': { code: 'GQ', hemisphere: 'north', zones: ['tropical', 'equatorial'], // Guinée Équatoriale
+  'GQ': { code: 'GQ', hemisphere: 'both', zones: ['equatorial'], // Guinée Équatoriale
     avgTemp: { jan: 26, feb: 26, mar: 26, apr: 26, may: 26, jun: 25, jul: 24, aug: 24, sep: 25, oct: 25, nov: 25, dec: 26 },
-    seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
+    seasons: { summer: [], winter: [], spring: [], autumn: [] } // Équatorial constant
   },
   'BQ': { code: 'BQ', hemisphere: 'north', zones: ['tropical'], // Bonaire, Sint Eustatius et Saba
     avgTemp: { jan: 26, feb: 26, mar: 27, apr: 27, may: 28, jun: 28, jul: 28, aug: 29, sep: 29, oct: 28, nov: 27, dec: 27 },
