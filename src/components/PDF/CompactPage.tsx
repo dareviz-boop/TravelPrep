@@ -402,6 +402,68 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
   };
 
   // ==========================================
+  // SECTION 4: SUR PLACE & RETOUR
+  // ==========================================
+
+  const renderSurPlaceSection = () => {
+    // Trouver la section "Pendant & Après"
+    const surPlaceSection = checklistData.sections.find(
+      section => section.id === 'pendant_apres'
+    );
+
+    if (!surPlaceSection || surPlaceSection.items.length === 0) return null;
+
+    // Grouper les items par moment
+    const itemsByMoment: { [moment: string]: ChecklistItem[] } = {};
+    surPlaceSection.items.forEach(item => {
+      const moment = (item as any).moment || 'Autre';
+      if (!itemsByMoment[moment]) {
+        itemsByMoment[moment] = [];
+      }
+      itemsByMoment[moment].push(item);
+    });
+
+    // Ordre des moments
+    const momentOrder = ['Arrivée', 'J1-J2', 'Début voyage', 'Quotidien', 'Quotidien soir', 'Quotidien nuit', 'Soir', 'Avant dormir', 'Repas', 'Tous les 3-5 jours', 'Continu', 'Autre'];
+    const sortedMoments = Object.keys(itemsByMoment).sort((a, b) => {
+      const indexA = momentOrder.indexOf(a);
+      const indexB = momentOrder.indexOf(b);
+      if (indexA === -1) return 1;
+      if (indexB === -1) return -1;
+      return indexA - indexB;
+    });
+
+    return (
+      <>
+        <View style={styles.divider} />
+        <View style={styles.mainSectionTitleContainer}>
+          <Text style={styles.mainSectionTitlePart1}>Sur place & </Text>
+          <Text style={styles.mainSectionTitlePart2}>Retour</Text>
+        </View>
+
+        {sortedMoments.map(moment => {
+          const items = itemsByMoment[moment];
+          return (
+            <View key={moment}>
+              <Text style={styles.categoryTitle}>{cleanTextForPDF(moment)}</Text>
+              {items.map((item, idx) => {
+                const priority = getPriority(item.priorite);
+                return (
+                  <View style={styles.item} key={item.id || `moment-${idx}`}>
+                    {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                    <View style={styles.checkbox} />
+                    <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                  </View>
+                );
+              })}
+            </View>
+          );
+        })}
+      </>
+    );
+  };
+
+  // ==========================================
   // RENDU PRINCIPAL
   // ==========================================
 
@@ -410,6 +472,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
       {renderTimelineSection()}
       {renderSelectionSection()}
       {renderActivitiesSection()}
+      {renderSurPlaceSection()}
     </>
   );
 };

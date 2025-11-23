@@ -18,6 +18,7 @@ export interface ChecklistItem {
   item: string;
   priorite: string;
   delai?: string;
+  moment?: string; // Pour items "Pendant & Après" (Arrivée, Quotidien, etc.)
   quantite?: string;
   specifications?: string[];
   conseils?: string;
@@ -48,17 +49,17 @@ function mapClimatItemToSection(itemName: string): string {
   const itemLower = itemName.toLowerCase();
 
   // HYGIÈNE : crèmes, protections solaires, produits de soin
-  if (itemLower.match(/crème|baume|protection (uv|solaire)|spf|hydratant|déodorant|shampooing|savon|gel douche|dentifrice|brosse|rasoir|coupe-ongles|pince|sérum|lotion/)) {
+  if (itemLower.match(/crème|baume|protection (uv|solaire)|spf|hydratant|déodorant|shampooing|savon|gel douche|dentifrice|brosse|rasoir|coupe-ongles|pince|sérum|lotion|talc/)) {
     return 'hygiene';
   }
 
-  // SANTÉ : médicaments, premiers soins, traitement médical
-  if (itemLower.match(/médicament|paracétamol|ibuprofène|antihistaminique|antibiotique|pansement|désinfectant|thermomètre|antifongique|électrolytes|trousse (premiers secours|médicale)|comprimés|gélules|purification eau|traitement/)) {
+  // SANTÉ : médicaments, premiers soins, traitement médical, équipements médicaux
+  if (itemLower.match(/médicament|paracétamol|ibuprofène|antihistaminique|antibiotique|pansement|désinfectant|thermomètre|antifongique|électrolytes|trousse (premiers secours|médicale)|comprimés|gélules|purification eau|traitement|sels? réhydratation|pastilles? sel|oxymètre|oxygen|oxygène|aspirine|diamox|acétazolamide|dexaméthasone|antipaludique|malarone|doxycycline|coca tea|sorochi|gingko|vinagre|masque oxygène|régulateur|caisson hyperbare/)) {
     return 'sante';
   }
 
-  // TECH : électronique, batteries, chargeurs
-  if (itemLower.match(/batterie|chargeur|câble|adaptateur|électronique|lampe (frontale|torche)|power bank|solaire (panneau|chargeur)|gps|téléphone|appareil photo|ordinateur|tablette|e-reader/)) {
+  // TECH : électronique, batteries, chargeurs, appareils
+  if (itemLower.match(/batterie|chargeur|câble|adaptateur|électronique|lampe (frontale|torche)|power ?bank|solaire (panneau|chargeur)|gps|téléphone|appareil photo|ordinateur|tablette|e-reader|radio|ventilateur|balise|brumisateur|monitoring|spo2/)) {
     return 'tech';
   }
 
@@ -253,12 +254,39 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
         sectionsInclure.includes(sectionKey);
 
       if (shouldInclude) {
-        // Mapper les items avec conversion de priorité
-        const mappedItems: ChecklistItem[] = section.items.map((item: any) => ({
+        // Filtrer les items selon leurs filtres (profil, destination, durée)
+        const filteredItems = section.items.filter((item: any) => {
+          // Si l'item a des filtres profil
+          if (item.filtres?.profil) {
+            if (!item.filtres.profil.includes(formData.profil)) {
+              return false;
+            }
+          }
+
+          // Si l'item a des filtres destination
+          if (item.filtres?.destinations) {
+            if (!item.filtres.destinations.includes(formData.localisation)) {
+              return false;
+            }
+          }
+
+          // Si l'item a des filtres durée
+          if (item.filtres?.duree) {
+            if (!item.filtres.duree.includes(formData.duree)) {
+              return false;
+            }
+          }
+
+          return true;
+        });
+
+        // Mapper les items filtrés avec conversion de priorité
+        const mappedItems: ChecklistItem[] = filteredItems.map((item: any) => ({
           id: item.id,
           item: item.item,
           priorite: mapStarsToPriority(item.priorite || '⭐⭐'),
           delai: item.delai,
+          moment: item.moment, // Gérer items "Pendant & Après"
           conseils: item.conseils || ''
         }));
 
