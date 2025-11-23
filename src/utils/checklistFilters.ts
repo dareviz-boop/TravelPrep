@@ -31,6 +31,7 @@ export interface ClimatItem {
   equipement: string[];
   filtres?: {
     destinations?: string[];
+    pays?: string[];
     activites?: string[];
     periode?: Array<{
       debut: number;
@@ -292,6 +293,22 @@ function matchesActivites(
 }
 
 /**
+ * Vérifie si les pays correspondent à la liste des pays à risque
+ */
+function matchesPays(
+  paysFilter: string[] | undefined,
+  formPays: Array<{ code?: string; nom?: string }> | undefined
+): boolean {
+  if (!paysFilter || paysFilter.length === 0) return true;
+  if (!formPays || formPays.length === 0) return false;
+
+  return formPays.some((pays) => {
+    const code = pays.code?.toUpperCase();
+    return code && paysFilter.some(p => p.toUpperCase() === code);
+  });
+}
+
+/**
  * Déduplique et tri les items
  */
 function deduplicateItems(items: string[]): string[] {
@@ -347,8 +364,20 @@ export function getClimatEquipment(formData: FormData): ChecklistSection[] {
       formData.activites
     );
 
+    // 4. Filtre pays spécifiques (prioritaire sur destinations si défini)
+    const matchesPaysFilter = matchesPays(
+      condition.filtres?.pays,
+      formData.pays
+    );
+
+    // === LOGIQUE DE FILTRAGE COMBINÉE ===
+    // Si un filtre pays est défini et non vide, on l'utilise en priorité sur le filtre destinations
+    // Cela permet une détection plus précise (ex: cyclones au Canada sans bloquer sur amerique-nord)
+    const hasCountryFilter = condition.filtres?.pays && condition.filtres.pays.length > 0;
+    const locationMatch = hasCountryFilter ? matchesPaysFilter : matchesDest;
+
     // === APPLICATION DES FILTRES ===
-    if (matchesDest && matchesPeriod && matchesAct) {
+    if (locationMatch && matchesPeriod && matchesAct) {
       allItems.push(...condition.equipement);
       if (condition.conseils) {
         conseils.push(condition.conseils);
@@ -974,7 +1003,16 @@ export function acceptSuggestion(conditionId: string, formData: FormData): strin
     formData.activites
   );
 
-  if (matchesDest && matchesPeriod && matchesAct) {
+  const matchesPaysFilter = matchesPays(
+    condition.filtres?.pays,
+    formData.pays
+  );
+
+  // Si un filtre pays est défini, l'utiliser en priorité sur destinations
+  const hasCountryFilter = condition.filtres?.pays && condition.filtres.pays.length > 0;
+  const locationMatch = hasCountryFilter ? matchesPaysFilter : matchesDest;
+
+  if (locationMatch && matchesPeriod && matchesAct) {
     return condition.equipement;
   }
 

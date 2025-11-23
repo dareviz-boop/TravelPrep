@@ -45,7 +45,8 @@
           ],
           "filtres": {
             "destinations": ["asie", "amerique-centrale-caraibes", "afrique"],
-            "activites": ["randonnee", "camping", "backpacking"],
+            "pays": ["IN", "BD", "PK", "NP", "BT", "LK", "MV", "MM", "TH", "KH", "LA", "VN", "MY", "SG", "ID", "PH", "BN", "TL", "MX", "BZ", "GT", "HN", "SV", "NI", "CR", "PA", "CU", "JM", "HT", "DO", "SN", "GM", "GW", "GN", "SL", "LR", "CI", "GH", "TG", "BJ", "NG", "CM", "GQ", "GA"],
+            "activites": [],
             "periode": [
               {"debut": 5, "fin": 10, "region": "Asie"},
               {"debut": 5, "fin": 11, "region": "Caraïbes"},
@@ -137,6 +138,7 @@
           ],
           "filtres": {
             "destinations": ["amerique-centrale-caraibes", "asie", "oceanie"],
+            "pays": ["US", "CA", "MX", "CU", "JM", "HT", "DO", "PR", "BS", "BB", "LC", "VC", "GD", "TT", "BZ", "GT", "HN", "NI", "CR", "PA", "PH", "JP", "CN", "TW", "VN", "TH", "KR", "KP", "MM", "IN", "BD", "LK", "MV", "MG", "MZ", "MU", "RE", "KM", "SC", "AU", "FJ", "NC", "PF", "MY"],
             "activites": [],
             "periode": [
               {"debut": 6, "fin": 11, "region": "Atlantique"},
