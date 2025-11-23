@@ -162,6 +162,7 @@ interface TimelineItem extends ChecklistItem {
   sectionEmoji?: string;
   sectionSource?: 'core' | 'activite' | 'climat' | 'destination_specifique';
   category?: 'must-have' | 'interesting';
+  moment?: string; // Pour items "Pendant & Après"
 }
 
 export const TimelinePage = ({ formData, checklistData, isDetailed = false }: TimelinePageProps) => {
@@ -173,12 +174,14 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
       j7_j3: TimelineItem[];
       j2_j1: TimelineItem[];
       other: TimelineItem[];
+      surPlace: TimelineItem[]; // Items "Pendant & Après" avec "moment"
     } = {
       j90_j60: [],
       j30_j14: [],
       j7_j3: [],
       j2_j1: [],
-      other: []
+      other: [],
+      surPlace: []
     };
 
     checklistData.sections.forEach(section => {
@@ -193,8 +196,15 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
           sectionName: section.nom,
           sectionEmoji: section.emoji,
           sectionSource: section.source,
-          category: section.category
+          category: section.category,
+          moment: item.moment
         };
+
+        // Si l'item a un "moment" (Pendant & Après), l'ajouter à surPlace
+        if (item.moment) {
+          timelines.surPlace.push(itemWithSection);
+          return;
+        }
 
         const delai = item.delai?.toUpperCase() || '';
 
@@ -342,6 +352,79 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
     );
   };
 
+  // Fonction pour rendre la section "Sur place & Retour" avec groupement par moment
+  const renderSurPlaceSection = (items: TimelineItem[]) => {
+    if (items.length === 0) return null;
+
+    // Grouper les items par moment
+    const itemsByMoment: { [moment: string]: TimelineItem[] } = {};
+    items.forEach(item => {
+      const moment = item.moment || 'Autre';
+      if (!itemsByMoment[moment]) {
+        itemsByMoment[moment] = [];
+      }
+      itemsByMoment[moment].push(item);
+    });
+
+    // Ordre des moments
+    const momentOrder = ['Arrivée', 'J1-J2', 'Début voyage', 'Quotidien', 'Quotidien soir', 'Quotidien nuit', 'Soir', 'Avant dormir', 'Repas', 'Tous les 3-5 jours', 'Continu', 'Autre'];
+    const sortedMoments = Object.keys(itemsByMoment).sort((a, b) => {
+      const indexA = momentOrder.indexOf(a);
+      const indexB = momentOrder.indexOf(b);
+      if (indexA === -1) return 1;
+      if (indexB === -1) return -1;
+      return indexA - indexB;
+    });
+
+    return (
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Sur place & Retour</Text>
+        {sortedMoments.map(moment => {
+          const momentItems = itemsByMoment[moment];
+          return (
+            <View key={moment}>
+              <Text style={{ fontSize: 10, fontWeight: 600, color: '#E85D2A', marginTop: 8, marginBottom: 4, marginLeft: 5 }}>
+                {cleanTextForPDF(moment)}
+              </Text>
+              {momentItems.map((item, index) => {
+                const shouldShowConseil = isDetailed && item.conseils;
+                return shouldShowConseil ? (
+                  <View style={styles.itemWithConseil} key={`${item.id || index}-${item.item}`}>
+                    <View style={styles.itemRow}>
+                      {isHighPriority(item.priorite) && (
+                        <Text style={styles.prioritySymbol}>!!</Text>
+                      )}
+                      <View style={styles.checkbox} />
+                      <Text style={styles.itemText}>
+                        {cleanTextForPDF(item.item)}
+                      </Text>
+                    </View>
+                    <View style={styles.conseilContainer}>
+                      <PDFIcon name="lightbulb" style={{ marginRight: 4, marginTop: 1 }} />
+                      <Text style={styles.conseilText}>
+                        {cleanTextForPDF(item.conseils)}
+                      </Text>
+                    </View>
+                  </View>
+                ) : (
+                  <View style={styles.item} key={`${item.id || index}-${item.item}`}>
+                    {isHighPriority(item.priorite) && (
+                      <Text style={styles.prioritySymbol}>!!</Text>
+                    )}
+                    <View style={styles.checkbox} />
+                    <Text style={styles.itemText}>
+                      {cleanTextForPDF(item.item)}
+                    </Text>
+                  </View>
+                );
+              })}
+            </View>
+          );
+        })}
+      </View>
+    );
+  };
+
   const timelines = organizeItemsByTimeline();
 
   return (
@@ -379,6 +462,8 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
         timelines.other,
         'Autres éléments'
       )}
+
+      {renderSurPlaceSection(timelines.surPlace)}
 
       <Text
         style={styles.pageNumber}

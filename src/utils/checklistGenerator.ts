@@ -18,6 +18,7 @@ export interface ChecklistItem {
   item: string;
   priorite: string;
   delai?: string;
+  moment?: string; // Pour items "Pendant & Après" (Arrivée, Quotidien, etc.)
   quantite?: string;
   specifications?: string[];
   conseils?: string;
@@ -285,6 +286,7 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
           item: item.item,
           priorite: mapStarsToPriority(item.priorite || '⭐⭐'),
           delai: item.delai,
+          moment: item.moment, // Gérer items "Pendant & Après"
           conseils: item.conseils || ''
         }));
 
