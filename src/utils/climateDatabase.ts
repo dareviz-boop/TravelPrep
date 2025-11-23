@@ -101,6 +101,26 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     avgTemp: { jan: -10, feb: -9, mar: -3, apr: 5, may: 13, jun: 17, jul: 19, aug: 17, sep: 11, oct: 4, nov: -3, dec: -8 },
     seasons: { summer: [6,7,8], winter: [11,12,1,2,3], spring: [4,5], autumn: [9,10] }
   },
+  'BY': { code: 'BY', hemisphere: 'north', zones: ['continental'], // Biélorussie
+    avgTemp: { jan: -6, feb: -5, mar: 0, apr: 7, may: 14, jun: 17, jul: 19, aug: 18, sep: 13, oct: 7, nov: 1, dec: -3 },
+    seasons: { summer: [6,7,8], winter: [11,12,1,2,3], spring: [4,5], autumn: [9,10] }
+  },
+  'FO': { code: 'FO', hemisphere: 'north', zones: ['oceanic', 'subarctic'], // Îles Féroé
+    avgTemp: { jan: 3, feb: 3, mar: 3, apr: 5, may: 7, jun: 9, jul: 10, aug: 11, sep: 9, oct: 7, nov: 5, dec: 4 },
+    seasons: { summer: [6,7,8], winter: [12,1,2,3], spring: [4,5], autumn: [9,10,11] }
+  },
+  'VA': { code: 'VA', hemisphere: 'north', zones: ['mediterranean'], // Vatican
+    avgTemp: { jan: 8, feb: 9, mar: 12, apr: 15, may: 19, jun: 23, jul: 26, aug: 26, sep: 22, oct: 17, nov: 12, dec: 9 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+  'SM': { code: 'SM', hemisphere: 'north', zones: ['mediterranean'], // Saint-Marin
+    avgTemp: { jan: 4, feb: 6, mar: 10, apr: 14, may: 18, jun: 22, jul: 25, aug: 24, sep: 20, oct: 15, nov: 9, dec: 5 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+  'LI': { code: 'LI', hemisphere: 'north', zones: ['continental', 'highland'], // Liechtenstein
+    avgTemp: { jan: -1, feb: 1, mar: 5, apr: 9, may: 14, jun: 17, jul: 19, aug: 18, sep: 15, oct: 10, nov: 4, dec: 0 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
 
   // === ASIE ===
   'TH': { code: 'TH', hemisphere: 'north', zones: ['tropical'],
@@ -172,6 +192,22 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   'IR': { code: 'IR', hemisphere: 'north', zones: ['desert_hot', 'continental'], // Iran
     avgTemp: { jan: 7, feb: 10, mar: 15, apr: 21, may: 27, jun: 32, jul: 35, aug: 34, sep: 29, oct: 22, nov: 14, dec: 9 },
     seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+  'BH': { code: 'BH', hemisphere: 'north', zones: ['desert_hot'], // Bahreïn
+    avgTemp: { jan: 17, feb: 18, mar: 21, apr: 26, may: 32, jun: 35, jul: 37, aug: 37, sep: 34, oct: 30, nov: 25, dec: 20 },
+    seasons: { summer: [4,5,6,7,8,9], winter: [11,12,1,2,3], spring: [], autumn: [10] }
+  },
+  'LB': { code: 'LB', hemisphere: 'north', zones: ['mediterranean'], // Liban
+    avgTemp: { jan: 11, feb: 12, mar: 14, apr: 17, may: 21, jun: 24, jul: 27, aug: 28, sep: 26, oct: 23, nov: 17, dec: 13 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+  'CY': { code: 'CY', hemisphere: 'north', zones: ['mediterranean'], // Chypre
+    avgTemp: { jan: 12, feb: 12, mar: 14, apr: 18, may: 22, jun: 26, jul: 29, aug: 29, sep: 26, oct: 22, nov: 17, dec: 14 },
+    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
+  },
+  'IQ': { code: 'IQ', hemisphere: 'north', zones: ['desert_hot', 'continental'], // Irak
+    avgTemp: { jan: 10, feb: 12, mar: 17, apr: 23, may: 30, jun: 35, jul: 38, aug: 37, sep: 33, oct: 26, nov: 17, dec: 11 },
+    seasons: { summer: [5,6,7,8,9], winter: [11,12,1,2,3], spring: [4], autumn: [10] }
   },
 
   // === AFRIQUE ===
@@ -259,10 +295,6 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     avgTemp: { jan: 27, feb: 27, mar: 27, apr: 26, may: 25, jun: 24, jul: 23, aug: 23, sep: 24, oct: 25, nov: 26, dec: 27 },
     seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
   },
-  'VU': { code: 'VU', hemisphere: 'south', zones: ['tropical'], // Vanuatu
-    avgTemp: { jan: 27, feb: 27, mar: 27, apr: 26, may: 25, jun: 23, jul: 22, aug: 22, sep: 23, oct: 24, nov: 26, dec: 27 },
-    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
-  },
 
   // === CARAÏBES ===
   'CU': { code: 'CU', hemisphere: 'north', zones: ['tropical'],
@@ -275,6 +307,10 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   },
   'JM': { code: 'JM', hemisphere: 'north', zones: ['tropical'],
     avgTemp: { jan: 25, feb: 25, mar: 25, apr: 26, may: 27, jun: 28, jul: 28, aug: 28, sep: 28, oct: 27, nov: 26, dec: 25 },
+    seasons: { summer: [5,6,7,8,9,10], winter: [11,12,1,2,3,4], spring: [], autumn: [] }
+  },
+  'PR': { code: 'PR', hemisphere: 'north', zones: ['tropical'], // Porto Rico
+    avgTemp: { jan: 24, feb: 24, mar: 25, apr: 26, may: 27, jun: 28, jul: 29, aug: 29, sep: 28, oct: 27, nov: 26, dec: 25 },
     seasons: { summer: [5,6,7,8,9,10], winter: [11,12,1,2,3,4], spring: [], autumn: [] }
   },
 
@@ -335,6 +371,38 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     avgTemp: { jan: 27, feb: 27, mar: 27, apr: 26, may: 25, jun: 24, jul: 23, aug: 23, sep: 24, oct: 25, nov: 26, dec: 27 },
     seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
   },
+  'KI': { code: 'KI', hemisphere: 'both', zones: ['equatorial', 'tropical'], // Kiribati
+    avgTemp: { jan: 28, feb: 28, mar: 28, apr: 28, may: 28, jun: 28, jul: 28, aug: 28, sep: 28, oct: 28, nov: 28, dec: 28 },
+    seasons: { summer: [], winter: [], spring: [], autumn: [] }
+  },
+  'TV': { code: 'TV', hemisphere: 'south', zones: ['equatorial', 'tropical'], // Tuvalu
+    avgTemp: { jan: 29, feb: 29, mar: 29, apr: 29, may: 29, jun: 28, jul: 28, aug: 28, sep: 28, oct: 29, nov: 29, dec: 29 },
+    seasons: { summer: [], winter: [], spring: [], autumn: [] }
+  },
+  'NR': { code: 'NR', hemisphere: 'south', zones: ['equatorial', 'tropical'], // Nauru
+    avgTemp: { jan: 28, feb: 28, mar: 28, apr: 28, may: 28, jun: 28, jul: 27, aug: 27, sep: 28, oct: 28, nov: 28, dec: 28 },
+    seasons: { summer: [], winter: [], spring: [], autumn: [] }
+  },
+  'MH': { code: 'MH', hemisphere: 'north', zones: ['tropical', 'equatorial'], // Îles Marshall
+    avgTemp: { jan: 28, feb: 28, mar: 28, apr: 28, may: 28, jun: 28, jul: 28, aug: 28, sep: 28, oct: 28, nov: 28, dec: 28 },
+    seasons: { summer: [], winter: [], spring: [], autumn: [] }
+  },
+  'PW': { code: 'PW', hemisphere: 'north', zones: ['tropical', 'equatorial'], // Palaos
+    avgTemp: { jan: 27, feb: 27, mar: 27, apr: 28, may: 28, jun: 28, jul: 28, aug: 28, sep: 28, oct: 28, nov: 27, dec: 27 },
+    seasons: { summer: [], winter: [], spring: [], autumn: [] }
+  },
+  'TL': { code: 'TL', hemisphere: 'south', zones: ['tropical'], // Timor-Leste
+    avgTemp: { jan: 27, feb: 27, mar: 27, apr: 27, may: 27, jun: 26, jul: 25, aug: 25, sep: 26, oct: 27, nov: 28, dec: 28 },
+    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+  },
+  'VU': { code: 'VU', hemisphere: 'south', zones: ['tropical'], // Vanuatu
+    avgTemp: { jan: 27, feb: 27, mar: 27, apr: 26, may: 25, jun: 24, jul: 23, aug: 22, sep: 23, oct: 24, nov: 25, dec: 26 },
+    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+  },
+  'NU': { code: 'NU', hemisphere: 'south', zones: ['tropical'], // Niue
+    avgTemp: { jan: 27, feb: 27, mar: 27, apr: 26, may: 25, jun: 24, jul: 23, aug: 23, sep: 24, oct: 25, nov: 26, dec: 27 },
+    seasons: { summer: [11,12,1,2,3], winter: [6,7,8], spring: [9,10], autumn: [4,5] }
+  },
 
   // === AFRIQUE (pays supplémentaires) ===
   'TN': { code: 'TN', hemisphere: 'north', zones: ['mediterranean', 'desert_hot'], // Tunisie
@@ -359,6 +427,10 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   },
   'RW': { code: 'RW', hemisphere: 'south', zones: ['tropical', 'highland'], // Rwanda
     avgTemp: { jan: 20, feb: 20, mar: 20, apr: 20, may: 20, jun: 19, jul: 19, aug: 20, sep: 20, oct: 20, nov: 20, dec: 20 },
+    seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
+  },
+  'BI': { code: 'BI', hemisphere: 'south', zones: ['tropical', 'highland'], // Burundi
+    avgTemp: { jan: 23, feb: 23, mar: 23, apr: 23, may: 23, jun: 22, jul: 22, aug: 23, sep: 24, oct: 24, nov: 23, dec: 23 },
     seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
   },
   'MU': { code: 'MU', hemisphere: 'south', zones: ['tropical'], // Maurice
@@ -491,10 +563,6 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     avgTemp: { jan: 12, feb: 12, mar: 14, apr: 16, may: 20, jun: 24, jul: 27, aug: 28, sep: 25, oct: 21, nov: 17, dec: 14 },
     seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
   },
-  'CY': { code: 'CY', hemisphere: 'north', zones: ['mediterranean'], // Chypre
-    avgTemp: { jan: 12, feb: 12, mar: 14, apr: 18, may: 22, jun: 26, jul: 29, aug: 29, sep: 26, oct: 22, nov: 17, dec: 14 },
-    seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
-  },
   'DK': { code: 'DK', hemisphere: 'north', zones: ['oceanic'], // Danemark
     avgTemp: { jan: 2, feb: 2, mar: 4, apr: 8, may: 12, jun: 16, jul: 18, aug: 17, sep: 14, oct: 10, nov: 6, dec: 3 },
     seasons: { summer: [6,7,8], winter: [12,1,2], spring: [3,4,5], autumn: [9,10,11] }
@@ -619,6 +687,54 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
     avgTemp: { jan: 27, feb: 28, mar: 28, apr: 28, may: 27, jun: 26, jul: 25, aug: 25, sep: 26, oct: 26, nov: 27, dec: 27 },
     seasons: { summer: [11,12,1,2,3,4], winter: [5,6,7,8,9,10], spring: [], autumn: [] }
   },
+  'GM': { code: 'GM', hemisphere: 'north', zones: ['tropical'], // Gambie
+    avgTemp: { jan: 24, feb: 26, mar: 28, apr: 29, may: 30, jun: 30, jul: 28, aug: 28, sep: 28, oct: 29, nov: 27, dec: 25 },
+    seasons: { summer: [5,6,7,8,9,10], winter: [11,12,1,2,3,4], spring: [], autumn: [] }
+  },
+  'GW': { code: 'GW', hemisphere: 'north', zones: ['tropical'], // Guinée-Bissau
+    avgTemp: { jan: 26, feb: 28, mar: 29, apr: 30, may: 30, jun: 29, jul: 27, aug: 27, sep: 28, oct: 28, nov: 28, dec: 26 },
+    seasons: { summer: [4,5,6,7,8,9,10], winter: [11,12,1,2,3], spring: [], autumn: [] }
+  },
+  'GN': { code: 'GN', hemisphere: 'north', zones: ['tropical'], // Guinée
+    avgTemp: { jan: 26, feb: 27, mar: 28, apr: 29, may: 28, jun: 27, jul: 26, aug: 26, sep: 27, oct: 27, nov: 27, dec: 26 },
+    seasons: { summer: [3,4,5,6,7,8,9,10], winter: [11,12,1,2], spring: [], autumn: [] }
+  },
+  'SL': { code: 'SL', hemisphere: 'north', zones: ['tropical'], // Sierra Leone
+    avgTemp: { jan: 27, feb: 28, mar: 29, apr: 29, may: 28, jun: 27, jul: 26, aug: 26, sep: 26, oct: 27, nov: 27, dec: 27 },
+    seasons: { summer: [3,4,5,6,7,8,9,10], winter: [11,12,1,2], spring: [], autumn: [] }
+  },
+  'LR': { code: 'LR', hemisphere: 'north', zones: ['tropical'], // Libéria
+    avgTemp: { jan: 26, feb: 27, mar: 28, apr: 28, may: 27, jun: 26, jul: 25, aug: 25, sep: 25, oct: 26, nov: 26, dec: 26 },
+    seasons: { summer: [3,4,5,6,7,8,9,10], winter: [11,12,1,2], spring: [], autumn: [] }
+  },
+  'CI': { code: 'CI', hemisphere: 'north', zones: ['tropical'], // Côte d'Ivoire
+    avgTemp: { jan: 27, feb: 28, mar: 29, apr: 28, may: 27, jun: 26, jul: 25, aug: 25, sep: 26, oct: 27, nov: 27, dec: 27 },
+    seasons: { summer: [11,12,1,2,3,4], winter: [5,6,7,8,9,10], spring: [], autumn: [] }
+  },
+  'GA': { code: 'GA', hemisphere: 'both', zones: ['equatorial', 'tropical'], // Gabon
+    avgTemp: { jan: 27, feb: 27, mar: 27, apr: 27, may: 27, jun: 26, jul: 25, aug: 25, sep: 26, oct: 26, nov: 26, dec: 26 },
+    seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
+  },
+  'GQ': { code: 'GQ', hemisphere: 'both', zones: ['equatorial'], // Guinée équatoriale
+    avgTemp: { jan: 26, feb: 26, mar: 26, apr: 26, may: 26, jun: 25, jul: 24, aug: 25, sep: 25, oct: 25, nov: 25, dec: 26 },
+    seasons: { summer: [], winter: [], spring: [], autumn: [] }
+  },
+  'TG': { code: 'TG', hemisphere: 'north', zones: ['tropical'], // Togo
+    avgTemp: { jan: 28, feb: 29, mar: 29, apr: 29, may: 28, jun: 26, jul: 25, aug: 25, sep: 26, oct: 27, nov: 28, dec: 28 },
+    seasons: { summer: [11,12,1,2,3,4], winter: [5,6,7,8,9,10], spring: [], autumn: [] }
+  },
+  'BJ': { code: 'BJ', hemisphere: 'north', zones: ['tropical'], // Bénin
+    avgTemp: { jan: 27, feb: 29, mar: 30, apr: 29, may: 28, jun: 26, jul: 25, aug: 25, sep: 26, oct: 27, nov: 28, dec: 27 },
+    seasons: { summer: [11,12,1,2,3,4], winter: [5,6,7,8,9,10], spring: [], autumn: [] }
+  },
+  'NG': { code: 'NG', hemisphere: 'north', zones: ['tropical'], // Nigeria
+    avgTemp: { jan: 27, feb: 28, mar: 29, apr: 29, may: 28, jun: 26, jul: 25, aug: 25, sep: 26, oct: 27, nov: 27, dec: 27 },
+    seasons: { summer: [11,12,1,2,3,4], winter: [5,6,7,8,9,10], spring: [], autumn: [] }
+  },
+  'TD': { code: 'TD', hemisphere: 'north', zones: ['desert_hot', 'tropical'], // Tchad
+    avgTemp: { jan: 24, feb: 27, mar: 31, apr: 34, may: 35, jun: 34, jul: 31, aug: 30, sep: 31, oct: 31, nov: 28, dec: 25 },
+    seasons: { summer: [3,4,5,6,7,8,9,10], winter: [11,12,1,2], spring: [], autumn: [] }
+  },
 
   // === AMÉRIQUES ADDITIONNELLES ===
   'BZ': { code: 'BZ', hemisphere: 'north', zones: ['tropical'], // Belize
@@ -627,6 +743,18 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   },
   'GT': { code: 'GT', hemisphere: 'north', zones: ['tropical', 'highland'], // Guatemala
     avgTemp: { jan: 19, feb: 20, mar: 21, apr: 22, may: 22, jun: 21, jul: 21, aug: 21, sep: 21, oct: 20, nov: 20, dec: 19 },
+    seasons: { summer: [3,4,5], winter: [11,12,1,2], spring: [], autumn: [6,7,8,9,10] }
+  },
+  'HN': { code: 'HN', hemisphere: 'north', zones: ['tropical'], // Honduras
+    avgTemp: { jan: 23, feb: 24, mar: 25, apr: 26, may: 26, jun: 25, jul: 25, aug: 25, sep: 25, oct: 24, nov: 24, dec: 23 },
+    seasons: { summer: [3,4,5,6,7,8,9,10], winter: [11,12,1,2], spring: [], autumn: [] }
+  },
+  'SV': { code: 'SV', hemisphere: 'north', zones: ['tropical'], // El Salvador
+    avgTemp: { jan: 23, feb: 24, mar: 25, apr: 26, may: 26, jun: 25, jul: 25, aug: 25, sep: 24, oct: 24, nov: 23, dec: 23 },
+    seasons: { summer: [3,4,5], winter: [11,12,1,2], spring: [], autumn: [6,7,8,9,10] }
+  },
+  'NI': { code: 'NI', hemisphere: 'north', zones: ['tropical'], // Nicaragua
+    avgTemp: { jan: 26, feb: 27, mar: 28, apr: 29, may: 28, jun: 27, jul: 27, aug: 27, sep: 27, oct: 27, nov: 26, dec: 26 },
     seasons: { summer: [3,4,5], winter: [11,12,1,2], spring: [], autumn: [6,7,8,9,10] }
   },
   'BB': { code: 'BB', hemisphere: 'north', zones: ['tropical'], // Barbade
@@ -1090,6 +1218,18 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
   'KP': { code: 'KP', hemisphere: 'north', zones: ['continental'], // Corée du Nord
     avgTemp: { jan: -8, feb: -5, mar: 2, apr: 10, may: 16, jun: 21, jul: 24, aug: 24, sep: 18, oct: 11, nov: 2, dec: -5 },
     seasons: { summer: [6,7,8], winter: [11,12,1,2,3], spring: [4,5], autumn: [9,10] }
+
+  // === ÎLES ISOLÉES ATLANTIQUE SUD ===
+  'SH': { code: 'SH', hemisphere: 'south', zones: ['oceanic', 'subtropical'], // Sainte-Hélène
+    avgTemp: { jan: 24, feb: 25, mar: 25, apr: 24, may: 23, jun: 21, jul: 20, aug: 20, sep: 20, oct: 21, nov: 22, dec: 23 },
+    seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
+  },
+
+  // === TERRES AUSTRALES ===
+  'TF': { code: 'TF', hemisphere: 'south', zones: ['subarctic', 'oceanic'], // Terres australes françaises (Kerguelen)
+    avgTemp: { jan: 7, feb: 7, mar: 7, apr: 6, may: 5, jun: 4, jul: 3, aug: 3, sep: 4, oct: 5, nov: 6, dec: 6 },
+    seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
+  },
   },
 };
 
