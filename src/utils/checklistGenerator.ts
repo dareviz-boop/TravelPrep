@@ -200,7 +200,10 @@ export function generateCompleteChecklist(formData: FormData): GeneratedChecklis
   // === 4. FILTRER SELON PROFIL/CONFORT/DURÉE ===
   const filteredSections = filterByProfile(sections, formData);
 
-  // === 5. CONSTRUIRE L'OBJET FINAL ===
+  // === 5. DÉDUPLIQUER LES ITEMS DANS CHAQUE SECTION ===
+  const dedupedSections = deduplicateSections(filteredSections);
+
+  // === 6. CONSTRUIRE L'OBJET FINAL ===
   const checklist: GeneratedChecklist = {
     metadata: {
       nomVoyage: formData.nomVoyage,
@@ -218,8 +221,8 @@ export function generateCompleteChecklist(formData: FormData): GeneratedChecklis
       confort: formData.confort,
       generatedAt: new Date().toISOString()
     },
-    sections: filteredSections,
-    stats: calculateStats(filteredSections)
+    sections: dedupedSections,
+    stats: calculateStats(dedupedSections)
   };
 
   return checklist;
@@ -414,6 +417,45 @@ function getClimatItemsGroupedBySection(formData: FormData): Record<string, Chec
   });
 
   return groupedItems;
+}
+
+// ==========================================
+// DÉDUPLICATION
+// ==========================================
+
+/**
+ * Supprime tous les doublons dans chaque section
+ * Un item est considéré comme doublon si son texte est identique (normalisé)
+ */
+function deduplicateSections(
+  sections: GeneratedChecklistSection[]
+): GeneratedChecklistSection[] {
+  return sections.map(section => {
+    const uniqueItems: ChecklistItem[] = [];
+    const seenItems = new Set<string>();
+
+    section.items.forEach(item => {
+      // Créer une clé unique basée sur le texte normalisé de l'item
+      const normalizedText = item.item
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '') // Enlever les accents
+        .replace(/[^\w\s]/g, '') // Enlever la ponctuation
+        .replace(/\s+/g, ' ') // Normaliser les espaces
+        .trim();
+
+      // Si cet item n'a pas encore été vu, l'ajouter
+      if (!seenItems.has(normalizedText)) {
+        seenItems.add(normalizedText);
+        uniqueItems.push(item);
+      }
+    });
+
+    return {
+      ...section,
+      items: uniqueItems
+    };
+  });
 }
 
 // ==========================================
