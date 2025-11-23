@@ -203,6 +203,16 @@
           "priorite": "⭐⭐",
           "delai": "J-14",
           "conseils": "Télécharger cartes zones avant départ. Garmin InReach = SOS satellite"
+        },
+        {
+          "id": "RAND026",
+          "item": "Paratonnerre portable randonnée",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "filtres": {
+            "destinations": ["montagne", "altitude"]
+          },
+          "conseils": "Randonnée altitude zones orageuses: protège foudre. Descendre IMMÉDIATEMENT si orage approche. Position sécurité: accroupi pieds joints"
         }
       ]
     },
@@ -895,6 +905,16 @@
           "priorite": "⭐",
           "delai": "J-14",
           "conseils": "ENO Guardian. Alternative tente zones moustiques intenses"
+        },
+        {
+          "id": "CAMP021",
+          "item": "Pelle neige pliable compacte",
+          "priorite": "⭐⭐",
+          "delai": "J-14",
+          "filtres": {
+            "saison": ["hiver"]
+          },
+          "conseils": "Camping hiver: déneiger emplacement tente, accès voiture. BCA, Ortovox. Aluminium léger"
         }
       ]
     },

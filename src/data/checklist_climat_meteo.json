@@ -100,8 +100,6 @@
           "priorite": "moyenne",
           "delai": "J-7",
           "equipement": [
-            "Paratonnerre portable (randonnée altitude)",
-            "Sac étanche roll-top 20-30L",
             "Lampe frontale haute puissance (coupures)",
             "Bougies + allumettes étanches",
             "Powerbank 20000mAh chargé",
@@ -157,14 +155,11 @@
           "equipement": [
             "Vêtements thermiques couches multiples",
             "Doudoune chaude -20°C",
-            "Pantalon ski imperméable",
             "Gants hiver doublés + sous-gants",
             "Bonnet chaud couvre-oreilles",
             "Cache-cou/tour de cou thermique",
             "Chaussures hiver crampons amovibles",
-            "Lunettes ski catégorie 4",
             "Crampons à glace chaussures",
-            "Pelle neige pliable",
             "Couverture survie thermique",
             "Chauffe-mains chimiques x10"
           ],
@@ -276,7 +271,6 @@
             "Cache-cou thermique Merino",
             "Chaussettes thermiques hautes x5",
             "Bottes grand froid -60°C (Sorel/Kamik)",
-            "Lunettes ski catégorie 4 + masque",
             "Chauffe-mains/pieds chimiques x20",
             "Thermos isotherme 1L (boissons chaudes)",
             "Baume lèvres réparateur intensif",
@@ -311,7 +305,6 @@
             "Shorts + pantalons convertibles",
             "Buff multifonction (froid/soleil)",
             "Gants légers + bonnet fin",
-            "Sac compression vêtements",
             "Chaussettes mi-saison x4"
           ],
           "filtres": {
