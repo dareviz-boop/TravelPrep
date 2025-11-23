@@ -297,8 +297,8 @@
         },
         {
           "id": "climat_amplitude_thermique",
-          "nom": "🌡️ Amplitude thermique extrême",
-          "emoji": "🌡️",
+          "nom": "🌓 Amplitude thermique extrême",
+          "emoji": "🌓",
           "priorite": "moyenne",
           "delai": "J-10",
           "equipement": [
@@ -321,8 +321,8 @@
         },
         {
           "id": "climat_desert_extreme",
-          "nom": "🏜️ Canicule désertique (>45°C)",
-          "emoji": "🏜️",
+          "nom": "☀️ Canicule désertique (>45°C)",
+          "emoji": "☀️",
           "priorite": "haute",
           "delai": "J-14",
           "equipement": [
@@ -575,8 +575,8 @@
         },
         {
           "id": "climat_arctique",
-          "nom": "❄️ Banquise / Arctique",
-          "emoji": "❄️",
+          "nom": "🧊 Banquise / Arctique",
+          "emoji": "🧊",
           "priorite": "haute",
           "delai": "J-30",
           "equipement": [
@@ -782,8 +782,8 @@
         },
         {
           "id": "climat_secheresse",
-          "nom": "🏜️ Sécheresse extrême (<20%)",
-          "emoji": "🏜️",
+          "nom": "🏜 Sécheresse extrême (<20%)",
+          "emoji": "🏜",
           "priorite": "moyenne",
           "delai": "J-7",
           "equipement": [

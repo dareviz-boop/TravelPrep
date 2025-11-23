@@ -240,7 +240,7 @@ export const COUNTRY_CLIMATES: Record<string, CountryClimate> = {
 
   // === OCÉANIE ===
   'AU': { code: 'AU', hemisphere: 'south', zones: ['subtropical', 'desert_hot', 'mediterranean'],
-    avgTemp: { jan: 32, feb: 31, mar: 28, apr: 24, may: 20, jun: 17, jul: 16, aug: 17, sep: 20, oct: 23, nov: 26, dec: 30 },
+    avgTemp: { jan: 38, feb: 37, mar: 32, apr: 26, may: 21, jun: 17, jul: 16, aug: 18, sep: 22, oct: 27, nov: 32, dec: 36 },
     seasons: { summer: [12,1,2], winter: [6,7,8], spring: [9,10,11], autumn: [3,4,5] }
   },
   'NZ': { code: 'NZ', hemisphere: 'south', zones: ['oceanic'],
@@ -796,8 +796,7 @@ export function getRegionalClimate(regionCode: string): Partial<CountryClimate> 
  * - Très Froide : < 0°C
  * - Froide : 0-10°C
  * - Tempérée : 10-20°C
- * - Douce : 20-25°C
- * - Chaude : 25-30°C
+ * - Chaude : 20-30°C
  * - Très Chaude : 30-38°C (Chaleur intense)
  * - Chaleur Extrême : > 38°C (Zone torride)
  */
@@ -811,8 +810,6 @@ export function getTemperatureCategory(avgTemp: number): string[] {
     temps.push('froide');
   } else if (avgTemp < 20) {
     temps.push('temperee');
-  } else if (avgTemp < 25) {
-    temps.push('douce');
   } else if (avgTemp < 30) {
     temps.push('chaude');
   } else if (avgTemp < 38) {
@@ -827,20 +824,14 @@ export function getTemperatureCategory(avgTemp: number): string[] {
     temps.push('froide');
   }
 
-  // Zone de transition tempérée-douce (15-22°C)
-  if (avgTemp >= 15 && avgTemp < 22) {
+  // Zone de transition tempérée-chaude (15-25°C)
+  if (avgTemp >= 15 && avgTemp < 25) {
     if (!temps.includes('temperee')) temps.push('temperee');
-    if (!temps.includes('douce')) temps.push('douce');
-  }
-
-  // Zone de transition douce-chaude (23-28°C)
-  if (avgTemp >= 23 && avgTemp < 28) {
-    if (!temps.includes('douce')) temps.push('douce');
     if (!temps.includes('chaude')) temps.push('chaude');
   }
 
-  // Zone de transition chaude-très chaude (28-32°C)
-  if (avgTemp >= 28 && avgTemp < 32) {
+  // Zone de transition chaude-très chaude (28-33°C)
+  if (avgTemp >= 28 && avgTemp < 33) {
     if (!temps.includes('chaude')) temps.push('chaude');
     if (!temps.includes('tres-chaude')) temps.push('tres-chaude');
   }
