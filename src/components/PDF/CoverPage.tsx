@@ -1,10 +1,11 @@
 import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
-import { GeneratedChecklist } from '@/utils/checklistGenerator';
+import { GeneratedChecklist, GeneratedChecklistSection } from '@/utils/checklistGenerator';
 import checklistCompleteData from '@/data/checklistComplete.json';
 import { PDFIcon } from './PDFIcon';
 import { CompactPage } from './CompactPage';
 import { TimelineContent } from './TimelineContent';
+import { DetailedSectionsPage } from './DetailedSectionsPage';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
 // Helvetica ne supporte PAS les emojis Unicode, ils apparaissent corrompus
@@ -127,9 +128,20 @@ interface CoverPageProps {
   checklistData: GeneratedChecklist;
   referenceData: any;
   isDetailed?: boolean;
+  essentialSections?: GeneratedChecklistSection[];
+  recommendedSections?: GeneratedChecklistSection[];
+  activiteSections?: GeneratedChecklistSection[];
 }
 
-export const CoverPage = ({ formData, checklistData, referenceData, isDetailed = false }: CoverPageProps) => {
+export const CoverPage = ({
+  formData,
+  checklistData,
+  referenceData,
+  isDetailed = false,
+  essentialSections = [],
+  recommendedSections = [],
+  activiteSections = []
+}: CoverPageProps) => {
   const calculateDuration = () => {
     if (!formData.dateRetour) return null;
     const start = new Date(formData.dateDepart);
@@ -432,9 +444,45 @@ export const CoverPage = ({ formData, checklistData, referenceData, isDetailed =
         <CompactPage formData={formData} checklistData={checklistData} />
       )}
 
-      {/* Intégrer la timeline si format détaillé */}
-      {isDetailed && checklistData && (
-        <TimelineContent formData={formData} checklistData={checklistData} isDetailed={true} showTitle={true} />
+      {/* Intégrer les sections détaillées si format détaillé */}
+      {isDetailed && (
+        <>
+          {/* 1. Essentiels Absolus (avec dates précises) */}
+          {essentialSections.length > 0 && (
+            <DetailedSectionsPage
+              formData={formData}
+              sections={essentialSections}
+              titlePart1="Timeline de Préparation - "
+              titlePart2="Essentiels absolus"
+              isEssentials={true}
+              addSeparator={false}
+            />
+          )}
+
+          {/* 2. Sélection Conseillée (inclut apps et pendant_apres) */}
+          {recommendedSections.length > 0 && (
+            <DetailedSectionsPage
+              formData={formData}
+              sections={recommendedSections}
+              titlePart1="À Prévoir - "
+              titlePart2="Sélection conseillée"
+              isEssentials={false}
+              addSeparator={true}
+            />
+          )}
+
+          {/* 3. Activités (timeline uniquement, pas de dates) */}
+          {activiteSections.length > 0 && (
+            <DetailedSectionsPage
+              formData={formData}
+              sections={activiteSections}
+              titlePart1="À Prévoir - "
+              titlePart2="Préparation activités"
+              isEssentials={false}
+              addSeparator={true}
+            />
+          )}
+        </>
       )}
 
       <Text style={styles.footer}>

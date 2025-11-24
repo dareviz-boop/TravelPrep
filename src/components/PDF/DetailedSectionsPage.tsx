@@ -154,12 +154,10 @@ const styles = StyleSheet.create({
     marginRight: 5,
     color: '#DC2626'
   },
-  pageNumber: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    fontSize: 8,
-    color: '#9ca3af'
+  // Séparateur entre grandes sections (pour démarcation)
+  sectionSeparator: {
+    marginTop: 30,
+    marginBottom: 15
   }
 });
 
@@ -169,6 +167,7 @@ interface DetailedSectionsPageProps {
   titlePart1: string;  // "Timeline de Préparation - " ou "À Prévoir - "
   titlePart2: string;  // "Essentiels absolus" ou "Sélection conseillée"
   isEssentials?: boolean; // true pour les essentiels absolus
+  addSeparator?: boolean; // Ajouter un séparateur avant le titre
 }
 
 // Catégories essentielles (avec dates précises)
@@ -192,7 +191,8 @@ export const DetailedSectionsPage = ({
   sections,
   titlePart1,
   titlePart2,
-  isEssentials = false
+  isEssentials = false,
+  addSeparator = false
 }: DetailedSectionsPageProps) => {
   if (!sections || sections.length === 0) return null;
 
@@ -545,7 +545,8 @@ export const DetailedSectionsPage = ({
   const timelines = organizeAllItemsByTimeline();
 
   return (
-    <Page size="A4" style={styles.page}>
+    <>
+      {addSeparator && <View style={styles.sectionSeparator} />}
       <View style={styles.titleContainer}>
         <Text style={styles.titlePart1}>{cleanTextForPDF(titlePart1)}</Text>
         <Text style={styles.titlePart2}>{cleanTextForPDF(titlePart2)}</Text>
@@ -575,12 +576,6 @@ export const DetailedSectionsPage = ({
           {renderRecommendedSections()}
         </>
       )}
-
-      <Text
-        style={styles.pageNumber}
-        render={({ pageNumber, totalPages }) => `Page ${pageNumber} / ${totalPages}`}
-        fixed
-      />
-    </Page>
+    </>
   );
 };
