@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
   },
   // Bloc de timeline (J-90 à J-60, etc.)
   timelineBlock: {
-    marginBottom: 16,
-    breakInside: 'avoid' as any
+    marginBottom: 10
+    // Ne pas utiliser breakInside: 'avoid' pour permettre la pagination
   },
   timelineHeader: {
     fontSize: 11,
@@ -312,7 +312,7 @@ export const DetailedSectionsPage = ({
     });
 
     return (
-      <View style={styles.timelineBlock} key={title} wrap={false}>
+      <View style={styles.timelineBlock} key={title}>
         <Text style={styles.timelineHeader}>{cleanTextForPDF(title)}</Text>
         {Object.entries(itemsByCategory).map(([categoryName, categoryItems]) => {
           const sortedItems = sortItemsByDelay(categoryItems);
@@ -336,7 +336,6 @@ export const DetailedSectionsPage = ({
                 <View
                   key={`${categoryName}-${deadline}`}
                   style={deadline !== 'no-date' ? styles.datedBox : {}}
-                  wrap={false}
                 >
                   {deadline !== 'no-date' && (
                     <Text style={styles.dateLabel}>{deadline}</Text>
@@ -362,7 +361,7 @@ export const DetailedSectionsPage = ({
     const hasMultipleActivities = new Set(sortedItems.map(i => i.sectionName)).size > 1;
 
     return (
-      <View style={styles.timelineBlock} key={title} wrap={false}>
+      <View style={styles.timelineBlock} key={title}>
         <Text style={styles.timelineHeader}>{cleanTextForPDF(title)}</Text>
         {sortedItems.map((item, idx) => renderItem(item, idx, hasMultipleActivities))}
       </View>
@@ -408,7 +407,7 @@ export const DetailedSectionsPage = ({
     });
 
     return sortedMoments.map(moment => (
-      <View key={moment} style={styles.timelineBlock} wrap={false}>
+      <View key={moment} style={styles.timelineBlock}>
         <Text style={styles.timelineHeader}>{cleanTextForPDF(moment)}</Text>
         {itemsByMoment[moment].map((item, idx) => renderItem(item, idx, false))}
       </View>

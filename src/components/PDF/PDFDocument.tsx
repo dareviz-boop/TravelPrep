@@ -5,9 +5,7 @@ import { CoverPage } from './CoverPage';
 import { TimelinePage } from './TimelinePage';
 import { CategoryPage } from './CategoryPage';
 import { BagagesPage } from './BagagesPage';
-import { ApplicationsPage } from './ApplicationsPage';
 import { DetailedSectionsPage } from './DetailedSectionsPage';
-import { PendantApresPage } from './PendantApresPage';
 import checklistCompleteData from '@/data/checklistComplete.json';
 
 // 🔧 FIX: Ne pas charger de polices externes pour éviter les erreurs d'encodage
