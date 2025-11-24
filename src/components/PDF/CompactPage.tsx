@@ -271,12 +271,22 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
     const mediumPriorityItems: { [sectionId: string]: { section: GeneratedChecklistSection; items: ChecklistItem[] } } = {};
 
     selectionSections.forEach(section => {
-      const mediumItems = section.items.filter(item => getPriority(item.priorite) === 'moyenne');
-      if (mediumItems.length > 0) {
-        mediumPriorityItems[section.id] = {
-          section,
-          items: mediumItems
-        };
+      // Pour pendant_apres, inclure TOUS les items (pas seulement priorité moyenne)
+      if (section.id === 'pendant_apres') {
+        if (section.items.length > 0) {
+          mediumPriorityItems[section.id] = {
+            section,
+            items: section.items
+          };
+        }
+      } else {
+        const mediumItems = section.items.filter(item => getPriority(item.priorite) === 'moyenne');
+        if (mediumItems.length > 0) {
+          mediumPriorityItems[section.id] = {
+            section,
+            items: mediumItems
+          };
+        }
       }
     });
 
@@ -297,6 +307,16 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
               <View key={sectionId}>
                 <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
                 {renderAppsWithSubcategories(items)}
+              </View>
+            );
+          }
+
+          // Gestion spéciale pour la section "pendant_apres" organisée par moment
+          if (sectionId === 'pendant_apres') {
+            return (
+              <View key={sectionId}>
+                <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+                {renderPendantApresWithMoments(items)}
               </View>
             );
           }
@@ -347,7 +367,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
       <>
         {Object.entries(appsByCategory).map(([category, categoryItems]) => (
           <View key={category}>
-            <Text style={styles.subCategoryTitle}>{category}</Text>
+            <Text style={styles.subCategoryTitle}>{cleanTextForPDF(category)}</Text>
             {categoryItems.map((item, idx) => (
               <View style={styles.item} key={item.id || `app-${idx}`}>
                 <View style={styles.checkbox} />
@@ -356,6 +376,52 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
             ))}
           </View>
         ))}
+      </>
+    );
+  };
+
+  // Fonction spéciale pour rendre pendant_apres organisée par moment
+  const renderPendantApresWithMoments = (items: ChecklistItem[]) => {
+    // Grouper les items par moment
+    const itemsByMoment: { [moment: string]: ChecklistItem[] } = {};
+    items.forEach(item => {
+      const moment = (item as any).moment || 'Autre';
+      if (!itemsByMoment[moment]) {
+        itemsByMoment[moment] = [];
+      }
+      itemsByMoment[moment].push(item);
+    });
+
+    // Ordre des moments
+    const momentOrder = ['Arrivée', 'J1-J2', 'Début voyage', 'Quotidien', 'Quotidien soir', 'Quotidien nuit', 'Soir', 'Avant dormir', 'Repas', 'Tous les 3-5 jours', 'Continu', 'Autre'];
+    const sortedMoments = Object.keys(itemsByMoment).sort((a, b) => {
+      const indexA = momentOrder.indexOf(a);
+      const indexB = momentOrder.indexOf(b);
+      if (indexA === -1) return 1;
+      if (indexB === -1) return -1;
+      return indexA - indexB;
+    });
+
+    return (
+      <>
+        {sortedMoments.map(moment => {
+          const momentItems = itemsByMoment[moment];
+          return (
+            <View key={moment}>
+              <Text style={styles.subCategoryTitle}>{cleanTextForPDF(moment)}</Text>
+              {momentItems.map((item, idx) => {
+                const priority = getPriority(item.priorite);
+                return (
+                  <View style={styles.item} key={item.id || `moment-${idx}`}>
+                    {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                    <View style={styles.checkbox} />
+                    <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                  </View>
+                );
+              })}
+            </View>
+          );
+        })}
       </>
     );
   };
@@ -472,7 +538,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
       {renderTimelineSection()}
       {renderSelectionSection()}
       {renderActivitiesSection()}
-      {renderSurPlaceSection()}
+      {/* renderSurPlaceSection() supprimé : pendant_apres intégré dans renderSelectionSection */}
     </>
   );
 };
