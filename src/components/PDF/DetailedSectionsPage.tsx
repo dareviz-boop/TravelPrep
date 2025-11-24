@@ -215,12 +215,14 @@ export const DetailedSectionsPage = ({
       j7_j3: ItemWithSection[];
       j2_j1: ItemWithSection[];
       noDelay: ItemWithSection[];
+      pendantApres: ItemWithSection[]; // Items "Pendant & Après" avec moment
     } = {
       j90_j60: [],
       j30_j14: [],
       j7_j3: [],
       j2_j1: [],
-      noDelay: []
+      noDelay: [],
+      pendantApres: []
     };
 
     sections.forEach(section => {
@@ -230,6 +232,12 @@ export const DetailedSectionsPage = ({
           sectionName: section.nom,
           sectionId: section.id
         };
+
+        // Si l'item a un "moment" (Pendant & Après), le mettre dans une section spéciale
+        if ((item as any).moment) {
+          timelines.pendantApres.push(itemWithSection);
+          return;
+        }
 
         const delai = item.delai?.toUpperCase() || '';
 
@@ -361,6 +369,52 @@ export const DetailedSectionsPage = ({
     );
   };
 
+  // Rendre la section "Pendant & Après" organisée par moment
+  const renderPendantApresSection = (items: ItemWithSection[]) => {
+    if (items.length === 0) return null;
+
+    // Grouper par moment
+    const itemsByMoment: { [moment: string]: ItemWithSection[] } = {};
+    items.forEach(item => {
+      const moment = (item as any).moment || 'Autre';
+      if (!itemsByMoment[moment]) {
+        itemsByMoment[moment] = [];
+      }
+      itemsByMoment[moment].push(item);
+    });
+
+    // Ordre des moments
+    const momentOrder = [
+      'Arrivée',
+      'J1-J2',
+      'Début voyage',
+      'Quotidien',
+      'Quotidien soir',
+      'Quotidien nuit',
+      'Soir',
+      'Avant dormir',
+      'Repas',
+      'Tous les 3-5 jours',
+      'Continu',
+      'Autre'
+    ];
+
+    const sortedMoments = Object.keys(itemsByMoment).sort((a, b) => {
+      const indexA = momentOrder.indexOf(a);
+      const indexB = momentOrder.indexOf(b);
+      if (indexA === -1) return 1;
+      if (indexB === -1) return -1;
+      return indexA - indexB;
+    });
+
+    return sortedMoments.map(moment => (
+      <View key={moment} style={styles.timelineBlock} wrap={false}>
+        <Text style={styles.timelineHeader}>{cleanTextForPDF(moment)}</Text>
+        {itemsByMoment[moment].map((item, idx) => renderItem(item, idx, false))}
+      </View>
+    ));
+  };
+
   const timelines = organizeAllItemsByTimeline();
 
   return (
@@ -395,6 +449,8 @@ export const DetailedSectionsPage = ({
               {sortItemsByDelay(timelines.noDelay).map((item, idx) => renderItem(item, idx, false))}
             </View>
           )}
+          {/* Section "Pendant & Après" organisée par moment */}
+          {renderPendantApresSection(timelines.pendantApres)}
         </>
       )}
 
