@@ -94,7 +94,8 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
             <DetailedSectionsPage
               formData={formData}
               sections={essentialSections}
-              title="Essentiels Absolus"
+              titlePart1="Timeline de Préparation - "
+              titlePart2="Essentiels absolus"
               isEssentials={true}
             />
           )}
@@ -104,7 +105,8 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
             <DetailedSectionsPage
               formData={formData}
               sections={recommendedSections}
-              title="Sections Recommandées"
+              titlePart1="À Prévoir - "
+              titlePart2="Sélection conseillée"
               isEssentials={false}
             />
           )}
@@ -119,7 +121,8 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
             <DetailedSectionsPage
               formData={formData}
               sections={activiteSections}
-              title="Préparation Activités"
+              titlePart1="À Prévoir - "
+              titlePart2="Préparation activités"
               isEssentials={false}
             />
           )}

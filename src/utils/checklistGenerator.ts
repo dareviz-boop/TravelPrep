@@ -240,7 +240,9 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
   const sections: GeneratedChecklistSection[] = [];
 
   // Récupérer les sections sélectionnées par l'utilisateur
-  const sectionsInclure = formData.sectionsInclure || [];
+  // Si undefined ou tableau vide, inclure TOUTES les sections
+  const sectionsInclure = formData.sectionsInclure;
+  const shouldIncludeAll = !sectionsInclure || sectionsInclure.length === 0;
 
   // Parcourir les sections du JSON
   Object.keys(coreSectionsData).forEach(sectionKey => {
@@ -251,9 +253,10 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
 
     // Vérifier si la section a des items et est sélectionnée
     if (section.items && section.items.length > 0) {
-      // Charger si : obligatoire OU dans sectionsInclure
+      // Charger si : obligatoire OU toutes les sections OU dans sectionsInclure
       const shouldInclude =
         section.obligatoire ||
+        shouldIncludeAll ||
         sectionsInclure.includes(sectionKey);
 
       if (shouldInclude) {
@@ -390,10 +393,12 @@ function getClimatItemsGroupedBySection(formData: FormData): Record<string, Chec
 
       if (typeof item === 'string') {
         // Item climat simple (string)
+        // NE PAS ajouter les conseils de section (trop longs, concaténés)
+        // Les conseils spécifiques aux items seront ajoutés via la structure complète
         climatItem = {
           item: item,
           priorite: 'moyenne', // Priorité par défaut
-          conseils: section.conseils || ''
+          conseils: '' // Pas de conseils pour les items simples
         };
       } else {
         // Item destination spécifique (objet complet)
@@ -404,7 +409,7 @@ function getClimatItemsGroupedBySection(formData: FormData): Record<string, Chec
           delai: item.delai,
           quantite: item.quantite,
           specifications: item.specifications,
-          conseils: item.conseils
+          conseils: item.conseils || '' // Uniquement les conseils spécifiques à l'item
         };
       }
 

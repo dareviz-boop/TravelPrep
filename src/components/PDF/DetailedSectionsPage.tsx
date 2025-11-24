@@ -7,14 +7,9 @@ import { PDFIcon } from './PDFIcon';
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
 const cleanTextForPDF = (text: string): string => {
   if (!text) return '';
-  return text
-    .replace(/[""]/g, '"')
-    .replace(/['']/g, "'")
-    .replace(/[«»]/g, '"')
-    .replace(/[–—]/g, '-')
-    .replace(/→/g, '->')
-    .replace(/…/g, '...')
-    // SUPPRIMER tous les emojis
+
+  let cleaned = text
+    // SUPPRIMER tous les emojis (plage Unicode complète)
     .replace(/[\u{1F300}-\u{1F9FF}]/gu, '')
     .replace(/[\u{2600}-\u{26FF}]/gu, '')
     .replace(/[\u{2700}-\u{27BF}]/gu, '')
@@ -29,8 +24,19 @@ const cleanTextForPDF = (text: string): string => {
     .replace(/[\u{1F900}-\u{1F9FF}]/gu, '')
     .replace(/[\u{1FA00}-\u{1FA6F}]/gu, '')
     .replace(/[\u{1FA70}-\u{1FAFF}]/gu, '')
+    // Normaliser les guillemets typographiques
+    .replace(/[""]/g, '"')
+    .replace(/['']/g, "'")
+    .replace(/[«»]/g, '"')
+    // Normaliser les tirets et flèches
+    .replace(/[–—]/g, '-')
+    .replace(/→/g, '->')
+    .replace(/…/g, '...')
+    // Nettoyer espaces multiples
     .replace(/\s+/g, ' ')
     .trim();
+
+  return cleaned;
 };
 
 const styles = StyleSheet.create({
@@ -40,18 +46,26 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#FFFFFF'
   },
-  // Titre principal de la page
-  mainTitle: {
+  // Titre principal en deux parties
+  titleContainer: {
+    flexDirection: 'row',
+    marginBottom: 15,
+    flexWrap: 'wrap'
+  },
+  titlePart1: {
     fontSize: 16,
     fontWeight: 700,
-    color: '#E85D2A',
-    marginBottom: 15,
-    textAlign: 'center'
+    color: '#111827'
+  },
+  titlePart2: {
+    fontSize: 16,
+    fontWeight: 700,
+    color: '#E85D2A'
   },
   // Bloc de timeline (J-90 à J-60, etc.)
   timelineBlock: {
-    marginBottom: 18,
-    break: 'avoid' as any // Empêche la coupure entre pages
+    marginBottom: 16,
+    breakInside: 'avoid' as any
   },
   timelineHeader: {
     fontSize: 11,
@@ -72,12 +86,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingLeft: 6
   },
-  // Encart daté avec barre orange à droite
+  // Encart daté avec barre orange à droite (UNIQUEMENT pour essentiels)
   datedBox: {
     marginBottom: 6,
     paddingRight: 10,
+    paddingBottom: 6,
     borderRight: '4px solid #E85D2A',
-    break: 'inside-avoid' as any // Empêche la coupure à l'intérieur
+    breakInside: 'avoid' as any
   },
   dateLabel: {
     fontSize: 8,
@@ -89,9 +104,9 @@ const styles = StyleSheet.create({
   // Item de checklist avec conseil
   itemWithConseil: {
     flexDirection: 'column',
-    marginBottom: 7, // Réduit de 10 à 7
+    marginBottom: 6,
     paddingLeft: 5,
-    break: 'inside-avoid' as any
+    breakInside: 'avoid' as any
   },
   itemRow: {
     flexDirection: 'row',
@@ -100,9 +115,9 @@ const styles = StyleSheet.create({
   // Item de checklist sans conseil
   item: {
     flexDirection: 'row',
-    marginBottom: 5,
+    marginBottom: 4,
     paddingLeft: 5,
-    break: 'inside-avoid' as any
+    breakInside: 'avoid' as any
   },
   checkbox: {
     width: 8,
@@ -121,7 +136,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     marginLeft: 18,
-    marginTop: 2 // Réduit de 3 à 2
+    marginTop: 2
   },
   conseilText: {
     fontSize: 9,
@@ -142,28 +157,31 @@ const styles = StyleSheet.create({
     right: 20,
     fontSize: 8,
     color: '#9ca3af'
-  },
-  divider: {
-    borderBottom: '2px solid #E85D2A',
-    marginVertical: 12,
-    marginBottom: 15
   }
 });
 
 interface DetailedSectionsPageProps {
   formData: FormData;
   sections: GeneratedChecklistSection[];
-  title: string;
+  titlePart1: string;  // "Timeline de Préparation - " ou "À Prévoir - "
+  titlePart2: string;  // "Essentiels absolus" ou "Sélection conseillée"
   isEssentials?: boolean; // true pour les essentiels absolus
 }
 
 // Catégories essentielles (avec dates précises)
 const ESSENTIAL_CATEGORIES = ['documents', 'finances', 'sante'];
 
+// Interface pour un item avec sa section
+interface ItemWithSection extends ChecklistItem {
+  sectionName: string;
+  sectionId: string;
+}
+
 export const DetailedSectionsPage = ({
   formData,
   sections,
-  title,
+  titlePart1,
+  titlePart2,
   isEssentials = false
 }: DetailedSectionsPageProps) => {
   if (!sections || sections.length === 0) return null;
@@ -181,7 +199,7 @@ export const DetailedSectionsPage = ({
   };
 
   // Trier les items par délai
-  const sortItemsByDelay = (items: ChecklistItem[]): ChecklistItem[] => {
+  const sortItemsByDelay = (items: ItemWithSection[]): ItemWithSection[] => {
     return [...items].sort((a, b) => {
       const delayA = extractDelayNumber(a.delai);
       const delayB = extractDelayNumber(b.delai);
@@ -189,14 +207,14 @@ export const DetailedSectionsPage = ({
     });
   };
 
-  // Organiser les items par période de préparation
-  const organizeItemsByTimeline = (items: ChecklistItem[]) => {
+  // Organiser tous les items par période de préparation
+  const organizeAllItemsByTimeline = () => {
     const timelines: {
-      j90_j60: ChecklistItem[];
-      j30_j14: ChecklistItem[];
-      j7_j3: ChecklistItem[];
-      j2_j1: ChecklistItem[];
-      noDelay: ChecklistItem[];
+      j90_j60: ItemWithSection[];
+      j30_j14: ItemWithSection[];
+      j7_j3: ItemWithSection[];
+      j2_j1: ItemWithSection[];
+      noDelay: ItemWithSection[];
     } = {
       j90_j60: [],
       j30_j14: [],
@@ -205,39 +223,50 @@ export const DetailedSectionsPage = ({
       noDelay: []
     };
 
-    items.forEach(item => {
-      const delai = item.delai?.toUpperCase() || '';
+    sections.forEach(section => {
+      section.items.forEach(item => {
+        const itemWithSection: ItemWithSection = {
+          ...item,
+          sectionName: section.nom,
+          sectionId: section.id
+        };
 
-      if (!delai) {
-        timelines.noDelay.push(item);
-      } else if (delai.includes('J-90') || delai.includes('J-60')) {
-        timelines.j90_j60.push(item);
-      } else if (delai.includes('J-30') || delai.includes('J-21') || delai.includes('J-14')) {
-        timelines.j30_j14.push(item);
-      } else if (delai.includes('J-7') || delai.includes('J-3')) {
-        timelines.j7_j3.push(item);
-      } else if (delai.includes('J-2') || delai.includes('J-1')) {
-        timelines.j2_j1.push(item);
-      } else {
-        timelines.noDelay.push(item);
-      }
+        const delai = item.delai?.toUpperCase() || '';
+
+        if (!delai) {
+          timelines.noDelay.push(itemWithSection);
+        } else if (delai.includes('J-90') || delai.includes('J-60')) {
+          timelines.j90_j60.push(itemWithSection);
+        } else if (delai.includes('J-30') || delai.includes('J-21') || delai.includes('J-14')) {
+          timelines.j30_j14.push(itemWithSection);
+        } else if (delai.includes('J-7') || delai.includes('J-3')) {
+          timelines.j7_j3.push(itemWithSection);
+        } else if (delai.includes('J-2') || delai.includes('J-1')) {
+          timelines.j2_j1.push(itemWithSection);
+        } else {
+          timelines.noDelay.push(itemWithSection);
+        }
+      });
     });
 
     return timelines;
   };
 
   // Rendre un item (avec ou sans conseil)
-  const renderItem = (item: ChecklistItem, index: number, showDate: boolean = false) => {
+  const renderItem = (item: ItemWithSection, index: number, showActivityTitle: boolean = false) => {
     const hasConseil = item.conseils && item.conseils.trim().length > 0;
 
-    const itemContent = hasConseil ? (
-      <View style={styles.itemWithConseil} key={item.id || `item-${index}`}>
+    return hasConseil ? (
+      <View style={styles.itemWithConseil} key={item.id || `item-${index}`} wrap={false}>
         <View style={styles.itemRow}>
           {isHighPriority(item.priorite) && (
             <Text style={styles.prioritySymbol}>!!</Text>
           )}
           <View style={styles.checkbox} />
-          <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+          <Text style={styles.itemText}>
+            {showActivityTitle && `[${cleanTextForPDF(item.sectionName)}] `}
+            {cleanTextForPDF(item.item)}
+          </Text>
         </View>
         <View style={styles.conseilContainer}>
           <PDFIcon name="lightbulb" style={{ marginRight: 4, marginTop: 1 }} />
@@ -247,156 +276,126 @@ export const DetailedSectionsPage = ({
         </View>
       </View>
     ) : (
-      <View style={styles.item} key={item.id || `item-${index}`}>
+      <View style={styles.item} key={item.id || `item-${index}`} wrap={false}>
         {isHighPriority(item.priorite) && (
           <Text style={styles.prioritySymbol}>!!</Text>
         )}
         <View style={styles.checkbox} />
-        <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+        <Text style={styles.itemText}>
+          {showActivityTitle && `[${cleanTextForPDF(item.sectionName)}] `}
+          {cleanTextForPDF(item.item)}
+        </Text>
       </View>
     );
-
-    // Si on doit afficher une date précise (essentiels seulement)
-    if (showDate && item.delai && formData.dateDepart) {
-      return (
-        <View style={styles.datedBox} key={item.id || `item-${index}`}>
-          <Text style={styles.dateLabel}>
-            {calculateDeadline(formData.dateDepart, item.delai)}
-          </Text>
-          {itemContent}
-        </View>
-      );
-    }
-
-    return itemContent;
   };
 
-  // Rendre une section pour les essentiels (avec dates précises)
-  const renderEssentialSection = (section: GeneratedChecklistSection) => {
-    const timelines = organizeItemsByTimeline(section.items);
+  // Rendre une période de timeline pour les ESSENTIELS (avec dates et trait orange)
+  const renderTimelinePeriodForEssentials = (items: ItemWithSection[], title: string) => {
+    if (items.length === 0) return null;
+
+    // Grouper par catégorie
+    const itemsByCategory: { [categoryName: string]: ItemWithSection[] } = {};
+    items.forEach(item => {
+      const categoryName = item.sectionName || 'Autres';
+      if (!itemsByCategory[categoryName]) {
+        itemsByCategory[categoryName] = [];
+      }
+      itemsByCategory[categoryName].push(item);
+    });
 
     return (
-      <View key={section.id}>
-        <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+      <View style={styles.timelineBlock} key={title} wrap={false}>
+        <Text style={styles.timelineHeader}>{cleanTextForPDF(title)}</Text>
+        {Object.entries(itemsByCategory).map(([categoryName, categoryItems]) => {
+          const sortedItems = sortItemsByDelay(categoryItems);
 
-        {/* J-90 à J-60 */}
-        {timelines.j90_j60.length > 0 && (
-          <View style={styles.timelineBlock}>
-            <Text style={styles.timelineHeader}>J-90 à J-60 (3 mois à 2 mois avant)</Text>
-            {sortItemsByDelay(timelines.j90_j60).map((item, idx) =>
-              renderItem(item, idx, true)
-            )}
-          </View>
-        )}
+          // Grouper par date précise
+          const itemsByDate: { [date: string]: ItemWithSection[] } = {};
+          sortedItems.forEach(item => {
+            const deadline = item.delai && formData.dateDepart
+              ? calculateDeadline(formData.dateDepart, item.delai)
+              : 'no-date';
+            if (!itemsByDate[deadline]) {
+              itemsByDate[deadline] = [];
+            }
+            itemsByDate[deadline].push(item);
+          });
 
-        {/* J-30 à J-14 */}
-        {timelines.j30_j14.length > 0 && (
-          <View style={styles.timelineBlock}>
-            <Text style={styles.timelineHeader}>J-30 à J-14 (1 mois à 2 semaines avant)</Text>
-            {sortItemsByDelay(timelines.j30_j14).map((item, idx) =>
-              renderItem(item, idx, true)
-            )}
-          </View>
-        )}
-
-        {/* J-7 à J-3 */}
-        {timelines.j7_j3.length > 0 && (
-          <View style={styles.timelineBlock}>
-            <Text style={styles.timelineHeader}>J-7 à J-3 (1 semaine avant)</Text>
-            {sortItemsByDelay(timelines.j7_j3).map((item, idx) =>
-              renderItem(item, idx, true)
-            )}
-          </View>
-        )}
-
-        {/* J-2 à J-1 */}
-        {timelines.j2_j1.length > 0 && (
-          <View style={styles.timelineBlock}>
-            <Text style={styles.timelineHeader}>J-2 à J-1 (48h avant le départ)</Text>
-            {sortItemsByDelay(timelines.j2_j1).map((item, idx) =>
-              renderItem(item, idx, true)
-            )}
-          </View>
-        )}
-
-        {/* Sans délai */}
-        {timelines.noDelay.length > 0 && (
-          <View>
-            {sortItemsByDelay(timelines.noDelay).map((item, idx) =>
-              renderItem(item, idx, false)
-            )}
-          </View>
-        )}
+          return (
+            <View key={categoryName}>
+              <Text style={styles.categoryTitle}>{cleanTextForPDF(categoryName)}</Text>
+              {Object.entries(itemsByDate).map(([deadline, dateItems]) => (
+                <View
+                  key={`${categoryName}-${deadline}`}
+                  style={deadline !== 'no-date' ? styles.datedBox : {}}
+                  wrap={false}
+                >
+                  {deadline !== 'no-date' && (
+                    <Text style={styles.dateLabel}>{deadline}</Text>
+                  )}
+                  {dateItems.map((item, idx) => renderItem(item, idx, false))}
+                </View>
+              ))}
+            </View>
+          );
+        })}
       </View>
     );
   };
 
-  // Rendre une section pour les autres catégories (timeline uniquement, pas de dates)
-  const renderRegularSection = (section: GeneratedChecklistSection) => {
-    const timelines = organizeItemsByTimeline(section.items);
+  // Rendre une période de timeline pour les AUTRES (timeline uniquement, pas de dates)
+  const renderTimelinePeriodForOthers = (items: ItemWithSection[], title: string) => {
+    if (items.length === 0) return null;
+
+    const sortedItems = sortItemsByDelay(items);
+
+    // Pour les activités, regrouper par activité
+    const isActivity = sortedItems.length > 0 && sortedItems[0].sectionName;
+    const hasMultipleActivities = new Set(sortedItems.map(i => i.sectionName)).size > 1;
 
     return (
-      <View key={section.id}>
-        <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
-
-        {/* J-90 à J-60 */}
-        {timelines.j90_j60.length > 0 && (
-          <View style={styles.timelineBlock}>
-            <Text style={styles.timelineHeader}>J-90 à J-60 (3 mois à 2 mois avant)</Text>
-            {sortItemsByDelay(timelines.j90_j60).map((item, idx) =>
-              renderItem(item, idx, false)
-            )}
-          </View>
-        )}
-
-        {/* J-30 à J-14 */}
-        {timelines.j30_j14.length > 0 && (
-          <View style={styles.timelineBlock}>
-            <Text style={styles.timelineHeader}>J-30 à J-14 (1 mois à 2 semaines avant)</Text>
-            {sortItemsByDelay(timelines.j30_j14).map((item, idx) =>
-              renderItem(item, idx, false)
-            )}
-          </View>
-        )}
-
-        {/* J-7 à J-3 */}
-        {timelines.j7_j3.length > 0 && (
-          <View style={styles.timelineBlock}>
-            <Text style={styles.timelineHeader}>J-7 à J-3 (1 semaine avant)</Text>
-            {sortItemsByDelay(timelines.j7_j3).map((item, idx) =>
-              renderItem(item, idx, false)
-            )}
-          </View>
-        )}
-
-        {/* J-2 à J-1 */}
-        {timelines.j2_j1.length > 0 && (
-          <View style={styles.timelineBlock}>
-            <Text style={styles.timelineHeader}>J-2 à J-1 (48h avant le départ)</Text>
-            {sortItemsByDelay(timelines.j2_j1).map((item, idx) =>
-              renderItem(item, idx, false)
-            )}
-          </View>
-        )}
-
-        {/* Sans délai */}
-        {timelines.noDelay.length > 0 && (
-          <View>
-            {sortItemsByDelay(timelines.noDelay).map((item, idx) =>
-              renderItem(item, idx, false)
-            )}
-          </View>
-        )}
+      <View style={styles.timelineBlock} key={title} wrap={false}>
+        <Text style={styles.timelineHeader}>{cleanTextForPDF(title)}</Text>
+        {sortedItems.map((item, idx) => renderItem(item, idx, hasMultipleActivities))}
       </View>
     );
   };
+
+  const timelines = organizeAllItemsByTimeline();
 
   return (
     <Page size="A4" style={styles.page}>
-      <Text style={styles.mainTitle}>{cleanTextForPDF(title)}</Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.titlePart1}>{cleanTextForPDF(titlePart1)}</Text>
+        <Text style={styles.titlePart2}>{cleanTextForPDF(titlePart2)}</Text>
+      </View>
 
-      {sections.map(section =>
-        isEssentials ? renderEssentialSection(section) : renderRegularSection(section)
+      {isEssentials ? (
+        <>
+          {/* Essentiels : avec dates et trait orange */}
+          {renderTimelinePeriodForEssentials(timelines.j90_j60, 'J-90 à J-60 (3 mois à 2 mois avant)')}
+          {renderTimelinePeriodForEssentials(timelines.j30_j14, 'J-30 à J-14 (1 mois à 2 semaines avant)')}
+          {renderTimelinePeriodForEssentials(timelines.j7_j3, 'J-7 à J-3 (1 semaine avant)')}
+          {renderTimelinePeriodForEssentials(timelines.j2_j1, 'J-2 à J-1 (48h avant le départ)')}
+          {timelines.noDelay.length > 0 && (
+            <View>
+              {sortItemsByDelay(timelines.noDelay).map((item, idx) => renderItem(item, idx, false))}
+            </View>
+          )}
+        </>
+      ) : (
+        <>
+          {/* Autres : timeline uniquement, pas de dates */}
+          {renderTimelinePeriodForOthers(timelines.j90_j60, 'J-90 à J-60 (3 mois à 2 mois avant)')}
+          {renderTimelinePeriodForOthers(timelines.j30_j14, 'J-30 à J-14 (1 mois à 2 semaines avant)')}
+          {renderTimelinePeriodForOthers(timelines.j7_j3, 'J-7 à J-3 (1 semaine avant)')}
+          {renderTimelinePeriodForOthers(timelines.j2_j1, 'J-2 à J-1 (48h avant le départ)')}
+          {timelines.noDelay.length > 0 && (
+            <View>
+              {sortItemsByDelay(timelines.noDelay).map((item, idx) => renderItem(item, idx, false))}
+            </View>
+          )}
+        </>
       )}
 
       <Text
