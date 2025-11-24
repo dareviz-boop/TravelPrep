@@ -1082,14 +1082,14 @@
         "id": "PEND009",
         "item": "Sauvegarder photos quotidiennement (cloud + disque)",
         "priorite": "⭐⭐⭐",
-        "moment": "Soir",
+        "moment": "Quotidien",
         "conseils": "Vol/perte téléphone = souvenirs perdus. Google Photos auto, iCloud"
       },
       {
         "id": "PEND010",
         "item": "Noter dépenses quotidiennes (budget)",
         "priorite": "⭐⭐",
-        "moment": "Soir",
+        "moment": "Quotidien",
         "filtres": {
           "duree": [
             "moyen",
@@ -1103,7 +1103,7 @@
         "id": "PEND011",
         "item": "Laver vêtements régulièrement (voyager léger)",
         "priorite": "⭐⭐⭐",
-        "moment": "Tous les 3-5 jours",
+        "moment": "Quotidien",
         "filtres": {
           "typeVoyage": [
             "backpacker",
@@ -1123,7 +1123,7 @@
         "id": "PEND013",
         "item": "Recharger batteries électroniques (soir)",
         "priorite": "⭐⭐⭐",
-        "moment": "Quotidien soir",
+        "moment": "Quotidien",
         "conseils": "Téléphone, batterie externe, appareil photo, montre. Routine = jamais HS"
       },
       {
@@ -1144,7 +1144,7 @@
         "id": "PEND015",
         "item": "Appliquer anti-moustiques soir (prévention)",
         "priorite": "⭐⭐⭐",
-        "moment": "Soir",
+        "moment": "Quotidien",
         "filtres": {
           "destinations": [
             "asie",
@@ -1158,7 +1158,7 @@
         "id": "PEND016",
         "item": "Vérifier fermeture moustiquaire/clim (nuit)",
         "priorite": "⭐⭐⭐",
-        "moment": "Avant dormir",
+        "moment": "Quotidien",
         "filtres": {
           "destinations": [
             "asie",
@@ -1169,51 +1169,44 @@
       },
       {
         "id": "PEND017",
-        "item": "Dormir 7-8h (récupération essentielle)",
+        "item": "Dormir 6-8h (récupération essentielle)",
         "priorite": "⭐⭐⭐",
-        "moment": "Quotidien nuit",
+        "moment": "Quotidien",
         "conseils": "Fatigue = maladies + accidents. Écouter corps. Sieste OK"
       },
       {
         "id": "PEND018",
         "item": "Rester flexible itinéraire (opportunités)",
         "priorite": "⭐⭐",
-        "moment": "Continu",
+        "moment": "Quotidien",
         "conseils": "Meilleurs moments = imprévus. Recommandations locaux > guides. S'adapter"
       },
       {
         "id": "PEND019",
         "item": "Tester spécialités locales (immersion)",
         "priorite": "⭐⭐",
-        "moment": "Repas",
+        "moment": "Quotidien",
         "conseils": "Street food = authentique. Observer queue locaux = bon signe"
       },
       {
         "id": "PEND020",
         "item": "Apprendre 5 mots langue locale (respect)",
         "priorite": "⭐⭐",
-        "moment": "Début voyage",
+        "moment": "J1-J2",
         "conseils": "Bonjour, merci, au revoir, combien, délicieux. Sourires garantis"
       },
       {
         "id": "PEND021",
-        "item": "Faire copies clé chambre (sécurité)",
-        "priorite": "⭐⭐",
-        "moment": "Arrivée",
-        "conseils": "Perte clé = galère. Copie dans bagage différent"
-      },
-      {
-        "id": "PEND022",
         "item": "Noter n° téléphone hébergements (papier)",
         "priorite": "⭐⭐",
-        "moment": "Check-in",
+        "moment": "Arrivée",
         "conseils": "Si tel HS/volé. Papier = accessible toujours"
       },
       {
-        "id": "PEND023",
-        "item": "Contacter proches régulièrement (rassurer)",
+        "id": "PEND022",
+        "item": "Contacter proches (rassurer toutes les semaines)",
         "priorite": "⭐⭐",
-        "moment": "Tous les 2-3 jours",
+        "moment": "Quotidien",
         "filtres": {
           "profil": [
             "solo"
@@ -1222,59 +1215,59 @@
         "conseils": "WhatsApp, SMS. Famille rassurée = voyage serein"
       },
       {
-        "id": "PEND024",
+        "id": "PEND023",
         "item": "Respecter coutumes locales (observation)",
         "priorite": "⭐⭐⭐",
-        "moment": "Continu",
+        "moment": "Quotidien",
         "conseils": "Vêtements, comportements, photos. Doute = demander. Respect = accueil"
       },
       {
-        "id": "PEND025",
+        "id": "PEND024",
         "item": "Profiter moment présent (déconnexion)",
         "priorite": "⭐⭐⭐",
-        "moment": "Continu",
+        "moment": "Quotidien",
         "conseils": "Moins photos, plus ressenti. Instagram peut attendre. Vivre l'instant"
       },
       {
         "id": "APRES001",
         "item": "Déballer valises dans 24-48h (organisation)",
         "priorite": "⭐⭐",
-        "delai": "J+1 à J+2",
+        "delai": "Après",
         "conseils": "Évite moisissures vêtements humides. Linge sale direct machine"
       },
       {
         "id": "APRES002",
         "item": "Laver TOUS vêtements (même propres)",
         "priorite": "⭐⭐⭐",
-        "delai": "J+1",
+        "delai": "Après",
         "conseils": "Punaises lit, parasites. 60°C tue tout. Même non portés = précaution"
       },
       {
         "id": "APRES003",
         "item": "Inspecter valises punaises/insectes",
         "priorite": "⭐⭐⭐",
-        "delai": "J+1",
+        "delai": "Après",
         "conseils": "Coutures, coins, fermetures. Aspirateur complet. Garage/balcon 48h"
       },
       {
         "id": "APRES004",
         "item": "Sauvegarder toutes photos (3 emplacements)",
         "priorite": "⭐⭐⭐",
-        "delai": "J+1 à J+3",
+        "delai": "Après",
         "conseils": "Cloud + disque externe + ordinateur. Règle 3-2-1 backup"
       },
       {
         "id": "APRES005",
         "item": "Trier photos (garder meilleures)",
         "priorite": "⭐⭐",
-        "delai": "J+7",
+        "delai": "Après",
         "conseils": "500 photos → 100 superbes. Qualité > quantité. Lightroom/Photos"
       },
       {
         "id": "APRES006",
         "item": "Consulter médecin si symptômes (fièvre, diarrhée)",
         "priorite": "⭐⭐⭐",
-        "delai": "Immédiat si symptômes",
+        "delai": "Après",
         "filtres": {
           "destinations": [
             "asie",
@@ -1288,14 +1281,14 @@
         "id": "APRES007",
         "item": "Vérifier relevés bancaires (fraudes)",
         "priorite": "⭐⭐⭐",
-        "delai": "J+1 à J+7",
+        "delai": "Après",
         "conseils": "Transactions suspectes. Contester rapidement. 30j max généralement"
       },
       {
         "id": "APRES008",
         "item": "Désactiver forfait international (facture)",
         "priorite": "⭐⭐⭐",
-        "delai": "J+1",
+        "delai": "Après",
         "conseils": "Évite frais continuation. App opérateur/téléphone"
       },
       {
@@ -1309,42 +1302,42 @@
         "id": "APRES010",
         "item": "Réactiver services domicile (courrier, etc)",
         "priorite": "⭐⭐",
-        "delai": "J+1",
+        "delai": "Après",
         "conseils": "Poste garde courrier = réactivation auto ou demande. Vérifier"
       },
       {
         "id": "APRES011",
         "item": "Partager recommandations (aider voyageurs)",
         "priorite": "⭐",
-        "delai": "J+7",
+        "delai": "Après",
         "conseils": "TripAdvisor, Google Reviews. Avis = aide communauté. Constructifs"
       },
       {
         "id": "APRES012",
         "item": "Créer album photos/vidéo souvenirs",
         "priorite": "⭐⭐",
-        "delai": "J+14",
+        "delai": "Après",
         "conseils": "Google Photos, Apple Memories auto. Ou manuel mixbook.com, shutterfly"
       },
       {
         "id": "APRES013",
         "item": "Évaluer budget réel vs prévisionnel",
         "priorite": "⭐⭐",
-        "delai": "J+7",
+        "delai": "Après",
         "conseils": "Leçons prochain voyage. Postes dépassés? Économies possibles?"
       },
       {
         "id": "APRES014",
         "item": "Noter destinations/activités préférées (mémoire)",
         "priorite": "⭐",
-        "delai": "J+3 à J+7",
+        "delai": "Après",
         "conseils": "Carnet voyage. Recommandations amis. Souvenirs s'effacent vite"
       },
       {
         "id": "APRES015",
         "item": "Planifier prochain voyage (déjà!) 😊",
         "priorite": "⭐",
-        "delai": "Quand envie",
+        "delai": "Après",
         "conseils": "Blues retour = normal. Cure = rêver nouveau voyage. Wanderlust éternel"
       }
     ]
@@ -2989,13 +2982,6 @@
         "priorite": "⭐⭐",
         "delai": "J-1",
         "conseils": "Éviter odeurs. Jour ramassage. Vider corbeilles. Poubelle vide au retour"
-      },
-      {
-        "id": "DOM026",
-        "item": "Volets partiellement fermés (simulation présence)",
-        "priorite": "⭐⭐",
-        "delai": "J-1",
-        "conseils": "Mi-fermés rez-de-chaussée. Ouverts étages = habité. Pas tous fermés = cambriolage. Minuteur lumière"
       }
     ]
   },
