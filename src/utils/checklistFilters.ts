@@ -416,11 +416,16 @@ export function getClimatEquipment(formData: FormData): ChecklistSection[] {
 export function autoDetectSeasons(formData: FormData): Saison[] {
   if (!formData.dateDepart) return [];
 
-  // === CAS SPÉCIAL: MULTI-DESTINATIONS SANS PAYS ===
-  // Si multi-destinations mais aucun pays renseigné, impossible de déterminer la saison
-  // car on ne sait pas quels pays seront visités
-  if (formData.localisation === 'multi-destinations' && (!formData.pays || formData.pays.length === 0)) {
-    return ['inconnue'] as Saison[];
+  // === CAS SPÉCIAL: ZONES MULTI-HÉMISPHÈRES SANS PAYS ===
+  // Si la zone géographique couvre plusieurs hémisphères ET aucun pays n'est renseigné,
+  // impossible de déterminer la saison car les hémisphères ont des saisons opposées
+  // Exemples : Afrique (nord+sud), Asie (chevauche équateur), Amérique du Sud
+  if (!formData.pays || formData.pays.length === 0) {
+    // Vérifier si la zone est multi-hémisphère
+    const regionalClimate = getRegionalClimate(formData.localisation);
+    if (regionalClimate?.hemisphere === 'both' || formData.localisation === 'multi-destinations') {
+      return ['inconnue'] as Saison[];
+    }
   }
 
   const seasons: Set<string> = new Set();
@@ -518,10 +523,15 @@ export function autoDetectSeasons(formData: FormData): Saison[] {
  * @returns Array de températures applicables (tres-froide, froide, temperee, chaude, tres-chaude)
  */
 export function autoDetectTemperatures(formData: FormData): Temperature[] {
-  // === CAS SPÉCIAL: MULTI-DESTINATIONS SANS PAYS ===
-  // Si multi-destinations mais aucun pays renseigné, impossible de déterminer la température
-  if (formData.localisation === 'multi-destinations' && (!formData.pays || formData.pays.length === 0)) {
-    return ['inconnue'] as Temperature[];
+  // === CAS SPÉCIAL: ZONES MULTI-HÉMISPHÈRES SANS PAYS ===
+  // Si la zone géographique couvre plusieurs hémisphères ET aucun pays n'est renseigné,
+  // impossible de déterminer la température car peut varier énormément selon le pays
+  // Exemples : Afrique (désert +40°C au nord, tempéré au sud), Asie, Amérique du Sud
+  if (!formData.pays || formData.pays.length === 0) {
+    const regionalClimate = getRegionalClimate(formData.localisation);
+    if (regionalClimate?.hemisphere === 'both' || formData.localisation === 'multi-destinations') {
+      return ['inconnue'] as Temperature[];
+    }
   }
 
   // Pour les autres cas, nécessite pays + date
