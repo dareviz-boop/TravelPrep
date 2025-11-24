@@ -267,15 +267,20 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
       !TIMELINE_CATEGORIES.includes(section.id) && section.source !== 'activite'
     );
 
-    // Récupérer tous les items priorité moyenne
+    // Récupérer tous les items priorité moyenne OU haute (pour inclure TOUTES les apps)
     const mediumPriorityItems: { [sectionId: string]: { section: GeneratedChecklistSection; items: ChecklistItem[] } } = {};
 
     selectionSections.forEach(section => {
-      const mediumItems = section.items.filter(item => getPriority(item.priorite) === 'moyenne');
-      if (mediumItems.length > 0) {
+      // Pour la section "apps", inclure TOUTES les priorités (haute, moyenne, basse)
+      // Pour les autres sections, garder uniquement priorité moyenne
+      const filteredItems = section.id === 'apps'
+        ? section.items
+        : section.items.filter(item => getPriority(item.priorite) === 'moyenne');
+
+      if (filteredItems.length > 0) {
         mediumPriorityItems[section.id] = {
           section,
-          items: mediumItems
+          items: filteredItems
         };
       }
     });
