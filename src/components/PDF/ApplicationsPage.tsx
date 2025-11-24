@@ -6,13 +6,7 @@ import { GeneratedChecklistSection, ChecklistItem } from '@/utils/checklistGener
 const cleanTextForPDF = (text: string): string => {
   if (!text) return '';
   return text
-    .replace(/[""]/g, '"')
-    .replace(/['']/g, "'")
-    .replace(/[«»]/g, '"')
-    .replace(/[–—]/g, '-')
-    .replace(/→/g, '->')
-    .replace(/…/g, '...')
-    // SUPPRIMER tous les emojis
+    // SUPPRIMER tous les emojis (plage Unicode complète)
     .replace(/[\u{1F300}-\u{1F9FF}]/gu, '')
     .replace(/[\u{2600}-\u{26FF}]/gu, '')
     .replace(/[\u{2700}-\u{27BF}]/gu, '')
@@ -27,6 +21,18 @@ const cleanTextForPDF = (text: string): string => {
     .replace(/[\u{1F900}-\u{1F9FF}]/gu, '')
     .replace(/[\u{1FA00}-\u{1FA6F}]/gu, '')
     .replace(/[\u{1FA70}-\u{1FAFF}]/gu, '')
+    // SUPPRIMER les emojis mal encodés (ex: =Ä, <å, =³)
+    // Ces patterns apparaissent quand des emojis UTF-8 sont corrompus
+    .replace(/[=<][^\s\w\d.,;:!?()\[\]{}'"\/\\-]/g, '')
+    // Normaliser les guillemets typographiques
+    .replace(/[""]/g, '"')
+    .replace(/['']/g, "'")
+    .replace(/[«»]/g, '"')
+    // Normaliser les tirets et flèches
+    .replace(/[–—]/g, '-')
+    .replace(/→/g, '->')
+    .replace(/…/g, '...')
+    // Nettoyer espaces multiples
     .replace(/\s+/g, ' ')
     .trim();
 };
@@ -149,7 +155,7 @@ export const ApplicationsPage = ({ formData, appsSection }: ApplicationsPageProp
 
       {Object.entries(appsByCategory).map(([category, apps]) => (
         <View key={category} style={styles.categorySection}>
-          <Text style={styles.categoryTitle}>{cleanTextForPDF(category)}</Text>
+          <Text style={styles.subCategoryTitle}>{cleanTextForPDF(category)}</Text>
 
           {apps.map((app, index) => (
             <View style={styles.item} key={app.id || `app-${index}`}>
