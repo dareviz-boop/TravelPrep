@@ -5,9 +5,7 @@ import { CoverPage } from './CoverPage';
 import { TimelinePage } from './TimelinePage';
 import { CategoryPage } from './CategoryPage';
 import { BagagesPage } from './BagagesPage';
-import { ApplicationsPage } from './ApplicationsPage';
 import { DetailedSectionsPage } from './DetailedSectionsPage';
-import { PendantApresPage } from './PendantApresPage';
 import checklistCompleteData from '@/data/checklistComplete.json';
 
 // 🔧 FIX: Ne pas charger de polices externes pour éviter les erreurs d'encodage
@@ -62,23 +60,15 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
     ESSENTIAL_IDS.includes(section.id)
   );
 
-  // 2. Sections recommandées : toutes les autres sauf essentiels, activités, apps et pendant_apres
-  // Exclure apps et pendant_apres car ils ont leurs propres pages dédiées
+  // 2. Sections recommandées : toutes les autres sauf essentiels et activités
+  // Inclut : bagages, equipement, apps, pendant_apres, etc.
   const recommendedSections = filteredSections.filter(section =>
     section.source !== 'activite' &&
-    !ESSENTIAL_IDS.includes(section.id) &&
-    section.id !== 'apps' &&
-    section.id !== 'pendant_apres'
+    !ESSENTIAL_IDS.includes(section.id)
   );
 
   // 3. Activités
   const activiteSections = filteredSections.filter(section => section.source === 'activite');
-
-  // 4. Applications (page dédiée)
-  const appsSection = filteredSections.find(section => section.id === 'apps') || null;
-
-  // 5. Pendant & Après (page dédiée)
-  const pendantApresSection = filteredSections.find(section => section.id === 'pendant_apres') || null;
 
   return (
     <Document>
@@ -121,22 +111,6 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
               titlePart1="À Prévoir - "
               titlePart2="Préparation activités"
               isEssentials={false}
-            />
-          )}
-
-          {/* 4. Applications recommandées (page dédiée) */}
-          {appsSection && (
-            <ApplicationsPage
-              formData={formData}
-              appsSection={appsSection}
-            />
-          )}
-
-          {/* 5. Pendant & Après le voyage (page dédiée) */}
-          {pendantApresSection && (
-            <PendantApresPage
-              formData={formData}
-              section={pendantApresSection}
             />
           )}
         </>
