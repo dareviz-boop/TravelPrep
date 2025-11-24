@@ -150,6 +150,13 @@ const TIMELINE_MILESTONES = [
 // Catégories pour la section Timeline (essentiels absolus)
 const TIMELINE_CATEGORIES = ['documents', 'sante', 'finances'];
 
+// Ordre des sections tel qu'affiché en step 5 (basé sur checklistComplete.json)
+const SECTION_ORDER = [
+  'documents', 'finances', 'sante', // Essentiels absolus
+  'bagages', 'hygiene', 'tech', 'domicile', 'transport', 'reservations',
+  'urgence', 'apps', 'pendant_apres'
+];
+
 export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
   // ==========================================
   // FONCTIONS HELPERS
@@ -287,6 +294,16 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
 
     if (Object.keys(sectionItems).length === 0) return null;
 
+    // Trier les sections selon l'ordre défini dans SECTION_ORDER
+    const sortedSectionEntries = Object.entries(sectionItems).sort(([idA], [idB]) => {
+      const indexA = SECTION_ORDER.indexOf(idA);
+      const indexB = SECTION_ORDER.indexOf(idB);
+      // Si une section n'est pas dans l'ordre, la mettre à la fin
+      if (indexA === -1) return 1;
+      if (indexB === -1) return -1;
+      return indexA - indexB;
+    });
+
     return (
       <>
         <View style={styles.divider} />
@@ -295,7 +312,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
           <Text style={styles.mainSectionTitlePart2}>Sélection conseillée</Text>
         </View>
 
-        {Object.entries(sectionItems).map(([sectionId, { section, items }]) => {
+        {sortedSectionEntries.map(([sectionId, { section, items }]) => {
           // Gestion spéciale pour la section "apps" avec sous-catégories
           if (sectionId === 'apps') {
             return (
@@ -384,7 +401,8 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
     // Grouper les items par moment
     const itemsByMoment: { [moment: string]: ChecklistItem[] } = {};
     items.forEach(item => {
-      const moment = (item as any).moment || 'Autre';
+      // Vérifier d'abord le moment, puis le delai "Après", sinon "Autre"
+      const moment = (item as any).moment || ((item as any).delai === 'Après' ? 'Après' : 'Autre');
       if (!itemsByMoment[moment]) {
         itemsByMoment[moment] = [];
       }
@@ -392,7 +410,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
     });
 
     // Ordre des moments
-    const momentOrder = ['Arrivée', 'J1-J2', 'Début voyage', 'Quotidien', 'Quotidien soir', 'Quotidien nuit', 'Soir', 'Avant dormir', 'Repas', 'Tous les 3-5 jours', 'Continu', 'Autre'];
+    const momentOrder = ['Arrivée', 'J1-J2', 'Début voyage', 'Quotidien', 'Quotidien soir', 'Quotidien nuit', 'Soir', 'Avant dormir', 'Repas', 'Tous les 3-5 jours', 'Continu', 'Après', 'Autre'];
     const sortedMoments = Object.keys(itemsByMoment).sort((a, b) => {
       const indexA = momentOrder.indexOf(a);
       const indexB = momentOrder.indexOf(b);
@@ -481,7 +499,8 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
     // Grouper les items par moment
     const itemsByMoment: { [moment: string]: ChecklistItem[] } = {};
     surPlaceSection.items.forEach(item => {
-      const moment = (item as any).moment || 'Autre';
+      // Vérifier d'abord le moment, puis le delai "Après", sinon "Autre"
+      const moment = (item as any).moment || ((item as any).delai === 'Après' ? 'Après' : 'Autre');
       if (!itemsByMoment[moment]) {
         itemsByMoment[moment] = [];
       }
@@ -489,7 +508,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
     });
 
     // Ordre des moments
-    const momentOrder = ['Arrivée', 'J1-J2', 'Début voyage', 'Quotidien', 'Quotidien soir', 'Quotidien nuit', 'Soir', 'Avant dormir', 'Repas', 'Tous les 3-5 jours', 'Continu', 'Autre'];
+    const momentOrder = ['Arrivée', 'J1-J2', 'Début voyage', 'Quotidien', 'Quotidien soir', 'Quotidien nuit', 'Soir', 'Avant dormir', 'Repas', 'Tous les 3-5 jours', 'Continu', 'Après', 'Autre'];
     const sortedMoments = Object.keys(itemsByMoment).sort((a, b) => {
       const indexA = momentOrder.indexOf(a);
       const indexB = momentOrder.indexOf(b);

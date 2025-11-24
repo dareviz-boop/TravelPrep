@@ -378,7 +378,8 @@ export const DetailedSectionsPage = ({
     // Grouper par moment
     const itemsByMoment: { [moment: string]: ItemWithSection[] } = {};
     items.forEach(item => {
-      const moment = (item as any).moment || 'Autre';
+      // Vérifier d'abord le moment, puis le delai "Après", sinon "Autre"
+      const moment = (item as any).moment || ((item as any).delai === 'Après' ? 'Après' : 'Autre');
       if (!itemsByMoment[moment]) {
         itemsByMoment[moment] = [];
       }
@@ -398,6 +399,7 @@ export const DetailedSectionsPage = ({
       'Repas',
       'Tous les 3-5 jours',
       'Continu',
+      'Après',
       'Autre'
     ];
 

@@ -363,7 +363,8 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
     // Grouper les items par moment
     const itemsByMoment: { [moment: string]: TimelineItem[] } = {};
     items.forEach(item => {
-      const moment = item.moment || 'Autre';
+      // Vérifier d'abord le moment, puis le delai "Après", sinon "Autre"
+      const moment = item.moment || ((item as any).delai === 'Après' ? 'Après' : 'Autre');
       if (!itemsByMoment[moment]) {
         itemsByMoment[moment] = [];
       }
@@ -371,7 +372,7 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
     });
 
     // Ordre des moments
-    const momentOrder = ['Arrivée', 'J1-J2', 'Début voyage', 'Quotidien', 'Quotidien soir', 'Quotidien nuit', 'Soir', 'Avant dormir', 'Repas', 'Tous les 3-5 jours', 'Continu', 'Autre'];
+    const momentOrder = ['Arrivée', 'J1-J2', 'Début voyage', 'Quotidien', 'Quotidien soir', 'Quotidien nuit', 'Soir', 'Avant dormir', 'Repas', 'Tous les 3-5 jours', 'Continu', 'Après', 'Autre'];
     const sortedMoments = Object.keys(itemsByMoment).sort((a, b) => {
       const indexA = momentOrder.indexOf(a);
       const indexB = momentOrder.indexOf(b);
