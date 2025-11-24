@@ -171,6 +171,11 @@ export const CoverPage = ({ formData, checklistData, referenceData, isDetailed =
   };
 
   const getTemperaturesLabels = () => {
+    // Cas spécial : Multi-destination sans pays spécifiés
+    if (formData.localisation === 'multi-destinations' && (!formData.pays || formData.pays.length === 0)) {
+      return 'je ne sais pas';
+    }
+
     const temps: any = checklistCompleteData.temperatures || {};
     const tempArray = Array.isArray(formData.temperature) ? formData.temperature : [formData.temperature];
     const filtered = tempArray.filter(t => t !== 'inconnue');
@@ -192,6 +197,11 @@ export const CoverPage = ({ formData, checklistData, referenceData, isDetailed =
   };
 
   const getSaisonsLabels = () => {
+    // Cas spécial : Multi-destination sans pays spécifiés
+    if (formData.localisation === 'multi-destinations' && (!formData.pays || formData.pays.length === 0)) {
+      return 'je ne sais pas';
+    }
+
     const saisons: any = checklistCompleteData.saisons || {};
     const saisonArray = Array.isArray(formData.saison) ? formData.saison : [formData.saison];
     const filtered = saisonArray.filter(s => s !== 'inconnue');
@@ -213,6 +223,11 @@ export const CoverPage = ({ formData, checklistData, referenceData, isDetailed =
   };
 
   const getConditionsClimatiquesLabels = () => {
+    // Cas spécial : Multi-destination sans pays spécifiés
+    if (formData.localisation === 'multi-destinations' && (!formData.pays || formData.pays.length === 0)) {
+      return 'Aucune condition specifique';
+    }
+
     if (!formData.conditionsClimatiques || formData.conditionsClimatiques.length === 0) return null;
     const conditions: any = checklistCompleteData.conditionsClimatiques || [];
     const allConditions: any[] = [];

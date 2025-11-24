@@ -272,22 +272,12 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
     const sectionItems: { [sectionId: string]: { section: GeneratedChecklistSection; items: ChecklistItem[] } } = {};
 
     selectionSections.forEach(section => {
-      // Pour pendant_apres, inclure TOUS les items (pas seulement priorité moyenne)
-      if (section.id === 'pendant_apres') {
-        if (section.items.length > 0) {
-          mediumPriorityItems[section.id] = {
-            section,
-            items: section.items
-          };
-        }
-      } else {
-        const mediumItems = section.items.filter(item => getPriority(item.priorite) === 'moyenne');
-        if (mediumItems.length > 0) {
-          mediumPriorityItems[section.id] = {
-            section,
-            items: mediumItems
-          };
-        }
+      // Inclure TOUS les items, quelle que soit leur priorité
+      if (section.items.length > 0) {
+        sectionItems[section.id] = {
+          section,
+          items: section.items
+        };
       }
     });
 
