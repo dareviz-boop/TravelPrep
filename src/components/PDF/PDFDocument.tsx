@@ -62,15 +62,23 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
     ESSENTIAL_IDS.includes(section.id)
   );
 
-  // 2. Sections recommandées : toutes les autres sauf essentiels et activités
-  // Inclut : bagages, equipement, apps, pendant_apres, etc.
+  // 2. Sections recommandées : toutes les autres sauf essentiels, activités, apps et pendant_apres
+  // Exclure apps et pendant_apres car ils ont leurs propres pages dédiées
   const recommendedSections = filteredSections.filter(section =>
     section.source !== 'activite' &&
-    !ESSENTIAL_IDS.includes(section.id)
+    !ESSENTIAL_IDS.includes(section.id) &&
+    section.id !== 'apps' &&
+    section.id !== 'pendant_apres'
   );
 
   // 3. Activités
   const activiteSections = filteredSections.filter(section => section.source === 'activite');
+
+  // 4. Applications (page dédiée)
+  const appsSection = filteredSections.find(section => section.id === 'apps') || null;
+
+  // 5. Pendant & Après (page dédiée)
+  const pendantApresSection = filteredSections.find(section => section.id === 'pendant_apres') || null;
 
   return (
     <Document>
@@ -113,6 +121,22 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
               titlePart1="À Prévoir - "
               titlePart2="Préparation activités"
               isEssentials={false}
+            />
+          )}
+
+          {/* 4. Applications recommandées (page dédiée) */}
+          {appsSection && (
+            <ApplicationsPage
+              formData={formData}
+              appsSection={appsSection}
+            />
+          )}
+
+          {/* 5. Pendant & Après le voyage (page dédiée) */}
+          {pendantApresSection && (
+            <PendantApresPage
+              formData={formData}
+              section={pendantApresSection}
             />
           )}
         </>

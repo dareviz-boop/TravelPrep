@@ -251,6 +251,46 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
 
     const section = (coreSectionsData as any)[sectionKey];
 
+    // === TRAITEMENT SPÉCIAL POUR LA SECTION "apps" ===
+    if (sectionKey === 'apps' && section.categories) {
+      const shouldInclude =
+        section.obligatoire ||
+        shouldIncludeAll ||
+        sectionsInclure.includes(sectionKey);
+
+      if (shouldInclude) {
+        // Convertir les categories en items
+        const appItems: ChecklistItem[] = [];
+
+        Object.entries(section.categories).forEach(([categoryKey, categoryData]: [string, any]) => {
+          if (categoryData.apps && Array.isArray(categoryData.apps)) {
+            categoryData.apps.forEach((app: any, index: number) => {
+              appItems.push({
+                id: `APP-${categoryKey}-${index}`,
+                item: `${categoryData.nom}: ${app.nom}`,
+                priorite: mapStarsToPriority(app.priorite || '⭐⭐'),
+                delai: 'J-14', // Par défaut, à installer 2 semaines avant
+                conseils: `${app.usage}. ${app.prix}. ${app.conseils || ''}`
+              });
+            });
+          }
+        });
+
+        if (appItems.length > 0) {
+          sections.push({
+            id: section.id,
+            nom: section.nom,
+            emoji: section.nom.match(/^[\u{1F000}-\u{1F9FF}]/u)?.[0],
+            items: appItems,
+            source: 'core',
+            category: 'interesting',
+            conseils: section.description || ''
+          });
+        }
+      }
+      return; // Ne pas continuer avec le traitement normal
+    }
+
     // Vérifier si la section a des items et est sélectionnée
     if (section.items && section.items.length > 0) {
       // Charger si : obligatoire OU toutes les sections OU dans sectionsInclure
