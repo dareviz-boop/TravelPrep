@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     marginLeft: 18,
-    marginTop: 2
+    marginTop: 1
   },
   conseilText: {
     fontSize: 9,
@@ -173,6 +173,13 @@ interface DetailedSectionsPageProps {
 
 // Catégories essentielles (avec dates précises)
 const ESSENTIAL_CATEGORIES = ['documents', 'finances', 'sante'];
+
+// Ordre des sections tel qu'affiché en step 5 (basé sur checklistComplete.json)
+const SECTION_ORDER = [
+  'documents', 'finances', 'sante', // Essentiels absolus
+  'bagages', 'hygiene', 'tech', 'domicile', 'transport', 'reservations',
+  'urgence', 'apps', 'pendant_apres'
+];
 
 // Interface pour un item avec sa section
 interface ItemWithSection extends ChecklistItem {
@@ -419,6 +426,122 @@ export const DetailedSectionsPage = ({
     ));
   };
 
+  // Déterminer le type de sections (essentiels, recommandées, ou activités)
+  const isActivities = sections.length > 0 && sections[0].source === 'activite';
+
+  // Fonction pour rendre les sections recommandées (dans l'ordre de step 5)
+  const renderRecommendedSections = () => {
+    // Trier les sections selon SECTION_ORDER
+    const sortedSections = [...sections].sort((a, b) => {
+      const indexA = SECTION_ORDER.indexOf(a.id);
+      const indexB = SECTION_ORDER.indexOf(b.id);
+      if (indexA === -1) return 1;
+      if (indexB === -1) return -1;
+      return indexA - indexB;
+    });
+
+    return sortedSections.map(section => {
+      if (section.items.length === 0) return null;
+
+      // Gestion spéciale pour apps
+      if (section.id === 'apps') {
+        return (
+          <View key={section.id}>
+            <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+            {renderAppsWithSubcategories(section.items)}
+          </View>
+        );
+      }
+
+      // Gestion spéciale pour pendant_apres
+      if (section.id === 'pendant_apres') {
+        const itemsWithSection: ItemWithSection[] = section.items.map(item => ({
+          ...item,
+          sectionName: section.nom,
+          sectionId: section.id
+        }));
+        return (
+          <View key={section.id}>
+            <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+            {renderPendantApresSection(itemsWithSection)}
+          </View>
+        );
+      }
+
+      // Autres sections
+      return (
+        <View key={section.id}>
+          <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+          {section.items.map((item, idx) => {
+            const itemWithSection: ItemWithSection = {
+              ...item,
+              sectionName: section.nom,
+              sectionId: section.id
+            };
+            return renderItem(itemWithSection, idx, false);
+          })}
+        </View>
+      );
+    });
+  };
+
+  // Fonction pour rendre les apps avec sous-catégories
+  const renderAppsWithSubcategories = (items: ChecklistItem[]) => {
+    const appsByCategory: { [key: string]: ChecklistItem[] } = {};
+    items.forEach(item => {
+      const match = item.item.match(/^([^:]+):\s*(.+)$/);
+      if (match) {
+        const category = match[1].trim();
+        if (!appsByCategory[category]) {
+          appsByCategory[category] = [];
+        }
+        appsByCategory[category].push({
+          ...item,
+          item: match[2].trim()
+        });
+      } else {
+        if (!appsByCategory['Autres']) {
+          appsByCategory['Autres'] = [];
+        }
+        appsByCategory['Autres'].push(item);
+      }
+    });
+
+    return Object.entries(appsByCategory).map(([category, categoryItems]) => (
+      <View key={category}>
+        <Text style={styles.timelineHeader}>{cleanTextForPDF(category)}</Text>
+        {categoryItems.map((item, idx) => {
+          const itemWithSection: ItemWithSection = {
+            ...item,
+            sectionName: category,
+            sectionId: 'apps'
+          };
+          return renderItem(itemWithSection, idx, false);
+        })}
+      </View>
+    ));
+  };
+
+  // Fonction pour rendre les activités
+  const renderActivitiesSections = () => {
+    return sections.map(section => {
+      if (section.items.length === 0) return null;
+      return (
+        <View key={section.id}>
+          <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+          {section.items.map((item, idx) => {
+            const itemWithSection: ItemWithSection = {
+              ...item,
+              sectionName: section.nom,
+              sectionId: section.id
+            };
+            return renderItem(itemWithSection, idx, false);
+          })}
+        </View>
+      );
+    });
+  };
+
   const timelines = organizeAllItemsByTimeline();
 
   return (
@@ -441,20 +564,15 @@ export const DetailedSectionsPage = ({
             </View>
           )}
         </>
+      ) : isActivities ? (
+        <>
+          {/* Activités : afficher par activité */}
+          {renderActivitiesSections()}
+        </>
       ) : (
         <>
-          {/* Autres : timeline uniquement, pas de dates */}
-          {renderTimelinePeriodForOthers(timelines.j90_j60, 'J-90 à J-60 (3 mois à 2 mois avant)')}
-          {renderTimelinePeriodForOthers(timelines.j30_j14, 'J-30 à J-14 (1 mois à 2 semaines avant)')}
-          {renderTimelinePeriodForOthers(timelines.j7_j3, 'J-7 à J-3 (1 semaine avant)')}
-          {renderTimelinePeriodForOthers(timelines.j2_j1, 'J-2 à J-1 (48h avant le départ)')}
-          {timelines.noDelay.length > 0 && (
-            <View>
-              {sortItemsByDelay(timelines.noDelay).map((item, idx) => renderItem(item, idx, false))}
-            </View>
-          )}
-          {/* Section "Pendant & Après" organisée par moment */}
-          {renderPendantApresSection(timelines.pendantApres)}
+          {/* Recommandées : afficher par section dans l'ordre de step 5 */}
+          {renderRecommendedSections()}
         </>
       )}
 
