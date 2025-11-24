@@ -185,29 +185,27 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
       TIMELINE_CATEGORIES.includes(section.id)
     );
 
-    // Récupérer tous les items haute priorité de ces sections
-    const highPriorityItems: Array<{ item: ChecklistItem; sectionId: string; sectionName: string }> = [];
+    // Récupérer TOUS les items de ces sections (toutes priorités)
+    const allItems: Array<{ item: ChecklistItem; sectionId: string; sectionName: string }> = [];
     timelineSections.forEach(section => {
       section.items.forEach(item => {
-        if (getPriority(item.priorite) === 'haute') {
-          highPriorityItems.push({
-            item,
-            sectionId: section.id,
-            sectionName: cleanTextForPDF(section.nom)
-          });
-        }
+        allItems.push({
+          item,
+          sectionId: section.id,
+          sectionName: cleanTextForPDF(section.nom)
+        });
       });
     });
 
-    if (highPriorityItems.length === 0) return null;
+    if (allItems.length === 0) return null;
 
     // Grouper par jalons temporels
-    const itemsByMilestone: { [key: string]: typeof highPriorityItems } = {};
+    const itemsByMilestone: { [key: string]: typeof allItems } = {};
     TIMELINE_MILESTONES.forEach(milestone => {
       itemsByMilestone[milestone.id] = [];
     });
 
-    highPriorityItems.forEach(({ item, sectionId, sectionName }) => {
+    allItems.forEach(({ item, sectionId, sectionName }) => {
       const milestoneId = getTimelineMilestone(item);
       if (milestoneId && itemsByMilestone[milestoneId]) {
         itemsByMilestone[milestoneId].push({ item, sectionId, sectionName });
@@ -241,13 +239,16 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
               {Object.entries(itemsByCategory).map(([categoryName, categoryItems]) => (
                 <View key={categoryName}>
                   <Text style={styles.categoryTitle}>{categoryName}</Text>
-                  {categoryItems.map(({ item }, idx) => (
-                    <View style={styles.item} key={item.id || `item-${idx}`}>
-                      <Text style={styles.highPrioritySymbol}>!!</Text>
-                      <View style={styles.checkbox} />
-                      <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                    </View>
-                  ))}
+                  {categoryItems.map(({ item }, idx) => {
+                    const priority = getPriority(item.priorite);
+                    return (
+                      <View style={styles.item} key={item.id || `item-${idx}`}>
+                        {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                        <View style={styles.checkbox} />
+                        <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                      </View>
+                    );
+                  })}
                 </View>
               ))}
             </View>
@@ -267,8 +268,8 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
       !TIMELINE_CATEGORIES.includes(section.id) && section.source !== 'activite'
     );
 
-    // Récupérer tous les items priorité moyenne
-    const mediumPriorityItems: { [sectionId: string]: { section: GeneratedChecklistSection; items: ChecklistItem[] } } = {};
+    // Récupérer TOUS les items (toutes priorités) pour chaque section
+    const sectionItems: { [sectionId: string]: { section: GeneratedChecklistSection; items: ChecklistItem[] } } = {};
 
     selectionSections.forEach(section => {
       // Pour pendant_apres, inclure TOUS les items (pas seulement priorité moyenne)
@@ -290,7 +291,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
       }
     });
 
-    if (Object.keys(mediumPriorityItems).length === 0) return null;
+    if (Object.keys(sectionItems).length === 0) return null;
 
     return (
       <>
@@ -300,7 +301,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
           <Text style={styles.mainSectionTitlePart2}>Sélection conseillée</Text>
         </View>
 
-        {Object.entries(mediumPriorityItems).map(([sectionId, { section, items }]) => {
+        {Object.entries(sectionItems).map(([sectionId, { section, items }]) => {
           // Gestion spéciale pour la section "apps" avec sous-catégories
           if (sectionId === 'apps') {
             return (
@@ -324,12 +325,16 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
           return (
             <View key={sectionId}>
               <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
-              {items.map((item, idx) => (
-                <View style={styles.item} key={item.id || `item-${idx}`}>
-                  <View style={styles.checkbox} />
-                  <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                </View>
-              ))}
+              {items.map((item, idx) => {
+                const priority = getPriority(item.priorite);
+                return (
+                  <View style={styles.item} key={item.id || `item-${idx}`}>
+                    {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                    <View style={styles.checkbox} />
+                    <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                  </View>
+                );
+              })}
             </View>
           );
         })}
