@@ -191,25 +191,31 @@ export const TravelSummary = ({ formData, onEditStep }: TravelSummaryProps) => {
               <div className="flex gap-2 flex-wrap">
                 <span className="text-gray-600">Saisons :</span>
                 <span className="text-gray-800 font-medium flex flex-wrap gap-2">
-                  {formData.saison && formData.saison.length > 0
-                    ? formData.saison.map((s) => getSaisonLabel(s)).join(" ")
-                    : "Non renseigné"}
+                  {formData.localisation === 'multi-destinations' && (!formData.pays || formData.pays.length === 0)
+                    ? "je ne sais pas"
+                    : (formData.saison && formData.saison.length > 0
+                        ? formData.saison.map((s) => getSaisonLabel(s)).join(" ")
+                        : "Non renseigné")}
                 </span>
               </div>
               <div className="flex gap-2 flex-wrap">
                 <span className="text-gray-600">Température :</span>
                 <span className="text-gray-800 font-medium flex flex-wrap gap-2">
-                  {formData.temperature && formData.temperature.length > 0
-                    ? formData.temperature.map((t) => getTemperatureLabel(t)).join(" ")
-                    : "Non renseigné"}
+                  {formData.localisation === 'multi-destinations' && (!formData.pays || formData.pays.length === 0)
+                    ? "je ne sais pas"
+                    : (formData.temperature && formData.temperature.length > 0
+                        ? formData.temperature.map((t) => getTemperatureLabel(t)).join(" ")
+                        : "Non renseigné")}
                 </span>
               </div>
               <div className="flex gap-2 flex-wrap">
                 <span className="text-gray-600">Conditions :</span>
                 <span className="text-gray-800 font-medium flex flex-wrap gap-2">
-                  {formData.conditionsClimatiques && formData.conditionsClimatiques.length > 0
-                    ? formData.conditionsClimatiques.map((c) => getConditionLabel(c)).join(" ")
-                    : "Non renseigné"}
+                  {formData.localisation === 'multi-destinations' && (!formData.pays || formData.pays.length === 0)
+                    ? "Aucune condition spécifique"
+                    : (formData.conditionsClimatiques && formData.conditionsClimatiques.length > 0
+                        ? formData.conditionsClimatiques.map((c) => getConditionLabel(c)).join(" ")
+                        : "Non renseigné")}
                 </span>
               </div>
             </div>
