@@ -260,25 +260,59 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
         sectionsInclure.includes(sectionKey);
 
       if (shouldInclude) {
-        // Filtrer les items selon leurs filtres (profil, destination, durée)
+        // Filtrer les items selon leurs filtres
         const filteredItems = section.items.filter((item: any) => {
-          // Si l'item a des filtres profil
-          if (item.filtres?.profil) {
-            if (!item.filtres.profil.includes(formData.profil)) {
+          // Filtre typeVoyageur (Solo, Couple, Groupe, Famille, Pro)
+          if (item.filtres?.typeVoyageur) {
+            if (!item.filtres.typeVoyageur.includes(formData.profil)) {
               return false;
             }
           }
 
-          // Si l'item a des filtres destination
+          // Filtre niveauConfort (routard, standard, premium, luxe)
+          if (item.filtres?.niveauConfort) {
+            if (!item.filtres.niveauConfort.includes(formData.confort)) {
+              return false;
+            }
+          }
+
+          // Filtre activités
+          if (item.filtres?.activites && item.filtres.activites.length > 0) {
+            const hasMatchingActivity = item.filtres.activites.some((act: string) =>
+              formData.activites?.includes(act)
+            );
+            if (!hasMatchingActivity) {
+              return false;
+            }
+          }
+
+          // Filtre âge enfants (pour profil famille)
+          if (item.filtres?.ageEnfants && item.filtres.ageEnfants.length > 0) {
+            const hasMatchingAge = item.filtres.ageEnfants.some((age: string) =>
+              formData.agesEnfants?.includes(age)
+            );
+            if (!hasMatchingAge) {
+              return false;
+            }
+          }
+
+          // Filtre destinations
           if (item.filtres?.destinations) {
             if (!item.filtres.destinations.includes(formData.localisation)) {
               return false;
             }
           }
 
-          // Si l'item a des filtres durée
+          // Filtre durée
           if (item.filtres?.duree) {
             if (!item.filtres.duree.includes(formData.duree)) {
+              return false;
+            }
+          }
+
+          // Filtre typeVoyage (loisirs, aventure, culture, etc.)
+          if (item.filtres?.typeVoyage) {
+            if (!item.filtres.typeVoyage.includes(formData.typeVoyage)) {
               return false;
             }
           }
