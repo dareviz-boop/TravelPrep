@@ -62,21 +62,15 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
     ESSENTIAL_IDS.includes(section.id)
   );
 
-  // 2. Sections recommandées : toutes les autres sauf essentiels, activités, apps, pendant_apres
-  const SPECIAL_IDS = [...ESSENTIAL_IDS, 'apps', 'pendant_apres'];
+  // 2. Sections recommandées : toutes les autres sauf essentiels et activités
+  // Inclut : bagages, equipement, apps, pendant_apres, etc.
   const recommendedSections = filteredSections.filter(section =>
     section.source !== 'activite' &&
-    !SPECIAL_IDS.includes(section.id)
+    !ESSENTIAL_IDS.includes(section.id)
   );
 
-  // 3. Applications recommandées
-  const appsSection = filteredSections.find(section => section.id === 'apps') || null;
-
-  // 4. Activités
+  // 3. Activités
   const activiteSections = filteredSections.filter(section => section.source === 'activite');
-
-  // 5. Pendant & Après le voyage
-  const pendantApresSection = filteredSections.find(section => section.id === 'pendant_apres') || null;
 
   return (
     <Document>
@@ -94,39 +88,32 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
             <DetailedSectionsPage
               formData={formData}
               sections={essentialSections}
-              title="Essentiels Absolus"
+              titlePart1="Timeline de Préparation - "
+              titlePart2="Essentiels absolus"
               isEssentials={true}
             />
           )}
 
-          {/* 2. Sections Recommandées (timeline uniquement, pas de dates) */}
+          {/* 2. Sélection Conseillée (inclut apps et pendant_apres) */}
           {recommendedSections.length > 0 && (
             <DetailedSectionsPage
               formData={formData}
               sections={recommendedSections}
-              title="Sections Recommandées"
+              titlePart1="À Prévoir - "
+              titlePart2="Sélection conseillée"
               isEssentials={false}
             />
           )}
 
-          {/* 3. Applications Recommandées */}
-          {appsSection && (
-            <ApplicationsPage formData={formData} appsSection={appsSection} />
-          )}
-
-          {/* 4. Activités (timeline uniquement, pas de dates) */}
+          {/* 3. Activités (timeline uniquement, pas de dates) */}
           {activiteSections.length > 0 && (
             <DetailedSectionsPage
               formData={formData}
               sections={activiteSections}
-              title="Préparation Activités"
+              titlePart1="À Prévoir - "
+              titlePart2="Préparation activités"
               isEssentials={false}
             />
-          )}
-
-          {/* 5. Pendant & Après le voyage */}
-          {pendantApresSection && (
-            <PendantApresPage formData={formData} section={pendantApresSection} />
           )}
         </>
       )}
