@@ -416,6 +416,13 @@ export function getClimatEquipment(formData: FormData): ChecklistSection[] {
 export function autoDetectSeasons(formData: FormData): Saison[] {
   if (!formData.dateDepart) return [];
 
+  // === CAS SPÉCIAL: MULTI-DESTINATIONS ===
+  // Pour les voyages multi-destinations, impossible de déterminer une saison unique
+  // car les pays peuvent être dans des hémisphères différents avec des saisons opposées
+  if (formData.localisation === 'multi-destinations') {
+    return ['inconnue'] as Saison[];
+  }
+
   const seasons: Set<string> = new Set();
 
   // Collecter les mois du voyage
@@ -512,6 +519,13 @@ export function autoDetectSeasons(formData: FormData): Saison[] {
  */
 export function autoDetectTemperatures(formData: FormData): Temperature[] {
   if (!formData.pays || formData.pays.length === 0 || !formData.dateDepart) return [];
+
+  // === CAS SPÉCIAL: MULTI-DESTINATIONS ===
+  // Pour les voyages multi-destinations, impossible de déterminer une température unique
+  // car les pays peuvent avoir des températures très variables (ex: -20°C à +40°C)
+  if (formData.localisation === 'multi-destinations') {
+    return ['inconnue'] as Temperature[];
+  }
 
   const temperatures: Set<string> = new Set();
 
