@@ -2084,11 +2084,22 @@
         "filtres": {
           "pays": [
             "RU",
+            "TM",
+            "BY",
             "CN",
-            "BY"
+            "IR",
+            "GH",
+            "UZ",
+            "MN",
+            "KZ",
+            "UA",
+            "RS",
+            "NG",
+            "MD",
+            "DZ"
           ]
         },
-        "conseils": "Obligatoire pour Russie, Chine, Biélorussie"
+        "conseils": "Obligatoire pour Russie, Biélorussie, Turkménistan, et selon le type de visa : Iran, Chine, Ghana,..."
       },
       {
         "id": "DOC007",
