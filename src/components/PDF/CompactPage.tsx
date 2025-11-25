@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   mainSectionTitleContainer: {
     flexDirection: 'row',
     marginTop: 18,
-    marginBottom: 14,
+    marginBottom: 8, // Réduit de 14 à 8 pour moins d'espace après les grands titres
     flexWrap: 'wrap'
   },
   // Première partie du titre (noir)
@@ -91,15 +91,16 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: 700,
     color: '#E85D2A',
-    marginBottom: 8,
-    marginTop: 10,
+    marginBottom: 6,
+    marginTop: 6, // Réduit de 10 à 6 pour moins d'espace au-dessus
     paddingLeft: 6
   },
   // Item de checklist
   item: {
     flexDirection: 'row',
     marginBottom: 4,
-    paddingLeft: 10
+    paddingLeft: 10,
+    breakInside: 'avoid' as const // Empêche les items d'être coupés entre pages
   },
   checkbox: {
     width: 8,
@@ -122,13 +123,13 @@ const styles = StyleSheet.create({
     marginRight: 5,
     marginTop: 2
   },
-  // Sous-catégorie pour les apps
+  // Sous-catégorie pour les apps et pendant & après
   subCategoryTitle: {
     fontSize: 10,
     fontWeight: 600,
     color: '#6B7280',
-    marginBottom: 5,
-    marginTop: 8,
+    marginBottom: 4,
+    marginTop: 4, // Réduit de 8 à 4 pour moins d'espace au-dessus
     paddingLeft: 10,
     fontStyle: 'italic'
   },
@@ -458,18 +459,29 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
   // Ordre des catégories d'apps pour affichage en 2 colonnes
   // L'ordre définit: Navigation (gauche) | Hébergement (droite)
   //                  Transport (gauche) | Budget & Finances (droite)
+  // Note: Les noms sont normalisés (sans emojis) pour la comparaison
   const APPS_CATEGORY_ORDER = [
-    'Navigation & Cartes',
+    'Navigation',
     'Hébergement',
     'Transport',
-    'Budget & Finances',
+    'Budget',
     'Communication',
     'Traduction',
+    'Restaurants',
     'Santé',
     'Sécurité',
     'Météo',
     'Autres'
   ];
+
+  // Fonction pour normaliser un nom de catégorie (sans emojis, simplifié)
+  const normalizeAppCategory = (name: string): string => {
+    // Enlever les emojis
+    const withoutEmojis = name.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '').trim();
+    // Garder juste le premier mot significatif pour la comparaison
+    const firstWord = withoutEmojis.split(/[&,]/)[0].trim();
+    return firstWord;
+  };
 
   // Fonction spéciale pour rendre les apps avec sous-catégories sur 2 colonnes
   const renderAppsWithSubcategories = (items: ChecklistItem[]) => {
@@ -497,10 +509,17 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
       }
     });
 
-    // Trier les catégories selon l'ordre défini
+    // Trier les catégories selon l'ordre défini (en normalisant les noms)
     const sortedCategories = Object.entries(appsByCategory).sort(([catA], [catB]) => {
-      const indexA = APPS_CATEGORY_ORDER.indexOf(catA);
-      const indexB = APPS_CATEGORY_ORDER.indexOf(catB);
+      const normalizedA = normalizeAppCategory(catA);
+      const normalizedB = normalizeAppCategory(catB);
+      // Chercher l'index en comparant avec les noms normalisés de APPS_CATEGORY_ORDER
+      const indexA = APPS_CATEGORY_ORDER.findIndex(orderCat =>
+        normalizeAppCategory(orderCat) === normalizedA || orderCat === normalizedA
+      );
+      const indexB = APPS_CATEGORY_ORDER.findIndex(orderCat =>
+        normalizeAppCategory(orderCat) === normalizedB || orderCat === normalizedB
+      );
       // Si catégorie non trouvée, la mettre à la fin
       if (indexA === -1) return 1;
       if (indexB === -1) return -1;

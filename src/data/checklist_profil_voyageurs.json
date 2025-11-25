@@ -393,7 +393,7 @@
   },
 
   "voyageFamilleBebe": {
-    "description": "Section Famille Bébé 0-2 ans (20 items)",
+    "description": "Recommandation - Bébé 0-2 ans",
     "filtres": {"typeVoyageur": ["famille"], "ageEnfants": ["0-2"]},
     "items": [
       {
@@ -564,7 +564,7 @@
   },
 
   "voyageFamilleEnfant3a5": {
-    "description": "Section Famille Enfants 3-5 ans (10 items)",
+    "description": "Recommandation - Enfants 3-5 ans",
     "filtres": {"typeVoyageur": ["famille"], "ageEnfants": ["3-5"]},
     "items": [
       {
@@ -652,7 +652,7 @@
   },
 
   "voyageFamilleEnfant6a12": {
-    "description": "Section Famille Enfants 6-12 ans (12 items - incluant spécificités 10-12 ans)",
+    "description": "Recommandation - Enfants 6-12 ans",
     "filtres": {"typeVoyageur": ["famille"], "ageEnfants": ["6-12"]},
     "items": [
       {
@@ -757,7 +757,7 @@
   },
 
   "voyageFamilleAdo13plus": {
-    "description": "Section Famille Adolescents 13+ ans (8 items)",
+    "description": "Recommandation - Adolescents 13+ ans",
     "filtres": {"typeVoyageur": ["famille"], "ageEnfants": ["13+"]},
     "items": [
       {
