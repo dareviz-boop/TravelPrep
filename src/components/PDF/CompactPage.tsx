@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
   },
   // Jalon temporel (J-90 - J-60, etc.)
   timelineBlock: {
-    marginBottom: 18
+    marginBottom: 18,
+    breakInside: 'avoid' as const
   },
   timelineHeader: {
     fontSize: 11,
@@ -130,6 +131,24 @@ const styles = StyleSheet.create({
     marginTop: 8,
     paddingLeft: 10,
     fontStyle: 'italic'
+  },
+  // Groupe catégorie + items (évite les coupures orphelines)
+  categoryGroup: {
+    breakInside: 'avoid' as const,
+    marginBottom: 6
+  },
+  // Container 2 colonnes pour les apps
+  appsColumnsContainer: {
+    flexDirection: 'row' as const,
+    flexWrap: 'wrap' as const,
+    marginTop: 4
+  },
+  // Colonne pour les catégories d'apps (50% de largeur)
+  appsCategoryColumn: {
+    width: '50%',
+    paddingRight: 8,
+    marginBottom: 6,
+    breakInside: 'avoid' as const
   }
 });
 
@@ -248,7 +267,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
               <Text style={styles.timelineHeader}>{milestone.label}</Text>
 
               {Object.entries(itemsByCategory).map(([categoryName, categoryItems]) => (
-                <View key={categoryName}>
+                <View key={categoryName} style={styles.categoryGroup}>
                   <Text style={styles.categoryTitle}>{categoryName}</Text>
                   {categoryItems.map(({ item }, idx) => {
                     const priority = getPriority(item.priorite);
@@ -334,7 +353,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
           }
 
           return (
-            <View key={sectionId}>
+            <View key={sectionId} style={styles.categoryGroup}>
               <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
               {items.map((item, idx) => {
                 const priority = getPriority(item.priorite);
@@ -353,7 +372,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
     );
   };
 
-  // Fonction spéciale pour rendre les apps avec sous-catégories
+  // Fonction spéciale pour rendre les apps avec sous-catégories sur 2 colonnes
   const renderAppsWithSubcategories = (items: ChecklistItem[]) => {
     // Grouper les apps par catégorie (Navigation, Hébergement, etc.)
     const appsByCategory: { [key: string]: ChecklistItem[] } = {};
@@ -379,10 +398,11 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
       }
     });
 
+    // Rendu en 2 colonnes pour économiser l'espace
     return (
-      <>
+      <View style={styles.appsColumnsContainer}>
         {Object.entries(appsByCategory).map(([category, categoryItems]) => (
-          <View key={category}>
+          <View key={category} style={styles.appsCategoryColumn}>
             <Text style={styles.subCategoryTitle}>{cleanTextForPDF(category)}</Text>
             {categoryItems.map((item, idx) => (
               <View style={styles.item} key={item.id || `app-${idx}`}>
@@ -392,7 +412,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
             ))}
           </View>
         ))}
-      </>
+      </View>
     );
   };
 
@@ -424,7 +444,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
         {sortedMoments.map(moment => {
           const momentItems = itemsByMoment[moment];
           return (
-            <View key={moment}>
+            <View key={moment} style={styles.categoryGroup}>
               <Text style={styles.subCategoryTitle}>{cleanTextForPDF(moment)}</Text>
               {momentItems.map((item, idx) => {
                 const priority = getPriority(item.priorite);
@@ -465,7 +485,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
           if (!section.items || section.items.length === 0) return null;
 
           return (
-            <View key={section.id}>
+            <View key={section.id} style={styles.categoryGroup}>
               <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
               {section.items.map((item, idx) => {
                 const priority = getPriority(item.priorite);
