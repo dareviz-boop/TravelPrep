@@ -200,10 +200,14 @@ export function generateCompleteChecklist(formData: FormData): GeneratedChecklis
   // === 4. FILTRER SELON PROFIL/CONFORT/DURÉE ===
   const filteredSections = filterByProfile(sections, formData);
 
-  // === 5. DÉDUPLIQUER LES ITEMS DANS CHAQUE SECTION ===
-  const dedupedSections = deduplicateSections(filteredSections);
+  // === 5. DÉDUPLICATION CROSS-SECTIONS (activités vs core) ===
+  // Supprime les items génériques des sections core quand un item spécifique existe dans une activité
+  const crossDedupedSections = deduplicateCrossSections(filteredSections);
 
-  // === 6. CONSTRUIRE L'OBJET FINAL ===
+  // === 6. DÉDUPLIQUER LES ITEMS DANS CHAQUE SECTION ===
+  const dedupedSections = deduplicateSections(crossDedupedSections);
+
+  // === 7. CONSTRUIRE L'OBJET FINAL ===
   const checklist: GeneratedChecklist = {
     metadata: {
       nomVoyage: formData.nomVoyage,
@@ -501,6 +505,133 @@ function getClimatItemsGroupedBySection(formData: FormData): Record<string, Chec
 // ==========================================
 // DÉDUPLICATION
 // ==========================================
+
+/**
+ * Mots-clés principaux pour identifier les catégories d'items similaires
+ * Utilisé pour la déduplication cross-sections
+ */
+const DEDUP_KEYWORDS: { [key: string]: string[] } = {
+  'appareil_photo': ['appareil photo', 'camera', 'reflex', 'hybride', 'gopro', 'compact'],
+  'chargeur': ['chargeur', 'charging', 'recharge'],
+  'batterie': ['batterie', 'powerbank', 'power bank', 'batterie externe'],
+  'adaptateur': ['adaptateur', 'adapter', 'prise universelle', 'multiprise'],
+  'telephone': ['telephone', 'smartphone', 'portable', 'mobile'],
+  'lampe': ['lampe', 'frontale', 'torche', 'flashlight'],
+  'gourde': ['gourde', 'bouteille', 'water bottle', 'thermos'],
+  'sac_couchage': ['sac de couchage', 'duvet', 'sleeping bag'],
+  'tente': ['tente', 'tent', 'abri'],
+  'lunettes': ['lunettes', 'soleil', 'sunglasses'],
+  'creme_solaire': ['creme solaire', 'protection solaire', 'ecran solaire', 'spf', 'sunscreen'],
+  'chapeau': ['chapeau', 'casquette', 'bob', 'hat', 'cap'],
+  'chaussures': ['chaussures', 'baskets', 'sneakers', 'boots', 'sandales', 'tongs'],
+  'veste': ['veste', 'jacket', 'coupe-vent', 'polaire', 'doudoune', 'gore-tex'],
+  'pantalon': ['pantalon', 'pants', 'shorts', 'bermuda'],
+  'maillot': ['maillot', 'swimsuit', 'bikini'],
+  'serviette': ['serviette', 'towel', 'microfibre'],
+  'trousse_toilette': ['trousse toilette', 'trousse de toilette', 'necessaire'],
+  'medicaments': ['medicaments', 'pharmacie', 'trousse secours', 'premiers soins'],
+  'carte_sd': ['carte sd', 'carte memoire', 'memory card', 'stockage'],
+  'cable': ['cable', 'usb', 'lightning', 'usb-c'],
+  'ecouteurs': ['ecouteurs', 'casque', 'headphones', 'earbuds', 'airpods'],
+  'guide': ['guide', 'lonely planet', 'routard', 'guidebook'],
+  'carnet': ['carnet', 'journal', 'notebook', 'cahier'],
+  'stylo': ['stylo', 'pen', 'crayon'],
+  'cadenas': ['cadenas', 'antivol', 'lock', 'securite bagage'],
+  'sac_dos': ['sac a dos', 'backpack', 'sac dos', 'daypack'],
+  'k_way': ['k-way', 'kway', 'impermeable', 'poncho', 'rain jacket'],
+  'jumelles': ['jumelles', 'binoculars', 'longue-vue']
+};
+
+/**
+ * Extrait le mot-clé principal d'un item pour la déduplication
+ */
+function extractDeduplicationKey(itemText: string): string | null {
+  const normalizedText = itemText
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\w\s]/g, ' ')
+    .trim();
+
+  for (const [key, keywords] of Object.entries(DEDUP_KEYWORDS)) {
+    for (const keyword of keywords) {
+      const normalizedKeyword = keyword
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+      if (normalizedText.includes(normalizedKeyword)) {
+        return key;
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Déduplication cross-sections :
+ * 1. Supprime les items génériques des sections core quand un équivalent existe dans une activité
+ * 2. Ne garde qu'un seul exemplaire parmi les sections d'activités pour chaque type d'item
+ *
+ * Logique : Les items d'activité sont plus spécifiques, on garde le premier trouvé
+ * et on supprime les doublons dans les autres activités + les items génériques des sections core
+ */
+function deduplicateCrossSections(
+  sections: GeneratedChecklistSection[]
+): GeneratedChecklistSection[] {
+  // 1. Collecter tous les mots-clés des items d'activités et identifier le premier de chaque type
+  const activityKeywords = new Map<string, { item: ChecklistItem; sectionId: string; sectionName: string }>();
+
+  sections
+    .filter(s => s.source === 'activite')
+    .forEach(section => {
+      section.items.forEach(item => {
+        const key = extractDeduplicationKey(item.item);
+        if (key) {
+          // Garder seulement le premier item trouvé pour chaque clé
+          if (!activityKeywords.has(key)) {
+            activityKeywords.set(key, { item, sectionId: section.id, sectionName: section.nom });
+          }
+        }
+      });
+    });
+
+  // 2. Parcourir toutes les sections et filtrer les doublons
+  return sections.map(section => {
+    // Pour les sections core : supprimer les items qui ont un équivalent dans une activité
+    if (section.source !== 'activite') {
+      const filteredItems = section.items.filter(item => {
+        const key = extractDeduplicationKey(item.item);
+        // Supprimer si un item d'activité existe avec la même clé
+        if (key && activityKeywords.has(key)) {
+          return false;
+        }
+        return true;
+      });
+
+      return {
+        ...section,
+        items: filteredItems
+      };
+    }
+
+    // Pour les sections d'activités : ne garder l'item que dans la première activité qui l'a
+    const filteredItems = section.items.filter(item => {
+      const key = extractDeduplicationKey(item.item);
+      if (key && activityKeywords.has(key)) {
+        const firstOccurrence = activityKeywords.get(key)!;
+        // Garder l'item seulement si c'est la première section qui l'a
+        return firstOccurrence.sectionId === section.id;
+      }
+      // Si pas de clé de déduplication, garder l'item
+      return true;
+    });
+
+    return {
+      ...section,
+      items: filteredItems
+    };
+  });
+}
 
 /**
  * Supprime tous les doublons dans chaque section
