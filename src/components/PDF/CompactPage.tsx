@@ -137,6 +137,14 @@ const styles = StyleSheet.create({
     breakInside: 'avoid' as const,
     marginBottom: 6
   },
+  // Groupe titre + premiers items (garantit min 2-3 items avec le titre)
+  categoryHeaderGroup: {
+    breakInside: 'avoid' as const
+  },
+  // Wrapper timeline header + premier contenu
+  timelineHeaderWrapper: {
+    breakInside: 'avoid' as const
+  },
   // Container 2 colonnes pour les apps
   appsColumnsContainer: {
     flexDirection: 'row' as const,
@@ -262,25 +270,66 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
             itemsByCategory[sectionName].push({ item, sectionId, sectionName });
           });
 
+          const categoryEntries = Object.entries(itemsByCategory);
+          const firstCategory = categoryEntries[0];
+          const restCategories = categoryEntries.slice(1);
+
           return (
             <View key={milestone.id} style={styles.timelineBlock}>
-              <Text style={styles.timelineHeader}>{milestone.label}</Text>
+              {/* Header + première catégorie groupés pour éviter coupure */}
+              <View style={styles.timelineHeaderWrapper}>
+                <Text style={styles.timelineHeader}>{milestone.label}</Text>
+                {firstCategory && (
+                  <View style={styles.categoryGroup}>
+                    <Text style={styles.categoryTitle}>{firstCategory[0]}</Text>
+                    {firstCategory[1].map(({ item }, idx) => {
+                      const priority = getPriority(item.priorite);
+                      return (
+                        <View style={styles.item} key={item.id || `item-${idx}`}>
+                          {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                          <View style={styles.checkbox} />
+                          <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                )}
+              </View>
 
-              {Object.entries(itemsByCategory).map(([categoryName, categoryItems]) => (
-                <View key={categoryName} style={styles.categoryGroup}>
-                  <Text style={styles.categoryTitle}>{categoryName}</Text>
-                  {categoryItems.map(({ item }, idx) => {
-                    const priority = getPriority(item.priorite);
-                    return (
-                      <View style={styles.item} key={item.id || `item-${idx}`}>
-                        {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
-                        <View style={styles.checkbox} />
-                        <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                      </View>
-                    );
-                  })}
-                </View>
-              ))}
+              {/* Catégories restantes avec titre + 3 premiers items groupés */}
+              {restCategories.map(([categoryName, categoryItems]) => {
+                const firstItems = categoryItems.slice(0, 3);
+                const restItems = categoryItems.slice(3);
+                return (
+                  <View key={categoryName}>
+                    {/* Titre + 3 premiers items ensemble */}
+                    <View style={styles.categoryHeaderGroup}>
+                      <Text style={styles.categoryTitle}>{categoryName}</Text>
+                      {firstItems.map(({ item }, idx) => {
+                        const priority = getPriority(item.priorite);
+                        return (
+                          <View style={styles.item} key={item.id || `item-${idx}`}>
+                            {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                            <View style={styles.checkbox} />
+                            <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                          </View>
+                        );
+                      })}
+                    </View>
+                    {/* Items restants */}
+                    {restItems.map(({ item }, idx) => {
+                      const priority = getPriority(item.priorite);
+                      return (
+                        <View style={styles.item} key={item.id || `rest-${idx}`}>
+                          {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                          <View style={styles.checkbox} />
+                          <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                );
+              })}
             </View>
           );
         })}
@@ -372,6 +421,22 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
     );
   };
 
+  // Ordre des catégories d'apps pour affichage en 2 colonnes
+  // L'ordre définit: Navigation (gauche) | Hébergement (droite)
+  //                  Transport (gauche) | Budget & Finances (droite)
+  const APPS_CATEGORY_ORDER = [
+    'Navigation & Cartes',
+    'Hébergement',
+    'Transport',
+    'Budget & Finances',
+    'Communication',
+    'Traduction',
+    'Santé',
+    'Sécurité',
+    'Météo',
+    'Autres'
+  ];
+
   // Fonction spéciale pour rendre les apps avec sous-catégories sur 2 colonnes
   const renderAppsWithSubcategories = (items: ChecklistItem[]) => {
     // Grouper les apps par catégorie (Navigation, Hébergement, etc.)
@@ -398,10 +463,20 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
       }
     });
 
+    // Trier les catégories selon l'ordre défini
+    const sortedCategories = Object.entries(appsByCategory).sort(([catA], [catB]) => {
+      const indexA = APPS_CATEGORY_ORDER.indexOf(catA);
+      const indexB = APPS_CATEGORY_ORDER.indexOf(catB);
+      // Si catégorie non trouvée, la mettre à la fin
+      if (indexA === -1) return 1;
+      if (indexB === -1) return -1;
+      return indexA - indexB;
+    });
+
     // Rendu en 2 colonnes pour économiser l'espace
     return (
       <View style={styles.appsColumnsContainer}>
-        {Object.entries(appsByCategory).map(([category, categoryItems]) => (
+        {sortedCategories.map(([category, categoryItems]) => (
           <View key={category} style={styles.appsCategoryColumn}>
             <Text style={styles.subCategoryTitle}>{cleanTextForPDF(category)}</Text>
             {categoryItems.map((item, idx) => (
