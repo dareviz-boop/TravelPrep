@@ -137,6 +137,14 @@ const styles = StyleSheet.create({
     breakInside: 'avoid' as const,
     marginBottom: 6
   },
+  // Groupe titre + premiers items (garantit min 2-3 items avec le titre)
+  categoryHeaderGroup: {
+    breakInside: 'avoid' as const
+  },
+  // Wrapper timeline header + premier contenu
+  timelineHeaderWrapper: {
+    breakInside: 'avoid' as const
+  },
   // Container 2 colonnes pour les apps
   appsColumnsContainer: {
     flexDirection: 'row' as const,
@@ -262,25 +270,82 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
             itemsByCategory[sectionName].push({ item, sectionId, sectionName });
           });
 
+          const categoryEntries = Object.entries(itemsByCategory);
+          const firstCategory = categoryEntries[0];
+          const restCategories = categoryEntries.slice(1);
+
+          // Pour la première catégorie : séparer les 3 premiers items du reste
+          const firstCatFirstItems = firstCategory ? firstCategory[1].slice(0, 3) : [];
+          const firstCatRestItems = firstCategory ? firstCategory[1].slice(3) : [];
+
           return (
             <View key={milestone.id} style={styles.timelineBlock}>
-              <Text style={styles.timelineHeader}>{milestone.label}</Text>
+              {/* Header + titre première catégorie + 3 premiers items groupés */}
+              <View style={styles.timelineHeaderWrapper}>
+                <Text style={styles.timelineHeader}>{milestone.label}</Text>
+                {firstCategory && (
+                  <View style={styles.categoryHeaderGroup}>
+                    <Text style={styles.categoryTitle}>{firstCategory[0]}</Text>
+                    {firstCatFirstItems.map(({ item }, idx) => {
+                      const priority = getPriority(item.priorite);
+                      return (
+                        <View style={styles.item} key={item.id || `item-${idx}`}>
+                          {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                          <View style={styles.checkbox} />
+                          <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                )}
+              </View>
 
-              {Object.entries(itemsByCategory).map(([categoryName, categoryItems]) => (
-                <View key={categoryName} style={styles.categoryGroup}>
-                  <Text style={styles.categoryTitle}>{categoryName}</Text>
-                  {categoryItems.map(({ item }, idx) => {
-                    const priority = getPriority(item.priorite);
-                    return (
-                      <View style={styles.item} key={item.id || `item-${idx}`}>
-                        {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
-                        <View style={styles.checkbox} />
-                        <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                      </View>
-                    );
-                  })}
-                </View>
-              ))}
+              {/* Items restants de la première catégorie */}
+              {firstCatRestItems.map(({ item }, idx) => {
+                const priority = getPriority(item.priorite);
+                return (
+                  <View style={styles.item} key={item.id || `first-rest-${idx}`}>
+                    {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                    <View style={styles.checkbox} />
+                    <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                  </View>
+                );
+              })}
+
+              {/* Catégories restantes avec titre + 3 premiers items groupés */}
+              {restCategories.map(([categoryName, categoryItems]) => {
+                const firstItems = categoryItems.slice(0, 3);
+                const restItems = categoryItems.slice(3);
+                return (
+                  <View key={categoryName}>
+                    {/* Titre + 3 premiers items ensemble */}
+                    <View style={styles.categoryHeaderGroup}>
+                      <Text style={styles.categoryTitle}>{categoryName}</Text>
+                      {firstItems.map(({ item }, idx) => {
+                        const priority = getPriority(item.priorite);
+                        return (
+                          <View style={styles.item} key={item.id || `item-${idx}`}>
+                            {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                            <View style={styles.checkbox} />
+                            <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                          </View>
+                        );
+                      })}
+                    </View>
+                    {/* Items restants */}
+                    {restItems.map(({ item }, idx) => {
+                      const priority = getPriority(item.priorite);
+                      return (
+                        <View style={styles.item} key={item.id || `rest-${idx}`}>
+                          {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                          <View style={styles.checkbox} />
+                          <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                        </View>
+                      );
+                    })}
+                  </View>
+                );
+              })}
             </View>
           );
         })}
@@ -352,13 +417,31 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
             );
           }
 
+          // Grouper titre + 3 premiers items pour éviter coupures
+          const firstItems = items.slice(0, 3);
+          const restItems = items.slice(3);
+
           return (
-            <View key={sectionId} style={styles.categoryGroup}>
-              <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
-              {items.map((item, idx) => {
+            <View key={sectionId}>
+              {/* Titre + 3 premiers items ensemble */}
+              <View style={styles.categoryHeaderGroup}>
+                <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+                {firstItems.map((item, idx) => {
+                  const priority = getPriority(item.priorite);
+                  return (
+                    <View style={styles.item} key={item.id || `item-${idx}`}>
+                      {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                      <View style={styles.checkbox} />
+                      <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                    </View>
+                  );
+                })}
+              </View>
+              {/* Items restants */}
+              {restItems.map((item, idx) => {
                 const priority = getPriority(item.priorite);
                 return (
-                  <View style={styles.item} key={item.id || `item-${idx}`}>
+                  <View style={styles.item} key={item.id || `rest-${idx}`}>
                     {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
                     <View style={styles.checkbox} />
                     <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
@@ -371,6 +454,22 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
       </>
     );
   };
+
+  // Ordre des catégories d'apps pour affichage en 2 colonnes
+  // L'ordre définit: Navigation (gauche) | Hébergement (droite)
+  //                  Transport (gauche) | Budget & Finances (droite)
+  const APPS_CATEGORY_ORDER = [
+    'Navigation & Cartes',
+    'Hébergement',
+    'Transport',
+    'Budget & Finances',
+    'Communication',
+    'Traduction',
+    'Santé',
+    'Sécurité',
+    'Météo',
+    'Autres'
+  ];
 
   // Fonction spéciale pour rendre les apps avec sous-catégories sur 2 colonnes
   const renderAppsWithSubcategories = (items: ChecklistItem[]) => {
@@ -398,10 +497,20 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
       }
     });
 
+    // Trier les catégories selon l'ordre défini
+    const sortedCategories = Object.entries(appsByCategory).sort(([catA], [catB]) => {
+      const indexA = APPS_CATEGORY_ORDER.indexOf(catA);
+      const indexB = APPS_CATEGORY_ORDER.indexOf(catB);
+      // Si catégorie non trouvée, la mettre à la fin
+      if (indexA === -1) return 1;
+      if (indexB === -1) return -1;
+      return indexA - indexB;
+    });
+
     // Rendu en 2 colonnes pour économiser l'espace
     return (
       <View style={styles.appsColumnsContainer}>
-        {Object.entries(appsByCategory).map(([category, categoryItems]) => (
+        {sortedCategories.map(([category, categoryItems]) => (
           <View key={category} style={styles.appsCategoryColumn}>
             <Text style={styles.subCategoryTitle}>{cleanTextForPDF(category)}</Text>
             {categoryItems.map((item, idx) => (
@@ -446,13 +555,31 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
       <>
         {sortedMoments.map(moment => {
           const momentItems = itemsByMoment[moment];
+          // Grouper titre + 3 premiers items pour éviter coupures
+          const firstItems = momentItems.slice(0, 3);
+          const restItems = momentItems.slice(3);
+
           return (
-            <View key={moment} style={styles.categoryGroup}>
-              <Text style={styles.subCategoryTitle}>{cleanTextForPDF(getMomentLabel(moment))}</Text>
-              {momentItems.map((item, idx) => {
+            <View key={moment}>
+              {/* Titre + 3 premiers items ensemble */}
+              <View style={styles.categoryHeaderGroup}>
+                <Text style={styles.subCategoryTitle}>{cleanTextForPDF(getMomentLabel(moment))}</Text>
+                {firstItems.map((item, idx) => {
+                  const priority = getPriority(item.priorite);
+                  return (
+                    <View style={styles.item} key={item.id || `moment-${idx}`}>
+                      {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                      <View style={styles.checkbox} />
+                      <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                    </View>
+                  );
+                })}
+              </View>
+              {/* Items restants */}
+              {restItems.map((item, idx) => {
                 const priority = getPriority(item.priorite);
                 return (
-                  <View style={styles.item} key={item.id || `moment-${idx}`}>
+                  <View style={styles.item} key={item.id || `rest-${idx}`}>
                     {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
                     <View style={styles.checkbox} />
                     <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
@@ -487,13 +614,31 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
         {activitySections.map(section => {
           if (!section.items || section.items.length === 0) return null;
 
+          // Grouper titre + 3 premiers items pour éviter coupures
+          const firstItems = section.items.slice(0, 3);
+          const restItems = section.items.slice(3);
+
           return (
-            <View key={section.id} style={styles.categoryGroup}>
-              <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
-              {section.items.map((item, idx) => {
+            <View key={section.id}>
+              {/* Titre + 3 premiers items ensemble */}
+              <View style={styles.categoryHeaderGroup}>
+                <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+                {firstItems.map((item, idx) => {
+                  const priority = getPriority(item.priorite);
+                  return (
+                    <View style={styles.item} key={item.id || `activity-${idx}`}>
+                      {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                      <View style={styles.checkbox} />
+                      <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                    </View>
+                  );
+                })}
+              </View>
+              {/* Items restants */}
+              {restItems.map((item, idx) => {
                 const priority = getPriority(item.priorite);
                 return (
-                  <View style={styles.item} key={item.id || `activity-${idx}`}>
+                  <View style={styles.item} key={item.id || `rest-${idx}`}>
                     {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
                     <View style={styles.checkbox} />
                     <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
