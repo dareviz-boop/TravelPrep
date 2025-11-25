@@ -8,10 +8,94 @@ import { getClimatEquipment, ChecklistSection, DestinationSpecifiqueItem } from 
 import activitesData from '@/data/checklist_activites.json';
 import checklistData from '@/data/checklistComplete.json';
 import coreSectionsData from '@/data/checklist_core_sections.json';
+import profilVoyageursData from '@/data/checklist_profil_voyageurs.json';
 
 // ==========================================
 // TYPES
 // ==========================================
+
+// Type pour les filtres d'items
+interface ItemFiltres {
+  typeVoyageur?: string[];
+  niveauConfort?: string[];
+  activites?: string[];
+  ageEnfants?: string[];
+  destinations?: string[];
+  duree?: string[];
+  typeVoyage?: string[];
+  profil?: string[];
+}
+
+// Type pour un item brut venant des fichiers JSON
+interface RawChecklistItem {
+  id?: string;
+  item: string;
+  priorite?: string;
+  delai?: string;
+  moment?: string;
+  quantite?: string;
+  specifications?: string[];
+  conseils?: string;
+  filtres?: ItemFiltres;
+}
+
+// Type pour une section de profil voyageur
+interface ProfilVoyageurSection {
+  description?: string;
+  filtres?: {
+    typeVoyageur?: string[];
+    ageEnfants?: string[];
+  };
+  items: RawChecklistItem[];
+}
+
+// Type pour le fichier JSON profil voyageurs
+interface ProfilVoyageursData {
+  [key: string]: ProfilVoyageurSection;
+}
+
+// Type pour une app dans la section apps
+interface AppItem {
+  nom: string;
+  usage: string;
+  prix: string;
+  priorite?: string;
+  conseils?: string;
+}
+
+// Type pour une catégorie d'apps
+interface AppCategory {
+  nom: string;
+  apps: AppItem[];
+}
+
+// Type pour une section core (documents, santé, etc.)
+interface CoreSection {
+  id: string;
+  nom: string;
+  description?: string;
+  obligatoire?: boolean;
+  note?: string;
+  items?: RawChecklistItem[];
+  categories?: { [key: string]: AppCategory };
+}
+
+// Type pour le fichier JSON core sections
+interface CoreSectionsData {
+  [key: string]: CoreSection;
+}
+
+// Type pour une activité
+interface ActivityData {
+  activity_id: string;
+  nom: string;
+  items: RawChecklistItem[];
+}
+
+// Type pour le fichier JSON activités
+interface ActivitesData {
+  activites: ActivityData[];
+}
 
 export interface ChecklistItem {
   id?: string;
@@ -22,7 +106,7 @@ export interface ChecklistItem {
   quantite?: string;
   specifications?: string[];
   conseils?: string;
-  filtres?: any;
+  filtres?: ItemFiltres;
 }
 
 // ==========================================
@@ -39,6 +123,24 @@ function mapStarsToPriority(stars: string): string {
   if (starCount >= 3) return 'haute';
   if (starCount === 2) return 'moyenne';
   return 'basse';
+}
+
+/**
+ * Normalise un âge enfant pour la comparaison
+ * Enlève le suffixe "-ans" si présent
+ * Ex: "0-2-ans" -> "0-2", "3-5-ans" -> "3-5"
+ */
+function normalizeAge(age: string): string {
+  return age.replace(/-ans$/, '');
+}
+
+/**
+ * Vérifie si un âge enfant du formulaire correspond à un filtre âge
+ * @param formAge - Âge du formulaire (ex: "0-2-ans")
+ * @param filterAge - Âge du filtre JSON (ex: "0-2")
+ */
+function ageMatches(formAge: string, filterAge: string): boolean {
+  return normalizeAge(formAge) === filterAge;
 }
 
 /**
@@ -197,17 +299,21 @@ export function generateCompleteChecklist(formData: FormData): GeneratedChecklis
   const activitesSections = getActivitesSections(formData);
   sections.push(...activitesSections);
 
-  // === 4. FILTRER SELON PROFIL/CONFORT/DURÉE ===
+  // === 4. ITEMS PAR PROFIL VOYAGEUR (solo, couple, famille avec âges, groupe, professionnel) ===
+  const profilVoyageursSections = getProfilVoyageursSections(formData);
+  sections.push(...profilVoyageursSections);
+
+  // === 5. FILTRER SELON PROFIL/CONFORT/DURÉE ===
   const filteredSections = filterByProfile(sections, formData);
 
-  // === 5. DÉDUPLICATION CROSS-SECTIONS (activités vs core) ===
+  // === 6. DÉDUPLICATION CROSS-SECTIONS (activités vs core) ===
   // Supprime les items génériques des sections core quand un item spécifique existe dans une activité
   const crossDedupedSections = deduplicateCrossSections(filteredSections);
 
-  // === 6. DÉDUPLIQUER LES ITEMS DANS CHAQUE SECTION ===
+  // === 7. DÉDUPLIQUER LES ITEMS DANS CHAQUE SECTION ===
   const dedupedSections = deduplicateSections(crossDedupedSections);
 
-  // === 7. CONSTRUIRE L'OBJET FINAL ===
+  // === 8. CONSTRUIRE L'OBJET FINAL ===
   const checklist: GeneratedChecklist = {
     metadata: {
       nomVoyage: formData.nomVoyage,
@@ -253,7 +359,7 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
     // Ignorer metadata et sections vides
     if (sectionKey === 'metadata') return;
 
-    const section = (coreSectionsData as any)[sectionKey];
+    const section = (coreSectionsData as CoreSectionsData)[sectionKey];
 
     // === TRAITEMENT SPÉCIAL POUR LA SECTION "apps" ===
     if (sectionKey === 'apps' && section.categories) {
@@ -266,9 +372,9 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
         // Convertir les categories en items
         const appItems: ChecklistItem[] = [];
 
-        Object.entries(section.categories).forEach(([categoryKey, categoryData]: [string, any]) => {
+        Object.entries(section.categories).forEach(([categoryKey, categoryData]: [string, AppCategory]) => {
           if (categoryData.apps && Array.isArray(categoryData.apps)) {
-            categoryData.apps.forEach((app: any, index: number) => {
+            categoryData.apps.forEach((app: AppItem, index: number) => {
               appItems.push({
                 id: `APP-${categoryKey}-${index}`,
                 item: `${categoryData.nom}: ${app.nom}`,
@@ -305,7 +411,7 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
 
       if (shouldInclude) {
         // Filtrer les items selon leurs filtres
-        const filteredItems = section.items.filter((item: any) => {
+        const filteredItems = section.items.filter((item: RawChecklistItem) => {
           // Filtre typeVoyageur (Solo, Couple, Groupe, Famille, Pro)
           if (item.filtres?.typeVoyageur) {
             if (!item.filtres.typeVoyageur.includes(formData.profil)) {
@@ -331,9 +437,10 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
           }
 
           // Filtre âge enfants (pour profil famille)
+          // Note: Les filtres utilisent "0-2", le formulaire utilise "0-2-ans"
           if (item.filtres?.ageEnfants && item.filtres.ageEnfants.length > 0) {
-            const hasMatchingAge = item.filtres.ageEnfants.some((age: string) =>
-              formData.agesEnfants?.includes(age)
+            const hasMatchingAge = item.filtres.ageEnfants.some((filterAge: string) =>
+              formData.agesEnfants?.some(formAge => ageMatches(formAge, filterAge))
             );
             if (!hasMatchingAge) {
               return false;
@@ -365,7 +472,7 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
         });
 
         // Mapper les items filtrés avec conversion de priorité
-        const mappedItems: ChecklistItem[] = filteredItems.map((item: any) => ({
+        const mappedItems: ChecklistItem[] = filteredItems.map((item: RawChecklistItem) => ({
           id: item.id,
           item: item.item,
           priorite: mapStarsToPriority(item.priorite || '⭐⭐'),
@@ -402,11 +509,11 @@ function getActivitesSections(formData: FormData): GeneratedChecklistSection[] {
   const sections: GeneratedChecklistSection[] = [];
 
   formData.activites.forEach(activityId => {
-    const activity = activitesData.activites.find((a: any) => a.activity_id === activityId);
+    const activity = (activitesData as ActivitesData).activites.find((a: ActivityData) => a.activity_id === activityId);
 
     if (activity) {
       // Filtrer les items selon destination/durée si filtres présents
-      const filteredItems = activity.items.filter((item: any) => {
+      const filteredItems = activity.items.filter((item: RawChecklistItem) => {
         // Si l'item a des filtres destinations
         if (item.filtres?.destinations) {
           if (!item.filtres.destinations.includes(formData.localisation)) {
@@ -441,6 +548,72 @@ function getActivitesSections(formData: FormData): GeneratedChecklistSection[] {
         conseils: `Équipements spécifiques pour ${activity.nom}`
       });
     }
+  });
+
+  return sections;
+}
+
+// ==========================================
+// SECTIONS : PROFIL VOYAGEURS
+// ==========================================
+
+/**
+ * Charge les sections spécifiques au profil du voyageur (solo, couple, famille, groupe, professionnel)
+ * Pour le profil famille, filtre également selon les âges des enfants
+ */
+function getProfilVoyageursSections(formData: FormData): GeneratedChecklistSection[] {
+  const sections: GeneratedChecklistSection[] = [];
+  const profil = formData.profil;
+
+  // Mapping des profils vers les clés des sections dans le JSON
+  const profilMapping: { [key: string]: string[] } = {
+    'solo': ['voyageSolo'],
+    'couple': ['voyageCouple'],
+    'groupe': ['voyageGroupeAmis'],
+    'pro': ['voyageProfessionnel'],
+    'famille': ['voyageFamilleBebe', 'voyageFamilleEnfant3a5', 'voyageFamilleEnfant6a12', 'voyageFamilleAdo13plus']
+  };
+
+  const sectionKeys = profilMapping[profil] || [];
+
+  sectionKeys.forEach(sectionKey => {
+    const sectionData = (profilVoyageursData as ProfilVoyageursData)[sectionKey];
+    if (!sectionData || !sectionData.items || sectionData.items.length === 0) return;
+
+    // Pour le profil famille, vérifier les filtres d'âge
+    if (profil === 'famille') {
+      const filtres = sectionData.filtres;
+      if (filtres?.ageEnfants && filtres.ageEnfants.length > 0) {
+        // Vérifier si au moins un âge du formulaire correspond aux filtres de cette section
+        const hasMatchingAge = filtres.ageEnfants.some((filterAge: string) =>
+          formData.agesEnfants?.some(formAge => ageMatches(formAge, filterAge))
+        );
+
+        // Si aucun âge ne correspond, ne pas inclure cette section
+        if (!hasMatchingAge) return;
+      }
+    }
+
+    // Mapper les items avec conversion de priorité
+    const mappedItems: ChecklistItem[] = sectionData.items.map((item: RawChecklistItem) => ({
+      id: item.id,
+      item: item.item,
+      priorite: mapStarsToPriority(item.priorite || '⭐⭐'),
+      delai: item.delai || 'J-7',
+      quantite: item.quantite,
+      specifications: item.specifications,
+      conseils: item.conseils || ''
+    }));
+
+    sections.push({
+      id: sectionKey,
+      nom: `👨‍👩‍👧‍👦 ${sectionData.description || 'Items profil voyageur'}`,
+      emoji: '👤',
+      items: mappedItems,
+      source: 'core',
+      category: 'interesting',
+      conseils: sectionData.description || ''
+    });
   });
 
   return sections;

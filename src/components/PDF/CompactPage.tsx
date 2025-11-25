@@ -439,13 +439,16 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
       return indexA - indexB;
     });
 
+    // Helper pour afficher le libellé du moment
+    const getMomentLabel = (m: string) => m === 'Après' ? 'Après le voyage' : m;
+
     return (
       <>
         {sortedMoments.map(moment => {
           const momentItems = itemsByMoment[moment];
           return (
             <View key={moment} style={styles.categoryGroup}>
-              <Text style={styles.subCategoryTitle}>{cleanTextForPDF(moment)}</Text>
+              <Text style={styles.subCategoryTitle}>{cleanTextForPDF(getMomentLabel(moment))}</Text>
               {momentItems.map((item, idx) => {
                 const priority = getPriority(item.priorite);
                 return (
@@ -537,6 +540,9 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
       return indexA - indexB;
     });
 
+    // Helper pour afficher le libellé du moment
+    const getMomentLabel = (m: string) => m === 'Après' ? 'Après le voyage' : m;
+
     return (
       <>
         <View style={styles.divider} />
@@ -549,7 +555,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
           const items = itemsByMoment[moment];
           return (
             <View key={moment}>
-              <Text style={styles.categoryTitle}>{cleanTextForPDF(moment)}</Text>
+              <Text style={styles.categoryTitle}>{cleanTextForPDF(getMomentLabel(moment))}</Text>
               {items.map((item, idx) => {
                 const priority = getPriority(item.priorite);
                 return (

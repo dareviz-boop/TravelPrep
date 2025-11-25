@@ -441,6 +441,9 @@ export const DetailedSectionsPage = ({
       return indexA - indexB;
     });
 
+    // Helper pour afficher le libellé du moment
+    const getMomentLabel = (m: string) => m === 'Après' ? 'Après le voyage' : m;
+
     return sortedMoments.map(moment => {
       const momentItems = itemsByMoment[moment];
       const firstItems = momentItems.slice(0, 3);
@@ -450,7 +453,7 @@ export const DetailedSectionsPage = ({
         <View key={moment} style={styles.timelineBlock}>
           {/* Groupe titre + 3 premiers items pour éviter orphelins */}
           <View style={styles.titleWithItemsGroup} wrap={false}>
-            <Text style={styles.timelineHeader}>{cleanTextForPDF(moment)}</Text>
+            <Text style={styles.timelineHeader}>{cleanTextForPDF(getMomentLabel(moment))}</Text>
             {firstItems.map((item, idx) => renderItem(item, idx, false))}
           </View>
           {/* Reste des items */}
