@@ -8,7 +8,7 @@ import { PDFIcon } from './PDFIcon';
 const cleanTextForPDF = (text: string): string => {
   if (!text) return '';
 
-  let cleaned = text
+  return text
     // SUPPRIMER tous les emojis (plage Unicode complète)
     .replace(/[\u{1F300}-\u{1F9FF}]/gu, '')
     .replace(/[\u{2600}-\u{26FF}]/gu, '')
@@ -24,6 +24,10 @@ const cleanTextForPDF = (text: string): string => {
     .replace(/[\u{1F900}-\u{1F9FF}]/gu, '')
     .replace(/[\u{1FA00}-\u{1FA6F}]/gu, '')
     .replace(/[\u{1FA70}-\u{1FAFF}]/gu, '')
+    // SUPPRIMER les emojis mal encodés (ex: =Ä, <å, =³)
+    // Ces patterns apparaissent quand des emojis UTF-8 sont corrompus
+    // eslint-disable-next-line no-useless-escape
+    .replace(/[=<][^\s\w\d.,;:!?()\[\]{}'"\/\\-]/g, '')
     // Normaliser les guillemets typographiques
     .replace(/[""]/g, '"')
     .replace(/['']/g, "'")
@@ -35,8 +39,6 @@ const cleanTextForPDF = (text: string): string => {
     // Nettoyer espaces multiples
     .replace(/\s+/g, ' ')
     .trim();
-
-  return cleaned;
 };
 
 const styles = StyleSheet.create({
@@ -136,7 +138,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     marginLeft: 18,
-    marginTop: 2
+    marginTop: 1
   },
   conseilText: {
     fontSize: 9,
@@ -151,12 +153,14 @@ const styles = StyleSheet.create({
     marginRight: 5,
     color: '#DC2626'
   },
-  pageNumber: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    fontSize: 8,
-    color: '#9ca3af'
+  // Séparateur entre grandes sections (pour démarcation)
+  sectionSeparator: {
+    marginTop: 30,
+    marginBottom: 15
+  },
+  // Groupe titre + items pour éviter les orphelins
+  titleWithItemsGroup: {
+    breakInside: 'avoid' as any
   }
 });
 
@@ -166,10 +170,18 @@ interface DetailedSectionsPageProps {
   titlePart1: string;  // "Timeline de Préparation - " ou "À Prévoir - "
   titlePart2: string;  // "Essentiels absolus" ou "Sélection conseillée"
   isEssentials?: boolean; // true pour les essentiels absolus
+  addSeparator?: boolean; // Ajouter un séparateur avant le titre
 }
 
 // Catégories essentielles (avec dates précises)
 const ESSENTIAL_CATEGORIES = ['documents', 'finances', 'sante'];
+
+// Ordre des sections tel qu'affiché en step 5 (basé sur checklistComplete.json)
+const SECTION_ORDER = [
+  'documents', 'finances', 'sante', // Essentiels absolus
+  'bagages', 'hygiene', 'tech', 'domicile', 'transport', 'reservations',
+  'urgence', 'apps', 'pendant_apres'
+];
 
 // Interface pour un item avec sa section
 interface ItemWithSection extends ChecklistItem {
@@ -182,7 +194,8 @@ export const DetailedSectionsPage = ({
   sections,
   titlePart1,
   titlePart2,
-  isEssentials = false
+  isEssentials = false,
+  addSeparator = false
 }: DetailedSectionsPageProps) => {
   if (!sections || sections.length === 0) return null;
 
@@ -314,7 +327,7 @@ export const DetailedSectionsPage = ({
     return (
       <View style={styles.timelineBlock} key={title}>
         <Text style={styles.timelineHeader}>{cleanTextForPDF(title)}</Text>
-        {Object.entries(itemsByCategory).map(([categoryName, categoryItems]) => {
+        {Object.entries(itemsByCategory).map(([categoryName, categoryItems], catIdx) => {
           const sortedItems = sortItemsByDelay(categoryItems);
 
           // Grouper par date précise
@@ -329,20 +342,40 @@ export const DetailedSectionsPage = ({
             itemsByDate[deadline].push(item);
           });
 
+          const dateEntries = Object.entries(itemsByDate);
+
           return (
             <View key={categoryName}>
-              <Text style={styles.categoryTitle}>{cleanTextForPDF(categoryName)}</Text>
-              {Object.entries(itemsByDate).map(([deadline, dateItems]) => (
-                <View
-                  key={`${categoryName}-${deadline}`}
-                  style={deadline !== 'no-date' ? styles.datedBox : {}}
-                >
-                  {deadline !== 'no-date' && (
-                    <Text style={styles.dateLabel}>{deadline}</Text>
-                  )}
-                  {dateItems.map((item, idx) => renderItem(item, idx, false))}
-                </View>
-              ))}
+              {dateEntries.map(([deadline, dateItems], dateIdx) => {
+                const isFirstDate = dateIdx === 0;
+                const firstItems = dateItems.slice(0, 3);
+                const remainingItems = dateItems.slice(3);
+
+                return (
+                  <View key={`${categoryName}-${deadline}`}>
+                    {/* Groupe titre (si première date) + date + 3 premiers items pour éviter orphelins */}
+                    <View
+                      style={deadline !== 'no-date' ? styles.datedBox : {}}
+                      wrap={false}
+                    >
+                      {/* Afficher le titre de catégorie seulement pour la première date */}
+                      {isFirstDate && (
+                        <Text style={styles.categoryTitle}>{cleanTextForPDF(categoryName)}</Text>
+                      )}
+                      {deadline !== 'no-date' && (
+                        <Text style={styles.dateLabel}>{deadline}</Text>
+                      )}
+                      {firstItems.map((item, idx) => renderItem(item, idx, false))}
+                    </View>
+                    {/* Reste des items - peuvent se découper naturellement */}
+                    {remainingItems.length > 0 && (
+                      <View style={deadline !== 'no-date' ? styles.datedBox : {}}>
+                        {remainingItems.map((item, idx) => renderItem(item, idx + firstItems.length, false))}
+                      </View>
+                    )}
+                  </View>
+                );
+              })}
             </View>
           );
         })}
@@ -360,10 +393,19 @@ export const DetailedSectionsPage = ({
     const isActivity = sortedItems.length > 0 && sortedItems[0].sectionName;
     const hasMultipleActivities = new Set(sortedItems.map(i => i.sectionName)).size > 1;
 
+    // Grouper le titre avec les 3 premiers items pour éviter les orphelins
+    const firstItems = sortedItems.slice(0, 3);
+    const remainingItems = sortedItems.slice(3);
+
     return (
       <View style={styles.timelineBlock} key={title}>
-        <Text style={styles.timelineHeader}>{cleanTextForPDF(title)}</Text>
-        {sortedItems.map((item, idx) => renderItem(item, idx, hasMultipleActivities))}
+        {/* Groupe titre + 3 premiers items pour éviter orphelins */}
+        <View style={styles.titleWithItemsGroup} wrap={false}>
+          <Text style={styles.timelineHeader}>{cleanTextForPDF(title)}</Text>
+          {firstItems.map((item, idx) => renderItem(item, idx, hasMultipleActivities))}
+        </View>
+        {/* Reste des items */}
+        {remainingItems.map((item, idx) => renderItem(item, idx + firstItems.length, hasMultipleActivities))}
       </View>
     );
   };
@@ -375,7 +417,8 @@ export const DetailedSectionsPage = ({
     // Grouper par moment
     const itemsByMoment: { [moment: string]: ItemWithSection[] } = {};
     items.forEach(item => {
-      const moment = (item as any).moment || 'Autre';
+      // Vérifier d'abord le moment, puis le delai "Après", sinon "Autre"
+      const moment = (item as any).moment || ((item as any).delai === 'Après' ? 'Après' : 'Autre');
       if (!itemsByMoment[moment]) {
         itemsByMoment[moment] = [];
       }
@@ -395,6 +438,7 @@ export const DetailedSectionsPage = ({
       'Repas',
       'Tous les 3-5 jours',
       'Continu',
+      'Après',
       'Autre'
     ];
 
@@ -406,18 +450,194 @@ export const DetailedSectionsPage = ({
       return indexA - indexB;
     });
 
-    return sortedMoments.map(moment => (
-      <View key={moment} style={styles.timelineBlock}>
-        <Text style={styles.timelineHeader}>{cleanTextForPDF(moment)}</Text>
-        {itemsByMoment[moment].map((item, idx) => renderItem(item, idx, false))}
-      </View>
-    ));
+    return sortedMoments.map(moment => {
+      const momentItems = itemsByMoment[moment];
+      const firstItems = momentItems.slice(0, 3);
+      const remainingItems = momentItems.slice(3);
+
+      return (
+        <View key={moment} style={styles.timelineBlock}>
+          {/* Groupe titre + 3 premiers items pour éviter orphelins */}
+          <View style={styles.titleWithItemsGroup} wrap={false}>
+            <Text style={styles.timelineHeader}>{cleanTextForPDF(moment)}</Text>
+            {firstItems.map((item, idx) => renderItem(item, idx, false))}
+          </View>
+          {/* Reste des items */}
+          {remainingItems.map((item, idx) => renderItem(item, idx + firstItems.length, false))}
+        </View>
+      );
+    });
+  };
+
+  // Déterminer le type de sections (essentiels, recommandées, ou activités)
+  const isActivities = sections.length > 0 && sections[0].source === 'activite';
+
+  // Fonction pour rendre les sections recommandées (dans l'ordre de step 5)
+  const renderRecommendedSections = () => {
+    // Trier les sections selon SECTION_ORDER
+    const sortedSections = [...sections].sort((a, b) => {
+      const indexA = SECTION_ORDER.indexOf(a.id);
+      const indexB = SECTION_ORDER.indexOf(b.id);
+      if (indexA === -1) return 1;
+      if (indexB === -1) return -1;
+      return indexA - indexB;
+    });
+
+    return sortedSections.map(section => {
+      if (section.items.length === 0) return null;
+
+      // Gestion spéciale pour apps
+      if (section.id === 'apps') {
+        return (
+          <View key={section.id}>
+            <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+            {renderAppsWithSubcategories(section.items)}
+          </View>
+        );
+      }
+
+      // Gestion spéciale pour pendant_apres
+      if (section.id === 'pendant_apres') {
+        const itemsWithSection: ItemWithSection[] = section.items.map(item => ({
+          ...item,
+          sectionName: section.nom,
+          sectionId: section.id
+        }));
+        return (
+          <View key={section.id}>
+            <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+            {renderPendantApresSection(itemsWithSection)}
+          </View>
+        );
+      }
+
+      // Autres sections
+      const firstItems = section.items.slice(0, 3);
+      const remainingItems = section.items.slice(3);
+
+      return (
+        <View key={section.id}>
+          {/* Groupe titre + 3 premiers items pour éviter orphelins */}
+          <View style={styles.titleWithItemsGroup} wrap={false}>
+            <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+            {firstItems.map((item, idx) => {
+              const itemWithSection: ItemWithSection = {
+                ...item,
+                sectionName: section.nom,
+                sectionId: section.id
+              };
+              return renderItem(itemWithSection, idx, false);
+            })}
+          </View>
+          {/* Reste des items */}
+          {remainingItems.map((item, idx) => {
+            const itemWithSection: ItemWithSection = {
+              ...item,
+              sectionName: section.nom,
+              sectionId: section.id
+            };
+            return renderItem(itemWithSection, idx + firstItems.length, false);
+          })}
+        </View>
+      );
+    });
+  };
+
+  // Fonction pour rendre les apps avec sous-catégories
+  const renderAppsWithSubcategories = (items: ChecklistItem[]) => {
+    const appsByCategory: { [key: string]: ChecklistItem[] } = {};
+    items.forEach(item => {
+      const match = item.item.match(/^([^:]+):\s*(.+)$/);
+      if (match) {
+        const category = match[1].trim();
+        if (!appsByCategory[category]) {
+          appsByCategory[category] = [];
+        }
+        appsByCategory[category].push({
+          ...item,
+          item: match[2].trim()
+        });
+      } else {
+        if (!appsByCategory['Autres']) {
+          appsByCategory['Autres'] = [];
+        }
+        appsByCategory['Autres'].push(item);
+      }
+    });
+
+    return Object.entries(appsByCategory).map(([category, categoryItems]) => {
+      const firstItems = categoryItems.slice(0, 3);
+      const remainingItems = categoryItems.slice(3);
+
+      return (
+        <View key={category}>
+          {/* Groupe titre + 3 premiers items pour éviter orphelins */}
+          <View style={styles.titleWithItemsGroup} wrap={false}>
+            <Text style={styles.timelineHeader}>{cleanTextForPDF(category)}</Text>
+            {firstItems.map((item, idx) => {
+              const itemWithSection: ItemWithSection = {
+                ...item,
+                sectionName: category,
+                sectionId: 'apps'
+              };
+              return renderItem(itemWithSection, idx, false);
+            })}
+          </View>
+          {/* Reste des items */}
+          {remainingItems.map((item, idx) => {
+            const itemWithSection: ItemWithSection = {
+              ...item,
+              sectionName: category,
+              sectionId: 'apps'
+            };
+            return renderItem(itemWithSection, idx + firstItems.length, false);
+          })}
+        </View>
+      );
+    });
+  };
+
+  // Fonction pour rendre les activités
+  const renderActivitiesSections = () => {
+    return sections.map(section => {
+      if (section.items.length === 0) return null;
+
+      const firstItems = section.items.slice(0, 3);
+      const remainingItems = section.items.slice(3);
+
+      return (
+        <View key={section.id}>
+          {/* Groupe titre + 3 premiers items pour éviter orphelins */}
+          <View style={styles.titleWithItemsGroup} wrap={false}>
+            <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+            {firstItems.map((item, idx) => {
+              const itemWithSection: ItemWithSection = {
+                ...item,
+                sectionName: section.nom,
+                sectionId: section.id
+              };
+              return renderItem(itemWithSection, idx, false);
+            })}
+          </View>
+          {/* Reste des items */}
+          {remainingItems.map((item, idx) => {
+            const itemWithSection: ItemWithSection = {
+              ...item,
+              sectionName: section.nom,
+              sectionId: section.id
+            };
+            return renderItem(itemWithSection, idx + firstItems.length, false);
+          })}
+        </View>
+      );
+    });
   };
 
   const timelines = organizeAllItemsByTimeline();
 
   return (
-    <Page size="A4" style={styles.page}>
+    <>
+      {addSeparator && <View style={styles.sectionSeparator} />}
       <View style={styles.titleContainer}>
         <Text style={styles.titlePart1}>{cleanTextForPDF(titlePart1)}</Text>
         <Text style={styles.titlePart2}>{cleanTextForPDF(titlePart2)}</Text>
@@ -436,28 +656,17 @@ export const DetailedSectionsPage = ({
             </View>
           )}
         </>
+      ) : isActivities ? (
+        <>
+          {/* Activités : afficher par activité */}
+          {renderActivitiesSections()}
+        </>
       ) : (
         <>
-          {/* Autres : timeline uniquement, pas de dates */}
-          {renderTimelinePeriodForOthers(timelines.j90_j60, 'J-90 à J-60 (3 mois à 2 mois avant)')}
-          {renderTimelinePeriodForOthers(timelines.j30_j14, 'J-30 à J-14 (1 mois à 2 semaines avant)')}
-          {renderTimelinePeriodForOthers(timelines.j7_j3, 'J-7 à J-3 (1 semaine avant)')}
-          {renderTimelinePeriodForOthers(timelines.j2_j1, 'J-2 à J-1 (48h avant le départ)')}
-          {timelines.noDelay.length > 0 && (
-            <View>
-              {sortItemsByDelay(timelines.noDelay).map((item, idx) => renderItem(item, idx, false))}
-            </View>
-          )}
-          {/* Section "Pendant & Après" organisée par moment */}
-          {renderPendantApresSection(timelines.pendantApres)}
+          {/* Recommandées : afficher par section dans l'ordre de step 5 */}
+          {renderRecommendedSections()}
         </>
       )}
-
-      <Text
-        style={styles.pageNumber}
-        render={({ pageNumber, totalPages }) => `Page ${pageNumber} / ${totalPages}`}
-        fixed
-      />
-    </Page>
+    </>
   );
 };

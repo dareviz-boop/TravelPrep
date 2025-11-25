@@ -7,6 +7,9 @@ import { filterItemsByConditions } from '@/utils/filterItems';
 const cleanTextForPDF = (text: string): string => {
   if (!text) return '';
   return text
+    // SUPPRIMER les emojis mal encodés (ex: =Ä, <å, =³)
+    // Ces patterns apparaissent quand des emojis UTF-8 sont corrompus
+    .replace(/[=<][^\s\w\d.,;:!?()\[\]{}'"\/\\-]/g, '')
     // Normaliser les guillemets typographiques
     .replace(/[""]/g, '"')
     .replace(/['']/g, "'")

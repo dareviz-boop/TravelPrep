@@ -5,7 +5,6 @@ import { CoverPage } from './CoverPage';
 import { TimelinePage } from './TimelinePage';
 import { CategoryPage } from './CategoryPage';
 import { BagagesPage } from './BagagesPage';
-import { DetailedSectionsPage } from './DetailedSectionsPage';
 import checklistCompleteData from '@/data/checklistComplete.json';
 
 // 🔧 FIX: Ne pas charger de polices externes pour éviter les erreurs d'encodage
@@ -77,45 +76,11 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
         checklistData={filteredChecklistData}
         referenceData={checklistCompleteData}
         isDetailed={isDetailedPDF}
+        essentialSections={essentialSections}
+        recommendedSections={recommendedSections}
+        activiteSections={activiteSections}
       />
-
-      {isDetailedPDF && (
-        <>
-          {/* 1. Essentiels Absolus (avec dates précises) */}
-          {essentialSections.length > 0 && (
-            <DetailedSectionsPage
-              formData={formData}
-              sections={essentialSections}
-              titlePart1="Timeline de Préparation - "
-              titlePart2="Essentiels absolus"
-              isEssentials={true}
-            />
-          )}
-
-          {/* 2. Sélection Conseillée (inclut apps et pendant_apres) */}
-          {recommendedSections.length > 0 && (
-            <DetailedSectionsPage
-              formData={formData}
-              sections={recommendedSections}
-              titlePart1="À Prévoir - "
-              titlePart2="Sélection conseillée"
-              isEssentials={false}
-            />
-          )}
-
-          {/* 3. Activités (timeline uniquement, pas de dates) */}
-          {activiteSections.length > 0 && (
-            <DetailedSectionsPage
-              formData={formData}
-              sections={activiteSections}
-              titlePart1="À Prévoir - "
-              titlePart2="Préparation activités"
-              isEssentials={false}
-            />
-          )}
-        </>
-      )}
-      {/* Format compact : Intégré directement dans CoverPage */}
+      {/* Format compact ET format détaillé : Intégrés directement dans CoverPage */}
     </Document>
   );
 };
