@@ -24,7 +24,7 @@ const cleanTextForPDF = (text: string): string => {
     .replace(/[\u{1FA70}-\u{1FAFF}]/gu, '')
     // SUPPRIMER les emojis mal encodés (ex: =Ä, <å, =³)
     // Ces patterns apparaissent quand des emojis UTF-8 sont corrompus
-    .replace(/[=<][^\s\w\d.,;:!?()\[\]{}'"\/\\-]/g, '')
+    .replace(/[=<][^\s\w\d.,;:!?()[\]{}'"/\\-]/g, '')
     // Normaliser les guillemets typographiques
     .replace(/[""]/g, '"')
     .replace(/['']/g, "'")
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   },
   momentBlock: {
     marginBottom: 12,
-    break: 'avoid' as any
+    breakInside: 'avoid' as const
   },
   momentTitle: {
     fontSize: 11,
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginBottom: 7,
     paddingLeft: 5,
-    break: 'inside-avoid' as any
+    breakInside: 'avoid' as const
   },
   itemRow: {
     flexDirection: 'row',
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 5,
     paddingLeft: 5,
-    break: 'inside-avoid' as any
+    breakInside: 'avoid' as const
   },
   checkbox: {
     width: 8,
@@ -138,7 +138,7 @@ export const PendantApresPage = ({ formData, section }: PendantApresPageProps) =
   // Grouper les items par moment
   const itemsByMoment: { [moment: string]: ChecklistItem[] } = {};
   section.items.forEach(item => {
-    const moment = (item as any).moment || 'Autre';
+    const moment = item.moment || 'Autre';
     if (!itemsByMoment[moment]) {
       itemsByMoment[moment] = [];
     }

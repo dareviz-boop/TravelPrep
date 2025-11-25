@@ -1,6 +1,7 @@
 import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
-import { filterItemsByConditions } from '@/utils/filterItems';
+import { filterItemsByConditions, ChecklistItem } from '@/utils/filterItems';
+import { GeneratedChecklist } from '@/utils/checklistGenerator';
 
 // Fonction utilitaire pour nettoyer certains caractères spéciaux problématiques
 // ✨ GARDONS les emojis pour plus de personnalité dans le PDF !
@@ -9,7 +10,7 @@ const cleanTextForPDF = (text: string): string => {
   return text
     // SUPPRIMER les emojis mal encodés (ex: =Ä, <å, =³)
     // Ces patterns apparaissent quand des emojis UTF-8 sont corrompus
-    .replace(/[=<][^\s\w\d.,;:!?()\[\]{}'"\/\\-]/g, '')
+    .replace(/[=<][^\s\w\d.,;:!?()[\]{}'"/\\-]/g, '')
     // Normaliser les guillemets typographiques
     .replace(/[""]/g, '"')
     .replace(/['']/g, "'")
@@ -96,13 +97,13 @@ const styles = StyleSheet.create({
 
 interface BagagesPageProps {
   formData: FormData;
-  checklistData: any;
+  checklistData: GeneratedChecklist;
 }
 
 export const BagagesPage = ({ formData, checklistData }: BagagesPageProps) => {
   const duree = formData.duree || 'moyen';
 
-  const renderBagageSection = (items: any[], sectionTitle: string) => {
+  const renderBagageSection = (items: ChecklistItem[], sectionTitle: string) => {
     const filteredItems = items.filter(item =>
       filterItemsByConditions(item, formData)
     );
