@@ -14,6 +14,46 @@ import profilVoyageursData from '@/data/checklist_profil_voyageurs.json';
 // TYPES
 // ==========================================
 
+// Type pour les filtres d'items
+interface ItemFiltres {
+  typeVoyageur?: string[];
+  niveauConfort?: string[];
+  activites?: string[];
+  ageEnfants?: string[];
+  destinations?: string[];
+  duree?: string[];
+  typeVoyage?: string[];
+  profil?: string[];
+}
+
+// Type pour un item brut venant des fichiers JSON
+interface RawChecklistItem {
+  id?: string;
+  item: string;
+  priorite?: string;
+  delai?: string;
+  moment?: string;
+  quantite?: string;
+  specifications?: string[];
+  conseils?: string;
+  filtres?: ItemFiltres;
+}
+
+// Type pour une section de profil voyageur
+interface ProfilVoyageurSection {
+  description?: string;
+  filtres?: {
+    typeVoyageur?: string[];
+    ageEnfants?: string[];
+  };
+  items: RawChecklistItem[];
+}
+
+// Type pour le fichier JSON profil voyageurs
+interface ProfilVoyageursData {
+  [key: string]: ProfilVoyageurSection;
+}
+
 export interface ChecklistItem {
   id?: string;
   item: string;
@@ -23,7 +63,7 @@ export interface ChecklistItem {
   quantite?: string;
   specifications?: string[];
   conseils?: string;
-  filtres?: any;
+  filtres?: ItemFiltres;
 }
 
 // ==========================================
@@ -494,7 +534,7 @@ function getProfilVoyageursSections(formData: FormData): GeneratedChecklistSecti
   const sectionKeys = profilMapping[profil] || [];
 
   sectionKeys.forEach(sectionKey => {
-    const sectionData = (profilVoyageursData as any)[sectionKey];
+    const sectionData = (profilVoyageursData as ProfilVoyageursData)[sectionKey];
     if (!sectionData || !sectionData.items || sectionData.items.length === 0) return;
 
     // Pour le profil famille, vérifier les filtres d'âge
@@ -512,7 +552,7 @@ function getProfilVoyageursSections(formData: FormData): GeneratedChecklistSecti
     }
 
     // Mapper les items avec conversion de priorité
-    const mappedItems: ChecklistItem[] = sectionData.items.map((item: any) => ({
+    const mappedItems: ChecklistItem[] = sectionData.items.map((item: RawChecklistItem) => ({
       id: item.id,
       item: item.item,
       priorite: mapStarsToPriority(item.priorite || '⭐⭐'),
