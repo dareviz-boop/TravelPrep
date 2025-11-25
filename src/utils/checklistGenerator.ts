@@ -200,10 +200,14 @@ export function generateCompleteChecklist(formData: FormData): GeneratedChecklis
   // === 4. FILTRER SELON PROFIL/CONFORT/DURÉE ===
   const filteredSections = filterByProfile(sections, formData);
 
-  // === 5. DÉDUPLIQUER LES ITEMS DANS CHAQUE SECTION ===
-  const dedupedSections = deduplicateSections(filteredSections);
+  // === 5. DÉDUPLICATION CROSS-SECTIONS (activités vs core) ===
+  // Supprime les items génériques des sections core quand un item spécifique existe dans une activité
+  const crossDedupedSections = deduplicateCrossSections(filteredSections);
 
-  // === 6. CONSTRUIRE L'OBJET FINAL ===
+  // === 6. DÉDUPLIQUER LES ITEMS DANS CHAQUE SECTION ===
+  const dedupedSections = deduplicateSections(crossDedupedSections);
+
+  // === 7. CONSTRUIRE L'OBJET FINAL ===
   const checklist: GeneratedChecklist = {
     metadata: {
       nomVoyage: formData.nomVoyage,
@@ -501,6 +505,205 @@ function getClimatItemsGroupedBySection(formData: FormData): Record<string, Chec
 // ==========================================
 // DÉDUPLICATION
 // ==========================================
+
+/**
+ * Mots-clés principaux pour identifier les items VRAIMENT IDENTIQUES
+ * Utilisé pour la déduplication cross-sections
+ *
+ * IMPORTANT: Ne regrouper QUE les items interchangeables !
+ * - "Appareil photo" générique vs "Appareil photo compact" = MÊME CHOSE (dédupliquer)
+ * - "Casque vélo" vs "Casque ski" = DIFFÉRENT (ne PAS dédupliquer)
+ * - "Paracétamol" vs "Ibuprofène" = DIFFÉRENT (ne PAS dédupliquer)
+ */
+const DEDUP_KEYWORDS: { [key: string]: string[] } = {
+  // === ÉLECTRONIQUE / TECH ===
+  // Appareil photo : toutes les variantes sont le même besoin (prendre des photos)
+  'appareil_photo': ['appareil photo', 'camera photo'],
+  'gopro': ['gopro', 'camera action', 'action cam'],
+  'trepied': ['trepied', 'tripod'],
+  'batterie_externe': ['batterie externe', 'powerbank', 'power bank'],
+  // Adaptateur : être TRÈS spécifique (adaptateur prise ≠ adaptateur USB)
+  'adaptateur_prise_voyage': ['adaptateur universel', 'prise universelle', 'multiprise voyage'],
+  'lampe_frontale': ['lampe frontale', 'frontale led'],
+  'lampe_torche': ['lampe torche', 'torche led'],
+  'carte_memoire': ['carte sd', 'carte memoire', 'micro sd'],
+  'gps_rando': ['gps randonnee', 'gps rando', 'gps portable'],
+
+  // === BAGAGES / SACS ===
+  'sac_dos_voyage': ['sac a dos voyage', 'sac dos voyage', 'backpack voyage'],
+  'sac_dos_journee': ['sac a dos journee', 'daypack', 'sac dos journee'],
+  'sac_etanche': ['sac etanche', 'dry bag'],
+  'sac_banane': ['sac banane', 'pochette ceinture'],
+  'cadenas_tsa': ['cadenas tsa'],
+  'housse_pluie_sac': ['housse pluie sac', 'rain cover sac'],
+
+  // === COUCHAGE / CAMPING ===
+  'sac_couchage': ['sac de couchage', 'sac couchage', 'duvet camping'],
+  // Tente : être spécifique (tente camping ≠ tente plage ≠ parasol)
+  'tente_camping': ['tente camping', 'tente randonnee', 'tente bivouac'],
+  'matelas_camping': ['matelas gonflable camping', 'matelas camping', 'sleeping pad'],
+  'rechaud_camping': ['rechaud camping', 'rechaud gaz', 'camping gaz'],
+  'gourde_rando': ['gourde', 'bouteille eau reutilisable'],
+  'thermos': ['thermos', 'bouteille isotherme', 'mug isotherme'],
+  'filtre_eau': ['filtre eau', 'purificateur eau', 'lifestraw'],
+  'couverture_survie': ['couverture survie', 'couverture urgence'],
+  'bache_tarp': ['bache tarp', 'tarp camping'],
+  'gamelle_camping': ['gamelle camping', 'popote camping', 'kit cuisine camping'],
+
+  // === VÊTEMENTS ===
+  // Vestes : différencier par usage
+  'veste_impermeable': ['veste impermeable', 'veste pluie', 'coupe-vent impermeable'],
+  'kway': ['k-way', 'kway'],
+  'veste_polaire': ['veste polaire', 'fleece jacket'],
+  'doudoune': ['doudoune', 'veste doudoune'],
+  'combinaison_neoprene': ['combinaison neoprene', 'shorty neoprene', 'wetsuit'],
+  'maillot_bain': ['maillot de bain', 'maillot bain'],
+  'sous_vetements_thermiques': ['sous-vetements thermiques', 'sous vetements thermiques', 'base layer thermique'],
+  // Couvre-chef : NE PAS regrouper (chapeau ≠ casquette ≠ bob)
+  'bonnet_froid': ['bonnet chaud', 'bonnet hiver', 'bonnet ski'],
+  'buff_tour_cou': ['buff', 'tour de cou multifonction'],
+
+  // === CHAUSSURES ===
+  'chaussures_rando': ['chaussures randonnee', 'chaussures marche', 'chaussures trek'],
+  // Sandales et tongs : NE PAS regrouper (usages différents)
+  'chaussures_eau': ['chaussures aquatiques', 'chaussures eau'],
+
+  // === HYGIÈNE ===
+  'creme_solaire': ['creme solaire', 'protection solaire', 'ecran solaire'],
+  'anti_moustiques': ['anti-moustiques', 'repulsif moustiques', 'spray anti-moustiques'],
+  'serviette_microfibre': ['serviette microfibre', 'serviette voyage'],
+  'trousse_toilette': ['trousse toilette', 'trousse de toilette'],
+  'baume_levres': ['baume levres', 'stick levres'],
+
+  // === SANTÉ / PHARMACIE ===
+  // NE PAS regrouper les médicaments différents !
+  'trousse_secours': ['trousse secours', 'trousse premiers soins', 'kit premiers secours'],
+  // Pansements et antiseptique : items génériques OK à dédupliquer
+  'pansements': ['pansements varies', 'pansements assortiment'],
+  'antiseptique': ['antiseptique', 'desinfectant'],
+
+  // === DOCUMENTS ===
+  'copies_documents': ['copies documents', 'photocopies documents'],
+
+  // === ACCESSOIRES DIVERS ===
+  'jumelles': ['jumelles', 'binoculars'],
+  'boussole': ['boussole', 'compass'],
+  'couteau_multifonction': ['couteau multifonction', 'couteau suisse', 'leatherman'],
+  'paracorde': ['paracorde', 'corde paracorde'],
+  // Sifflet : tous les sifflets d'urgence/survie sont le même besoin
+  'sifflet_urgence': ['sifflet survie', 'sifflet 120db', 'sifflet urgence'],
+  // Bouchons : NE PAS regrouper (natation ≠ sommeil ≠ concert)
+  'masque_sommeil': ['masque sommeil', 'masque yeux'],
+
+  // === GUIDES / LIVRES ===
+  // Carnet : être spécifique (carnet notes ≠ carnet vaccination ≠ carnet plongée)
+  'guide_voyage': ['guide voyage', 'lonely planet', 'routard'],
+  'carnet_notes_voyage': ['carnet notes voyage', 'journal voyage'],
+
+  // === SNORKELING (items SÉPARÉS car différents) ===
+  // Masque+tuba souvent ensemble, mais palmes séparées
+  'masque_tuba': ['masque + tuba', 'masque tuba'],
+  'palmes': ['palmes'],
+
+  // === DIVERS ===
+  // Sac shopping / tote bag : même besoin (sac courses pliable)
+  'sac_shopping': ['sac shopping', 'tote bag'],
+  'carte_sim': ['carte sim locale', 'esim voyage'],
+  'lingettes': ['lingettes humides', 'lingettes voyage'],
+  'disque_dur': ['disque dur externe', 'ssd externe'],
+  'glaciere': ['glaciere souple', 'glaciere portable']
+};
+
+/**
+ * Extrait le mot-clé principal d'un item pour la déduplication
+ */
+function extractDeduplicationKey(itemText: string): string | null {
+  const normalizedText = itemText
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\w\s]/g, ' ')
+    .trim();
+
+  for (const [key, keywords] of Object.entries(DEDUP_KEYWORDS)) {
+    for (const keyword of keywords) {
+      const normalizedKeyword = keyword
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+      if (normalizedText.includes(normalizedKeyword)) {
+        return key;
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Déduplication cross-sections :
+ * 1. Supprime les items génériques des sections core quand un équivalent existe dans une activité
+ * 2. Ne garde qu'un seul exemplaire parmi les sections d'activités pour chaque type d'item
+ *
+ * Logique : Les items d'activité sont plus spécifiques, on garde le premier trouvé
+ * et on supprime les doublons dans les autres activités + les items génériques des sections core
+ */
+function deduplicateCrossSections(
+  sections: GeneratedChecklistSection[]
+): GeneratedChecklistSection[] {
+  // 1. Collecter tous les mots-clés des items d'activités et identifier le premier de chaque type
+  const activityKeywords = new Map<string, { item: ChecklistItem; sectionId: string; sectionName: string }>();
+
+  sections
+    .filter(s => s.source === 'activite')
+    .forEach(section => {
+      section.items.forEach(item => {
+        const key = extractDeduplicationKey(item.item);
+        if (key) {
+          // Garder seulement le premier item trouvé pour chaque clé
+          if (!activityKeywords.has(key)) {
+            activityKeywords.set(key, { item, sectionId: section.id, sectionName: section.nom });
+          }
+        }
+      });
+    });
+
+  // 2. Parcourir toutes les sections et filtrer les doublons
+  return sections.map(section => {
+    // Pour les sections core : supprimer les items qui ont un équivalent dans une activité
+    if (section.source !== 'activite') {
+      const filteredItems = section.items.filter(item => {
+        const key = extractDeduplicationKey(item.item);
+        // Supprimer si un item d'activité existe avec la même clé
+        if (key && activityKeywords.has(key)) {
+          return false;
+        }
+        return true;
+      });
+
+      return {
+        ...section,
+        items: filteredItems
+      };
+    }
+
+    // Pour les sections d'activités : ne garder l'item que dans la première activité qui l'a
+    const filteredItems = section.items.filter(item => {
+      const key = extractDeduplicationKey(item.item);
+      if (key && activityKeywords.has(key)) {
+        const firstOccurrence = activityKeywords.get(key)!;
+        // Garder l'item seulement si c'est la première section qui l'a
+        return firstOccurrence.sectionId === section.id;
+      }
+      // Si pas de clé de déduplication, garder l'item
+      return true;
+    });
+
+    return {
+      ...section,
+      items: filteredItems
+    };
+  });
+}
 
 /**
  * Supprime tous les doublons dans chaque section
