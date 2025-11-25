@@ -1471,11 +1471,18 @@
             "conseils": "Simple, efficace. Budget quotidien. Graphiques. Pas connexion requise"
           },
           {
-            "nom": "Splitwise",
-            "usage": "Partage frais groupes",
-            "prix": "Gratuit",
-            "priorite": "⭐⭐",
-            "conseils": "Voyages groupes/couples. Calcul automatique dettes. Multidevises"
+              "nom": "Splitwise",
+              "usage": "Partage frais groupes",
+              "prix": "Gratuit",
+              "priorite": "⭐⭐",
+              "conseils": "Voyages groupes/couples. Calcul automatique dettes. Multidevises"
+          },
+          {
+            "nom": "AwardWallet",
+            "usage": "Gestion programmes fidélité",
+            "prix": "Gratuit (premium dispo)",
+            "priorite": "⭐",
+            "conseils": "Idéal si tu accumules miles/points. Suivi centralisé vols, hôtels, statuts & expirations."
           },
           {
             "nom": "XE Currency",
