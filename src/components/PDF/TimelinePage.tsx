@@ -381,6 +381,9 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
       return indexA - indexB;
     });
 
+    // Helper pour afficher le libellé du moment
+    const getMomentLabel = (m: string) => m === 'Après' ? 'Après le voyage' : m;
+
     return (
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Sur place & Retour</Text>
@@ -389,7 +392,7 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
           return (
             <View key={moment}>
               <Text style={{ fontSize: 10, fontWeight: 600, color: '#E85D2A', marginTop: 8, marginBottom: 4, marginLeft: 5 }}>
-                {cleanTextForPDF(moment)}
+                {cleanTextForPDF(getMomentLabel(moment))}
               </Text>
               {momentItems.map((item, index) => {
                 const shouldShowConseil = isDetailed && item.conseils;

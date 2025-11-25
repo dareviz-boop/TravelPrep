@@ -8,6 +8,7 @@ import { getClimatEquipment, ChecklistSection, DestinationSpecifiqueItem } from 
 import activitesData from '@/data/checklist_activites.json';
 import checklistData from '@/data/checklistComplete.json';
 import coreSectionsData from '@/data/checklist_core_sections.json';
+import profilVoyageursData from '@/data/checklist_profil_voyageurs.json';
 
 // ==========================================
 // TYPES
@@ -39,6 +40,24 @@ function mapStarsToPriority(stars: string): string {
   if (starCount >= 3) return 'haute';
   if (starCount === 2) return 'moyenne';
   return 'basse';
+}
+
+/**
+ * Normalise un âge enfant pour la comparaison
+ * Enlève le suffixe "-ans" si présent
+ * Ex: "0-2-ans" -> "0-2", "3-5-ans" -> "3-5"
+ */
+function normalizeAge(age: string): string {
+  return age.replace(/-ans$/, '');
+}
+
+/**
+ * Vérifie si un âge enfant du formulaire correspond à un filtre âge
+ * @param formAge - Âge du formulaire (ex: "0-2-ans")
+ * @param filterAge - Âge du filtre JSON (ex: "0-2")
+ */
+function ageMatches(formAge: string, filterAge: string): boolean {
+  return normalizeAge(formAge) === filterAge;
 }
 
 /**
@@ -197,17 +216,21 @@ export function generateCompleteChecklist(formData: FormData): GeneratedChecklis
   const activitesSections = getActivitesSections(formData);
   sections.push(...activitesSections);
 
-  // === 4. FILTRER SELON PROFIL/CONFORT/DURÉE ===
+  // === 4. ITEMS PAR PROFIL VOYAGEUR (solo, couple, famille avec âges, groupe, professionnel) ===
+  const profilVoyageursSections = getProfilVoyageursSections(formData);
+  sections.push(...profilVoyageursSections);
+
+  // === 5. FILTRER SELON PROFIL/CONFORT/DURÉE ===
   const filteredSections = filterByProfile(sections, formData);
 
-  // === 5. DÉDUPLICATION CROSS-SECTIONS (activités vs core) ===
+  // === 6. DÉDUPLICATION CROSS-SECTIONS (activités vs core) ===
   // Supprime les items génériques des sections core quand un item spécifique existe dans une activité
   const crossDedupedSections = deduplicateCrossSections(filteredSections);
 
-  // === 6. DÉDUPLIQUER LES ITEMS DANS CHAQUE SECTION ===
+  // === 7. DÉDUPLIQUER LES ITEMS DANS CHAQUE SECTION ===
   const dedupedSections = deduplicateSections(crossDedupedSections);
 
-  // === 7. CONSTRUIRE L'OBJET FINAL ===
+  // === 8. CONSTRUIRE L'OBJET FINAL ===
   const checklist: GeneratedChecklist = {
     metadata: {
       nomVoyage: formData.nomVoyage,
@@ -331,9 +354,10 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
           }
 
           // Filtre âge enfants (pour profil famille)
+          // Note: Les filtres utilisent "0-2", le formulaire utilise "0-2-ans"
           if (item.filtres?.ageEnfants && item.filtres.ageEnfants.length > 0) {
-            const hasMatchingAge = item.filtres.ageEnfants.some((age: string) =>
-              formData.agesEnfants?.includes(age)
+            const hasMatchingAge = item.filtres.ageEnfants.some((filterAge: string) =>
+              formData.agesEnfants?.some(formAge => ageMatches(formAge, filterAge))
             );
             if (!hasMatchingAge) {
               return false;
@@ -441,6 +465,72 @@ function getActivitesSections(formData: FormData): GeneratedChecklistSection[] {
         conseils: `Équipements spécifiques pour ${activity.nom}`
       });
     }
+  });
+
+  return sections;
+}
+
+// ==========================================
+// SECTIONS : PROFIL VOYAGEURS
+// ==========================================
+
+/**
+ * Charge les sections spécifiques au profil du voyageur (solo, couple, famille, groupe, professionnel)
+ * Pour le profil famille, filtre également selon les âges des enfants
+ */
+function getProfilVoyageursSections(formData: FormData): GeneratedChecklistSection[] {
+  const sections: GeneratedChecklistSection[] = [];
+  const profil = formData.profil;
+
+  // Mapping des profils vers les clés des sections dans le JSON
+  const profilMapping: { [key: string]: string[] } = {
+    'solo': ['voyageSolo'],
+    'couple': ['voyageCouple'],
+    'groupe': ['voyageGroupeAmis'],
+    'pro': ['voyageProfessionnel'],
+    'famille': ['voyageFamilleBebe', 'voyageFamilleEnfant3a5', 'voyageFamilleEnfant6a12', 'voyageFamilleAdo13plus']
+  };
+
+  const sectionKeys = profilMapping[profil] || [];
+
+  sectionKeys.forEach(sectionKey => {
+    const sectionData = (profilVoyageursData as any)[sectionKey];
+    if (!sectionData || !sectionData.items || sectionData.items.length === 0) return;
+
+    // Pour le profil famille, vérifier les filtres d'âge
+    if (profil === 'famille') {
+      const filtres = sectionData.filtres;
+      if (filtres?.ageEnfants && filtres.ageEnfants.length > 0) {
+        // Vérifier si au moins un âge du formulaire correspond aux filtres de cette section
+        const hasMatchingAge = filtres.ageEnfants.some((filterAge: string) =>
+          formData.agesEnfants?.some(formAge => ageMatches(formAge, filterAge))
+        );
+
+        // Si aucun âge ne correspond, ne pas inclure cette section
+        if (!hasMatchingAge) return;
+      }
+    }
+
+    // Mapper les items avec conversion de priorité
+    const mappedItems: ChecklistItem[] = sectionData.items.map((item: any) => ({
+      id: item.id,
+      item: item.item,
+      priorite: mapStarsToPriority(item.priorite || '⭐⭐'),
+      delai: item.delai || 'J-7',
+      quantite: item.quantite,
+      specifications: item.specifications,
+      conseils: item.conseils || ''
+    }));
+
+    sections.push({
+      id: sectionKey,
+      nom: `👨‍👩‍👧‍👦 ${sectionData.description || 'Items profil voyageur'}`,
+      emoji: '👤',
+      items: mappedItems,
+      source: 'core',
+      category: 'interesting',
+      conseils: sectionData.description || ''
+    });
   });
 
   return sections;
