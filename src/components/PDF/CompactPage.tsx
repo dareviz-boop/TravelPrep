@@ -401,13 +401,31 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
             );
           }
 
+          // Grouper titre + 3 premiers items pour éviter coupures
+          const firstItems = items.slice(0, 3);
+          const restItems = items.slice(3);
+
           return (
-            <View key={sectionId} style={styles.categoryGroup}>
-              <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
-              {items.map((item, idx) => {
+            <View key={sectionId}>
+              {/* Titre + 3 premiers items ensemble */}
+              <View style={styles.categoryHeaderGroup}>
+                <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+                {firstItems.map((item, idx) => {
+                  const priority = getPriority(item.priorite);
+                  return (
+                    <View style={styles.item} key={item.id || `item-${idx}`}>
+                      {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                      <View style={styles.checkbox} />
+                      <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                    </View>
+                  );
+                })}
+              </View>
+              {/* Items restants */}
+              {restItems.map((item, idx) => {
                 const priority = getPriority(item.priorite);
                 return (
-                  <View style={styles.item} key={item.id || `item-${idx}`}>
+                  <View style={styles.item} key={item.id || `rest-${idx}`}>
                     {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
                     <View style={styles.checkbox} />
                     <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
@@ -521,13 +539,31 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
       <>
         {sortedMoments.map(moment => {
           const momentItems = itemsByMoment[moment];
+          // Grouper titre + 3 premiers items pour éviter coupures
+          const firstItems = momentItems.slice(0, 3);
+          const restItems = momentItems.slice(3);
+
           return (
-            <View key={moment} style={styles.categoryGroup}>
-              <Text style={styles.subCategoryTitle}>{cleanTextForPDF(getMomentLabel(moment))}</Text>
-              {momentItems.map((item, idx) => {
+            <View key={moment}>
+              {/* Titre + 3 premiers items ensemble */}
+              <View style={styles.categoryHeaderGroup}>
+                <Text style={styles.subCategoryTitle}>{cleanTextForPDF(getMomentLabel(moment))}</Text>
+                {firstItems.map((item, idx) => {
+                  const priority = getPriority(item.priorite);
+                  return (
+                    <View style={styles.item} key={item.id || `moment-${idx}`}>
+                      {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                      <View style={styles.checkbox} />
+                      <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                    </View>
+                  );
+                })}
+              </View>
+              {/* Items restants */}
+              {restItems.map((item, idx) => {
                 const priority = getPriority(item.priorite);
                 return (
-                  <View style={styles.item} key={item.id || `moment-${idx}`}>
+                  <View style={styles.item} key={item.id || `rest-${idx}`}>
                     {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
                     <View style={styles.checkbox} />
                     <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
@@ -562,13 +598,31 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
         {activitySections.map(section => {
           if (!section.items || section.items.length === 0) return null;
 
+          // Grouper titre + 3 premiers items pour éviter coupures
+          const firstItems = section.items.slice(0, 3);
+          const restItems = section.items.slice(3);
+
           return (
-            <View key={section.id} style={styles.categoryGroup}>
-              <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
-              {section.items.map((item, idx) => {
+            <View key={section.id}>
+              {/* Titre + 3 premiers items ensemble */}
+              <View style={styles.categoryHeaderGroup}>
+                <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+                {firstItems.map((item, idx) => {
+                  const priority = getPriority(item.priorite);
+                  return (
+                    <View style={styles.item} key={item.id || `activity-${idx}`}>
+                      {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                      <View style={styles.checkbox} />
+                      <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                    </View>
+                  );
+                })}
+              </View>
+              {/* Items restants */}
+              {restItems.map((item, idx) => {
                 const priority = getPriority(item.priorite);
                 return (
-                  <View style={styles.item} key={item.id || `activity-${idx}`}>
+                  <View style={styles.item} key={item.id || `rest-${idx}`}>
                     {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
                     <View style={styles.checkbox} />
                     <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
