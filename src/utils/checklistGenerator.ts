@@ -629,10 +629,23 @@ const DEDUP_KEYWORDS: { [key: string]: string[] } = {
   'velo': ['velo', 'bike', 'cyclisme', 'bicyclette', 'sacoche velo'],
   'escalade': ['escalade', 'climbing', 'baudrier', 'harnais', 'corde escalade'],
   'surf': ['surf', 'bodyboard', 'planche'],
+  'casque_protection': ['casque ski', 'casque velo', 'casque certifie', 'en 1077', 'en 1078'],
+  'batons_marche': ['batons', 'baton marche', 'batons telescopiques', 'trekking poles'],
+  'guetres': ['guetres', 'guetre', 'gaiters'],
 
   // === ALIMENTATION ===
   'snacks': ['snacks', 'barres', 'cereales', 'fruits secs', 'encas', 'nourriture'],
-  'gels': ['gels', 'energie', 'electrolytes', 'boisson isotonique']
+  'gels': ['gels', 'energie', 'electrolytes', 'boisson isotonique'],
+  'glaciere': ['glaciere', 'cooler', 'isotherme box', 'frigo portable'],
+
+  // === DIVERS MANQUANTS ===
+  'sac_shopping': ['sac shopping', 'tote bag', 'sac courses', 'sac pliable reutilisable'],
+  'sim_esim': ['carte sim', 'esim', 'sim locale', 'sim internationale'],
+  'lingettes': ['lingettes', 'wipes', 'lingette humide', 'lingette nettoyante'],
+  'disque_dur': ['disque dur', 'ssd', 'stockage externe', 'hard drive'],
+  'ordinateur': ['ordinateur portable', 'laptop', 'pc portable', 'macbook'],
+  'kit_reparation': ['kit reparation', 'rustine', 'kit crevaison', 'kit urgence'],
+  'polaire': ['polaire', 'fleece', 'couverture polaire', 'plaid polaire']
 };
 
 /**
