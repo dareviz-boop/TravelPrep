@@ -54,6 +54,49 @@ interface ProfilVoyageursData {
   [key: string]: ProfilVoyageurSection;
 }
 
+// Type pour une app dans la section apps
+interface AppItem {
+  nom: string;
+  usage: string;
+  prix: string;
+  priorite?: string;
+  conseils?: string;
+}
+
+// Type pour une catégorie d'apps
+interface AppCategory {
+  nom: string;
+  apps: AppItem[];
+}
+
+// Type pour une section core (documents, santé, etc.)
+interface CoreSection {
+  id: string;
+  nom: string;
+  description?: string;
+  obligatoire?: boolean;
+  note?: string;
+  items?: RawChecklistItem[];
+  categories?: { [key: string]: AppCategory };
+}
+
+// Type pour le fichier JSON core sections
+interface CoreSectionsData {
+  [key: string]: CoreSection;
+}
+
+// Type pour une activité
+interface ActivityData {
+  activity_id: string;
+  nom: string;
+  items: RawChecklistItem[];
+}
+
+// Type pour le fichier JSON activités
+interface ActivitesData {
+  activites: ActivityData[];
+}
+
 export interface ChecklistItem {
   id?: string;
   item: string;
@@ -316,7 +359,7 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
     // Ignorer metadata et sections vides
     if (sectionKey === 'metadata') return;
 
-    const section = (coreSectionsData as any)[sectionKey];
+    const section = (coreSectionsData as CoreSectionsData)[sectionKey];
 
     // === TRAITEMENT SPÉCIAL POUR LA SECTION "apps" ===
     if (sectionKey === 'apps' && section.categories) {
@@ -329,9 +372,9 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
         // Convertir les categories en items
         const appItems: ChecklistItem[] = [];
 
-        Object.entries(section.categories).forEach(([categoryKey, categoryData]: [string, any]) => {
+        Object.entries(section.categories).forEach(([categoryKey, categoryData]: [string, AppCategory]) => {
           if (categoryData.apps && Array.isArray(categoryData.apps)) {
-            categoryData.apps.forEach((app: any, index: number) => {
+            categoryData.apps.forEach((app: AppItem, index: number) => {
               appItems.push({
                 id: `APP-${categoryKey}-${index}`,
                 item: `${categoryData.nom}: ${app.nom}`,
@@ -368,7 +411,7 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
 
       if (shouldInclude) {
         // Filtrer les items selon leurs filtres
-        const filteredItems = section.items.filter((item: any) => {
+        const filteredItems = section.items.filter((item: RawChecklistItem) => {
           // Filtre typeVoyageur (Solo, Couple, Groupe, Famille, Pro)
           if (item.filtres?.typeVoyageur) {
             if (!item.filtres.typeVoyageur.includes(formData.profil)) {
@@ -429,7 +472,7 @@ function getCoreSections(formData: FormData): GeneratedChecklistSection[] {
         });
 
         // Mapper les items filtrés avec conversion de priorité
-        const mappedItems: ChecklistItem[] = filteredItems.map((item: any) => ({
+        const mappedItems: ChecklistItem[] = filteredItems.map((item: RawChecklistItem) => ({
           id: item.id,
           item: item.item,
           priorite: mapStarsToPriority(item.priorite || '⭐⭐'),
@@ -466,11 +509,11 @@ function getActivitesSections(formData: FormData): GeneratedChecklistSection[] {
   const sections: GeneratedChecklistSection[] = [];
 
   formData.activites.forEach(activityId => {
-    const activity = activitesData.activites.find((a: any) => a.activity_id === activityId);
+    const activity = (activitesData as ActivitesData).activites.find((a: ActivityData) => a.activity_id === activityId);
 
     if (activity) {
       // Filtrer les items selon destination/durée si filtres présents
-      const filteredItems = activity.items.filter((item: any) => {
+      const filteredItems = activity.items.filter((item: RawChecklistItem) => {
         // Si l'item a des filtres destinations
         if (item.filtres?.destinations) {
           if (!item.filtres.destinations.includes(formData.localisation)) {
