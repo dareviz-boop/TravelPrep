@@ -88,18 +88,31 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingLeft: 6
   },
-  // Encart daté avec barre orange à droite (UNIQUEMENT pour essentiels)
-  datedBox: {
-    marginBottom: 6,
-    paddingRight: 10,
-    paddingBottom: 6,
-    borderRight: '4px solid #E85D2A',
+  // Encart daté avec fond gris et date à droite
+  datedBoxContainer: {
+    flexDirection: 'row',
+    marginBottom: 8,
+    backgroundColor: '#f5f5f5',
+    padding: 6,
+    paddingRight: 8,
+    borderRadius: 2,
     breakInside: 'avoid' as any
+  },
+  // Colonne gauche : items
+  datedBoxItems: {
+    flex: 1,
+    paddingRight: 8
+  },
+  // Colonne droite : date alignée en haut
+  datedBoxDateColumn: {
+    width: 75,
+    alignItems: 'flex-end',
+    justifyContent: 'flex-start',
+    paddingTop: 2
   },
   dateLabel: {
     fontSize: 8,
     color: '#6b7280',
-    marginBottom: 4,
     fontWeight: 600,
     textAlign: 'right'
   },
@@ -107,7 +120,6 @@ const styles = StyleSheet.create({
   itemWithConseil: {
     flexDirection: 'column',
     marginBottom: 6,
-    paddingLeft: 5,
     breakInside: 'avoid' as any
   },
   itemRow: {
@@ -118,7 +130,6 @@ const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
     marginBottom: 4,
-    paddingLeft: 5,
     breakInside: 'avoid' as any
   },
   checkbox: {
@@ -134,11 +145,12 @@ const styles = StyleSheet.create({
     color: '#374151',
     lineHeight: 1.4
   },
+  // Conseil sans indentation, démarre sous la checkbox
   conseilContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginLeft: 18,
-    marginTop: 1
+    marginTop: 1,
+    paddingLeft: 16 // Aligné avec le texte après la checkbox (8px checkbox + 8px margin)
   },
   conseilText: {
     fontSize: 9,
@@ -310,7 +322,7 @@ export const DetailedSectionsPage = ({
     );
   };
 
-  // Rendre une période de timeline pour les ESSENTIELS (avec dates et trait orange)
+  // Rendre une période de timeline pour les ESSENTIELS (avec dates et fond gris)
   const renderTimelinePeriodForEssentials = (items: ItemWithSection[], title: string) => {
     if (items.length === 0) return null;
 
@@ -327,7 +339,7 @@ export const DetailedSectionsPage = ({
     return (
       <View style={styles.timelineBlock} key={title}>
         <Text style={styles.timelineHeader}>{cleanTextForPDF(title)}</Text>
-        {Object.entries(itemsByCategory).map(([categoryName, categoryItems], catIdx) => {
+        {Object.entries(itemsByCategory).map(([categoryName, categoryItems]) => {
           const sortedItems = sortItemsByDelay(categoryItems);
 
           // Grouper par date précise
@@ -346,35 +358,32 @@ export const DetailedSectionsPage = ({
 
           return (
             <View key={categoryName}>
-              {dateEntries.map(([deadline, dateItems], dateIdx) => {
-                const isFirstDate = dateIdx === 0;
-                const firstItems = dateItems.slice(0, 3);
-                const remainingItems = dateItems.slice(3);
+              {/* Afficher le titre de catégorie une seule fois */}
+              <Text style={styles.categoryTitle}>{cleanTextForPDF(categoryName)}</Text>
 
-                return (
-                  <View key={`${categoryName}-${deadline}`}>
-                    {/* Groupe titre (si première date) + date + 3 premiers items pour éviter orphelins */}
-                    <View
-                      style={deadline !== 'no-date' ? styles.datedBox : {}}
-                      wrap={false}
-                    >
-                      {/* Afficher le titre de catégorie seulement pour la première date */}
-                      {isFirstDate && (
-                        <Text style={styles.categoryTitle}>{cleanTextForPDF(categoryName)}</Text>
-                      )}
-                      {deadline !== 'no-date' && (
-                        <Text style={styles.dateLabel}>{deadline}</Text>
-                      )}
-                      {firstItems.map((item, idx) => renderItem(item, idx, false))}
-                    </View>
-                    {/* Reste des items - peuvent se découper naturellement */}
-                    {remainingItems.length > 0 && (
-                      <View style={deadline !== 'no-date' ? styles.datedBox : {}}>
-                        {remainingItems.map((item, idx) => renderItem(item, idx + firstItems.length, false))}
+              {dateEntries.map(([deadline, dateItems]) => {
+                // Structure: fond gris avec items à gauche, date à droite alignée avec le premier élément
+                if (deadline !== 'no-date') {
+                  return (
+                    <View key={`${categoryName}-${deadline}`} style={styles.datedBoxContainer} wrap={false}>
+                      {/* Colonne gauche: tous les items */}
+                      <View style={styles.datedBoxItems}>
+                        {dateItems.map((item, idx) => renderItem(item, idx, false))}
                       </View>
-                    )}
-                  </View>
-                );
+                      {/* Colonne droite: date alignée en haut */}
+                      <View style={styles.datedBoxDateColumn}>
+                        <Text style={styles.dateLabel}>{deadline}</Text>
+                      </View>
+                    </View>
+                  );
+                } else {
+                  // Items sans date
+                  return (
+                    <View key={`${categoryName}-${deadline}`}>
+                      {dateItems.map((item, idx) => renderItem(item, idx, false))}
+                    </View>
+                  );
+                }
               })}
             </View>
           );
