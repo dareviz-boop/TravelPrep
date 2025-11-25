@@ -578,8 +578,9 @@ const DEDUP_KEYWORDS: { [key: string]: string[] } = {
   // === SANTÉ / PHARMACIE ===
   // NE PAS regrouper les médicaments différents !
   'trousse_secours': ['trousse secours', 'trousse premiers soins', 'kit premiers secours'],
-  'pansements': ['pansements assortiment', 'pansements varies'],
-  'antiseptique': ['antiseptique spray', 'desinfectant plaie'],
+  // Pansements et antiseptique : items génériques OK à dédupliquer
+  'pansements': ['pansements varies', 'pansements assortiment'],
+  'antiseptique': ['antiseptique', 'desinfectant'],
 
   // === DOCUMENTS ===
   'copies_documents': ['copies documents', 'photocopies documents'],
@@ -589,7 +590,8 @@ const DEDUP_KEYWORDS: { [key: string]: string[] } = {
   'boussole': ['boussole', 'compass'],
   'couteau_multifonction': ['couteau multifonction', 'couteau suisse', 'leatherman'],
   'paracorde': ['paracorde', 'corde paracorde'],
-  'sifflet_urgence': ['sifflet survie', 'sifflet urgence'],
+  // Sifflet : tous les sifflets d'urgence/survie sont le même besoin
+  'sifflet_urgence': ['sifflet survie', 'sifflet 120db', 'sifflet urgence'],
   // Bouchons : NE PAS regrouper (natation ≠ sommeil ≠ concert)
   'masque_sommeil': ['masque sommeil', 'masque yeux'],
 
@@ -599,12 +601,13 @@ const DEDUP_KEYWORDS: { [key: string]: string[] } = {
   'carnet_notes_voyage': ['carnet notes voyage', 'journal voyage'],
 
   // === SNORKELING (items SÉPARÉS car différents) ===
-  'masque_snorkeling': ['masque snorkeling', 'masque plongee'],
-  'tuba': ['tuba snorkeling'],
-  'palmes': ['palmes snorkeling', 'palmes plongee'],
+  // Masque+tuba souvent ensemble, mais palmes séparées
+  'masque_tuba': ['masque + tuba', 'masque tuba'],
+  'palmes': ['palmes'],
 
   // === DIVERS ===
-  'sac_shopping': ['sac shopping pliable', 'tote bag pliable'],
+  // Sac shopping / tote bag : même besoin (sac courses pliable)
+  'sac_shopping': ['sac shopping', 'tote bag'],
   'carte_sim': ['carte sim locale', 'esim voyage'],
   'lingettes': ['lingettes humides', 'lingettes voyage'],
   'disque_dur': ['disque dur externe', 'ssd externe'],
