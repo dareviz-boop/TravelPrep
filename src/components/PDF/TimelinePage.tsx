@@ -90,17 +90,15 @@ const styles = StyleSheet.create({
   },
   item: {
     flexDirection: 'row',
-    marginBottom: 5,
-    paddingLeft: 5
+    marginBottom: 4
   },
   itemWithConseil: {
     flexDirection: 'column',
-    marginBottom: 12,
-    paddingLeft: 5
+    marginBottom: 8
   },
   itemRow: {
     flexDirection: 'row',
-    marginBottom: 3
+    marginBottom: 2
   },
   checkbox: {
     width: 8,
@@ -115,14 +113,15 @@ const styles = StyleSheet.create({
     color: '#374151',
     lineHeight: 1.4
   },
+  // Conseil sans indentation, démarre sous la checkbox
   conseilContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginLeft: 18,
-    marginTop: 3
+    marginTop: 1,
+    paddingLeft: 16 // Aligné avec le texte après la checkbox (8px checkbox + 8px margin)
   },
   conseilText: {
-    fontSize: 9, // ✅ Augmenté à 9 pour meilleure lisibilité à l'impression
+    fontSize: 9,
     color: '#616161',
     fontStyle: 'italic',
     lineHeight: 1.3,
@@ -145,6 +144,33 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     marginRight: 5,
     color: '#374151'
+  },
+  // Encart daté avec fond gris et date à droite
+  dateGroupContainer: {
+    flexDirection: 'row',
+    marginBottom: 8,
+    backgroundColor: '#f5f5f5',
+    padding: 6,
+    paddingRight: 8,
+    borderRadius: 2
+  },
+  // Colonne gauche : items
+  dateGroupItems: {
+    flex: 1,
+    paddingRight: 8
+  },
+  // Colonne droite : date alignée en haut
+  dateGroupDateColumn: {
+    width: 75,
+    alignItems: 'flex-end',
+    justifyContent: 'flex-start',
+    paddingTop: 2
+  },
+  dateLabel: {
+    fontSize: 8,
+    color: '#6b7280',
+    fontWeight: 600,
+    textAlign: 'right'
   },
   pageNumber: {
     position: 'absolute',
@@ -303,52 +329,94 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
               <Text style={categoryTitleStyle}>
                 {emoji} {cleanTextForPDF(categoryName)}
               </Text>
-              {Object.entries(itemsByDate).map(([deadline, dateItems]) => (
-                <View key={`${categoryName}-${deadline}`}>
-                  {/* Afficher la date une seule fois pour le groupe */}
-                  {deadline !== 'no-date' && (
-                    <Text style={{ fontSize: 8, color: '#6b7280', marginBottom: 4, marginLeft: 5, fontWeight: 600 }}>
-                      {deadline}
-                    </Text>
-                  )}
-                  {dateItems.map((item, index) => {
-                    // Vérifier si on doit afficher le conseil
-                    const shouldShowConseil = isDetailed && item.conseils && item.sectionSource !== 'activite';
+              {Object.entries(itemsByDate).map(([deadline, dateItems]) => {
+                // Structure: fond gris avec items à gauche, date à droite alignée avec le premier élément
+                if (deadline !== 'no-date') {
+                  return (
+                    <View key={`${categoryName}-${deadline}`} style={styles.dateGroupContainer}>
+                      {/* Colonne gauche: tous les items */}
+                      <View style={styles.dateGroupItems}>
+                        {dateItems.map((item, index) => {
+                          const shouldShowConseil = isDetailed && item.conseils && item.sectionSource !== 'activite';
 
-                    return shouldShowConseil ? (
-                      // Item avec conseil
-                      <View style={styles.itemWithConseil} key={`${item.id || index}-${item.item}`}>
-                        <View style={styles.itemRow}>
-                          {isHighPriority(item.priorite) && (
-                            <Text style={styles.prioritySymbol}>!!</Text>
-                          )}
-                          <View style={styles.checkbox} />
-                          <Text style={styles.itemText}>
-                            {cleanTextForPDF(item.item)}
-                          </Text>
-                        </View>
-                        <View style={styles.conseilContainer}>
-                          <PDFIcon name="lightbulb" style={{ marginRight: 4, marginTop: 1 }} />
-                          <Text style={styles.conseilText}>
-                            {cleanTextForPDF(item.conseils)}
-                          </Text>
-                        </View>
+                          return shouldShowConseil ? (
+                            <View style={styles.itemWithConseil} key={`${item.id || index}-${item.item}`}>
+                              <View style={styles.itemRow}>
+                                {isHighPriority(item.priorite) && (
+                                  <Text style={styles.prioritySymbol}>!!</Text>
+                                )}
+                                <View style={styles.checkbox} />
+                                <Text style={styles.itemText}>
+                                  {cleanTextForPDF(item.item)}
+                                </Text>
+                              </View>
+                              <View style={styles.conseilContainer}>
+                                <PDFIcon name="lightbulb" style={{ marginRight: 4, marginTop: 1 }} />
+                                <Text style={styles.conseilText}>
+                                  {cleanTextForPDF(item.conseils)}
+                                </Text>
+                              </View>
+                            </View>
+                          ) : (
+                            <View style={styles.item} key={`${item.id || index}-${item.item}`}>
+                              {isHighPriority(item.priorite) && (
+                                <Text style={styles.prioritySymbol}>!!</Text>
+                              )}
+                              <View style={styles.checkbox} />
+                              <Text style={styles.itemText}>
+                                {cleanTextForPDF(item.item)}
+                              </Text>
+                            </View>
+                          );
+                        })}
                       </View>
-                    ) : (
-                      // Item sans conseil
-                      <View style={styles.item} key={`${item.id || index}-${item.item}`}>
-                        {isHighPriority(item.priorite) && (
-                          <Text style={styles.prioritySymbol}>!!</Text>
-                        )}
-                        <View style={styles.checkbox} />
-                        <Text style={styles.itemText}>
-                          {cleanTextForPDF(item.item)}
-                        </Text>
+                      {/* Colonne droite: date alignée en haut */}
+                      <View style={styles.dateGroupDateColumn}>
+                        <Text style={styles.dateLabel}>{deadline}</Text>
                       </View>
-                    );
-                  })}
-                </View>
-              ))}
+                    </View>
+                  );
+                } else {
+                  // Items sans date
+                  return (
+                    <View key={`${categoryName}-${deadline}`}>
+                      {dateItems.map((item, index) => {
+                        const shouldShowConseil = isDetailed && item.conseils && item.sectionSource !== 'activite';
+
+                        return shouldShowConseil ? (
+                          <View style={styles.itemWithConseil} key={`${item.id || index}-${item.item}`}>
+                            <View style={styles.itemRow}>
+                              {isHighPriority(item.priorite) && (
+                                <Text style={styles.prioritySymbol}>!!</Text>
+                              )}
+                              <View style={styles.checkbox} />
+                              <Text style={styles.itemText}>
+                                {cleanTextForPDF(item.item)}
+                              </Text>
+                            </View>
+                            <View style={styles.conseilContainer}>
+                              <PDFIcon name="lightbulb" style={{ marginRight: 4, marginTop: 1 }} />
+                              <Text style={styles.conseilText}>
+                                {cleanTextForPDF(item.conseils)}
+                              </Text>
+                            </View>
+                          </View>
+                        ) : (
+                          <View style={styles.item} key={`${item.id || index}-${item.item}`}>
+                            {isHighPriority(item.priorite) && (
+                              <Text style={styles.prioritySymbol}>!!</Text>
+                            )}
+                            <View style={styles.checkbox} />
+                            <Text style={styles.itemText}>
+                              {cleanTextForPDF(item.item)}
+                            </Text>
+                          </View>
+                        );
+                      })}
+                    </View>
+                  );
+                }
+              })}
             </View>
           );
         })}
