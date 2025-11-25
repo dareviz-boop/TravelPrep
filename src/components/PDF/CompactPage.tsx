@@ -274,15 +274,19 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
           const firstCategory = categoryEntries[0];
           const restCategories = categoryEntries.slice(1);
 
+          // Pour la première catégorie : séparer les 3 premiers items du reste
+          const firstCatFirstItems = firstCategory ? firstCategory[1].slice(0, 3) : [];
+          const firstCatRestItems = firstCategory ? firstCategory[1].slice(3) : [];
+
           return (
             <View key={milestone.id} style={styles.timelineBlock}>
-              {/* Header + première catégorie groupés pour éviter coupure */}
+              {/* Header + titre première catégorie + 3 premiers items groupés */}
               <View style={styles.timelineHeaderWrapper}>
                 <Text style={styles.timelineHeader}>{milestone.label}</Text>
                 {firstCategory && (
-                  <View style={styles.categoryGroup}>
+                  <View style={styles.categoryHeaderGroup}>
                     <Text style={styles.categoryTitle}>{firstCategory[0]}</Text>
-                    {firstCategory[1].map(({ item }, idx) => {
+                    {firstCatFirstItems.map(({ item }, idx) => {
                       const priority = getPriority(item.priorite);
                       return (
                         <View style={styles.item} key={item.id || `item-${idx}`}>
@@ -295,6 +299,18 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
                   </View>
                 )}
               </View>
+
+              {/* Items restants de la première catégorie */}
+              {firstCatRestItems.map(({ item }, idx) => {
+                const priority = getPriority(item.priorite);
+                return (
+                  <View style={styles.item} key={item.id || `first-rest-${idx}`}>
+                    {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                    <View style={styles.checkbox} />
+                    <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                  </View>
+                );
+              })}
 
               {/* Catégories restantes avec titre + 3 premiers items groupés */}
               {restCategories.map(([categoryName, categoryItems]) => {
