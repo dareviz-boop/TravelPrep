@@ -7,8 +7,23 @@
  * @author TravelPrep Team
  */
 
-import { FormData, Saison, Temperature } from '@/types/form';
+import { FormData, Saison, Temperature, Duree } from '@/types/form';
 import climatData from '@/data/checklist_climat_meteo.json';
+
+// ==========================================
+// CONSTANTES DE DURÉE EN JOURS
+// ==========================================
+
+/**
+ * Mapping des durées vers un nombre de jours estimé
+ * Utilisé pour calculer la plage de mois du voyage quand dateRetour n'est pas définie
+ */
+const DUREE_EN_JOURS: Record<Duree, number> = {
+  'court': 7,        // Court séjour : ~7 jours
+  'moyen': 18,       // Moyen : 8-29 jours → milieu ~18 jours
+  'long': 60,        // Long : 30-90 jours → milieu ~60 jours
+  'tres-long': 120   // Très long : >90 jours → estimation 120 jours (4 mois)
+};
 import {
   getCountryClimate,
   getRegionalClimate,
@@ -166,32 +181,36 @@ function detectHemisphere(
 }
 
 /**
- * Vérifie si une période correspond au mois de départ
+ * Vérifie si une période correspond aux mois du voyage
+ * Prend en compte toute la durée du voyage (dateRetour ou estimation via duree)
  * Avec fallback intelligent basé sur l'hémisphère
  */
 function matchesPeriode(
   periodes: Array<{ debut: number; fin: number; region?: string }>,
   dateDepart: string,
   localisation: string,
-  pays?: Array<{ code?: string; nom?: string }>
+  pays?: Array<{ code?: string; nom?: string }>,
+  dateRetour?: string,
+  duree?: Duree
 ): boolean {
   if (!periodes || periodes.length === 0) return true;
   if (!dateDepart) return true;
 
-  const month = new Date(dateDepart).getMonth() + 1; // 1-12
+  // Calculer tous les mois du voyage (utilise dateRetour ou estime à partir de duree)
+  const travelMonths = getTravelMonths(dateDepart, dateRetour, duree || 'moyen');
 
   return periodes.some((periode) => {
-    // Vérifier d'abord si le mois correspond
-    let monthMatches = false;
+    // Vérifier si AU MOINS UN mois du voyage correspond à la période
+    const monthMatches = travelMonths.some(month => {
+      // Gérer les périodes qui traversent l'année (ex: nov-avril = 11-4)
+      if (periode.debut > periode.fin) {
+        return month >= periode.debut || month <= periode.fin;
+      } else {
+        return month >= periode.debut && month <= periode.fin;
+      }
+    });
 
-    // Gérer les périodes qui traversent l'année (ex: nov-avril = 11-4)
-    if (periode.debut > periode.fin) {
-      monthMatches = month >= periode.debut || month <= periode.fin;
-    } else {
-      monthMatches = month >= periode.debut && month <= periode.fin;
-    }
-
-    // Si le mois ne correspond pas, on sort
+    // Si aucun mois ne correspond, on sort
     if (!monthMatches) return false;
 
     // Si pas de région spécifique, accepter
@@ -315,6 +334,66 @@ function deduplicateItems(items: string[]): string[] {
   return Array.from(new Set(items));
 }
 
+/**
+ * Calcule les mois couverts par le voyage
+ * Utilise dateRetour si disponible, sinon estime à partir de dateDepart + duree
+ *
+ * @param dateDepart - Date de départ (ISO string)
+ * @param dateRetour - Date de retour optionnelle (ISO string)
+ * @param duree - Durée estimée du voyage ('court', 'moyen', 'long', 'tres-long')
+ * @returns Array de numéros de mois (1-12) couverts par le voyage
+ */
+function getTravelMonths(
+  dateDepart: string | undefined,
+  dateRetour: string | undefined,
+  duree: Duree
+): number[] {
+  if (!dateDepart) return [];
+
+  const travelMonths: number[] = [];
+  const startDate = new Date(dateDepart);
+  const startMonth = startDate.getMonth() + 1; // 1-12
+
+  travelMonths.push(startMonth);
+
+  // Calculer la date de fin effective
+  let endDate: Date | null = null;
+
+  if (dateRetour) {
+    // Utiliser dateRetour si disponible
+    endDate = new Date(dateRetour);
+  } else if (duree) {
+    // Sinon, estimer la date de fin à partir de la durée
+    const joursEstimes = DUREE_EN_JOURS[duree] || DUREE_EN_JOURS['moyen'];
+    endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + joursEstimes);
+  }
+
+  // Si on a une date de fin, ajouter tous les mois intermédiaires
+  if (endDate) {
+    const endMonth = endDate.getMonth() + 1;
+
+    // Ajouter le mois de fin s'il est différent
+    if (!travelMonths.includes(endMonth)) {
+      travelMonths.push(endMonth);
+    }
+
+    // Puis ajouter tous les mois intermédiaires
+    let currentMonth = startMonth;
+    while (currentMonth !== endMonth) {
+      currentMonth++;
+      if (currentMonth > 12) currentMonth = 1;
+      if (!travelMonths.includes(currentMonth)) {
+        travelMonths.push(currentMonth);
+      }
+      // Sécurité: max 12 itérations
+      if (travelMonths.length > 12) break;
+    }
+  }
+
+  return travelMonths;
+}
+
 // ==========================================
 // FONCTION PRINCIPALE : FILTRAGE CLIMAT
 // ==========================================
@@ -350,12 +429,14 @@ export function getClimatEquipment(formData: FormData): ChecklistSection[] {
       formData.localisation
     );
 
-    // 2. Filtre période
+    // 2. Filtre période (prend en compte toute la durée du voyage)
     const matchesPeriod = matchesPeriode(
       condition.filtres?.periode || [],
       formData.dateDepart,
       formData.localisation,
-      formData.pays
+      formData.pays,
+      formData.dateRetour,
+      formData.duree
     );
 
     // 3. Filtre activités
@@ -430,35 +511,8 @@ export function autoDetectSeasons(formData: FormData): Saison[] {
 
   const seasons: Set<string> = new Set();
 
-  // Collecter les mois du voyage
-  const travelMonths: number[] = [];
-  const startDate = new Date(formData.dateDepart);
-  const startMonth = startDate.getMonth() + 1; // 1-12
-
-  travelMonths.push(startMonth);
-
-  // Si date de retour définie, ajouter tous les mois intermédiaires ET le mois de fin
-  if (formData.dateRetour) {
-    const endDate = new Date(formData.dateRetour);
-    const endMonth = endDate.getMonth() + 1;
-
-    // Ajouter le mois de fin d'abord
-    if (!travelMonths.includes(endMonth)) {
-      travelMonths.push(endMonth);
-    }
-
-    // Puis ajouter tous les mois intermédiaires
-    let currentMonth = startMonth;
-    while (currentMonth !== endMonth) {
-      currentMonth++;
-      if (currentMonth > 12) currentMonth = 1;
-      if (!travelMonths.includes(currentMonth)) {
-        travelMonths.push(currentMonth);
-      }
-      // Sécurité: max 12 itérations
-      if (travelMonths.length > 12) break;
-    }
-  }
+  // Collecter les mois du voyage (utilise dateRetour ou estime à partir de duree)
+  const travelMonths = getTravelMonths(formData.dateDepart, formData.dateRetour, formData.duree);
 
   // === STRATÉGIE 1: PAYS SPÉCIFIQUES (données précises) ===
   if (formData.pays && formData.pays.length > 0) {
@@ -539,35 +593,8 @@ export function autoDetectTemperatures(formData: FormData): Temperature[] {
 
   const temperatures: Set<string> = new Set();
 
-  // Collecter les mois du voyage
-  const travelMonths: number[] = [];
-  const startDate = new Date(formData.dateDepart);
-  const startMonth = startDate.getMonth() + 1; // 1-12
-
-  travelMonths.push(startMonth);
-
-  // Si date de retour définie, ajouter tous les mois intermédiaires ET le mois de fin
-  if (formData.dateRetour) {
-    const endDate = new Date(formData.dateRetour);
-    const endMonth = endDate.getMonth() + 1;
-
-    // Ajouter le mois de fin d'abord
-    if (!travelMonths.includes(endMonth)) {
-      travelMonths.push(endMonth);
-    }
-
-    // Puis ajouter tous les mois intermédiaires
-    let currentMonth = startMonth;
-    while (currentMonth !== endMonth) {
-      currentMonth++;
-      if (currentMonth > 12) currentMonth = 1;
-      if (!travelMonths.includes(currentMonth)) {
-        travelMonths.push(currentMonth);
-      }
-      // Sécurité: max 12 itérations
-      if (travelMonths.length > 12) break;
-    }
-  }
+  // Collecter les mois du voyage (utilise dateRetour ou estime à partir de duree)
+  const travelMonths = getTravelMonths(formData.dateDepart, formData.dateRetour, formData.duree);
 
   // Mapper les mois aux propriétés de avgTemp
   const monthKeys = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
@@ -652,7 +679,28 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
     ? formData.saison
     : [formData.saison];
 
-  const month = formData.dateDepart ? new Date(formData.dateDepart).getMonth() + 1 : 0;
+  // Collecter tous les mois du voyage (utilise dateRetour ou estime à partir de duree)
+  const travelMonths = getTravelMonths(formData.dateDepart, formData.dateRetour, formData.duree);
+
+  // Helper: vérifie si au moins un mois du voyage est dans une plage [start, end]
+  // Gère les plages qui traversent l'année (ex: novembre-mars = 11 à 3)
+  const anyMonthInRange = (start: number, end: number): boolean => {
+    if (travelMonths.length === 0) return false;
+    return travelMonths.some(m => {
+      if (start <= end) {
+        return m >= start && m <= end;
+      } else {
+        // Plage traversant l'année (ex: 11-3 = nov-mars)
+        return m >= start || m <= end;
+      }
+    });
+  };
+
+  // Helper: vérifie si au moins un mois du voyage est dans un tableau de mois
+  const anyMonthIn = (months: number[]): boolean => {
+    if (travelMonths.length === 0) return false;
+    return travelMonths.some(m => months.includes(m));
+  };
 
   // === PARTIE 1: LOGIQUE CONTEXTUELLE INTELLIGENTE (PRIORITAIRE) ===
 
@@ -683,7 +731,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
 
   if (isSETropical) {
     // Mousson (mai-octobre)
-    if (month >= 5 && month <= 10) {
+    if (anyMonthInRange(5, 10)) {
       addSuggestion('climat_mousson', 'Saison des pluies en Asie du Sud-Est (mai-octobre)', 'haute');
       addSuggestion('climat_tropical_humide', 'Climat tropical avec forte humidité', 'haute');
       addSuggestion('climat_humidite', 'Humidité très élevée pendant la mousson', 'moyenne');
@@ -703,7 +751,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
     addSuggestion('climat_sec_aride', 'Climat désertique très sec', 'haute');
     if (temperatures.includes('chaleur-extreme')) {
       addSuggestion('climat_chaleur_extreme', 'Chaleur extrême >38°C en zones désertiques', 'haute');
-    } else if (month >= 5 && month <= 9 || temperatures.includes('tres-chaude')) {
+    } else if (anyMonthInRange(5, 9) || temperatures.includes('tres-chaude')) {
       addSuggestion('climat_canicule', 'Chaleur intense en période estivale', 'haute');
     }
   }
@@ -714,7 +762,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
     // Été austral : décembre, janvier, février
     if (temperatures.includes('chaleur-extreme')) {
       addSuggestion('climat_chaleur_extreme', 'Chaleur extrême dans les déserts australiens', 'haute');
-    } else if ((month >= 12 || month <= 2) || temperatures.includes('tres-chaude')) {
+    } else if (anyMonthInRange(12, 2) || temperatures.includes('tres-chaude')) {
       addSuggestion('climat_canicule', 'Vagues de chaleur fréquentes en été australien', 'haute');
     }
   }
@@ -726,7 +774,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   );
 
   if (isCold) {
-    if (month >= 11 || month <= 3 || saisons.includes('hiver')) {
+    if (anyMonthInRange(11, 3) || saisons.includes('hiver')) {
       // Pays polaires (GL, IS, FI, NO, SE, CA, RU) = froid intense
       const polarCountries = ['GL', 'IS', 'FI', 'NO', 'SE', 'CA', 'RU'];
       const isPolar = formData.pays?.some((p: any) =>
@@ -762,7 +810,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
     const inRegion = formData.pays?.some((p: any) =>
       region.countryCodes.includes(p.code?.toUpperCase())
     );
-    if (inRegion && region.months.includes(month)) {
+    if (inRegion && anyMonthIn(region.months)) {
       addSuggestion('climat_cyclones', 'Saison des cyclones/typhons/ouragans', 'haute');
     }
   });
@@ -856,7 +904,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
     harmattanCountries.includes(p.code?.toUpperCase())
   );
 
-  if (isHarmattanZone && (month >= 11 || month <= 3)) {
+  if (isHarmattanZone && anyMonthInRange(11, 3)) {
     addSuggestion('climat_harmattan', 'Vent de sable du Sahara (novembre-mars)', 'haute');
   }
 
@@ -1019,7 +1067,9 @@ export function acceptSuggestion(conditionId: string, formData: FormData): strin
     condition.filtres?.periode || [],
     formData.dateDepart,
     formData.localisation,
-    formData.pays
+    formData.pays,
+    formData.dateRetour,
+    formData.duree
   );
 
   const matchesAct = matchesActivites(
