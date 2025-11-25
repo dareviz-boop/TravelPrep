@@ -507,145 +507,105 @@ function getClimatItemsGroupedBySection(formData: FormData): Record<string, Chec
 // ==========================================
 
 /**
- * Mots-clés principaux pour identifier les catégories d'items similaires
+ * Mots-clés principaux pour identifier les items VRAIMENT IDENTIQUES
  * Utilisé pour la déduplication cross-sections
- * IMPORTANT: Liste exhaustive pour éviter les doublons
+ *
+ * IMPORTANT: Ne regrouper QUE les items interchangeables !
+ * - "Appareil photo" générique vs "Appareil photo compact" = MÊME CHOSE (dédupliquer)
+ * - "Casque vélo" vs "Casque ski" = DIFFÉRENT (ne PAS dédupliquer)
+ * - "Paracétamol" vs "Ibuprofène" = DIFFÉRENT (ne PAS dédupliquer)
  */
 const DEDUP_KEYWORDS: { [key: string]: string[] } = {
   // === ÉLECTRONIQUE / TECH ===
-  'appareil_photo': ['appareil photo', 'camera', 'reflex', 'hybride', 'gopro', 'compact', 'objectif', 'photographie'],
-  'trepied': ['trepied', 'tripod', 'monopode', 'stabilisateur'],
-  'chargeur': ['chargeur', 'charging', 'recharge'],
-  'batterie': ['batterie', 'powerbank', 'power bank', 'batterie externe', 'accumulateur'],
-  'adaptateur': ['adaptateur', 'adapter', 'prise universelle', 'multiprise', 'convertisseur'],
-  'telephone': ['telephone', 'smartphone', 'portable', 'mobile', 'iphone', 'android'],
-  'lampe': ['lampe', 'frontale', 'torche', 'flashlight', 'lanterne', 'eclairage'],
-  'carte_sd': ['carte sd', 'carte memoire', 'memory card', 'stockage', 'micro sd'],
-  'cable': ['cable', 'usb', 'lightning', 'usb-c', 'hdmi', 'fil'],
-  'ecouteurs': ['ecouteurs', 'casque audio', 'headphones', 'earbuds', 'airpods', 'reduction bruit'],
-  'tablette': ['tablette', 'ipad', 'tab', 'liseuse', 'e-reader', 'kindle'],
-  'gps': ['gps', 'navigation', 'localisation', 'traceur'],
-  'drone': ['drone', 'quadcopter', 'dji', 'aerien'],
-  'radio': ['radio', 'talkie', 'walkie', 'emetteur'],
-  'balise': ['balise', 'plb', 'spot', 'detresse', 'sos'],
+  // Appareil photo : toutes les variantes sont le même besoin (prendre des photos)
+  'appareil_photo': ['appareil photo', 'camera photo'],
+  'gopro': ['gopro', 'camera action', 'action cam'],
+  'trepied': ['trepied', 'tripod'],
+  'batterie_externe': ['batterie externe', 'powerbank', 'power bank'],
+  'adaptateur_prise': ['adaptateur', 'prise universelle', 'multiprise voyage'],
+  'lampe_frontale': ['lampe frontale', 'frontale led'],
+  'lampe_torche': ['lampe torche', 'torche led'],
+  'carte_memoire': ['carte sd', 'carte memoire', 'micro sd'],
+  'gps_rando': ['gps randonnee', 'gps rando', 'gps portable'],
 
   // === BAGAGES / SACS ===
-  'sac_dos': ['sac a dos', 'backpack', 'sac dos', 'daypack', 'sac randonnee', 'sac technique'],
-  'sac_voyage': ['sac voyage', 'valise', 'bagage', 'sac transport', 'trolley'],
-  'sac_etanche': ['sac etanche', 'dry bag', 'waterproof', 'imperméable sac'],
-  'sac_compression': ['sac compression', 'compression bag', 'organisateur'],
-  'sac_banane': ['sac banane', 'pochette', 'sacoche', 'tour de cou', 'ceinture'],
-  'sac_photo': ['sac photo', 'insert photo', 'housse appareil'],
-  'housse_pluie': ['housse pluie', 'rain cover', 'protection pluie'],
-  'cadenas': ['cadenas', 'antivol', 'lock', 'securite bagage', 'tsa'],
+  // Sac à dos : variantes du même concept
+  'sac_dos_voyage': ['sac a dos voyage', 'sac dos voyage', 'backpack voyage'],
+  'sac_dos_journee': ['sac a dos journee', 'daypack', 'sac dos journee'],
+  'sac_etanche': ['sac etanche', 'dry bag'],
+  'sac_banane': ['sac banane', 'pochette ceinture'],
+  'cadenas_tsa': ['cadenas tsa', 'cadenas bagage'],
+  'housse_pluie_sac': ['housse pluie sac', 'rain cover sac'],
 
   // === COUCHAGE / CAMPING ===
-  'sac_couchage': ['sac de couchage', 'duvet', 'sleeping bag', 'couchage'],
-  'tente': ['tente', 'tent', 'abri', 'bivouac'],
-  'matelas': ['matelas', 'tapis sol', 'sleeping pad', 'isolant', 'thermarest'],
-  'hamac': ['hamac', 'hammock'],
-  'rechaud': ['rechaud', 'camping gaz', 'cartouche gaz', 'cuisiniere portable', 'bruleur'],
-  'popote': ['popote', 'gamelle', 'ustensiles camping', 'couverts camping'],
-  'gourde': ['gourde', 'bouteille', 'water bottle', 'thermos', 'isotherme', 'camelback'],
-  'filtre_eau': ['filtre eau', 'purification', 'pastille', 'lifestraw', 'potabilisation'],
-  'couverture_survie': ['couverture survie', 'couverture urgence', 'mylar'],
-  'bache': ['bache', 'tarp', 'toile'],
+  'sac_couchage': ['sac de couchage', 'sac couchage', 'duvet camping'],
+  'tente_camping': ['tente', 'tente camping'],
+  'matelas_camping': ['matelas gonflable', 'matelas camping', 'sleeping pad'],
+  'rechaud_camping': ['rechaud camping', 'rechaud gaz', 'camping gaz'],
+  'gourde': ['gourde', 'bouteille eau reutilisable'],
+  'thermos': ['thermos', 'bouteille isotherme', 'mug isotherme'],
+  'filtre_eau': ['filtre eau', 'purificateur eau', 'lifestraw'],
+  'couverture_survie': ['couverture survie', 'couverture urgence'],
+  'bache_tarp': ['bache', 'tarp'],
+  'gamelle_camping': ['gamelle', 'popote', 'kit cuisine camping'],
 
   // === VÊTEMENTS ===
-  'veste': ['veste', 'jacket', 'coupe-vent', 'polaire', 'doudoune', 'gore-tex', 'hardshell', 'softshell', 'anorak'],
-  'k_way': ['k-way', 'kway', 'impermeable', 'poncho', 'rain jacket', 'pluie'],
-  'pantalon': ['pantalon', 'pants', 'shorts', 'bermuda', 'pantacourt', 'legging'],
-  'combinaison': ['combinaison', 'combi', 'neoprene', 'shorty', 'wetsuit'],
-  'maillot': ['maillot', 'swimsuit', 'bikini', 'bain'],
-  'sous_vetements': ['sous-vetements', 'sous vetements', 'thermique', 'merinos', 'base layer'],
-  'chaussettes': ['chaussettes', 'socks', 'bas'],
-  'chapeau': ['chapeau', 'casquette', 'bob', 'hat', 'cap', 'bonnet', 'couvre-chef'],
-  'gants': ['gants', 'gloves', 'moufles', 'mitaines'],
-  'echarpe': ['echarpe', 'foulard', 'buff', 'tour de cou vetement', 'cache-col'],
-  'lunettes': ['lunettes', 'soleil', 'sunglasses', 'glacier', 'masque ski'],
+  // Vestes : différencier par usage
+  'veste_impermeable': ['veste impermeable', 'veste pluie', 'k-way', 'coupe-vent impermeable'],
+  'veste_polaire': ['polaire', 'veste polaire', 'fleece'],
+  'doudoune': ['doudoune', 'veste doudoune'],
+  'combinaison_neoprene': ['combinaison neoprene', 'shorty neoprene', 'wetsuit'],
+  'maillot_bain': ['maillot de bain', 'maillot bain'],
+  'sous_vetements_thermiques': ['sous-vetements thermiques', 'sous vetements thermiques', 'base layer thermique'],
+  'chapeau_soleil': ['chapeau', 'casquette', 'bob'],
+  'bonnet_froid': ['bonnet', 'bonnet chaud'],
+  'buff_tour_cou': ['buff', 'tour de cou', 'cache-col'],
 
   // === CHAUSSURES ===
-  'chaussures_rando': ['chaussures randonnee', 'chaussures marche', 'boots', 'hiking', 'trek'],
-  'chaussures_ville': ['baskets', 'sneakers', 'chaussures ville', 'chaussures confort'],
-  'sandales': ['sandales', 'tongs', 'claquettes', 'aquatiques', 'chaussures eau'],
-  'chaussons': ['chaussons', 'pantoufles', 'interieur'],
+  'chaussures_rando': ['chaussures randonnee', 'chaussures marche', 'chaussures trek'],
+  'sandales': ['sandales', 'tongs'],
+  'chaussures_eau': ['chaussures aquatiques', 'chaussures eau'],
 
   // === HYGIÈNE ===
-  'creme_solaire': ['creme solaire', 'protection solaire', 'ecran solaire', 'spf', 'sunscreen', 'uv'],
-  'anti_moustiques': ['anti-moustiques', 'repulsif', 'deet', 'moustiquaire', 'insecte'],
-  'serviette': ['serviette', 'towel', 'microfibre', 'drap bain'],
-  'trousse_toilette': ['trousse toilette', 'trousse de toilette', 'necessaire toilette'],
-  'savon': ['savon', 'gel douche', 'shampoing', 'shampooing'],
-  'brosse_dents': ['brosse dents', 'dentifrice', 'fil dentaire'],
-  'rasoir': ['rasoir', 'tondeuse', 'epilation'],
-  'deodorant': ['deodorant', 'anti-transpirant'],
-  'baume_levres': ['baume levres', 'lip balm', 'stick levres'],
-  'creme_hydratante': ['creme hydratante', 'lotion', 'moisturizer'],
+  'creme_solaire': ['creme solaire', 'protection solaire', 'ecran solaire'],
+  'anti_moustiques': ['anti-moustiques', 'repulsif moustiques', 'spray anti-moustiques'],
+  'serviette_microfibre': ['serviette microfibre', 'serviette voyage'],
+  'trousse_toilette': ['trousse toilette', 'trousse de toilette'],
+  'baume_levres': ['baume levres', 'stick levres'],
 
   // === SANTÉ / PHARMACIE ===
-  'medicaments': ['medicaments', 'pharmacie', 'trousse secours', 'premiers soins', 'first aid'],
-  'pansements': ['pansements', 'bandage', 'compresses', 'sparadrap'],
-  'antiseptique': ['antiseptique', 'desinfectant', 'betadine'],
-  'douleur': ['paracetamol', 'ibuprofene', 'aspirine', 'antalgique', 'anti-douleur'],
-  'allergie': ['antihistaminique', 'allergie', 'cetirizine'],
-  'digestion': ['anti-diarrhee', 'imodium', 'smecta', 'antispasmodique'],
-  'thermometre': ['thermometre', 'temperature'],
-  'collyre': ['collyre', 'gouttes yeux', 'serum physiologique'],
-  'oxymetre': ['oxymetre', 'spo2', 'saturation'],
+  // NE PAS regrouper les médicaments différents !
+  'trousse_secours': ['trousse secours', 'trousse premiers soins', 'kit premiers secours'],
+  'pansements': ['pansements', 'pansement'],
+  'antiseptique': ['antiseptique', 'desinfectant'],
 
-  // === DOCUMENTS / PAPIERS ===
-  'passeport': ['passeport', 'passport'],
-  'carte_identite': ['carte identite', 'carte d\'identite', 'id card'],
-  'visa': ['visa', 'esta', 'eta', 'e-visa', 'autorisation'],
-  'permis': ['permis', 'permis conduire', 'international', 'pci'],
-  'assurance': ['assurance', 'rapatriement', 'annulation'],
-  'billet': ['billet', 'ticket', 'reservation', 'confirmation'],
-  'carnet_vaccination': ['carnet vaccination', 'vaccin', 'certificat'],
+  // === DOCUMENTS ===
+  'copies_documents': ['copies documents', 'photocopies documents'],
 
   // === ACCESSOIRES DIVERS ===
-  'jumelles': ['jumelles', 'binoculars', 'longue-vue', 'optique'],
-  'boussole': ['boussole', 'compass', 'orientation'],
-  'couteau': ['couteau', 'opinel', 'multifonction', 'leatherman', 'suisse'],
-  'corde': ['corde', 'cordage', 'paracorde', 'sangle'],
-  'mousqueton': ['mousqueton', 'carabiner', 'attache'],
-  'sifflet': ['sifflet', 'whistle', 'signal'],
-  'miroir': ['miroir', 'signal', 'heliographe'],
-  'briquet': ['briquet', 'allumettes', 'allume-feu', 'fire starter'],
-  'couverture': ['couverture', 'plaid', 'blanket'],
-  'oreiller': ['oreiller', 'coussin', 'pillow', 'appui-tete'],
-  'bouchons_oreilles': ['bouchons oreilles', 'ear plugs', 'boules quies'],
-  'masque_sommeil': ['masque yeux', 'masque sommeil', 'sleep mask'],
-  'parapluie': ['parapluie', 'umbrella'],
+  'jumelles': ['jumelles', 'binoculars'],
+  'boussole': ['boussole', 'compass'],
+  'couteau_multifonction': ['couteau multifonction', 'couteau suisse', 'leatherman'],
+  'paracorde': ['paracorde', 'corde paracorde'],
+  'sifflet_urgence': ['sifflet', 'sifflet urgence', 'sifflet survie'],
+  'bouchons_oreilles': ['bouchons oreilles', 'boules quies'],
+  'masque_sommeil': ['masque sommeil', 'masque yeux'],
 
   // === GUIDES / LIVRES ===
-  'guide': ['guide', 'lonely planet', 'routard', 'guidebook', 'guide voyage'],
-  'carnet': ['carnet', 'journal', 'notebook', 'cahier'],
-  'stylo': ['stylo', 'pen', 'crayon', 'feutre'],
-  'carte': ['carte', 'map', 'plan', 'topographique'],
+  'guide_voyage': ['guide voyage', 'lonely planet', 'routard', 'guide papier'],
+  'carnet_notes': ['carnet', 'carnet notes', 'journal voyage'],
 
-  // === SPORTS SPÉCIFIQUES ===
-  'masque_tuba': ['masque', 'tuba', 'snorkeling', 'palmes', 'plongee'],
-  'ski': ['ski', 'snowboard', 'snow', 'neige', 'piste'],
-  'velo': ['velo', 'bike', 'cyclisme', 'bicyclette', 'sacoche velo'],
-  'escalade': ['escalade', 'climbing', 'baudrier', 'harnais', 'corde escalade'],
-  'surf': ['surf', 'bodyboard', 'planche'],
-  'casque_protection': ['casque ski', 'casque velo', 'casque certifie', 'en 1077', 'en 1078'],
-  'batons_marche': ['batons', 'baton marche', 'batons telescopiques', 'trekking poles'],
-  'guetres': ['guetres', 'guetre', 'gaiters'],
+  // === SNORKELING (items SÉPARÉS car différents) ===
+  'masque_snorkeling': ['masque snorkeling', 'masque plongee'],
+  'tuba': ['tuba'],
+  'palmes': ['palmes'],
 
-  // === ALIMENTATION ===
-  'snacks': ['snacks', 'barres', 'cereales', 'fruits secs', 'encas', 'nourriture'],
-  'gels': ['gels', 'energie', 'electrolytes', 'boisson isotonique'],
-  'glaciere': ['glaciere', 'cooler', 'isotherme box', 'frigo portable'],
-
-  // === DIVERS MANQUANTS ===
-  'sac_shopping': ['sac shopping', 'tote bag', 'sac courses', 'sac pliable reutilisable'],
-  'sim_esim': ['carte sim', 'esim', 'sim locale', 'sim internationale'],
-  'lingettes': ['lingettes', 'wipes', 'lingette humide', 'lingette nettoyante'],
-  'disque_dur': ['disque dur', 'ssd', 'stockage externe', 'hard drive'],
-  'ordinateur': ['ordinateur portable', 'laptop', 'pc portable', 'macbook'],
-  'kit_reparation': ['kit reparation', 'rustine', 'kit crevaison', 'kit urgence'],
-  'polaire': ['polaire', 'fleece', 'couverture polaire', 'plaid polaire']
+  // === DIVERS ===
+  'sac_shopping': ['sac shopping', 'tote bag', 'sac courses pliable'],
+  'carte_sim': ['carte sim', 'esim', 'sim locale'],
+  'lingettes': ['lingettes', 'lingettes humides'],
+  'disque_dur': ['disque dur externe', 'disque dur'],
+  'glaciere': ['glaciere', 'glaciere souple']
 };
 
 /**
