@@ -522,48 +522,50 @@ const DEDUP_KEYWORDS: { [key: string]: string[] } = {
   'gopro': ['gopro', 'camera action', 'action cam'],
   'trepied': ['trepied', 'tripod'],
   'batterie_externe': ['batterie externe', 'powerbank', 'power bank'],
-  'adaptateur_prise': ['adaptateur', 'prise universelle', 'multiprise voyage'],
+  // Adaptateur : être TRÈS spécifique (adaptateur prise ≠ adaptateur USB)
+  'adaptateur_prise_voyage': ['adaptateur universel', 'prise universelle', 'multiprise voyage'],
   'lampe_frontale': ['lampe frontale', 'frontale led'],
   'lampe_torche': ['lampe torche', 'torche led'],
   'carte_memoire': ['carte sd', 'carte memoire', 'micro sd'],
   'gps_rando': ['gps randonnee', 'gps rando', 'gps portable'],
 
   // === BAGAGES / SACS ===
-  // Sac à dos : variantes du même concept
   'sac_dos_voyage': ['sac a dos voyage', 'sac dos voyage', 'backpack voyage'],
   'sac_dos_journee': ['sac a dos journee', 'daypack', 'sac dos journee'],
   'sac_etanche': ['sac etanche', 'dry bag'],
   'sac_banane': ['sac banane', 'pochette ceinture'],
-  'cadenas_tsa': ['cadenas tsa', 'cadenas bagage'],
+  'cadenas_tsa': ['cadenas tsa'],
   'housse_pluie_sac': ['housse pluie sac', 'rain cover sac'],
 
   // === COUCHAGE / CAMPING ===
   'sac_couchage': ['sac de couchage', 'sac couchage', 'duvet camping'],
-  'tente_camping': ['tente', 'tente camping'],
-  'matelas_camping': ['matelas gonflable', 'matelas camping', 'sleeping pad'],
+  // Tente : être spécifique (tente camping ≠ tente plage ≠ parasol)
+  'tente_camping': ['tente camping', 'tente randonnee', 'tente bivouac'],
+  'matelas_camping': ['matelas gonflable camping', 'matelas camping', 'sleeping pad'],
   'rechaud_camping': ['rechaud camping', 'rechaud gaz', 'camping gaz'],
-  'gourde': ['gourde', 'bouteille eau reutilisable'],
+  'gourde_rando': ['gourde', 'bouteille eau reutilisable'],
   'thermos': ['thermos', 'bouteille isotherme', 'mug isotherme'],
   'filtre_eau': ['filtre eau', 'purificateur eau', 'lifestraw'],
   'couverture_survie': ['couverture survie', 'couverture urgence'],
-  'bache_tarp': ['bache', 'tarp'],
-  'gamelle_camping': ['gamelle', 'popote', 'kit cuisine camping'],
+  'bache_tarp': ['bache tarp', 'tarp camping'],
+  'gamelle_camping': ['gamelle camping', 'popote camping', 'kit cuisine camping'],
 
   // === VÊTEMENTS ===
   // Vestes : différencier par usage
-  'veste_impermeable': ['veste impermeable', 'veste pluie', 'k-way', 'coupe-vent impermeable'],
-  'veste_polaire': ['polaire', 'veste polaire', 'fleece'],
+  'veste_impermeable': ['veste impermeable', 'veste pluie', 'coupe-vent impermeable'],
+  'kway': ['k-way', 'kway'],
+  'veste_polaire': ['veste polaire', 'fleece jacket'],
   'doudoune': ['doudoune', 'veste doudoune'],
   'combinaison_neoprene': ['combinaison neoprene', 'shorty neoprene', 'wetsuit'],
   'maillot_bain': ['maillot de bain', 'maillot bain'],
   'sous_vetements_thermiques': ['sous-vetements thermiques', 'sous vetements thermiques', 'base layer thermique'],
-  'chapeau_soleil': ['chapeau', 'casquette', 'bob'],
-  'bonnet_froid': ['bonnet', 'bonnet chaud'],
-  'buff_tour_cou': ['buff', 'tour de cou', 'cache-col'],
+  // Couvre-chef : NE PAS regrouper (chapeau ≠ casquette ≠ bob)
+  'bonnet_froid': ['bonnet chaud', 'bonnet hiver', 'bonnet ski'],
+  'buff_tour_cou': ['buff', 'tour de cou multifonction'],
 
   // === CHAUSSURES ===
   'chaussures_rando': ['chaussures randonnee', 'chaussures marche', 'chaussures trek'],
-  'sandales': ['sandales', 'tongs'],
+  // Sandales et tongs : NE PAS regrouper (usages différents)
   'chaussures_eau': ['chaussures aquatiques', 'chaussures eau'],
 
   // === HYGIÈNE ===
@@ -576,8 +578,8 @@ const DEDUP_KEYWORDS: { [key: string]: string[] } = {
   // === SANTÉ / PHARMACIE ===
   // NE PAS regrouper les médicaments différents !
   'trousse_secours': ['trousse secours', 'trousse premiers soins', 'kit premiers secours'],
-  'pansements': ['pansements', 'pansement'],
-  'antiseptique': ['antiseptique', 'desinfectant'],
+  'pansements': ['pansements assortiment', 'pansements varies'],
+  'antiseptique': ['antiseptique spray', 'desinfectant plaie'],
 
   // === DOCUMENTS ===
   'copies_documents': ['copies documents', 'photocopies documents'],
@@ -587,25 +589,26 @@ const DEDUP_KEYWORDS: { [key: string]: string[] } = {
   'boussole': ['boussole', 'compass'],
   'couteau_multifonction': ['couteau multifonction', 'couteau suisse', 'leatherman'],
   'paracorde': ['paracorde', 'corde paracorde'],
-  'sifflet_urgence': ['sifflet', 'sifflet urgence', 'sifflet survie'],
-  'bouchons_oreilles': ['bouchons oreilles', 'boules quies'],
+  'sifflet_urgence': ['sifflet survie', 'sifflet urgence'],
+  // Bouchons : NE PAS regrouper (natation ≠ sommeil ≠ concert)
   'masque_sommeil': ['masque sommeil', 'masque yeux'],
 
   // === GUIDES / LIVRES ===
-  'guide_voyage': ['guide voyage', 'lonely planet', 'routard', 'guide papier'],
-  'carnet_notes': ['carnet', 'carnet notes', 'journal voyage'],
+  // Carnet : être spécifique (carnet notes ≠ carnet vaccination ≠ carnet plongée)
+  'guide_voyage': ['guide voyage', 'lonely planet', 'routard'],
+  'carnet_notes_voyage': ['carnet notes voyage', 'journal voyage'],
 
   // === SNORKELING (items SÉPARÉS car différents) ===
   'masque_snorkeling': ['masque snorkeling', 'masque plongee'],
-  'tuba': ['tuba'],
-  'palmes': ['palmes'],
+  'tuba': ['tuba snorkeling'],
+  'palmes': ['palmes snorkeling', 'palmes plongee'],
 
   // === DIVERS ===
-  'sac_shopping': ['sac shopping', 'tote bag', 'sac courses pliable'],
-  'carte_sim': ['carte sim', 'esim', 'sim locale'],
-  'lingettes': ['lingettes', 'lingettes humides'],
-  'disque_dur': ['disque dur externe', 'disque dur'],
-  'glaciere': ['glaciere', 'glaciere souple']
+  'sac_shopping': ['sac shopping pliable', 'tote bag pliable'],
+  'carte_sim': ['carte sim locale', 'esim voyage'],
+  'lingettes': ['lingettes humides', 'lingettes voyage'],
+  'disque_dur': ['disque dur externe', 'ssd externe'],
+  'glaciere': ['glaciere souple', 'glaciere portable']
 };
 
 /**
