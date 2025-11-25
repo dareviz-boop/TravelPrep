@@ -325,15 +325,6 @@ export const DetailedSectionsPage = ({
       itemsByCategory[categoryName].push(item);
     });
 
-    // Diviser un tableau d'items en sous-groupes de taille max
-    const chunkItems = (items: ItemWithSection[], chunkSize: number = 4) => {
-      const chunks: ItemWithSection[][] = [];
-      for (let i = 0; i < items.length; i += chunkSize) {
-        chunks.push(items.slice(i, i + chunkSize));
-      }
-      return chunks;
-    };
-
     return (
       <View style={styles.timelineBlock} key={title}>
         <Text style={styles.timelineHeader}>{cleanTextForPDF(title)}</Text>
@@ -357,30 +348,34 @@ export const DetailedSectionsPage = ({
           return (
             <View key={categoryName}>
               {dateEntries.map(([deadline, dateItems], dateIdx) => {
-                // Diviser les items en sous-groupes de max 4 items
-                const chunks = chunkItems(dateItems, 4);
+                const isFirstDate = dateIdx === 0;
+                const firstItems = dateItems.slice(0, 3);
+                const remainingItems = dateItems.slice(3);
 
-                return chunks.map((chunk, chunkIdx) => {
-                  const isFirstChunkOfFirstDate = dateIdx === 0 && chunkIdx === 0;
-
-                  return (
+                return (
+                  <View key={`${categoryName}-${deadline}`}>
+                    {/* Groupe titre (si première date) + date + 3 premiers items pour éviter orphelins */}
                     <View
-                      key={`${categoryName}-${deadline}-${chunkIdx}`}
                       style={deadline !== 'no-date' ? styles.datedBox : {}}
                       wrap={false}
                     >
-                      {/* Afficher le titre de catégorie seulement pour le premier chunk de la première date */}
-                      {isFirstChunkOfFirstDate && (
+                      {/* Afficher le titre de catégorie seulement pour la première date */}
+                      {isFirstDate && (
                         <Text style={styles.categoryTitle}>{cleanTextForPDF(categoryName)}</Text>
                       )}
-                      {/* Répéter la date pour chaque chunk */}
                       {deadline !== 'no-date' && (
                         <Text style={styles.dateLabel}>{deadline}</Text>
                       )}
-                      {chunk.map((item, idx) => renderItem(item, idx, false))}
+                      {firstItems.map((item, idx) => renderItem(item, idx, false))}
                     </View>
-                  );
-                });
+                    {/* Reste des items - peuvent se découper naturellement */}
+                    {remainingItems.length > 0 && (
+                      <View style={deadline !== 'no-date' ? styles.datedBox : {}}>
+                        {remainingItems.map((item, idx) => renderItem(item, idx + firstItems.length, false))}
+                      </View>
+                    )}
+                  </View>
+                );
               })}
             </View>
           );
