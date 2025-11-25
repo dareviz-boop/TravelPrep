@@ -429,17 +429,8 @@ export const DetailedSectionsPage = ({
     const momentOrder = [
       'Arrivée',
       'J1-J2',
-      'Début voyage',
       'Quotidien',
-      'Quotidien soir',
-      'Quotidien nuit',
-      'Soir',
-      'Avant dormir',
-      'Repas',
-      'Tous les 3-5 jours',
-      'Continu',
-      'Après',
-      'Autre'
+      'Après'
     ];
 
     const sortedMoments = Object.keys(itemsByMoment).sort((a, b) => {
