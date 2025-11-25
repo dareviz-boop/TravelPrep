@@ -8,7 +8,7 @@ import { PDFIcon } from './PDFIcon';
 const cleanTextForPDF = (text: string): string => {
   if (!text) return '';
 
-  let cleaned = text
+  return text
     // SUPPRIMER tous les emojis (plage Unicode complète)
     .replace(/[\u{1F300}-\u{1F9FF}]/gu, '')
     .replace(/[\u{2600}-\u{26FF}]/gu, '')
@@ -26,6 +26,7 @@ const cleanTextForPDF = (text: string): string => {
     .replace(/[\u{1FA70}-\u{1FAFF}]/gu, '')
     // SUPPRIMER les emojis mal encodés (ex: =Ä, <å, =³)
     // Ces patterns apparaissent quand des emojis UTF-8 sont corrompus
+    // eslint-disable-next-line no-useless-escape
     .replace(/[=<][^\s\w\d.,;:!?()\[\]{}'"\/\\-]/g, '')
     // Normaliser les guillemets typographiques
     .replace(/[""]/g, '"')
@@ -38,8 +39,6 @@ const cleanTextForPDF = (text: string): string => {
     // Nettoyer espaces multiples
     .replace(/\s+/g, ' ')
     .trim();
-
-  return cleaned;
 };
 
 const styles = StyleSheet.create({
