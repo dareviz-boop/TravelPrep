@@ -158,6 +158,10 @@ const styles = StyleSheet.create({
   sectionSeparator: {
     marginTop: 30,
     marginBottom: 15
+  },
+  // Groupe titre + items pour éviter les orphelins
+  titleWithItemsGroup: {
+    breakInside: 'avoid' as any
   }
 });
 
@@ -321,10 +325,19 @@ export const DetailedSectionsPage = ({
       itemsByCategory[categoryName].push(item);
     });
 
+    // Diviser un tableau d'items en sous-groupes de taille max
+    const chunkItems = (items: ItemWithSection[], chunkSize: number = 4) => {
+      const chunks: ItemWithSection[][] = [];
+      for (let i = 0; i < items.length; i += chunkSize) {
+        chunks.push(items.slice(i, i + chunkSize));
+      }
+      return chunks;
+    };
+
     return (
       <View style={styles.timelineBlock} key={title}>
         <Text style={styles.timelineHeader}>{cleanTextForPDF(title)}</Text>
-        {Object.entries(itemsByCategory).map(([categoryName, categoryItems]) => {
+        {Object.entries(itemsByCategory).map(([categoryName, categoryItems], catIdx) => {
           const sortedItems = sortItemsByDelay(categoryItems);
 
           // Grouper par date précise
@@ -339,20 +352,36 @@ export const DetailedSectionsPage = ({
             itemsByDate[deadline].push(item);
           });
 
+          const dateEntries = Object.entries(itemsByDate);
+
           return (
             <View key={categoryName}>
-              <Text style={styles.categoryTitle}>{cleanTextForPDF(categoryName)}</Text>
-              {Object.entries(itemsByDate).map(([deadline, dateItems]) => (
-                <View
-                  key={`${categoryName}-${deadline}`}
-                  style={deadline !== 'no-date' ? styles.datedBox : {}}
-                >
-                  {deadline !== 'no-date' && (
-                    <Text style={styles.dateLabel}>{deadline}</Text>
-                  )}
-                  {dateItems.map((item, idx) => renderItem(item, idx, false))}
-                </View>
-              ))}
+              {dateEntries.map(([deadline, dateItems], dateIdx) => {
+                // Diviser les items en sous-groupes de max 4 items
+                const chunks = chunkItems(dateItems, 4);
+
+                return chunks.map((chunk, chunkIdx) => {
+                  const isFirstChunkOfFirstDate = dateIdx === 0 && chunkIdx === 0;
+
+                  return (
+                    <View
+                      key={`${categoryName}-${deadline}-${chunkIdx}`}
+                      style={deadline !== 'no-date' ? styles.datedBox : {}}
+                      wrap={false}
+                    >
+                      {/* Afficher le titre de catégorie seulement pour le premier chunk de la première date */}
+                      {isFirstChunkOfFirstDate && (
+                        <Text style={styles.categoryTitle}>{cleanTextForPDF(categoryName)}</Text>
+                      )}
+                      {/* Répéter la date pour chaque chunk */}
+                      {deadline !== 'no-date' && (
+                        <Text style={styles.dateLabel}>{deadline}</Text>
+                      )}
+                      {chunk.map((item, idx) => renderItem(item, idx, false))}
+                    </View>
+                  );
+                });
+              })}
             </View>
           );
         })}
@@ -370,10 +399,19 @@ export const DetailedSectionsPage = ({
     const isActivity = sortedItems.length > 0 && sortedItems[0].sectionName;
     const hasMultipleActivities = new Set(sortedItems.map(i => i.sectionName)).size > 1;
 
+    // Grouper le titre avec les 3 premiers items pour éviter les orphelins
+    const firstItems = sortedItems.slice(0, 3);
+    const remainingItems = sortedItems.slice(3);
+
     return (
       <View style={styles.timelineBlock} key={title}>
-        <Text style={styles.timelineHeader}>{cleanTextForPDF(title)}</Text>
-        {sortedItems.map((item, idx) => renderItem(item, idx, hasMultipleActivities))}
+        {/* Groupe titre + 3 premiers items pour éviter orphelins */}
+        <View style={styles.titleWithItemsGroup} wrap={false}>
+          <Text style={styles.timelineHeader}>{cleanTextForPDF(title)}</Text>
+          {firstItems.map((item, idx) => renderItem(item, idx, hasMultipleActivities))}
+        </View>
+        {/* Reste des items */}
+        {remainingItems.map((item, idx) => renderItem(item, idx + firstItems.length, hasMultipleActivities))}
       </View>
     );
   };
@@ -418,12 +456,23 @@ export const DetailedSectionsPage = ({
       return indexA - indexB;
     });
 
-    return sortedMoments.map(moment => (
-      <View key={moment} style={styles.timelineBlock}>
-        <Text style={styles.timelineHeader}>{cleanTextForPDF(moment)}</Text>
-        {itemsByMoment[moment].map((item, idx) => renderItem(item, idx, false))}
-      </View>
-    ));
+    return sortedMoments.map(moment => {
+      const momentItems = itemsByMoment[moment];
+      const firstItems = momentItems.slice(0, 3);
+      const remainingItems = momentItems.slice(3);
+
+      return (
+        <View key={moment} style={styles.timelineBlock}>
+          {/* Groupe titre + 3 premiers items pour éviter orphelins */}
+          <View style={styles.titleWithItemsGroup} wrap={false}>
+            <Text style={styles.timelineHeader}>{cleanTextForPDF(moment)}</Text>
+            {firstItems.map((item, idx) => renderItem(item, idx, false))}
+          </View>
+          {/* Reste des items */}
+          {remainingItems.map((item, idx) => renderItem(item, idx + firstItems.length, false))}
+        </View>
+      );
+    });
   };
 
   // Déterminer le type de sections (essentiels, recommandées, ou activités)
@@ -469,16 +518,31 @@ export const DetailedSectionsPage = ({
       }
 
       // Autres sections
+      const firstItems = section.items.slice(0, 3);
+      const remainingItems = section.items.slice(3);
+
       return (
         <View key={section.id}>
-          <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
-          {section.items.map((item, idx) => {
+          {/* Groupe titre + 3 premiers items pour éviter orphelins */}
+          <View style={styles.titleWithItemsGroup} wrap={false}>
+            <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+            {firstItems.map((item, idx) => {
+              const itemWithSection: ItemWithSection = {
+                ...item,
+                sectionName: section.nom,
+                sectionId: section.id
+              };
+              return renderItem(itemWithSection, idx, false);
+            })}
+          </View>
+          {/* Reste des items */}
+          {remainingItems.map((item, idx) => {
             const itemWithSection: ItemWithSection = {
               ...item,
               sectionName: section.nom,
               sectionId: section.id
             };
-            return renderItem(itemWithSection, idx, false);
+            return renderItem(itemWithSection, idx + firstItems.length, false);
           })}
         </View>
       );
@@ -507,35 +571,68 @@ export const DetailedSectionsPage = ({
       }
     });
 
-    return Object.entries(appsByCategory).map(([category, categoryItems]) => (
-      <View key={category}>
-        <Text style={styles.timelineHeader}>{cleanTextForPDF(category)}</Text>
-        {categoryItems.map((item, idx) => {
-          const itemWithSection: ItemWithSection = {
-            ...item,
-            sectionName: category,
-            sectionId: 'apps'
-          };
-          return renderItem(itemWithSection, idx, false);
-        })}
-      </View>
-    ));
+    return Object.entries(appsByCategory).map(([category, categoryItems]) => {
+      const firstItems = categoryItems.slice(0, 3);
+      const remainingItems = categoryItems.slice(3);
+
+      return (
+        <View key={category}>
+          {/* Groupe titre + 3 premiers items pour éviter orphelins */}
+          <View style={styles.titleWithItemsGroup} wrap={false}>
+            <Text style={styles.timelineHeader}>{cleanTextForPDF(category)}</Text>
+            {firstItems.map((item, idx) => {
+              const itemWithSection: ItemWithSection = {
+                ...item,
+                sectionName: category,
+                sectionId: 'apps'
+              };
+              return renderItem(itemWithSection, idx, false);
+            })}
+          </View>
+          {/* Reste des items */}
+          {remainingItems.map((item, idx) => {
+            const itemWithSection: ItemWithSection = {
+              ...item,
+              sectionName: category,
+              sectionId: 'apps'
+            };
+            return renderItem(itemWithSection, idx + firstItems.length, false);
+          })}
+        </View>
+      );
+    });
   };
 
   // Fonction pour rendre les activités
   const renderActivitiesSections = () => {
     return sections.map(section => {
       if (section.items.length === 0) return null;
+
+      const firstItems = section.items.slice(0, 3);
+      const remainingItems = section.items.slice(3);
+
       return (
         <View key={section.id}>
-          <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
-          {section.items.map((item, idx) => {
+          {/* Groupe titre + 3 premiers items pour éviter orphelins */}
+          <View style={styles.titleWithItemsGroup} wrap={false}>
+            <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+            {firstItems.map((item, idx) => {
+              const itemWithSection: ItemWithSection = {
+                ...item,
+                sectionName: section.nom,
+                sectionId: section.id
+              };
+              return renderItem(itemWithSection, idx, false);
+            })}
+          </View>
+          {/* Reste des items */}
+          {remainingItems.map((item, idx) => {
             const itemWithSection: ItemWithSection = {
               ...item,
               sectionName: section.nom,
               sectionId: section.id
             };
-            return renderItem(itemWithSection, idx, false);
+            return renderItem(itemWithSection, idx + firstItems.length, false);
           })}
         </View>
       );
