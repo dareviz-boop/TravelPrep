@@ -34,20 +34,22 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
   const shouldIncludeAll = !sectionsInclure || sectionsInclure.length === 0;
 
   // Filtrer les sections selon sectionsInclure
-  const filteredSections = shouldIncludeAll
-    ? checklistData.sections
-    : checklistData.sections.filter(section => {
-        // TOUJOURS inclure les sections d'activités (car elles ne sont pas dans l'UI de sélection)
-        if (section.source === 'activite') {
-          return true;
-        }
-        // TOUJOURS inclure "pendant_apres" (car elle devrait être affichée même si non sélectionnée)
-        if (section.id === 'pendant_apres') {
-          return true;
-        }
-        // Pour les sections core, vérifier si l'ID est dans sectionsInclure
-        return sectionsInclure.includes(section.id);
-      });
+  const filteredSections = checklistData.sections.filter(section => {
+    // TOUJOURS inclure les sections d'activités (car elles ne sont pas dans l'UI de sélection)
+    if (section.source === 'activite') {
+      return true;
+    }
+    // TOUJOURS inclure "pendant_apres" (même si non sélectionnée dans sectionsInclure)
+    if (section.id === 'pendant_apres') {
+      return true;
+    }
+    // Si shouldIncludeAll, inclure toutes les autres sections
+    if (shouldIncludeAll) {
+      return true;
+    }
+    // Sinon, vérifier si l'ID est dans sectionsInclure
+    return sectionsInclure.includes(section.id);
+  });
 
   // Créer une copie de checklistData avec sections filtrées
   const filteredChecklistData = {

@@ -66,26 +66,17 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     breakInside: 'avoid' as const
   },
-  conseilClimatiqueHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 6
-  },
   conseilClimatiqueTitle: {
     fontSize: 10,
     fontWeight: 700,
-    color: '#92400E'
-  },
-  conseilClimatiqueSubtitle: {
-    fontSize: 10,
-    fontWeight: 700,
     color: '#C54616',
-    marginBottom: 4
+    marginBottom: 6
   },
-  conseilClimatiqueText: {
+  conseilClimatiqueAdviceItem: {
     fontSize: 9,
     color: '#78350F',
-    lineHeight: 1.4
+    lineHeight: 1.4,
+    marginBottom: 2
   },
   // Groupe titre + items pour éviter les orphelins
   titleWithItemsGroup: {
@@ -100,9 +91,21 @@ interface ClimatAdvicePageProps {
 export const ClimatAdvicePage = ({ conseilsClimatiques }: ClimatAdvicePageProps) => {
   if (!conseilsClimatiques || conseilsClimatiques.length === 0) return null;
 
+  // Fonction pour formater les conseils avec retours à la ligne (utiliser "." comme séparateur)
+  const formatAdviceText = (conseil: string): string[] => {
+    if (!conseil) return [];
+    // Séparer par "." et nettoyer
+    return conseil
+      .split('.')
+      .map(sentence => sentence.trim())
+      .filter(sentence => sentence.length > 0)
+      .map(sentence => sentence + '.'); // Rajouter le point à la fin
+  };
+
   // Grouper le titre avec le premier conseil pour éviter les orphelins
   const firstConseil = conseilsClimatiques[0];
   const remainingConseils = conseilsClimatiques.slice(1);
+  const firstAdviceSentences = formatAdviceText(firstConseil.conseil);
 
   return (
     <>
@@ -117,38 +120,37 @@ export const ClimatAdvicePage = ({ conseilsClimatiques }: ClimatAdvicePageProps)
 
         {/* Premier conseil */}
         <View style={styles.conseilClimatiqueBox}>
-          <View style={styles.conseilClimatiqueHeader}>
-            <PDFIcon name="alertCircle" style={{ marginRight: 6 }} />
-            <Text style={styles.conseilClimatiqueTitle}>Important</Text>
-          </View>
-          {/* Nom de la condition comme sous-titre */}
-          <Text style={styles.conseilClimatiqueSubtitle}>
+          {/* Nom de la condition comme titre principal */}
+          <Text style={styles.conseilClimatiqueTitle}>
             {cleanTextForPDF(firstConseil.nom)}
           </Text>
-          {/* Conseil */}
-          <Text style={styles.conseilClimatiqueText}>
-            {cleanTextForPDF(firstConseil.conseil)}
-          </Text>
+          {/* Conseils formatés avec puces */}
+          {firstAdviceSentences.map((sentence, idx) => (
+            <Text key={idx} style={styles.conseilClimatiqueAdviceItem}>
+              • {cleanTextForPDF(sentence)}
+            </Text>
+          ))}
         </View>
       </View>
 
       {/* Conseils restants */}
-      {remainingConseils.map((conseilData, index) => (
-        <View key={index} style={styles.conseilClimatiqueBox} wrap={false}>
-          <View style={styles.conseilClimatiqueHeader}>
-            <PDFIcon name="alertCircle" style={{ marginRight: 6 }} />
-            <Text style={styles.conseilClimatiqueTitle}>Important</Text>
+      {remainingConseils.map((conseilData, index) => {
+        const adviceSentences = formatAdviceText(conseilData.conseil);
+        return (
+          <View key={index} style={styles.conseilClimatiqueBox} wrap={false}>
+            {/* Nom de la condition comme titre principal */}
+            <Text style={styles.conseilClimatiqueTitle}>
+              {cleanTextForPDF(conseilData.nom)}
+            </Text>
+            {/* Conseils formatés avec puces */}
+            {adviceSentences.map((sentence, idx) => (
+              <Text key={idx} style={styles.conseilClimatiqueAdviceItem}>
+                • {cleanTextForPDF(sentence)}
+              </Text>
+            ))}
           </View>
-          {/* Nom de la condition comme sous-titre */}
-          <Text style={styles.conseilClimatiqueSubtitle}>
-            {cleanTextForPDF(conseilData.nom)}
-          </Text>
-          {/* Conseil */}
-          <Text style={styles.conseilClimatiqueText}>
-            {cleanTextForPDF(conseilData.conseil)}
-          </Text>
-        </View>
-      ))}
+        );
+      })}
     </>
   );
 };
