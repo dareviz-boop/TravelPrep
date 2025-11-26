@@ -259,6 +259,7 @@ export interface GeneratedChecklist {
     generatedAt: string;
   };
   sections: GeneratedChecklistSection[];
+  conseilsClimatiques?: string[]; // Conseils climatiques globaux
   stats: {
     totalSections: number;
     totalItems: number;
@@ -284,6 +285,14 @@ export function generateCompleteChecklist(formData: FormData): GeneratedChecklis
   let coreSections = getCoreSections(formData);
 
   // === 2. FUSIONNER LES ITEMS CLIMATIQUES DANS LES SECTIONS CORE ===
+  // Récupérer les sections climatiques complètes (avec conseils)
+  const climatSections = getClimatEquipment(formData);
+  const conseilsClimatiques = climatSections
+    .filter(s => s.conseils && s.conseils.trim().length > 0)
+    .map(s => s.conseils!)
+    .flatMap(c => c.split('\n\n')) // Séparer les conseils concaténés
+    .filter(c => c.trim().length > 0);
+
   const climatItems = getClimatItemsGroupedBySection(formData);
   coreSections = coreSections.map(section => {
     const sectionClimatItems = climatItems[section.id] || [];
@@ -332,6 +341,7 @@ export function generateCompleteChecklist(formData: FormData): GeneratedChecklis
       generatedAt: new Date().toISOString()
     },
     sections: dedupedSections,
+    conseilsClimatiques: conseilsClimatiques.length > 0 ? conseilsClimatiques : undefined,
     stats: calculateStats(dedupedSections)
   };
 

@@ -172,6 +172,35 @@ const styles = StyleSheet.create({
   // Groupe titre + items pour éviter les orphelins
   titleWithItemsGroup: {
     breakInside: 'avoid' as const
+  },
+  // Encart de conseil climatique
+  conseilClimatiqueBox: {
+    backgroundColor: '#FFF9E6', // Fond jaune pâle
+    borderLeft: '4px solid #F59E0B', // Bordure orange ambre
+    padding: 10,
+    marginBottom: 12,
+    borderRadius: 2,
+    breakInside: 'avoid' as const
+  },
+  conseilClimatiqueHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 6
+  },
+  conseilClimatiqueIcon: {
+    fontSize: 11,
+    marginRight: 6,
+    color: '#F59E0B'
+  },
+  conseilClimatiqueTitle: {
+    fontSize: 10,
+    fontWeight: 700,
+    color: '#92400E'
+  },
+  conseilClimatiqueText: {
+    fontSize: 9,
+    color: '#78350F',
+    lineHeight: 1.4
   }
 });
 

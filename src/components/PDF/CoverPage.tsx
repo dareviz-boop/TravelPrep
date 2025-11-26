@@ -6,6 +6,7 @@ import { PDFIcon } from './PDFIcon';
 import { CompactPage } from './CompactPage';
 import { TimelineContent } from './TimelineContent';
 import { DetailedSectionsPage } from './DetailedSectionsPage';
+import { ClimatAdvicePage } from './ClimatAdvicePage';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
 // Helvetica ne supporte PAS les emojis Unicode, ils apparaissent corrompus
@@ -481,6 +482,11 @@ export const CoverPage = ({
               isEssentials={false}
               addSeparator={true}
             />
+          )}
+
+          {/* 4. Conseils climatiques (encarts informatifs) */}
+          {checklistData.conseilsClimatiques && checklistData.conseilsClimatiques.length > 0 && (
+            <ClimatAdvicePage conseilsClimatiques={checklistData.conseilsClimatiques} />
           )}
         </>
       )}
