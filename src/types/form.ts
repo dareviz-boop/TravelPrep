@@ -1,4 +1,4 @@
-export type Localisation = 'europe' | 'asie' | 'afrique' | 'amerique-nord' | 'amerique-centrale-caraibes' | 'amerique-sud' | 'oceanie' | 'multi-destinations';
+export type Localisation = 'europe' | 'asie' | 'afrique' | 'amerique-nord' | 'amerique-centrale-caraibes' | 'amerique-sud' | 'multi-destinations' | 'oceanie';
 export type Duree = 'court' | 'moyen' | 'long' | 'tres-long';
 export type Temperature = 'tres-froide' | 'froide' | 'temperee' | 'chaude' | 'tres-chaude' | 'chaleur-extreme' | 'inconnue';
 export type Saison = 'ete' | 'hiver' | 'printemps' | 'automne' | 'inconnue';
