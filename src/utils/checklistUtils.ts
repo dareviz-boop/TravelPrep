@@ -31,17 +31,6 @@ export const getPaysOptions = (localisation: string) => {
   return loc?.pays || [];
 };
 
-export const calculateDuree = (dateDepart: string, dateRetour: string): FormData['duree'] => {
-  const start = new Date(dateDepart);
-  const end = new Date(dateRetour);
-  const days = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
-  
-  if (days <= 7) return 'court';
-  if (days <= 21) return 'moyen';
-  if (days <= 90) return 'long';
-  return 'tres-long';
-};
-
 export const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
   return date.toLocaleDateString('fr-FR', { 

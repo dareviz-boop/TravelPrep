@@ -1039,40 +1039,8 @@ export function getChecklistSummary(checklist: GeneratedChecklist): string {
   `.trim();
 }
 
-/**
- * Exporte la checklist au format JSON
- */
-export function exportChecklistJSON(checklist: GeneratedChecklist): string {
-  return JSON.stringify(checklist, null, 2);
-}
-
-/**
- * Exporte la checklist au format CSV simple
- */
-export function exportChecklistCSV(checklist: GeneratedChecklist): string {
-  let csv = 'Section,Item,Priorité,Délai,Quantité,Conseils\n';
-
-  checklist.sections.forEach(section => {
-    section.items.forEach(item => {
-      const row = [
-        `"${section.nom}"`,
-        `"${item.item}"`,
-        `"${item.priorite || ''}"`,
-        `"${item.delai || ''}"`,
-        `"${item.quantite || ''}"`,
-        `"${item.conseils?.replace(/"/g, '""') || ''}"`
-      ].join(',');
-
-      csv += row + '\n';
-    });
-  });
-
-  return csv;
-}
 
 export default {
   generateCompleteChecklist,
-  getChecklistSummary,
-  exportChecklistJSON,
-  exportChecklistCSV
+  getChecklistSummary
 };

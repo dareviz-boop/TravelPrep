@@ -196,7 +196,7 @@ interface TimelineItem extends ChecklistItem {
 }
 
 export const TimelinePage = ({ formData, checklistData, isDetailed = false }: TimelinePageProps) => {
-  // Organize items by timeline period based on their deadline
+  // Organiser les items par période chronologique selon leur délai
   const organizeItemsByTimeline = () => {
     const timelines: {
       j90_j60: TimelineItem[];

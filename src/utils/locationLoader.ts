@@ -77,69 +77,6 @@ export async function loadLocalisationData(localisation: Localisation): Promise<
 }
 
 /**
- * Charge TOUTES les localisations (pour les cas où on en a besoin)
- * À utiliser avec parcimonie pour éviter de charger trop de données
- */
-export async function loadAllLocalisations(): Promise<LocalisationsMap> {
-  const allLocalisations: LocalisationsMap = {};
-
-  // Charger tous les fichiers en parallèle
-  const loadPromises = Object.keys(LOCATION_FILES).map(async (loc) => {
-    // Éviter les doublons (multi-destinations et amerique-sud partagent le même fichier)
-    if (loc === 'multi-destinations') return;
-
-    const data = await loadLocalisationData(loc as Localisation);
-    Object.assign(allLocalisations, data);
-  });
-
-  await Promise.all(loadPromises);
-
-  return allLocalisations;
-}
-
-/**
- * Charge les données d'une zone géographique de manière synchrone (imports statiques)
- * Utilisé pour les composants qui ne peuvent pas utiliser async
- */
-export function getLocalisationDataSync(localisation: Localisation): LocalisationData | null {
-  try {
-    let data;
-
-    switch (localisation) {
-      case 'europe':
-        data = require('@/data/localisations-europe.json');
-        return data;
-      case 'asie':
-        data = require('@/data/localisations-asie.json');
-        return data;
-      case 'afrique':
-        data = require('@/data/localisations-afrique.json');
-        return data;
-      case 'amerique-nord':
-        data = require('@/data/localisations-amerique-nord.json');
-        return data;
-      case 'amerique-centrale-caraibes':
-        data = require('@/data/localisations-amerique-centrale-caraibes.json');
-        return data;
-      case 'amerique-sud':
-        data = require('@/data/localisations-amerique-sud.json');
-        return data['amerique-sud'];
-      case 'multi-destinations':
-        data = require('@/data/localisations-amerique-sud.json');
-        return data['multi-destinations'];
-      case 'oceanie':
-        data = require('@/data/localisations-oceanie.json');
-        return data;
-      default:
-        return null;
-    }
-  } catch (error) {
-    console.error(`Erreur lors du chargement synchrone de ${localisation}:`, error);
-    return null;
-  }
-}
-
-/**
  * Charge TOUTES les localisations de manière synchrone
  * Utilisé pour les composants qui ne peuvent pas utiliser async (ex: PDF)
  */
@@ -184,18 +121,7 @@ function getFileKey(localisation: Localisation): string {
   return localisation;
 }
 
-/**
- * Vide le cache des localisations
- * Utile pour les tests ou pour forcer un rechargement
- */
-export function clearLocalisationsCache(): void {
-  localisationsCache.clear();
-}
-
 export default {
   loadLocalisationData,
-  loadAllLocalisations,
-  getLocalisationDataSync,
-  getAllLocalisationsSync,
-  clearLocalisationsCache
+  getAllLocalisationsSync
 };
