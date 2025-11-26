@@ -8,6 +8,15 @@
 
 import { Localisation } from '@/types/form';
 
+// Imports statiques pour Vite
+import europeData from '@/data/localisations-europe.json';
+import asieData from '@/data/localisations-asie.json';
+import afriqueData from '@/data/localisations-afrique.json';
+import ameriqueNordData from '@/data/localisations-amerique-nord.json';
+import ameriqueCentraleCaraibesData from '@/data/localisations-amerique-centrale-caraibes.json';
+import ameriqueSudData from '@/data/localisations-amerique-sud.json';
+import oceanieData from '@/data/localisations-oceanie.json';
+
 // Types pour les localisations
 export interface Pays {
   code: string;
@@ -84,24 +93,15 @@ export function getAllLocalisationsSync(): LocalisationsMap {
   const localisations: LocalisationsMap = {};
 
   try {
-    // Charger tous les fichiers
-    const europe = require('@/data/localisations-europe.json');
-    const asie = require('@/data/localisations-asie.json');
-    const afrique = require('@/data/localisations-afrique.json');
-    const ameriqueNord = require('@/data/localisations-amerique-nord.json');
-    const ameriqueCentraleCaraibes = require('@/data/localisations-amerique-centrale-caraibes.json');
-    const ameriqueSud = require('@/data/localisations-amerique-sud.json');
-    const oceanie = require('@/data/localisations-oceanie.json');
-
     // Combiner toutes les localisations
-    localisations['europe'] = europe;
-    localisations['asie'] = asie;
-    localisations['afrique'] = afrique;
-    localisations['amerique-nord'] = ameriqueNord;
-    localisations['amerique-centrale-caraibes'] = ameriqueCentraleCaraibes;
-    localisations['amerique-sud'] = ameriqueSud['amerique-sud'];
-    localisations['multi-destinations'] = ameriqueSud['multi-destinations'];
-    localisations['oceanie'] = oceanie;
+    localisations['europe'] = europeData;
+    localisations['asie'] = asieData;
+    localisations['afrique'] = afriqueData;
+    localisations['amerique-nord'] = ameriqueNordData;
+    localisations['amerique-centrale-caraibes'] = ameriqueCentraleCaraibesData;
+    localisations['amerique-sud'] = ameriqueSudData['amerique-sud'];
+    localisations['multi-destinations'] = ameriqueSudData['multi-destinations'];
+    localisations['oceanie'] = oceanieData;
 
     return localisations;
   } catch (error) {
