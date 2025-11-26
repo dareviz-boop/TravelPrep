@@ -1,4 +1,5 @@
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
+import { PDFIcon } from './PDFIcon';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
 const cleanTextForPDF = (text: string): string => {
@@ -70,11 +71,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 6
   },
-  conseilClimatiqueIcon: {
-    fontSize: 11,
-    marginRight: 6,
-    color: '#F59E0B'
-  },
   conseilClimatiqueTitle: {
     fontSize: 10,
     fontWeight: 700,
@@ -122,7 +118,7 @@ export const ClimatAdvicePage = ({ conseilsClimatiques }: ClimatAdvicePageProps)
         {/* Premier conseil */}
         <View style={styles.conseilClimatiqueBox}>
           <View style={styles.conseilClimatiqueHeader}>
-            <Text style={styles.conseilClimatiqueIcon}>⚠️</Text>
+            <PDFIcon name="alertCircle" style={{ marginRight: 6 }} />
             <Text style={styles.conseilClimatiqueTitle}>Important</Text>
           </View>
           {/* Nom de la condition comme sous-titre */}
@@ -140,7 +136,7 @@ export const ClimatAdvicePage = ({ conseilsClimatiques }: ClimatAdvicePageProps)
       {remainingConseils.map((conseilData, index) => (
         <View key={index} style={styles.conseilClimatiqueBox} wrap={false}>
           <View style={styles.conseilClimatiqueHeader}>
-            <Text style={styles.conseilClimatiqueIcon}>⚠️</Text>
+            <PDFIcon name="alertCircle" style={{ marginRight: 6 }} />
             <Text style={styles.conseilClimatiqueTitle}>Important</Text>
           </View>
           {/* Nom de la condition comme sous-titre */}
