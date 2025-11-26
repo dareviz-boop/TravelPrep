@@ -29,7 +29,7 @@ const cleanTextForPDF = (text: string): string => {
     .replace(/[\u{1FA70}-\u{1FAFF}]/gu, '') // Symbols and Pictographs Extended-A
     // SUPPRIMER les emojis mal encodés (ex: =Ä, <å, =³)
     // Ces patterns apparaissent quand des emojis UTF-8 sont corrompus
-    .replace(/[=<][^\s\w\d.,;:!?()\[\]{}'"\/\\-]/g, '')
+    .replace(/[=<][^\s\w\d.,;:!?()[\]{}'"/\\-]/g, '')
     // Normaliser les guillemets typographiques
     .replace(/[""]/g, '"')
     .replace(/['']/g, "'")

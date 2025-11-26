@@ -26,8 +26,7 @@ const cleanTextForPDF = (text: string): string => {
     .replace(/[\u{1FA70}-\u{1FAFF}]/gu, '')
     // SUPPRIMER les emojis mal encodés (ex: =Ä, <å, =³)
     // Ces patterns apparaissent quand des emojis UTF-8 sont corrompus
-    // eslint-disable-next-line no-useless-escape
-    .replace(/[=<][^\s\w\d.,;:!?()\[\]{}'"\/\\-]/g, '')
+    .replace(/[=<][^\s\w\d.,;:!?()[\]{}'"/\\-]/g, '')
     // Normaliser les guillemets typographiques
     .replace(/[""]/g, '"')
     .replace(/['']/g, "'")
@@ -96,7 +95,7 @@ const styles = StyleSheet.create({
     padding: 6,
     paddingRight: 8,
     borderRadius: 2,
-    breakInside: 'avoid' as any
+    breakInside: 'avoid' as const
   },
   // Colonne gauche : items
   datedBoxItems: {
@@ -120,7 +119,7 @@ const styles = StyleSheet.create({
   itemWithConseil: {
     flexDirection: 'column',
     marginBottom: 6,
-    breakInside: 'avoid' as any
+    breakInside: 'avoid' as const
   },
   itemRow: {
     flexDirection: 'row',
@@ -130,7 +129,7 @@ const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
     marginBottom: 4,
-    breakInside: 'avoid' as any
+    breakInside: 'avoid' as const
   },
   checkbox: {
     width: 8,
@@ -172,7 +171,7 @@ const styles = StyleSheet.create({
   },
   // Groupe titre + items pour éviter les orphelins
   titleWithItemsGroup: {
-    breakInside: 'avoid' as any
+    breakInside: 'avoid' as const
   }
 });
 
@@ -259,7 +258,7 @@ export const DetailedSectionsPage = ({
         };
 
         // Si l'item a un "moment" (Pendant & Après), le mettre dans une section spéciale
-        if ((item as any).moment) {
+        if (item.moment) {
           timelines.pendantApres.push(itemWithSection);
           return;
         }
@@ -427,7 +426,7 @@ export const DetailedSectionsPage = ({
     const itemsByMoment: { [moment: string]: ItemWithSection[] } = {};
     items.forEach(item => {
       // Vérifier d'abord le moment, puis le delai "Après", sinon "Autre"
-      const moment = (item as any).moment || ((item as any).delai === 'Après' ? 'Après' : 'Autre');
+      const moment = item.moment || (item.delai === 'Après' ? 'Après' : 'Autre');
       if (!itemsByMoment[moment]) {
         itemsByMoment[moment] = [];
       }

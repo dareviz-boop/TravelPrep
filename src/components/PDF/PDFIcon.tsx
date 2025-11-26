@@ -1,4 +1,4 @@
-import { Image, View, StyleSheet } from '@react-pdf/renderer';
+import { Image, View, StyleSheet, Style } from '@react-pdf/renderer';
 import { PDF_ICONS } from '@/utils/pdfIcons';
 
 const styles = StyleSheet.create({
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 
 interface PDFIconProps {
   name: keyof typeof PDF_ICONS;
-  style?: any;
+  style?: Style;
 }
 
 /**

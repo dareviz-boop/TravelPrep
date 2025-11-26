@@ -66,7 +66,7 @@ const validateStep = (step: number): boolean => {
         }
         return true;
 
-      case 1: // Étape 2 : Informations (Saison & Température) 💥 CORRECTION MULTI-SÉLECTION
+      case 1: { // Étape 2 : Informations (Saison & Température) 💥 CORRECTION MULTI-SÉLECTION
         const selectedTemperatures = formData.temperature as string[] || [];
         const selectedSaisons = formData.saison as string[] || [];
 
@@ -83,6 +83,7 @@ const validateStep = (step: number): boolean => {
             return false;
         }
         return true;
+      }
         
       case 2: // Étape 3 : Activités/Thèmes 💥 CORRECTION DE LA LOGIQUE
         if (!formData.activites || formData.activites.length === 0) {
