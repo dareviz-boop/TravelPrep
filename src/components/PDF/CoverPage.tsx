@@ -452,8 +452,8 @@ export const CoverPage = ({
             <DetailedSectionsPage
               formData={formData}
               sections={essentialSections}
-              titlePart1="Timeline de Préparation - "
-              titlePart2="Essentiels absolus"
+              titlePart1="Timeline de Préparation -"
+              titlePart2=" Essentiels absolus"
               isEssentials={true}
               addSeparator={false}
             />
@@ -464,8 +464,8 @@ export const CoverPage = ({
             <DetailedSectionsPage
               formData={formData}
               sections={recommendedSections}
-              titlePart1="À Prévoir - "
-              titlePart2="Sélection conseillée"
+              titlePart1="À Prévoir -"
+              titlePart2=" Sélection conseillée"
               isEssentials={false}
               addSeparator={true}
             />
@@ -476,8 +476,8 @@ export const CoverPage = ({
             <DetailedSectionsPage
               formData={formData}
               sections={activiteSections}
-              titlePart1="À Prévoir - "
-              titlePart2="Préparation activités"
+              titlePart1="À Prévoir -"
+              titlePart2=" Préparation activités"
               isEssentials={false}
               addSeparator={true}
             />

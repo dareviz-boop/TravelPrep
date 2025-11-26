@@ -754,6 +754,10 @@ const DEDUP_KEYWORDS: { [key: string]: string[] } = {
   // Pansements et antiseptique : items génériques OK à dédupliquer
   'pansements': ['pansements varies', 'pansements assortiment'],
   'antiseptique': ['antiseptique', 'desinfectant'],
+  // Antifongiques : séparer par type (crème ≠ poudre ≠ spray)
+  'antifongique_creme': ['antifongique', 'antifongique mycoses pieds', 'creme antifongique'],
+  'poudre_antifongique': ['poudre antifongique'],
+  'spray_antifongique_vetement': ['spray antifongique vetement', 'spray antifongique'],
 
   // === DOCUMENTS ===
   'copies_documents': ['copies documents', 'photocopies documents'],
