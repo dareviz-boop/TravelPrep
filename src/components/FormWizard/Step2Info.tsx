@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormData } from "@/types/form";
-import { checklistData } from "@/utils/checklistUtils";
+import { checklistData, localisations } from "@/utils/checklistUtils";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
 import { generateAutoSuggestions, autoDetectSeasons, autoDetectTemperatures } from "@/utils/checklistFilters";
@@ -333,7 +333,6 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
    * Obtenir le label de la localisation
    */
   const getLocalisationLabel = (): string => {
-    const localisations = checklistData.localisations as Record<string, LocalisationOption>;
     const localisation = localisations[formData.localisation];
     if (localisation && localisation.nom) {
       // Retirer l'emoji si présent (ex: "🇪🇺 Europe" → "Europe")

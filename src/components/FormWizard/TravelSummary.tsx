@@ -1,6 +1,6 @@
 import { FormData } from "@/types/form";
 import { Edit2 } from "lucide-react";
-import { checklistData } from "@/utils/checklistUtils";
+import { checklistData, localisations } from "@/utils/checklistUtils";
 
 interface TravelSummaryProps {
   formData: FormData;
@@ -158,7 +158,7 @@ export const TravelSummary = ({ formData, onEditStep }: TravelSummaryProps) => {
                 <span className="text-gray-600">Destination :</span>
                 <span className="text-gray-800 font-medium">
                   {formData.localisation ?
-                    checklistData.localisations[formData.localisation as keyof typeof checklistData.localisations]?.nom.split(' ').slice(1).join(' ')
+                    localisations[formData.localisation]?.nom.split(' ').slice(1).join(' ')
                     : "Non renseigné"}
                   {formData.pays && formData.pays.length > 0 && (
                     <span className="ml-2">
