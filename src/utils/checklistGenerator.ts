@@ -4,7 +4,7 @@
  */
 
 import { FormData } from '@/types/form';
-import { getClimatEquipment, ChecklistSection, DestinationSpecifiqueItem } from '@/utils/checklistFilters';
+import { getClimatEquipment, getClimatAdvice, ChecklistSection, DestinationSpecifiqueItem } from '@/utils/checklistFilters';
 import activitesData from '@/data/checklist_activites.json';
 import checklistData from '@/data/checklistComplete.json';
 import coreSectionsData from '@/data/checklist_core_sections.json';
@@ -259,7 +259,7 @@ export interface GeneratedChecklist {
     generatedAt: string;
   };
   sections: GeneratedChecklistSection[];
-  conseilsClimatiques?: string[]; // Conseils climatiques globaux
+  conseilsClimatiques?: Array<{nom: string, conseil: string}>; // Conseils climatiques avec nom de condition
   stats: {
     totalSections: number;
     totalItems: number;
@@ -285,13 +285,8 @@ export function generateCompleteChecklist(formData: FormData): GeneratedChecklis
   let coreSections = getCoreSections(formData);
 
   // === 2. FUSIONNER LES ITEMS CLIMATIQUES DANS LES SECTIONS CORE ===
-  // Récupérer les sections climatiques complètes (avec conseils)
-  const climatSections = getClimatEquipment(formData);
-  const conseilsClimatiques = climatSections
-    .filter(s => s.conseils && s.conseils.trim().length > 0)
-    .map(s => s.conseils!)
-    .flatMap(c => c.split('\n\n')) // Séparer les conseils concaténés
-    .filter(c => c.trim().length > 0);
+  // Récupérer les conseils climatiques avec nom de condition
+  const conseilsClimatiques = getClimatAdvice(formData);
 
   const climatItems = getClimatItemsGroupedBySection(formData);
   coreSections = coreSections.map(section => {

@@ -80,6 +80,12 @@ const styles = StyleSheet.create({
     fontWeight: 700,
     color: '#92400E'
   },
+  conseilClimatiqueSubtitle: {
+    fontSize: 10,
+    fontWeight: 700,
+    color: '#E85D2A',
+    marginBottom: 4
+  },
   conseilClimatiqueText: {
     fontSize: 9,
     color: '#78350F',
@@ -92,7 +98,7 @@ const styles = StyleSheet.create({
 });
 
 interface ClimatAdvicePageProps {
-  conseilsClimatiques: string[];
+  conseilsClimatiques: Array<{nom: string, conseil: string}>;
 }
 
 export const ClimatAdvicePage = ({ conseilsClimatiques }: ClimatAdvicePageProps) => {
@@ -119,21 +125,31 @@ export const ClimatAdvicePage = ({ conseilsClimatiques }: ClimatAdvicePageProps)
             <Text style={styles.conseilClimatiqueIcon}>⚠️</Text>
             <Text style={styles.conseilClimatiqueTitle}>Important</Text>
           </View>
+          {/* Nom de la condition comme sous-titre */}
+          <Text style={styles.conseilClimatiqueSubtitle}>
+            {cleanTextForPDF(firstConseil.nom)}
+          </Text>
+          {/* Conseil */}
           <Text style={styles.conseilClimatiqueText}>
-            {cleanTextForPDF(firstConseil)}
+            {cleanTextForPDF(firstConseil.conseil)}
           </Text>
         </View>
       </View>
 
       {/* Conseils restants */}
-      {remainingConseils.map((conseil, index) => (
+      {remainingConseils.map((conseilData, index) => (
         <View key={index} style={styles.conseilClimatiqueBox} wrap={false}>
           <View style={styles.conseilClimatiqueHeader}>
             <Text style={styles.conseilClimatiqueIcon}>⚠️</Text>
             <Text style={styles.conseilClimatiqueTitle}>Important</Text>
           </View>
+          {/* Nom de la condition comme sous-titre */}
+          <Text style={styles.conseilClimatiqueSubtitle}>
+            {cleanTextForPDF(conseilData.nom)}
+          </Text>
+          {/* Conseil */}
           <Text style={styles.conseilClimatiqueText}>
-            {cleanTextForPDF(conseil)}
+            {cleanTextForPDF(conseilData.conseil)}
           </Text>
         </View>
       ))}
