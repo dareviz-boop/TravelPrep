@@ -47,11 +47,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 14,
     fontWeight: 700,
-    color: '#E85D2A',
+    color: '#C54616',
     marginBottom: 15
   },
   divider: {
-    borderBottom: '2px solid #E85D2A',
+    borderBottom: '2px solid #C54616',
     marginVertical: 10,
     marginBottom: 15
   },
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     paddingLeft: 6,
     paddingVertical: 3,
     backgroundColor: '#F5F5F5',
-    borderLeft: '3px solid #E85D2A'
+    borderLeft: '3px solid #C54616'
   },
   subCategoryTitle: {
     fontSize: 10,

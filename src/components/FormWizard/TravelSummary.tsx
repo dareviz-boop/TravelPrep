@@ -100,7 +100,7 @@ export const TravelSummary = ({ formData, onEditStep }: TravelSummaryProps) => {
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Titre principal */}
         <div className="text-center space-y-2">
-          <h1 className="text-4xl font-bold text-[#EA580C]">
+          <h1 className="text-4xl font-bold text-[#C54616]">
             ⚙️ Personnalisez votre checklist
           </h1>
           <p className="text-gray-600 text-lg">
@@ -123,7 +123,7 @@ export const TravelSummary = ({ formData, onEditStep }: TravelSummaryProps) => {
               </h3>
               <button
                 onClick={() => onEditStep(1)}
-                className="text-[#EA580C] hover:text-[#C2410C] transition-colors"
+                className="text-[#C54616] hover:text-[#d85e20] transition-colors"
                 aria-label="Modifier la destination"
               >
                 <Edit2 className="w-5 h-5" />
@@ -181,7 +181,7 @@ export const TravelSummary = ({ formData, onEditStep }: TravelSummaryProps) => {
               </h3>
               <button
                 onClick={() => onEditStep(2)}
-                className="text-[#EA580C] hover:text-[#C2410C] transition-colors"
+                className="text-[#C54616] hover:text-[#d85e20] transition-colors"
                 aria-label="Modifier les informations"
               >
                 <Edit2 className="w-5 h-5" />
@@ -232,7 +232,7 @@ export const TravelSummary = ({ formData, onEditStep }: TravelSummaryProps) => {
               </h3>
               <button
                 onClick={() => onEditStep(3)}
-                className="text-[#EA580C] hover:text-[#C2410C] transition-colors"
+                className="text-[#C54616] hover:text-[#d85e20] transition-colors"
                 aria-label="Modifier les activités"
               >
                 <Edit2 className="w-5 h-5" />
@@ -261,7 +261,7 @@ export const TravelSummary = ({ formData, onEditStep }: TravelSummaryProps) => {
               </h3>
               <button
                 onClick={() => onEditStep(4)}
-                className="text-[#EA580C] hover:text-[#C2410C] transition-colors"
+                className="text-[#C54616] hover:text-[#d85e20] transition-colors"
                 aria-label="Modifier le profil"
               >
                 <Edit2 className="w-5 h-5" />

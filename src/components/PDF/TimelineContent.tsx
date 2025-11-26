@@ -53,12 +53,12 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     backgroundColor: '#f9fafb',
     padding: 5,
-    borderLeft: '3px solid #E85D2A'
+    borderLeft: '3px solid #C54616'
   },
   categoryTitle: {
     fontSize: 14,
     fontWeight: 600,
-    color: '#E85D2A',
+    color: '#C54616',
     marginTop: 12,
     marginBottom: 10,
     marginLeft: 5
@@ -66,13 +66,13 @@ const styles = StyleSheet.create({
   categoryTitleMustHave: {
     fontSize: 14,
     fontWeight: 700,
-    color: '#E85D2A',
+    color: '#C54616',
     marginTop: 12,
     marginBottom: 10,
     marginLeft: 5,
     backgroundColor: '#FEF3F0',
     padding: 4,
-    borderLeft: '2px solid #E85D2A'
+    borderLeft: '2px solid #C54616'
   },
   item: {
     flexDirection: 'row',
@@ -460,7 +460,7 @@ export const TimelineContent = ({ formData, checklistData, isDetailed = false, s
           const momentItems = itemsByMoment[moment];
           return (
             <View key={moment}>
-              <Text style={{ fontSize: 10, fontWeight: 600, color: '#E85D2A', marginTop: 8, marginBottom: 4, marginLeft: 5 }}>
+              <Text style={{ fontSize: 10, fontWeight: 600, color: '#C54616', marginTop: 8, marginBottom: 4, marginLeft: 5 }}>
                 {cleanTextForPDF(moment)}
               </Text>
               {momentItems.map((item, index) => {
@@ -511,7 +511,7 @@ export const TimelineContent = ({ formData, checklistData, isDetailed = false, s
           <Text style={{ fontSize: 20, fontWeight: 700, color: '#111827' }}>
             Timeline de Préparation -{' '}
           </Text>
-          <Text style={{ fontSize: 20, fontWeight: 700, color: '#E85D2A' }}>
+          <Text style={{ fontSize: 20, fontWeight: 700, color: '#C54616' }}>
             Essentiels absolus
           </Text>
         </View>
