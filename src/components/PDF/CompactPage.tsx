@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
   // Container pour le titre en deux parties (style détaillé)
   mainSectionTitleContainer: {
     flexDirection: 'row',
-    marginTop: 8, // Réduit de 18 à 8 pour moins d'espace blanc
-    marginBottom: 6, // Réduit de 8 à 6 pour moins d'espace après les grands titres
+    marginTop: 6, // Réduit pour moins d'espace blanc
+    marginBottom: 4, // Réduit pour moins d'espace après les grands titres
     flexWrap: 'wrap'
   },
   // Première partie du titre (noir)
@@ -68,12 +68,12 @@ const styles = StyleSheet.create({
   // Barre de séparation orange pleine largeur
   divider: {
     borderBottom: '2px solid #C54616',
-    marginVertical: 14,
+    marginVertical: 10,
     width: '100%'
   },
   // Jalon temporel (J-90 - J-60, etc.)
   timelineBlock: {
-    marginBottom: 12, // Réduit de 18 à 12 pour moins d'espace blanc
+    marginBottom: 10, // Réduit pour moins d'espace blanc
     breakInside: 'avoid' as const
   },
   timelineHeader: {
@@ -161,9 +161,9 @@ const styles = StyleSheet.create({
   },
   // Styles pour les conseils climatiques
   climatConditionBlock: {
-    marginBottom: 8,
-    paddingLeft: 10,
-    breakInside: 'avoid' as const
+    marginBottom: 6,
+    paddingLeft: 10
+    // Ne pas utiliser breakInside: 'avoid' pour permettre la pagination naturelle
   },
   climatConditionTitle: {
     fontSize: 10,
@@ -415,62 +415,49 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
     return (
       <>
         <View style={styles.divider} />
-        {/* Grouper titre principal + première section pour éviter espaces blancs */}
-        <View wrap={false}>
-          <View style={styles.mainSectionTitleContainer}>
-            <Text style={styles.mainSectionTitlePart1}>À prévoir - </Text>
-            <Text style={styles.mainSectionTitlePart2}>Sélection conseillée</Text>
-          </View>
+        {/* Titre principal */}
+        <View style={styles.mainSectionTitleContainer}>
+          <Text style={styles.mainSectionTitlePart1}>À prévoir - </Text>
+          <Text style={styles.mainSectionTitlePart2}>Sélection conseillée</Text>
+        </View>
 
-          {/* Première section */}
-          {firstEntry && (() => {
-            const [sectionId, { section, items }] = firstEntry;
+        {/* Première section */}
+        {firstEntry && (() => {
+          const [sectionId, { section, items }] = firstEntry;
 
-            // Gestion spéciale pour la section "apps" avec sous-catégories
-            if (sectionId === 'apps') {
-              return (
-                <View key={sectionId}>
-                  <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
-                  {renderAppsWithSubcategories(items)}
-                </View>
-              );
-            }
-
-            // Gestion spéciale pour la section "pendant_apres" organisée par moment
-            if (sectionId === 'pendant_apres') {
-              return (
-                <View key={sectionId}>
-                  <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
-                  {renderPendantApresWithMoments(items)}
-                </View>
-              );
-            }
-
-            // Grouper titre + 3 premiers items pour éviter coupures
-            const firstItems = items.slice(0, 3);
-            const restItems = items.slice(3);
-
+          // Gestion spéciale pour la section "apps" avec sous-catégories
+          if (sectionId === 'apps') {
             return (
               <View key={sectionId}>
-                {/* Titre + 3 premiers items ensemble */}
-                <View style={styles.categoryHeaderGroup} wrap={false}>
-                  <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
-                  {firstItems.map((item, idx) => {
-                    const priority = getPriority(item.priorite);
-                    return (
-                      <View style={styles.item} key={item.id || `item-${idx}`} wrap={false}>
-                        {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
-                        <View style={styles.checkbox} />
-                        <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                      </View>
-                    );
-                  })}
-                </View>
-                {/* Items restants */}
-                {restItems.map((item, idx) => {
+                <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+                {renderAppsWithSubcategories(items)}
+              </View>
+            );
+          }
+
+          // Gestion spéciale pour la section "pendant_apres" organisée par moment
+          if (sectionId === 'pendant_apres') {
+            return (
+              <View key={sectionId}>
+                <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+                {renderPendantApresWithMoments(items)}
+              </View>
+            );
+          }
+
+          // Grouper titre + 3 premiers items pour éviter coupures
+          const firstItems = items.slice(0, 3);
+          const restItems = items.slice(3);
+
+          return (
+            <View key={sectionId}>
+              {/* Titre + 3 premiers items ensemble */}
+              <View style={styles.categoryHeaderGroup} wrap={false}>
+                <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+                {firstItems.map((item, idx) => {
                   const priority = getPriority(item.priorite);
                   return (
-                    <View style={styles.item} key={item.id || `rest-${idx}`} wrap={false}>
+                    <View style={styles.item} key={item.id || `item-${idx}`} wrap={false}>
                       {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
                       <View style={styles.checkbox} />
                       <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
@@ -478,9 +465,20 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
                   );
                 })}
               </View>
-            );
-          })()}
-        </View>
+              {/* Items restants */}
+              {restItems.map((item, idx) => {
+                const priority = getPriority(item.priorite);
+                return (
+                  <View style={styles.item} key={item.id || `rest-${idx}`} wrap={false}>
+                    {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                    <View style={styles.checkbox} />
+                    <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                  </View>
+                );
+              })}
+            </View>
+          );
+        })()}
 
         {/* Sections restantes */}
         {restEntries.map(([sectionId, { section, items }]) => {
@@ -683,35 +681,22 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
     return (
       <>
         <View style={styles.divider} />
-        {/* Titre principal + première section groupés avec wrap={false} */}
-        <View wrap={false}>
-          <View style={styles.mainSectionTitleContainer}>
-            <Text style={styles.mainSectionTitlePart1}>À prévoir - </Text>
-            <Text style={styles.mainSectionTitlePart2}>Préparation activités</Text>
-          </View>
+        {/* Titre principal */}
+        <View style={styles.mainSectionTitleContainer}>
+          <Text style={styles.mainSectionTitlePart1}>À prévoir - </Text>
+          <Text style={styles.mainSectionTitlePart2}>Préparation activités</Text>
+        </View>
 
-          {/* Première section d'activité */}
-          {firstSection && firstSection.items && firstSection.items.length > 0 && (
-            <View>
-              {/* Titre + 3 premiers items ensemble */}
-              <View style={styles.categoryHeaderGroup} wrap={false}>
-                <Text style={styles.categoryTitle}>{cleanTextForPDF(firstSection.nom)}</Text>
-                {firstSection.items.slice(0, 3).map((item, idx) => {
-                  const priority = getPriority(item.priorite);
-                  return (
-                    <View style={styles.item} key={item.id || `activity-${idx}`} wrap={false}>
-                      {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
-                      <View style={styles.checkbox} />
-                      <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                    </View>
-                  );
-                })}
-              </View>
-              {/* Items restants de la première section */}
-              {firstSection.items.slice(3).map((item, idx) => {
+        {/* Première section d'activité */}
+        {firstSection && firstSection.items && firstSection.items.length > 0 && (
+          <View>
+            {/* Titre + 3 premiers items ensemble */}
+            <View style={styles.categoryHeaderGroup} wrap={false}>
+              <Text style={styles.categoryTitle}>{cleanTextForPDF(firstSection.nom)}</Text>
+              {firstSection.items.slice(0, 3).map((item, idx) => {
                 const priority = getPriority(item.priorite);
                 return (
-                  <View style={styles.item} key={item.id || `rest-${idx}`} wrap={false}>
+                  <View style={styles.item} key={item.id || `activity-${idx}`} wrap={false}>
                     {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
                     <View style={styles.checkbox} />
                     <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
@@ -719,8 +704,19 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
                 );
               })}
             </View>
-          )}
-        </View>
+            {/* Items restants de la première section */}
+            {firstSection.items.slice(3).map((item, idx) => {
+              const priority = getPriority(item.priorite);
+              return (
+                <View style={styles.item} key={item.id || `rest-${idx}`} wrap={false}>
+                  {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                  <View style={styles.checkbox} />
+                  <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                </View>
+              );
+            })}
+          </View>
+        )}
 
         {/* Sections d'activités restantes */}
         {restSections.map(section => {
@@ -793,33 +789,61 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
     return (
       <>
         <View style={styles.divider} />
-        {/* Grouper titre principal + première condition pour éviter espaces blancs */}
-        <View wrap={false}>
-          <View style={styles.mainSectionTitleContainer}>
-            <Text style={styles.mainSectionTitlePart1}>Conseils - </Text>
-            <Text style={styles.mainSectionTitlePart2}>Conditions climatiques</Text>
-          </View>
+        {/* Titre principal */}
+        <View style={styles.mainSectionTitleContainer}>
+          <Text style={styles.mainSectionTitlePart1}>Conseils - </Text>
+          <Text style={styles.mainSectionTitlePart2}>Conditions climatiques</Text>
+        </View>
 
-          {/* Première condition */}
-          <View style={styles.climatConditionBlock}>
+        {/* Première condition - grouper titre + 2 premiers conseils si possible */}
+        {firstAdviceSentences.length <= 3 ? (
+          <View style={styles.climatConditionBlock} wrap={false}>
             <Text style={styles.climatConditionTitle}>{cleanTextForPDF(firstCondition.nom)}</Text>
             {firstAdviceSentences.map((sentence, idx) => (
               <Text key={idx} style={styles.climatAdviceItem}>• {cleanTextForPDF(sentence)}</Text>
             ))}
           </View>
-        </View>
-
-        {/* Conditions restantes */}
-        {restConditions.map((item, index) => {
-          const adviceSentences = formatAdviceText(item.conseil);
-          return (
-            <View key={index} style={styles.climatConditionBlock} wrap={false}>
-              <Text style={styles.climatConditionTitle}>{cleanTextForPDF(item.nom)}</Text>
-              {adviceSentences.map((sentence, idx) => (
+        ) : (
+          <View style={styles.climatConditionBlock}>
+            <View wrap={false}>
+              <Text style={styles.climatConditionTitle}>{cleanTextForPDF(firstCondition.nom)}</Text>
+              {firstAdviceSentences.slice(0, 2).map((sentence, idx) => (
                 <Text key={idx} style={styles.climatAdviceItem}>• {cleanTextForPDF(sentence)}</Text>
               ))}
             </View>
-          );
+            {firstAdviceSentences.slice(2).map((sentence, idx) => (
+              <Text key={idx + 2} style={styles.climatAdviceItem}>• {cleanTextForPDF(sentence)}</Text>
+            ))}
+          </View>
+        )}
+
+        {/* Conditions restantes - grouper titre + 2 premiers conseils si possible */}
+        {restConditions.map((item, index) => {
+          const adviceSentences = formatAdviceText(item.conseil);
+          if (adviceSentences.length <= 3) {
+            return (
+              <View key={index} style={styles.climatConditionBlock} wrap={false}>
+                <Text style={styles.climatConditionTitle}>{cleanTextForPDF(item.nom)}</Text>
+                {adviceSentences.map((sentence, idx) => (
+                  <Text key={idx} style={styles.climatAdviceItem}>• {cleanTextForPDF(sentence)}</Text>
+                ))}
+              </View>
+            );
+          } else {
+            return (
+              <View key={index} style={styles.climatConditionBlock}>
+                <View wrap={false}>
+                  <Text style={styles.climatConditionTitle}>{cleanTextForPDF(item.nom)}</Text>
+                  {adviceSentences.slice(0, 2).map((sentence, idx) => (
+                    <Text key={idx} style={styles.climatAdviceItem}>• {cleanTextForPDF(sentence)}</Text>
+                  ))}
+                </View>
+                {adviceSentences.slice(2).map((sentence, idx) => (
+                  <Text key={idx + 2} style={styles.climatAdviceItem}>• {cleanTextForPDF(sentence)}</Text>
+                ))}
+              </View>
+            );
+          }
         })}
       </>
     );
