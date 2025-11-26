@@ -118,17 +118,17 @@ const styles = StyleSheet.create({
   // Item de checklist avec conseil
   itemWithConseil: {
     flexDirection: 'column',
-    marginBottom: 6,
+    marginBottom: 10,
     breakInside: 'avoid' as const
   },
   itemRow: {
     flexDirection: 'row',
-    marginBottom: 2
+    marginBottom: 3
   },
   // Item de checklist sans conseil
   item: {
     flexDirection: 'row',
-    marginBottom: 4,
+    marginBottom: 6,
     breakInside: 'avoid' as const
   },
   checkbox: {
@@ -144,12 +144,12 @@ const styles = StyleSheet.create({
     color: '#374151',
     lineHeight: 1.4
   },
-  // Conseil sans indentation, démarre sous la checkbox
+  // Conseil sans indentation, démarre directement sous la checkbox
   conseilContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
     marginTop: 1,
-    paddingLeft: 16 // Aligné avec le texte après la checkbox (8px checkbox + 8px margin)
+    paddingLeft: 0 // Pas d'indentation, démarre directement sous la checkbox
   },
   conseilText: {
     fontSize: 9,
@@ -164,9 +164,10 @@ const styles = StyleSheet.create({
     marginRight: 5,
     color: '#DC2626'
   },
-  // Séparateur entre grandes sections (pour démarcation)
+  // Séparateur orange entre grandes sections (pour démarcation)
   sectionSeparator: {
-    marginTop: 30,
+    borderBottom: '3px solid #C54616',
+    marginTop: 20,
     marginBottom: 15
   },
   // Groupe titre + items pour éviter les orphelins
@@ -267,16 +268,26 @@ export const DetailedSectionsPage = ({
 
         if (!delai) {
           timelines.noDelay.push(itemWithSection);
-        } else if (delai.includes('J-90') || delai.includes('J-60')) {
-          timelines.j90_j60.push(itemWithSection);
-        } else if (delai.includes('J-30') || delai.includes('J-21') || delai.includes('J-14')) {
-          timelines.j30_j14.push(itemWithSection);
-        } else if (delai.includes('J-7') || delai.includes('J-3')) {
-          timelines.j7_j3.push(itemWithSection);
-        } else if (delai.includes('J-2') || delai.includes('J-1')) {
-          timelines.j2_j1.push(itemWithSection);
         } else {
-          timelines.noDelay.push(itemWithSection);
+          // Extraire le numéro de jours du délai pour une classification précise
+          const delayNumber = extractDelayNumber(delai);
+
+          if (delayNumber >= 60) {
+            // J-90, J-60, etc.
+            timelines.j90_j60.push(itemWithSection);
+          } else if (delayNumber >= 14) {
+            // J-59 à J-14 (inclut J-45, J-30, J-21, J-14)
+            timelines.j30_j14.push(itemWithSection);
+          } else if (delayNumber >= 3) {
+            // J-13 à J-3 (inclut J-7, J-5, J-3)
+            timelines.j7_j3.push(itemWithSection);
+          } else if (delayNumber >= 1) {
+            // J-2, J-1
+            timelines.j2_j1.push(itemWithSection);
+          } else {
+            // Délai = 0 ou non reconnu
+            timelines.noDelay.push(itemWithSection);
+          }
         }
       });
     });
