@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
   // Jalon temporel (J-90 - J-60, etc.)
   timelineBlock: {
-    marginBottom: 18,
+    marginBottom: 12, // Réduit de 18 à 12 pour moins d'espace blanc
     breakInside: 'avoid' as const
   },
   timelineHeader: {
@@ -401,7 +401,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
           // Gestion spéciale pour la section "apps" avec sous-catégories
           if (sectionId === 'apps') {
             return (
-              <View key={sectionId}>
+              <View key={sectionId} wrap={false}>
                 <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
                 {renderAppsWithSubcategories(items)}
               </View>
@@ -411,7 +411,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
           // Gestion spéciale pour la section "pendant_apres" organisée par moment
           if (sectionId === 'pendant_apres') {
             return (
-              <View key={sectionId}>
+              <View key={sectionId} wrap={false}>
                 <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
                 {renderPendantApresWithMoments(items)}
               </View>
@@ -456,81 +456,48 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
     );
   };
 
-  // Ordre des catégories d'apps pour affichage en 2 colonnes
-  // L'ordre définit: Transport (gauche) | Budget & Finances (droite) - en premier
-  // Puis les autres catégories suivent
-  // Note: Les noms sont normalisés (sans emojis) pour la comparaison
-  const APPS_CATEGORY_ORDER = [
-    'Transport',     // Gauche - ligne 1
-    'Budget',        // Droite - ligne 1
-    'Navigation',    // Gauche - ligne 2
-    'Hébergement',   // Droite - ligne 2
-    'Communication', // Gauche - ligne 3
-    'Traduction',    // Droite - ligne 3
-    'Restaurants',   // Gauche - ligne 4
-    'Santé',         // Droite - ligne 4
-    'Sécurité',      // Gauche - ligne 5
-    'Météo',         // Droite - ligne 5
-    'Autres'
-  ];
-
-  // Fonction pour normaliser un nom de catégorie (sans emojis, simplifié)
-  const normalizeAppCategory = (name: string): string => {
-    // Enlever les emojis
-    const withoutEmojis = name.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '').trim();
-    // Garder juste le premier mot significatif pour la comparaison
-    const firstWord = withoutEmojis.split(/[&,]/)[0].trim();
-    return firstWord;
-  };
-
   // Fonction spéciale pour rendre les apps avec sous-catégories sur 2 colonnes
+  // Conserve l'ordre d'apparition dans le JSON (ordre des items)
   const renderAppsWithSubcategories = (items: ChecklistItem[]) => {
     // Grouper les apps par catégorie (Navigation, Hébergement, etc.)
-    const appsByCategory: { [key: string]: ChecklistItem[] } = {};
+    // ET conserver l'ordre d'apparition
+    const appsByCategory: Array<[string, ChecklistItem[]]> = [];
+    const categoryMap: { [key: string]: number } = {};
 
     items.forEach(item => {
       // Extraire la catégorie du texte de l'item (format: "Catégorie: Nom de l'app")
       const match = item.item.match(/^([^:]+):\s*(.+)$/);
       if (match) {
         const category = match[1].trim();
-        if (!appsByCategory[category]) {
-          appsByCategory[category] = [];
-        }
-        appsByCategory[category].push({
+        const appItem = {
           ...item,
           item: match[2].trim() // Nom de l'app sans la catégorie
-        });
+        };
+
+        // Si la catégorie existe déjà, ajouter l'app
+        if (categoryMap[category] !== undefined) {
+          appsByCategory[categoryMap[category]][1].push(appItem);
+        } else {
+          // Sinon créer une nouvelle catégorie
+          categoryMap[category] = appsByCategory.length;
+          appsByCategory.push([category, [appItem]]);
+        }
       } else {
         // Si pas de catégorie, mettre dans "Autres"
-        if (!appsByCategory['Autres']) {
-          appsByCategory['Autres'] = [];
+        if (categoryMap['Autres'] !== undefined) {
+          appsByCategory[categoryMap['Autres']][1].push(item);
+        } else {
+          categoryMap['Autres'] = appsByCategory.length;
+          appsByCategory.push(['Autres', [item]]);
         }
-        appsByCategory['Autres'].push(item);
       }
-    });
-
-    // Trier les catégories selon l'ordre défini (en normalisant les noms)
-    const sortedCategories = Object.entries(appsByCategory).sort(([catA], [catB]) => {
-      const normalizedA = normalizeAppCategory(catA);
-      const normalizedB = normalizeAppCategory(catB);
-      // Chercher l'index en comparant avec les noms normalisés de APPS_CATEGORY_ORDER
-      const indexA = APPS_CATEGORY_ORDER.findIndex(orderCat =>
-        normalizeAppCategory(orderCat) === normalizedA || orderCat === normalizedA
-      );
-      const indexB = APPS_CATEGORY_ORDER.findIndex(orderCat =>
-        normalizeAppCategory(orderCat) === normalizedB || orderCat === normalizedB
-      );
-      // Si catégorie non trouvée, la mettre à la fin
-      if (indexA === -1) return 1;
-      if (indexB === -1) return -1;
-      return indexA - indexB;
     });
 
     // Rendu en 2 colonnes pour économiser l'espace
     // wrap={false} empêche les catégories d'être coupées entre les pages
     return (
       <View style={styles.appsColumnsContainer}>
-        {sortedCategories.map(([category, categoryItems]) => (
+        {appsByCategory.map(([category, categoryItems]) => (
           <View key={category} style={styles.appsCategoryColumn} wrap={false}>
             <Text style={styles.subCategoryTitle}>{cleanTextForPDF(category)}</Text>
             {categoryItems.map((item, idx) => (
@@ -623,15 +590,54 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
 
     if (activitySections.length === 0) return null;
 
+    // Grouper le titre principal avec la première section pour éviter le titre seul
+    const firstSection = activitySections[0];
+    const restSections = activitySections.slice(1);
+
     return (
       <>
         <View style={styles.divider} />
-        <View style={styles.mainSectionTitleContainer}>
-          <Text style={styles.mainSectionTitlePart1}>À prévoir - </Text>
-          <Text style={styles.mainSectionTitlePart2}>Préparation activités</Text>
+        {/* Titre principal + première section groupés avec wrap={false} */}
+        <View wrap={false}>
+          <View style={styles.mainSectionTitleContainer}>
+            <Text style={styles.mainSectionTitlePart1}>À prévoir - </Text>
+            <Text style={styles.mainSectionTitlePart2}>Préparation activités</Text>
+          </View>
+
+          {/* Première section d'activité */}
+          {firstSection && firstSection.items && firstSection.items.length > 0 && (
+            <View>
+              {/* Titre + 3 premiers items ensemble */}
+              <View style={styles.categoryHeaderGroup} wrap={false}>
+                <Text style={styles.categoryTitle}>{cleanTextForPDF(firstSection.nom)}</Text>
+                {firstSection.items.slice(0, 3).map((item, idx) => {
+                  const priority = getPriority(item.priorite);
+                  return (
+                    <View style={styles.item} key={item.id || `activity-${idx}`} wrap={false}>
+                      {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                      <View style={styles.checkbox} />
+                      <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                    </View>
+                  );
+                })}
+              </View>
+              {/* Items restants de la première section */}
+              {firstSection.items.slice(3).map((item, idx) => {
+                const priority = getPriority(item.priorite);
+                return (
+                  <View style={styles.item} key={item.id || `rest-${idx}`} wrap={false}>
+                    {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+                    <View style={styles.checkbox} />
+                    <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+                  </View>
+                );
+              })}
+            </View>
+          )}
         </View>
 
-        {activitySections.map(section => {
+        {/* Sections d'activités restantes */}
+        {restSections.map(section => {
           if (!section.items || section.items.length === 0) return null;
 
           // Grouper titre + 3 premiers items pour éviter coupures
