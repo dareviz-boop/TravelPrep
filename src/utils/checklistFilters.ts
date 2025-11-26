@@ -483,6 +483,71 @@ export function getClimatEquipment(formData: FormData): ChecklistSection[] {
   return sections;
 }
 
+/**
+ * Récupère les conseils climatiques avec le nom de chaque condition
+ * Pour affichage dans le PDF avec nom de condition comme titre
+ */
+export function getClimatAdvice(formData: FormData): Array<{nom: string, conseil: string}> {
+  const advices: Array<{nom: string, conseil: string}> = [];
+
+  const selectedConditions = formData.conditionsClimatiques || [];
+
+  // Si "Aucune" est sélectionné, on ne retourne rien
+  if (selectedConditions.includes('climat_aucune')) {
+    return [];
+  }
+
+  // Traiter chaque condition climatique sélectionnée
+  selectedConditions.forEach((conditionId) => {
+    const condition = findConditionById(conditionId);
+    if (!condition || !condition.conseils) return;
+
+    // === FILTRES : Vérifier si la condition est applicable ===
+
+    // 1. Filtre destination
+    const matchesDest = matchesDestination(
+      condition.filtres?.destinations,
+      formData.localisation
+    );
+
+    // 2. Filtre période
+    const matchesPeriod = matchesPeriode(
+      condition.filtres?.periode || [],
+      formData.dateDepart,
+      formData.localisation,
+      formData.pays,
+      formData.dateRetour,
+      formData.duree
+    );
+
+    // 3. Filtre activités
+    const matchesAct = matchesActivites(
+      condition.filtres?.activites,
+      formData.activites
+    );
+
+    // 4. Filtre pays spécifiques
+    const matchesPaysFilter = matchesPays(
+      condition.filtres?.pays,
+      formData.pays
+    );
+
+    // === LOGIQUE DE FILTRAGE COMBINÉE ===
+    const hasCountryFilter = condition.filtres?.pays && condition.filtres.pays.length > 0;
+    const locationMatch = hasCountryFilter ? matchesPaysFilter : matchesDest;
+
+    // === APPLICATION DES FILTRES ===
+    if (locationMatch && matchesPeriod && matchesAct) {
+      advices.push({
+        nom: condition.nom,
+        conseil: condition.conseils
+      });
+    }
+  });
+
+  return advices;
+}
+
 // ==========================================
 // AUTO-ATTRIBUTION DES SAISONS
 // ==========================================

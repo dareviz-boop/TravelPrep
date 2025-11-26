@@ -4,7 +4,7 @@
  */
 
 import { FormData } from '@/types/form';
-import { getClimatEquipment, ChecklistSection, DestinationSpecifiqueItem } from '@/utils/checklistFilters';
+import { getClimatEquipment, getClimatAdvice, ChecklistSection, DestinationSpecifiqueItem } from '@/utils/checklistFilters';
 import activitesData from '@/data/checklist_activites.json';
 import checklistData from '@/data/checklistComplete.json';
 import coreSectionsData from '@/data/checklist_core_sections.json';
@@ -259,6 +259,7 @@ export interface GeneratedChecklist {
     generatedAt: string;
   };
   sections: GeneratedChecklistSection[];
+  conseilsClimatiques?: Array<{nom: string, conseil: string}>; // Conseils climatiques avec nom de condition
   stats: {
     totalSections: number;
     totalItems: number;
@@ -284,6 +285,9 @@ export function generateCompleteChecklist(formData: FormData): GeneratedChecklis
   let coreSections = getCoreSections(formData);
 
   // === 2. FUSIONNER LES ITEMS CLIMATIQUES DANS LES SECTIONS CORE ===
+  // Récupérer les conseils climatiques avec nom de condition
+  const conseilsClimatiques = getClimatAdvice(formData);
+
   const climatItems = getClimatItemsGroupedBySection(formData);
   coreSections = coreSections.map(section => {
     const sectionClimatItems = climatItems[section.id] || [];
@@ -332,6 +336,7 @@ export function generateCompleteChecklist(formData: FormData): GeneratedChecklis
       generatedAt: new Date().toISOString()
     },
     sections: dedupedSections,
+    conseilsClimatiques: conseilsClimatiques.length > 0 ? conseilsClimatiques : undefined,
     stats: calculateStats(dedupedSections)
   };
 
@@ -754,6 +759,10 @@ const DEDUP_KEYWORDS: { [key: string]: string[] } = {
   // Pansements et antiseptique : items génériques OK à dédupliquer
   'pansements': ['pansements varies', 'pansements assortiment'],
   'antiseptique': ['antiseptique', 'desinfectant'],
+  // Antifongiques : séparer par type (crème ≠ poudre ≠ spray)
+  'antifongique_creme': ['antifongique', 'antifongique mycoses pieds', 'creme antifongique'],
+  'poudre_antifongique': ['poudre antifongique'],
+  'spray_antifongique_vetement': ['spray antifongique vetement', 'spray antifongique'],
 
   // === DOCUMENTS ===
   'copies_documents': ['copies documents', 'photocopies documents'],

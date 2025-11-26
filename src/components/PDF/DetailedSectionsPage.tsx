@@ -354,13 +354,47 @@ export const DetailedSectionsPage = ({
           });
 
           const dateEntries = Object.entries(itemsByDate);
+          const firstEntry = dateEntries[0];
+          const remainingEntries = dateEntries.slice(1);
 
           return (
             <View key={categoryName}>
-              {/* Afficher le titre de catégorie une seule fois */}
-              <Text style={styles.categoryTitle}>{cleanTextForPDF(categoryName)}</Text>
+              {/* Grouper le titre avec le premier encart pour éviter les orphelins */}
+              {firstEntry && (
+                <View style={styles.titleWithItemsGroup} wrap={false}>
+                  {/* Afficher le titre de catégorie une seule fois */}
+                  <Text style={styles.categoryTitle}>{cleanTextForPDF(categoryName)}</Text>
 
-              {dateEntries.map(([deadline, dateItems]) => {
+                  {(() => {
+                    const [deadline, dateItems] = firstEntry;
+                    // Structure: fond gris avec items à gauche, date à droite alignée avec le premier élément
+                    if (deadline !== 'no-date') {
+                      return (
+                        <View key={`${categoryName}-${deadline}`} style={styles.datedBoxContainer}>
+                          {/* Colonne gauche: tous les items */}
+                          <View style={styles.datedBoxItems}>
+                            {dateItems.map((item, idx) => renderItem(item, idx, false))}
+                          </View>
+                          {/* Colonne droite: date alignée en haut */}
+                          <View style={styles.datedBoxDateColumn}>
+                            <Text style={styles.dateLabel}>{deadline}</Text>
+                          </View>
+                        </View>
+                      );
+                    } else {
+                      // Items sans date
+                      return (
+                        <View key={`${categoryName}-${deadline}`}>
+                          {dateItems.map((item, idx) => renderItem(item, idx, false))}
+                        </View>
+                      );
+                    }
+                  })()}
+                </View>
+              )}
+
+              {/* Reste des encarts datés */}
+              {remainingEntries.map(([deadline, dateItems]) => {
                 // Structure: fond gris avec items à gauche, date à droite alignée avec le premier élément
                 if (deadline !== 'no-date') {
                   return (
@@ -419,14 +453,14 @@ export const DetailedSectionsPage = ({
   };
 
   // Rendre la section "Pendant & Après" organisée par moment
-  const renderPendantApresSection = (items: ItemWithSection[]) => {
+  const renderPendantApresSection = (items: ItemWithSection[], includeSectionTitle: boolean = false, sectionName?: string) => {
     if (items.length === 0) return null;
 
     // Grouper par moment
     const itemsByMoment: { [moment: string]: ItemWithSection[] } = {};
     items.forEach(item => {
-      // Vérifier d'abord le moment, puis le delai "Après", sinon "Autre"
-      const moment = item.moment || (item.delai === 'Après' ? 'Après' : 'Autre');
+      // Vérifier d'abord le moment, puis le delai "Après", sinon "Quotidien"
+      const moment = item.moment || (item.delai === 'Après' ? 'Après' : 'Quotidien');
       if (!itemsByMoment[moment]) {
         itemsByMoment[moment] = [];
       }
@@ -452,15 +486,21 @@ export const DetailedSectionsPage = ({
     // Helper pour afficher le libellé du moment
     const getMomentLabel = (m: string) => m === 'Après' ? 'Après le voyage' : m;
 
-    return sortedMoments.map(moment => {
+    return sortedMoments.map((moment, momentIndex) => {
       const momentItems = itemsByMoment[moment];
       const firstItems = momentItems.slice(0, 3);
       const remainingItems = momentItems.slice(3);
+
+      // Si c'est le premier moment et qu'on doit inclure le titre de section, le grouper avec le titre du moment
+      const isFirstMoment = momentIndex === 0;
 
       return (
         <View key={moment} style={styles.timelineBlock}>
           {/* Groupe titre + 3 premiers items pour éviter orphelins */}
           <View style={styles.titleWithItemsGroup} wrap={false}>
+            {isFirstMoment && includeSectionTitle && sectionName && (
+              <Text style={styles.categoryTitle}>{cleanTextForPDF(sectionName)}</Text>
+            )}
             <Text style={styles.timelineHeader}>{cleanTextForPDF(getMomentLabel(moment))}</Text>
             {firstItems.map((item, idx) => renderItem(item, idx, false))}
           </View>
@@ -507,8 +547,7 @@ export const DetailedSectionsPage = ({
         }));
         return (
           <View key={section.id}>
-            <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
-            {renderPendantApresSection(itemsWithSection)}
+            {renderPendantApresSection(itemsWithSection, true, section.nom)}
           </View>
         );
       }
@@ -641,8 +680,8 @@ export const DetailedSectionsPage = ({
     <>
       {addSeparator && <View style={styles.sectionSeparator} />}
       <View style={styles.titleContainer}>
-        <Text style={styles.titlePart1}>{cleanTextForPDF(titlePart1)}</Text>
-        <Text style={styles.titlePart2}>{cleanTextForPDF(titlePart2)}</Text>
+        <Text style={styles.titlePart1}>{titlePart1}</Text>
+        <Text style={styles.titlePart2}>{titlePart2}</Text>
       </View>
 
       {isEssentials ? (
@@ -653,8 +692,11 @@ export const DetailedSectionsPage = ({
           {renderTimelinePeriodForEssentials(timelines.j7_j3, 'J-7 à J-3 (1 semaine avant)')}
           {renderTimelinePeriodForEssentials(timelines.j2_j1, 'J-2 à J-1 (48h avant le départ)')}
           {timelines.noDelay.length > 0 && (
-            <View>
-              {sortItemsByDelay(timelines.noDelay).map((item, idx) => renderItem(item, idx, false))}
+            <View style={styles.timelineBlock}>
+              <Text style={styles.timelineHeader}>Autres recommandations</Text>
+              {sortItemsByDelay(timelines.noDelay).map((item, idx) => {
+                return renderItem(item, idx, false);
+              })}
             </View>
           )}
         </>
