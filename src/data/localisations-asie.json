@@ -1,0 +1,306 @@
+{
+  "nom": "🏯 Asie",
+  "code": "asie",
+  "pays": [
+    {
+      "code": "AF",
+      "nom": "Afghanistan",
+      "nomEn": "Afghanistan",
+      "flag": "🇦🇫"
+    },
+    {
+      "code": "SA",
+      "nom": "Arabie saoudite",
+      "nomEn": "Saudi Arabia",
+      "flag": "🇸🇦"
+    },
+    {
+      "code": "AM",
+      "nom": "Arménie",
+      "nomEn": "Armenia",
+      "flag": "🇦🇲"
+    },
+    {
+      "code": "AZ",
+      "nom": "Azerbaïdjan",
+      "nomEn": "Azerbaijan",
+      "flag": "🇦🇿"
+    },
+    {
+      "code": "BH",
+      "nom": "Bahreïn",
+      "nomEn": "Bahrain",
+      "flag": "🇧🇭"
+    },
+    {
+      "code": "BD",
+      "nom": "Bangladesh",
+      "nomEn": "Bangladesh",
+      "flag": "🇧🇩"
+    },
+    {
+      "code": "BT",
+      "nom": "Bhoutan",
+      "nomEn": "Bhutan",
+      "flag": "🇧🇹"
+    },
+    {
+      "code": "BN",
+      "nom": "Brunei",
+      "nomEn": "Brunei",
+      "flag": "🇧🇳"
+    },
+    {
+      "code": "KH",
+      "nom": "Cambodge",
+      "nomEn": "Cambodia",
+      "flag": "🇰🇭"
+    },
+    {
+      "code": "CN",
+      "nom": "Chine",
+      "nomEn": "China",
+      "flag": "🇨🇳"
+    },
+    {
+      "code": "KP",
+      "nom": "Corée du Nord",
+      "nomEn": "North Korea",
+      "flag": "🇰🇵"
+    },
+    {
+      "code": "KR",
+      "nom": "Corée du Sud",
+      "nomEn": "South Korea",
+      "flag": "🇰🇷"
+    },
+    {
+      "code": "AE",
+      "nom": "Émirats arabes unis",
+      "nomEn": "United Arab Emirates",
+      "flag": "🇦🇪"
+    },
+    {
+      "code": "GE",
+      "nom": "Géorgie",
+      "nomEn": "Georgia",
+      "flag": "🇬🇪"
+    },
+    {
+      "code": "HK",
+      "nom": "Hong Kong",
+      "nomEn": "Hong Kong",
+      "flag": "🇭🇰"
+    },
+    {
+      "code": "IN",
+      "nom": "Inde",
+      "nomEn": "India",
+      "flag": "🇮🇳"
+    },
+    {
+      "code": "ID",
+      "nom": "Indonésie",
+      "nomEn": "Indonesia",
+      "flag": "🇮🇩"
+    },
+    {
+      "code": "IQ",
+      "nom": "Irak",
+      "nomEn": "Iraq",
+      "flag": "🇮🇶"
+    },
+    {
+      "code": "IR",
+      "nom": "Iran",
+      "nomEn": "Iran",
+      "flag": "🇮🇷"
+    },
+    {
+      "code": "IL",
+      "nom": "Israël",
+      "nomEn": "Israel",
+      "flag": "🇮🇱"
+    },
+    {
+      "code": "JP",
+      "nom": "Japon",
+      "nomEn": "Japan",
+      "flag": "🇯🇵"
+    },
+    {
+      "code": "JO",
+      "nom": "Jordanie",
+      "nomEn": "Jordan",
+      "flag": "🇯🇴"
+    },
+    {
+      "code": "KZ",
+      "nom": "Kazakhstan",
+      "nomEn": "Kazakhstan",
+      "flag": "🇰🇿"
+    },
+    {
+      "code": "KG",
+      "nom": "Kirghizistan",
+      "nomEn": "Kyrgyzstan",
+      "flag": "🇰🇬"
+    },
+    {
+      "code": "KW",
+      "nom": "Koweït",
+      "nomEn": "Kuwait",
+      "flag": "🇰🇼"
+    },
+    {
+      "code": "LA",
+      "nom": "Laos",
+      "nomEn": "Laos",
+      "flag": "🇱🇦"
+    },
+    {
+      "code": "LB",
+      "nom": "Liban",
+      "nomEn": "Lebanon",
+      "flag": "🇱🇧"
+    },
+    {
+      "code": "MO",
+      "nom": "Macao",
+      "nomEn": "Macau",
+      "flag": "🇲🇴"
+    },
+    {
+      "code": "MY",
+      "nom": "Malaisie",
+      "nomEn": "Malaysia",
+      "flag": "🇲🇾"
+    },
+    {
+      "code": "MV",
+      "nom": "Maldives",
+      "nomEn": "Maldives",
+      "flag": "🇲🇻"
+    },
+    {
+      "code": "MN",
+      "nom": "Mongolie",
+      "nomEn": "Mongolia",
+      "flag": "🇲🇳"
+    },
+    {
+      "code": "MM",
+      "nom": "Myanmar",
+      "nomEn": "Myanmar",
+      "flag": "🇲🇲"
+    },
+    {
+      "code": "NP",
+      "nom": "Népal",
+      "nomEn": "Nepal",
+      "flag": "🇳🇵"
+    },
+    {
+      "code": "OM",
+      "nom": "Oman",
+      "nomEn": "Oman",
+      "flag": "🇴🇲"
+    },
+    {
+      "code": "UZ",
+      "nom": "Ouzbékistan",
+      "nomEn": "Uzbekistan",
+      "flag": "🇺🇿"
+    },
+    {
+      "code": "PK",
+      "nom": "Pakistan",
+      "nomEn": "Pakistan",
+      "flag": "🇵🇰"
+    },
+    {
+      "code": "PS",
+      "nom": "Palestine",
+      "nomEn": "Palestine",
+      "flag": "🇵🇸"
+    },
+    {
+      "code": "PH",
+      "nom": "Philippines",
+      "nomEn": "Philippines",
+      "flag": "🇵🇭"
+    },
+    {
+      "code": "QA",
+      "nom": "Qatar",
+      "nomEn": "Qatar",
+      "flag": "🇶🇦"
+    },
+    {
+      "code": "SG",
+      "nom": "Singapour",
+      "nomEn": "Singapore",
+      "flag": "🇸🇬"
+    },
+    {
+      "code": "LK",
+      "nom": "Sri Lanka",
+      "nomEn": "Sri Lanka",
+      "flag": "🇱🇰"
+    },
+    {
+      "code": "SY",
+      "nom": "Syrie",
+      "nomEn": "Syria",
+      "flag": "🇸🇾"
+    },
+    {
+      "code": "TJ",
+      "nom": "Tadjikistan",
+      "nomEn": "Tajikistan",
+      "flag": "🇹🇯"
+    },
+    {
+      "code": "TW",
+      "nom": "Taïwan",
+      "nomEn": "Taiwan",
+      "flag": "🇹🇼"
+    },
+    {
+      "code": "TH",
+      "nom": "Thaïlande",
+      "nomEn": "Thailand",
+      "flag": "🇹🇭"
+    },
+    {
+      "code": "TL",
+      "nom": "Timor oriental",
+      "nomEn": "Timor-Leste",
+      "flag": "🇹🇱"
+    },
+    {
+      "code": "TM",
+      "nom": "Turkménistan",
+      "nomEn": "Turkmenistan",
+      "flag": "🇹🇲"
+    },
+    {
+      "code": "TR",
+      "nom": "Turquie",
+      "nomEn": "Turkey",
+      "flag": "🇹🇷"
+    },
+    {
+      "code": "VN",
+      "nom": "Vietnam",
+      "nomEn": "Vietnam",
+      "flag": "🇻🇳"
+    },
+    {
+      "code": "YE",
+      "nom": "Yémen",
+      "nomEn": "Yemen",
+      "flag": "🇾🇪"
+    }
+  ]
+}

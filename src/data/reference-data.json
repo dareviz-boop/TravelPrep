@@ -1,0 +1,476 @@
+{
+  "metadata": {
+    "version": "3.1",
+    "lastUpdated": "2025-11-23",
+    "totalItems": 750,
+    "totalPays": 236,
+    "categories": 20,
+    "noteExpert": "Version complète enrichie - Tous les pays et territoires ajoutés - Royaume-Uni séparé en Angleterre, Écosse, Pays de Galles et Irlande du Nord - Antarctique disponible en mode Multi-destinations"
+  },
+  "saisons": {
+    "description": "Saison durant le voyage",
+    "options": [
+      {
+        "id": "ete",
+        "nom": "Été",
+        "description": "Saison chaude",
+        "emoji": "☀️"
+      },
+      {
+        "id": "hiver",
+        "nom": "Hiver",
+        "description": "Saison froide",
+        "emoji": "❄️"
+      },
+      {
+        "id": "printemps",
+        "nom": "Printemps",
+        "description": "Saison douce",
+        "emoji": "🌸"
+      },
+      {
+        "id": "automne",
+        "nom": "Automne",
+        "description": "Saison tempérée",
+        "emoji": "🍂"
+      },
+      {
+        "id": "inconnue",
+        "nom": "Je ne sais pas",
+        "description": "Indéterminé",
+        "emoji": "❓"
+      }
+    ]
+  },
+  "temperatures": {
+    "description": "Température moyenne attendue",
+    "options": [
+      {
+        "id": "tres-froide",
+        "nom": "Très froide",
+        "description": "< -5°C (Grand froid, neige)",
+        "emoji": "🥶"
+      },
+      {
+        "id": "froide",
+        "nom": "Froide",
+        "description": "-5°C à 10°C (Froid, possibilité neige)",
+        "emoji": "❄️"
+      },
+      {
+        "id": "temperee",
+        "nom": "Tempérée",
+        "description": "10°C à 20°C (Climat doux)",
+        "emoji": "🌤️"
+      },
+      {
+        "id": "chaude",
+        "nom": "Chaude",
+        "description": "20°C à 30°C (Chaleur modérée)",
+        "emoji": "☀️"
+      },
+      {
+        "id": "tres-chaude",
+        "nom": "Très chaude",
+        "description": "30°C à 38°C (Chaleur intense)",
+        "emoji": "🔥"
+      },
+      {
+        "id": "chaleur-extreme",
+        "nom": "Chaleur extrême",
+        "description": "> 38°C (Chaleur caniculaire)",
+        "emoji": "🌡️"
+      },
+      {
+        "id": "inconnue",
+        "nom": "Je ne sais pas",
+        "description": "Indéterminé",
+        "emoji": "❓"
+      }
+    ]
+  },
+  "conditionsClimatiques": [
+    {
+      "groupe": "Précipitations",
+      "options": [
+        {
+          "id": "climat_mousson",
+          "nom": "🌧️ Saison des pluies / Mousson"
+        },
+        {
+          "id": "climat_sec_aride",
+          "nom": "🌵 Saison sèche / Aride"
+        },
+        {
+          "id": "climat_orages",
+          "nom": "⛈️ Orages fréquents"
+        },
+        {
+          "id": "climat_neige",
+          "nom": "🌨️ Neige / Blizzards"
+        }
+      ]
+    },
+    {
+      "groupe": "Vents & Tempêtes",
+      "options": [
+        {
+          "id": "climat_vents_forts",
+          "nom": "💨 Vents forts / Tempêtes"
+        },
+        {
+          "id": "climat_cyclones",
+          "nom": "🌀 Cyclones / Typhons / Ouragans"
+        },
+        {
+          "id": "climat_harmattan",
+          "nom": "🏜️ Tempêtes de sable"
+        }
+      ]
+    },
+    {
+      "groupe": "Températures extrêmes",
+      "options": [
+        {
+          "id": "climat_canicule",
+          "nom": "🌡️ Canicule / Vague de chaleur"
+        },
+        {
+          "id": "climat_froid_intense",
+          "nom": "🧊 Grand froid / Gel intense"
+        },
+        {
+          "id": "climat_amplitude_thermique",
+          "nom": "🌓 Amplitude thermique élevée"
+        }
+      ]
+    },
+    {
+      "groupe": "Autres",
+      "options": [
+        {
+          "id": "climat_brouillard",
+          "nom": "🌫️ Brouillard / Brume fréquents"
+        },
+        {
+          "id": "climat_tropical_humide",
+          "nom": "🏝️ Climat tropical humide"
+        },
+        {
+          "id": "climat_humidite",
+          "nom": "💧 Forte humidité"
+        },
+        {
+          "id": "climat_aucune",
+          "nom": "❌ Aucune condition particulière"
+        }
+      ]
+    }
+  ],
+  "durees": {
+    "description": "Durée totale du séjour",
+    "options": [
+      {
+        "id": "court",
+        "nom": "Court",
+        "description": "2-7 jours (Week-end prolongé)",
+        "emoji": "🏃"
+      },
+      {
+        "id": "moyen",
+        "nom": "Moyen",
+        "description": "1-4 semaines (Séjour standard)",
+        "emoji": "📅"
+      },
+      {
+        "id": "long",
+        "nom": "Long",
+        "description": "1-3 mois (Voyage prolongé)",
+        "emoji": "🗓️"
+      },
+      {
+        "id": "tres-long",
+        "nom": "Très long",
+        "description": "3 mois et + (Tour du monde / Gap year)",
+        "emoji": "🌍"
+      }
+    ]
+  },
+  "activites": {
+    "description": "Liste des activités possibles (Multi-sélection)",
+    "options": [
+      {
+        "id": "randonnee",
+        "nom": "Randonnée / Trekking",
+        "description": "Montagne, nature, trails",
+        "emoji": "⛰️"
+      },
+      {
+        "id": "plage",
+        "nom": "Plage / Mer",
+        "description": "Détente, baignade, farniente",
+        "emoji": "🏖️"
+      },
+      {
+        "id": "sports-nautiques",
+        "nom": "Sports nautiques",
+        "description": "Surf, plongée, snorkeling, kayak",
+        "emoji": "🏄"
+      },
+      {
+        "id": "city-trip",
+        "nom": "City-trip / Visites culturelles",
+        "description": "Musées, monuments, vie urbaine",
+        "emoji": "🏙️"
+      },
+      {
+        "id": "backpacking",
+        "nom": "Backpacking / Aventure",
+        "description": "Voyage sac à dos, rencontres",
+        "emoji": "🎒"
+      },
+      {
+        "id": "camping",
+        "nom": "Camping / Nature",
+        "description": "Bivouac, camping sauvage, immersion nature",
+        "emoji": "🏕️"
+      },
+      {
+        "id": "sports-hiver",
+        "nom": "Sports d'hiver",
+        "description": "Ski, snowboard, raquettes",
+        "emoji": "⛷️"
+      },
+      {
+        "id": "road-trip",
+        "nom": "Road-trip",
+        "description": "Voyage en voiture, liberté",
+        "emoji": "🚗"
+      },
+      {
+        "id": "vie-nocturne",
+        "nom": "Vie nocturne",
+        "description": "Bars, clubs, soirées, ambiance nocturne",
+        "emoji": "🌃"
+      },
+      {
+        "id": "velo",
+        "nom": "Vélo",
+        "description": "Cyclotourisme, VTT, balades",
+        "emoji": "🚴"
+      },
+      {
+        "id": "gastronomie",
+        "nom": "Gastronomie",
+        "description": "Découverte culinaire, restaurants",
+        "emoji": "🍜"
+      },
+      {
+        "id": "shopping",
+        "nom": "Shopping",
+        "description": "Marchés, boutiques, souvenirs",
+        "emoji": "🛍️"
+      },
+      {
+        "id": "photographie",
+        "nom": "Photographie",
+        "description": "Paysages, portraits, vie citadine, découvertes",
+        "emoji": "📸"
+      }
+    ]
+  },
+  "profils": {
+    "description": "Type de voyageur principal",
+    "options": [
+      {
+        "id": "solo",
+        "nom": "Solo",
+        "description": "Voyageur seul",
+        "emoji": "🚶"
+      },
+      {
+        "id": "couple",
+        "nom": "Couple",
+        "description": "Voyage à deux",
+        "emoji": "💑"
+      },
+      {
+        "id": "groupe",
+        "nom": "Groupe d'amis",
+        "description": "Entre amis",
+        "emoji": "👥"
+      },
+      {
+        "id": "pro",
+        "nom": "Voyage professionnel",
+        "description": "Déplacement business",
+        "emoji": "💼"
+      },
+      {
+        "id": "famille",
+        "nom": "Famille",
+        "description": "Avec enfants",
+        "emoji": "👨‍👩‍👧‍👦"
+      }
+    ]
+  },
+  "typeVoyage": {
+    "description": "Style général du voyage (intensité de planification/budget)",
+    "options": [
+      {
+        "id": "backpacker",
+        "nom": "Backpacker",
+        "description": "Aventure, spontanéité, immersion totale",
+        "emoji": "🎒"
+      },
+      {
+        "id": "immersion",
+        "nom": "Immersion locale",
+        "description": "Rencontres authentiques, homestays, vie au rythme local",
+        "emoji": "🌍"
+      },
+      {
+        "id": "flexible",
+        "nom": "Flexibilité",
+        "description": "Équilibre parfait entre découverte et détente, au gré des envies",
+        "emoji": "⚖️"
+      },
+      {
+        "id": "confort-organise",
+        "nom": "Sérénité & Planification",
+        "description": "Itinéraire structuré à l'avance, logistique 100% gérée, zéro stress",
+        "emoji": "🏨"
+      },
+      {
+        "id": "luxe",
+        "nom": "Expériences Exclusives",
+        "description": "Accès privilégiés, lieux uniques, attention aux détails et services sur-mesure",
+        "emoji": "💎"
+      }
+    ]
+  },
+  "confort": {
+    "description": "Niveau de confort et de budget souhaité",
+    "options": [
+      {
+        "id": "economique",
+        "nom": "Économique",
+        "description": "Essentiel à petit prix : auberges, dortoirs, transports locaux",
+        "emoji": "🏕️"
+      },
+      {
+        "id": "confortable",
+        "nom": "Confortable",
+        "description": "Simple et efficace : hôtels 2-3★, chambres privées, petits restaurants",
+        "emoji": "🏠"
+      },
+      {
+        "id": "standard",
+        "nom": "Standard",
+        "description": "Juste milieu : hôtels 3★ de charme, chambres confortables, bon rapport qualité/prix.",
+        "emoji": "🏨"
+      },
+      {
+        "id": "premium",
+        "nom": "Premium",
+        "description": "Standing supérieur : hôtels 4★, services soignés, belles adresses",
+        "emoji": "🌟"
+      },
+      {
+        "id": "luxe",
+        "nom": "Luxe",
+        "description": "Excellence : hôtels 5★, conciergerie, prestations haut de gamme",
+        "emoji": "👑"
+      }
+    ]
+  },
+  "categories": {
+    "description": "Sections principales de la checklist (pour l'affichage et l'étape de sélection finale)",
+    "options": [
+      {
+        "id": "essentiels",
+        "nom": "Essentiels absolus",
+        "description": "Items indispensables pour tout voyage",
+        "emoji": "🔑"
+      },
+      {
+        "id": "documents",
+        "nom": "Documents & Administratif",
+        "description": "Passeport, visas, assurances, copies de sécurité",
+        "emoji": "📄"
+      },
+      {
+        "id": "finances",
+        "nom": "Finances & Argent",
+        "description": "Cartes bancaires, devises, notifications banque",
+        "emoji": "💳"
+      },
+      {
+        "id": "sante",
+        "nom": "Santé & Pharmacie",
+        "description": "Vaccins, médicaments, pharmacie, traitements, urgences",
+        "emoji": "🏥"
+      },
+      {
+        "id": "bagages",
+        "nom": "Bagages & Équipement",
+        "description": "Valises, vêtements",
+        "emoji": "🧳"
+      },
+      {
+        "id": "hygiene",
+        "nom": "Hygiène & Toilette",
+        "description": "Trousse toilette, produits hygiène, serviettes",
+        "emoji": "🧴"
+      },
+      {
+        "id": "tech",
+        "nom": "Technologie & Communication",
+        "description": "Téléphone, appareils électroniques, forfait, sauvegardes, matériel",
+        "emoji": "💻"
+      },
+      {
+        "id": "domicile",
+        "nom": "Avant le départ (Domicile)",
+        "description": "Clés, courrier, plantes, sécurisation maison",
+        "emoji": "🏠"
+      },
+      {
+        "id": "transport",
+        "nom": "Transport & Logistique",
+        "description": "Billets, vols, transferts, transports",
+        "emoji": "✈️"
+      },
+      {
+        "id": "reservations",
+        "nom": "Réservations & Activités",
+        "description": "Hébergements, excursions, réservations, confirmations",
+        "emoji": "🎫"
+      },
+      {
+        "id": "timeline",
+        "nom": "Timeline Chronologique",
+        "description": "Calendrier J-90 au retour",
+        "emoji": "⏰"
+      },
+      {
+        "id": "urgence",
+        "nom": "Kit d'urgence",
+        "description": "Ce qu'il faut toujours avoir sur soi",
+        "emoji": "🚨"
+      },
+      {
+        "id": "apps",
+        "nom": "Applications recommandées",
+        "description": "Apps offline et online essentielles",
+        "emoji": "📱"
+      },
+      {
+        "id": "pendant_apres",
+        "nom": "Pendant & Après le voyage",
+        "description": "Checklist sur place et retour",
+        "emoji": "🔄"
+      }
+    ]
+  }
+}

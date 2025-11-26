@@ -1,0 +1,342 @@
+{
+  "nom": "🦁 Afrique",
+  "code": "afrique",
+  "pays": [
+    {
+      "code": "ZA",
+      "nom": "Afrique du Sud",
+      "nomEn": "South Africa",
+      "flag": "🇿🇦"
+    },
+    {
+      "code": "DZ",
+      "nom": "Algérie",
+      "nomEn": "Algeria",
+      "flag": "🇩🇿"
+    },
+    {
+      "code": "AO",
+      "nom": "Angola",
+      "nomEn": "Angola",
+      "flag": "🇦🇴"
+    },
+    {
+      "code": "BJ",
+      "nom": "Bénin",
+      "nomEn": "Benin",
+      "flag": "🇧🇯"
+    },
+    {
+      "code": "BW",
+      "nom": "Botswana",
+      "nomEn": "Botswana",
+      "flag": "🇧🇼"
+    },
+    {
+      "code": "BF",
+      "nom": "Burkina Faso",
+      "nomEn": "Burkina Faso",
+      "flag": "🇧🇫"
+    },
+    {
+      "code": "BI",
+      "nom": "Burundi",
+      "nomEn": "Burundi",
+      "flag": "🇧🇮"
+    },
+    {
+      "code": "CM",
+      "nom": "Cameroun",
+      "nomEn": "Cameroon",
+      "flag": "🇨🇲"
+    },
+    {
+      "code": "CV",
+      "nom": "Cap-Vert",
+      "nomEn": "Cabo Verde",
+      "flag": "🇨🇻"
+    },
+    {
+      "code": "KM",
+      "nom": "Comores",
+      "nomEn": "Comoros",
+      "flag": "🇰🇲"
+    },
+    {
+      "code": "CG",
+      "nom": "Congo",
+      "nomEn": "Republic of the Congo",
+      "flag": "🇨🇬"
+    },
+    {
+      "code": "CI",
+      "nom": "Côte d'Ivoire",
+      "nomEn": "Ivory Coast",
+      "flag": "🇨🇮"
+    },
+    {
+      "code": "DJ",
+      "nom": "Djibouti",
+      "nomEn": "Djibouti",
+      "flag": "🇩🇯"
+    },
+    {
+      "code": "EG",
+      "nom": "Égypte",
+      "nomEn": "Egypt",
+      "flag": "🇪🇬"
+    },
+    {
+      "code": "ER",
+      "nom": "Érythrée",
+      "nomEn": "Eritrea",
+      "flag": "🇪🇷"
+    },
+    {
+      "code": "SZ",
+      "nom": "Eswatini",
+      "nomEn": "Eswatini",
+      "flag": "🇸🇿"
+    },
+    {
+      "code": "ET",
+      "nom": "Éthiopie",
+      "nomEn": "Ethiopia",
+      "flag": "🇪🇹"
+    },
+    {
+      "code": "GA",
+      "nom": "Gabon",
+      "nomEn": "Gabon",
+      "flag": "🇬🇦"
+    },
+    {
+      "code": "GM",
+      "nom": "Gambie",
+      "nomEn": "Gambia",
+      "flag": "🇬🇲"
+    },
+    {
+      "code": "GH",
+      "nom": "Ghana",
+      "nomEn": "Ghana",
+      "flag": "🇬🇭"
+    },
+    {
+      "code": "GN",
+      "nom": "Guinée",
+      "nomEn": "Guinea",
+      "flag": "🇬🇳"
+    },
+    {
+      "code": "GQ",
+      "nom": "Guinée équatoriale",
+      "nomEn": "Equatorial Guinea",
+      "flag": "🇬🇶"
+    },
+    {
+      "code": "GW",
+      "nom": "Guinée-Bissau",
+      "nomEn": "Guinea-Bissau",
+      "flag": "🇬🇼"
+    },
+    {
+      "code": "KE",
+      "nom": "Kenya",
+      "nomEn": "Kenya",
+      "flag": "🇰🇪"
+    },
+    {
+      "code": "LS",
+      "nom": "Lesotho",
+      "nomEn": "Lesotho",
+      "flag": "🇱🇸"
+    },
+    {
+      "code": "LR",
+      "nom": "Libéria",
+      "nomEn": "Liberia",
+      "flag": "🇱🇷"
+    },
+    {
+      "code": "LY",
+      "nom": "Libye",
+      "nomEn": "Libya",
+      "flag": "🇱🇾"
+    },
+    {
+      "code": "MG",
+      "nom": "Madagascar",
+      "nomEn": "Madagascar",
+      "flag": "🇲🇬"
+    },
+    {
+      "code": "MW",
+      "nom": "Malawi",
+      "nomEn": "Malawi",
+      "flag": "🇲🇼"
+    },
+    {
+      "code": "ML",
+      "nom": "Mali",
+      "nomEn": "Mali",
+      "flag": "🇲🇱"
+    },
+    {
+      "code": "MA",
+      "nom": "Maroc",
+      "nomEn": "Morocco",
+      "flag": "🇲🇦"
+    },
+    {
+      "code": "MU",
+      "nom": "Maurice",
+      "nomEn": "Mauritius",
+      "flag": "🇲🇺"
+    },
+    {
+      "code": "MR",
+      "nom": "Mauritanie",
+      "nomEn": "Mauritania",
+      "flag": "🇲🇷"
+    },
+    {
+      "code": "MZ",
+      "nom": "Mozambique",
+      "nomEn": "Mozambique",
+      "flag": "🇲🇿"
+    },
+    {
+      "code": "NA",
+      "nom": "Namibie",
+      "nomEn": "Namibia",
+      "flag": "🇳🇦"
+    },
+    {
+      "code": "NE",
+      "nom": "Niger",
+      "nomEn": "Niger",
+      "flag": "🇳🇪"
+    },
+    {
+      "code": "NG",
+      "nom": "Nigéria",
+      "nomEn": "Nigeria",
+      "flag": "🇳🇬"
+    },
+    {
+      "code": "UG",
+      "nom": "Ouganda",
+      "nomEn": "Uganda",
+      "flag": "🇺🇬"
+    },
+    {
+      "code": "CD",
+      "nom": "RDC",
+      "nomEn": "DR Congo",
+      "flag": "🇨🇩"
+    },
+    {
+      "code": "CF",
+      "nom": "République centrafricaine",
+      "nomEn": "Central African Republic",
+      "flag": "🇨🇫"
+    },
+    {
+      "code": "RE",
+      "nom": "Réunion",
+      "nomEn": "Réunion",
+      "flag": "🇷🇪"
+    },
+    {
+      "code": "RW",
+      "nom": "Rwanda",
+      "nomEn": "Rwanda",
+      "flag": "🇷🇼"
+    },
+    {
+      "code": "EH",
+      "nom": "Sahara occidental",
+      "nomEn": "Western Sahara",
+      "flag": "🇪🇭"
+    },
+    {
+      "code": "ST",
+      "nom": "Sao Tomé-et-Principe",
+      "nomEn": "São Tomé and Príncipe",
+      "flag": "🇸🇹"
+    },
+    {
+      "code": "SN",
+      "nom": "Sénégal",
+      "nomEn": "Senegal",
+      "flag": "🇸🇳"
+    },
+    {
+      "code": "SC",
+      "nom": "Seychelles",
+      "nomEn": "Seychelles",
+      "flag": "🇸🇨"
+    },
+    {
+      "code": "SL",
+      "nom": "Sierra Leone",
+      "nomEn": "Sierra Leone",
+      "flag": "🇸🇱"
+    },
+    {
+      "code": "SO",
+      "nom": "Somalie",
+      "nomEn": "Somalia",
+      "flag": "🇸🇴"
+    },
+    {
+      "code": "SD",
+      "nom": "Soudan",
+      "nomEn": "Sudan",
+      "flag": "🇸🇩"
+    },
+    {
+      "code": "SS",
+      "nom": "Soudan du Sud",
+      "nomEn": "South Sudan",
+      "flag": "🇸🇸"
+    },
+    {
+      "code": "TZ",
+      "nom": "Tanzanie",
+      "nomEn": "Tanzania",
+      "flag": "🇹🇿"
+    },
+    {
+      "code": "TD",
+      "nom": "Tchad",
+      "nomEn": "Chad",
+      "flag": "🇹🇩"
+    },
+    {
+      "code": "TG",
+      "nom": "Togo",
+      "nomEn": "Togo",
+      "flag": "🇹🇬"
+    },
+    {
+      "code": "TN",
+      "nom": "Tunisie",
+      "nomEn": "Tunisia",
+      "flag": "🇹🇳"
+    },
+    {
+      "code": "ZM",
+      "nom": "Zambie",
+      "nomEn": "Zambia",
+      "flag": "🇿🇲"
+    },
+    {
+      "code": "ZW",
+      "nom": "Zimbabwe",
+      "nomEn": "Zimbabwe",
+      "flag": "🇿🇼"
+    }
+  ]
+}

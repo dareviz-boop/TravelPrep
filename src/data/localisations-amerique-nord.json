@@ -1,0 +1,36 @@
+{
+  "nom": "🗽 Amérique du Nord",
+  "code": "amerique-nord",
+  "pays": [
+    {
+      "code": "CA",
+      "nom": "Canada",
+      "nomEn": "Canada",
+      "flag": "🇨🇦"
+    },
+    {
+      "code": "US",
+      "nom": "États-Unis",
+      "nomEn": "United States",
+      "flag": "🇺🇸"
+    },
+    {
+      "code": "GL",
+      "nom": "Groenland",
+      "nomEn": "Greenland",
+      "flag": "🇬🇱"
+    },
+    {
+      "code": "MX",
+      "nom": "Mexique",
+      "nomEn": "Mexico",
+      "flag": "🇲🇽"
+    },
+    {
+      "code": "PR",
+      "nom": "Porto Rico",
+      "nomEn": "Puerto Rico",
+      "flag": "🇵🇷"
+    }
+  ]
+}

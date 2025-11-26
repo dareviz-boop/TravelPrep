@@ -7,7 +7,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { DatePicker } from "@/components/ui/date-picker";
 import { FormData, Localisation, Pays } from "@/types/form";
-import { checklistData, getPaysOptions } from "@/utils/checklistUtils";
+import { checklistData, getPaysOptions, localisations } from "@/utils/checklistUtils";
 import { Check, ChevronsUpDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
@@ -19,10 +19,10 @@ interface Step1DestinationProps {
 
 // Fonction utilitaire pour récupérer la liste complète des pays pour l'option "Multi-destinations"
 const getAllPaysOptions = (): Pays[] => {
-  if (!checklistData.localisations) return [];
+  if (!localisations) return [];
 
   // Récupère toutes les valeurs (objets de zones) et les fusionne
-  const allPays = Object.values(checklistData.localisations)
+  const allPays = Object.values(localisations)
     .flatMap((loc) => loc.pays || []); // Utilise flatMap pour créer un tableau simple
 
   // 🟢 AJOUT : Tri par ordre alphabétique du nom français
@@ -44,8 +44,8 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
   }, [formData.dateRetour]);
   
   // NOUVEAU : Récupération dynamique des localisations (Zones Géographiques)
-  const localisations: { value: Localisation; label: string; emoji: string }[] = Object.entries(
-    checklistData.localisations
+  const localisationsOptions: { value: Localisation; label: string; emoji: string }[] = Object.entries(
+    localisations
   ).map(([key, data]) => {
     // data.nom est de la forme "🇪🇺 Europe". On extrait l'emoji et le label.
     const parts = data.nom.split(' ');
@@ -65,7 +65,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
 
   useEffect(() => {
     if (formData.localisation && formData.localisation !== 'multi-destinations') {
-      // getPaysOptions lit déjà checklistData.localisations[formData.localisation].pays
+      // getPaysOptions lit déjà localisations[formData.localisation].pays
       const options = getPaysOptions(formData.localisation);
       // 🟢 AJOUT : Tri par ordre alphabétique du nom français pour la zone spécifique
       options.sort((a, b) => a.nom.localeCompare(b.nom, 'fr'));
@@ -177,7 +177,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
           </Label>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {/* L'itération reste la même, mais utilise la nouvelle source de données */}
-            {localisations.map((loc) => (
+            {localisationsOptions.map((loc) => (
               <button
                 key={loc.value}
                 type="button"

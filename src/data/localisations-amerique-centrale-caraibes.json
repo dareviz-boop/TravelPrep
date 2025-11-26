@@ -1,0 +1,210 @@
+{
+  "nom": "🏝️ Amérique Centrale & Caraïbes",
+  "code": "amerique-centrale-caraibes",
+  "pays": [
+    {
+      "code": "AI",
+      "nom": "Anguilla",
+      "nomEn": "Anguilla",
+      "flag": "🇦🇮"
+    },
+    {
+      "code": "AG",
+      "nom": "Antigua-et-Barbuda",
+      "nomEn": "Antigua and Barbuda",
+      "flag": "🇦🇬"
+    },
+    {
+      "code": "AW",
+      "nom": "Aruba",
+      "nomEn": "Aruba",
+      "flag": "🇦🇼"
+    },
+    {
+      "code": "BS",
+      "nom": "Bahamas",
+      "nomEn": "Bahamas",
+      "flag": "🇧🇸"
+    },
+    {
+      "code": "BB",
+      "nom": "Barbade",
+      "nomEn": "Barbados",
+      "flag": "🇧🇧"
+    },
+    {
+      "code": "BZ",
+      "nom": "Belize",
+      "nomEn": "Belize",
+      "flag": "🇧🇿"
+    },
+    {
+      "code": "BM",
+      "nom": "Bermudes",
+      "nomEn": "Bermuda",
+      "flag": "🇧🇲"
+    },
+    {
+      "code": "CR",
+      "nom": "Costa Rica",
+      "nomEn": "Costa Rica",
+      "flag": "🇨🇷"
+    },
+    {
+      "code": "CU",
+      "nom": "Cuba",
+      "nomEn": "Cuba",
+      "flag": "🇨🇺"
+    },
+    {
+      "code": "CW",
+      "nom": "Curaçao",
+      "nomEn": "Curaçao",
+      "flag": "🇨🇼"
+    },
+    {
+      "code": "DM",
+      "nom": "Dominique",
+      "nomEn": "Dominica",
+      "flag": "🇩🇲"
+    },
+    {
+      "code": "GD",
+      "nom": "Grenade",
+      "nomEn": "Grenada",
+      "flag": "🇬🇩"
+    },
+    {
+      "code": "GP",
+      "nom": "Guadeloupe",
+      "nomEn": "Guadeloupe",
+      "flag": "🇬🇵"
+    },
+    {
+      "code": "GT",
+      "nom": "Guatemala",
+      "nomEn": "Guatemala",
+      "flag": "🇬🇹"
+    },
+    {
+      "code": "HT",
+      "nom": "Haïti",
+      "nomEn": "Haiti",
+      "flag": "🇭🇹"
+    },
+    {
+      "code": "HN",
+      "nom": "Honduras",
+      "nomEn": "Honduras",
+      "flag": "🇭🇳"
+    },
+    {
+      "code": "KY",
+      "nom": "Îles Caïmans",
+      "nomEn": "Cayman Islands",
+      "flag": "🇰🇾"
+    },
+    {
+      "code": "TC",
+      "nom": "Îles Turques-et-Caïques",
+      "nomEn": "Turks and Caicos Islands",
+      "flag": "🇹🇨"
+    },
+    {
+      "code": "VI",
+      "nom": "Îles Vierges américaines",
+      "nomEn": "US Virgin Islands",
+      "flag": "🇻🇮"
+    },
+    {
+      "code": "VG",
+      "nom": "Îles Vierges britanniques",
+      "nomEn": "British Virgin Islands",
+      "flag": "🇻🇬"
+    },
+    {
+      "code": "JM",
+      "nom": "Jamaïque",
+      "nomEn": "Jamaica",
+      "flag": "🇯🇲"
+    },
+    {
+      "code": "MQ",
+      "nom": "Martinique",
+      "nomEn": "Martinique",
+      "flag": "🇲🇶"
+    },
+    {
+      "code": "MS",
+      "nom": "Montserrat",
+      "nomEn": "Montserrat",
+      "flag": "🇲🇸"
+    },
+    {
+      "code": "NI",
+      "nom": "Nicaragua",
+      "nomEn": "Nicaragua",
+      "flag": "🇳🇮"
+    },
+    {
+      "code": "PA",
+      "nom": "Panama",
+      "nomEn": "Panama",
+      "flag": "🇵🇦"
+    },
+    {
+      "code": "DO",
+      "nom": "République dominicaine",
+      "nomEn": "Dominican Republic",
+      "flag": "🇩🇴"
+    },
+    {
+      "code": "BL",
+      "nom": "Saint-Barthélemy",
+      "nomEn": "Saint Barthélemy",
+      "flag": "🇧🇱"
+    },
+    {
+      "code": "KN",
+      "nom": "Saint-Christophe-et-Niévès",
+      "nomEn": "Saint Kitts and Nevis",
+      "flag": "🇰🇳"
+    },
+    {
+      "code": "MF",
+      "nom": "Saint-Martin",
+      "nomEn": "Saint Martin",
+      "flag": "🇲🇫"
+    },
+    {
+      "code": "VC",
+      "nom": "Saint-Vincent-et-les-Grenadines",
+      "nomEn": "Saint Vincent and the Grenadines",
+      "flag": "🇻🇨"
+    },
+    {
+      "code": "LC",
+      "nom": "Sainte-Lucie",
+      "nomEn": "Saint Lucia",
+      "flag": "🇱🇨"
+    },
+    {
+      "code": "SV",
+      "nom": "Salvador",
+      "nomEn": "El Salvador",
+      "flag": "🇸🇻"
+    },
+    {
+      "code": "SX",
+      "nom": "Sint Maarten",
+      "nomEn": "Sint Maarten",
+      "flag": "🇸🇽"
+    },
+    {
+      "code": "TT",
+      "nom": "Trinité-et-Tobago",
+      "nomEn": "Trinidad and Tobago",
+      "flag": "🇹🇹"
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "amerique-sud": {
+    "nom": "🦙 Amérique du Sud",
+    "code": "amerique-sud",
+    "pays": [
+      {
+        "code": "AR",
+        "nom": "Argentine",
+        "nomEn": "Argentina",
+        "flag": "🇦🇷"
+      },
+      {
+        "code": "BO",
+        "nom": "Bolivie",
+        "nomEn": "Bolivia",
+        "flag": "🇧🇴"
+      },
+      {
+        "code": "BR",
+        "nom": "Brésil",
+        "nomEn": "Brazil",
+        "flag": "🇧🇷"
+      },
+      {
+        "code": "CL",
+        "nom": "Chili",
+        "nomEn": "Chile",
+        "flag": "🇨🇱"
+      },
+      {
+        "code": "CO",
+        "nom": "Colombie",
+        "nomEn": "Colombia",
+        "flag": "🇨🇴"
+      },
+      {
+        "code": "EC",
+        "nom": "Équateur",
+        "nomEn": "Ecuador",
+        "flag": "🇪🇨"
+      },
+      {
+        "code": "GY",
+        "nom": "Guyana",
+        "nomEn": "Guyana",
+        "flag": "🇬🇾"
+      },
+      {
+        "code": "GF",
+        "nom": "Guyane française",
+        "nomEn": "French Guiana",
+        "flag": "🇬🇫"
+      },
+      {
+        "code": "FK",
+        "nom": "Îles Falkland",
+        "nomEn": "Falkland Islands",
+        "flag": "🇫🇰"
+      },
+      {
+        "code": "PY",
+        "nom": "Paraguay",
+        "nomEn": "Paraguay",
+        "flag": "🇵🇾"
+      },
+      {
+        "code": "PE",
+        "nom": "Pérou",
+        "nomEn": "Peru",
+        "flag": "🇵🇪"
+      },
+      {
+        "code": "SR",
+        "nom": "Suriname",
+        "nomEn": "Suriname",
+        "flag": "🇸🇷"
+      },
+      {
+        "code": "UY",
+        "nom": "Uruguay",
+        "nomEn": "Uruguay",
+        "flag": "🇺🇾"
+      },
+      {
+        "code": "VE",
+        "nom": "Venezuela",
+        "nomEn": "Venezuela",
+        "flag": "🇻🇪"
+      }
+    ]
+  },
+  "multi-destinations": {
+    "nom": "🌍 Multi-destinations / Tour du monde",
+    "code": "multi-destinations",
+    "texteSelection": "Sélectionne les principales destinations de ton voyage (max 10)",
+    "pays": [
+      {
+        "code": "AQ",
+        "nom": "Antarctique",
+        "nomEn": "Antarctica",
+        "flag": "🇦🇶"
+      }
+    ]
+  }
+}

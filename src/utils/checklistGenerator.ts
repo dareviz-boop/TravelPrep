@@ -6,7 +6,6 @@
 import { FormData } from '@/types/form';
 import { getClimatEquipment, getClimatAdvice, ChecklistSection, DestinationSpecifiqueItem } from '@/utils/checklistFilters';
 import activitesData from '@/data/checklist_activites.json';
-import checklistData from '@/data/checklistComplete.json';
 import coreSectionsData from '@/data/checklist_core_sections.json';
 import profilVoyageursData from '@/data/checklist_profil_voyageurs.json';
 
