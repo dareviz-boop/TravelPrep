@@ -4,7 +4,7 @@
  */
 
 // Couleur principale pour les icônes
-const ICON_COLOR = '#E85D2A';
+const ICON_COLOR = '#C54616';
 const ICON_SIZE = 12;
 
 /**

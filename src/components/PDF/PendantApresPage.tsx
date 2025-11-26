@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   mainTitle: {
     fontSize: 16,
     fontWeight: 700,
-    color: '#E85D2A',
+    color: '#C54616',
     marginBottom: 15,
     textAlign: 'center'
   },
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   momentTitle: {
     fontSize: 11,
     fontWeight: 700,
-    color: '#E85D2A',
+    color: '#C54616',
     marginBottom: 8,
     paddingLeft: 6
   },

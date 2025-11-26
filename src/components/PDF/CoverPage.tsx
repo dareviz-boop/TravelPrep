@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 14,
     fontWeight: 600,
-    color: '#E85D2A',
+    color: '#C54616',
     marginBottom: 4,
     textAlign: 'center'
   },
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   tripName: {
     fontSize: 18,
     fontWeight: 700,
-    color: '#E85D2A',
+    color: '#C54616',
     marginBottom: 15,
     textAlign: 'center',
     textTransform: 'uppercase'
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     marginBottom: 15
   },
   divider: {
-    borderBottom: '3px solid #E85D2A', // Ligne de séparation orange 3px
+    borderBottom: '3px solid #C54616', // Ligne de séparation orange 3px
     marginVertical: 10,
     marginBottom: 15
   },

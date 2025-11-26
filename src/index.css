@@ -19,9 +19,9 @@ All colors MUST be HSL.
     --popover-foreground: 217 33% 17%;
 
     /* Orange vif Dareviz - CTA principal */
-    --primary: 14 84% 54%; /* Orange #E85D2A */
+    --primary: 16 80% 43%; /* Orange #C54616 */
     --primary-foreground: 0 0% 100%;
-    --primary-dark: 14 84% 44%;
+    --primary-dark: 16 80% 35%;
     
     /* Crème pour backgrounds */
     --secondary: 33 100% 97%;
@@ -40,14 +40,14 @@ All colors MUST be HSL.
 
     --border: 33 50% 88%;
     --input: 33 50% 88%;
-    --ring: 14 84% 54%;
+    --ring: 16 80% 43%;
 
     --radius: 0.75rem;
     
     /* Gradients Dareviz */
-    --gradient-travel: linear-gradient(135deg, hsl(14 84% 54%), hsl(25 95% 53%));
-    --gradient-sunset: linear-gradient(135deg, hsl(14 84% 54%), hsl(30 100% 50%));
-    --gradient-ocean: linear-gradient(180deg, hsl(33 100% 97%), hsl(0 0% 100%));
+    --gradient-travel: linear-gradient(135deg, hsl(16 80% 43%), hsl(21 76% 49%));
+    --gradient-sunset: linear-gradient(135deg, hsl(16 80% 43%), hsl(41 95% 63%));
+    --gradient-ocean: linear-gradient(180deg, hsl(39 60% 92%), hsl(0 0% 100%));
 
     --sidebar-background: 0 0% 98%;
 
@@ -76,9 +76,9 @@ All colors MUST be HSL.
     --popover: 217 33% 13%;
     --popover-foreground: 33 100% 97%;
 
-    --primary: 14 84% 54%;
+    --primary: 16 80% 43%;
     --primary-foreground: 0 0% 100%;
-    --primary-dark: 14 84% 44%;
+    --primary-dark: 16 80% 35%;
 
     --secondary: 33 100% 20%;
     --secondary-foreground: 33 100% 97%;
@@ -95,10 +95,10 @@ All colors MUST be HSL.
     
     --border: 217 33% 18%;
     --input: 217 33% 18%;
-    --ring: 14 84% 54%;
+    --ring: 16 80% 43%;
     
-    --gradient-travel: linear-gradient(135deg, hsl(14 84% 44%), hsl(25 95% 43%));
-    --gradient-sunset: linear-gradient(135deg, hsl(14 84% 44%), hsl(30 100% 40%));
+    --gradient-travel: linear-gradient(135deg, hsl(16 80% 35%), hsl(21 76% 40%));
+    --gradient-sunset: linear-gradient(135deg, hsl(16 80% 35%), hsl(41 95% 50%));
     --gradient-ocean: linear-gradient(180deg, hsl(217 33% 13%), hsl(217 33% 18%));
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;

@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   titlePart2: {
     fontSize: 16,
     fontWeight: 700,
-    color: '#E85D2A'
+    color: '#C54616'
   },
   // Séparateur entre grandes sections
   sectionSeparator: {
@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
   },
   // Encart de conseil climatique
   conseilClimatiqueBox: {
-    backgroundColor: '#FFF9E6', // Fond jaune pâle
-    borderLeft: '4px solid #F59E0B', // Bordure orange ambre
+    backgroundColor: '#f9f0de', // Fond crème Dareviz
+    borderLeft: '4px solid #fbb041', // Bordure jaune/ambre Dareviz
     padding: 10,
     marginBottom: 12,
     borderRadius: 2,
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   conseilClimatiqueSubtitle: {
     fontSize: 10,
     fontWeight: 700,
-    color: '#E85D2A',
+    color: '#C54616',
     marginBottom: 4
   },
   conseilClimatiqueText: {

@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 14,
     fontWeight: 700,
-    color: '#E85D2A',
+    color: '#C54616',
     marginBottom: 15
   },
   itemWithConseil: {
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     backgroundColor: '#f9fafb',
     padding: 5,
-    borderLeft: '3px solid #E85D2A'
+    borderLeft: '3px solid #C54616'
   },
   deadline: {
     fontSize: 8,

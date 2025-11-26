@@ -63,11 +63,11 @@ const styles = StyleSheet.create({
   mainSectionTitlePart2: {
     fontSize: 18,
     fontWeight: 700,
-    color: '#E85D2A'
+    color: '#C54616'
   },
   // Barre de séparation orange pleine largeur
   divider: {
-    borderBottom: '2px solid #E85D2A',
+    borderBottom: '2px solid #C54616',
     marginVertical: 14,
     width: '100%'
   },
@@ -83,14 +83,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingLeft: 10,
     paddingVertical: 5,
-    borderLeft: '4px solid #E85D2A',
+    borderLeft: '4px solid #C54616',
     backgroundColor: '#FFF5F0' // Fond orange pâle conservé
   },
   // Titre de catégorie (Documents & Administratifs, Santé, etc.)
   categoryTitle: {
     fontSize: 11,
     fontWeight: 700,
-    color: '#E85D2A',
+    color: '#C54616',
     marginBottom: 6,
     marginTop: 6, // Réduit de 10 à 6 pour moins d'espace au-dessus
     paddingLeft: 6

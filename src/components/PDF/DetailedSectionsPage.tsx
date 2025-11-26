@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   titlePart2: {
     fontSize: 16,
     fontWeight: 700,
-    color: '#E85D2A'
+    color: '#C54616'
   },
   // Bloc de timeline (J-90 à J-60, etc.)
   timelineBlock: {
@@ -75,14 +75,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingLeft: 10,
     paddingVertical: 5,
-    borderLeft: '4px solid #E85D2A',
+    borderLeft: '4px solid #C54616',
     backgroundColor: '#FFF5F0'
   },
   // Titre de catégorie (Documents, Santé, etc.)
   categoryTitle: {
     fontSize: 11,
     fontWeight: 700,
-    color: '#E85D2A',
+    color: '#C54616',
     marginBottom: 8,
     marginTop: 10,
     paddingLeft: 6
