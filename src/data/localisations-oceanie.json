@@ -1,0 +1,150 @@
+{
+  "nom": "🌊 Océanie & Pacifique",
+  "code": "oceanie",
+  "pays": [
+    {
+      "code": "AU",
+      "nom": "Australie",
+      "nomEn": "Australia",
+      "flag": "🇦🇺"
+    },
+    {
+      "code": "FJ",
+      "nom": "Fidji",
+      "nomEn": "Fiji",
+      "flag": "🇫🇯"
+    },
+    {
+      "code": "GU",
+      "nom": "Guam",
+      "nomEn": "Guam",
+      "flag": "🇬🇺"
+    },
+    {
+      "code": "CK",
+      "nom": "Îles Cook",
+      "nomEn": "Cook Islands",
+      "flag": "🇨🇰"
+    },
+    {
+      "code": "MP",
+      "nom": "Îles Mariannes du Nord",
+      "nomEn": "Northern Mariana Islands",
+      "flag": "🇲🇵"
+    },
+    {
+      "code": "MH",
+      "nom": "Îles Marshall",
+      "nomEn": "Marshall Islands",
+      "flag": "🇲🇭"
+    },
+    {
+      "code": "SB",
+      "nom": "Îles Salomon",
+      "nomEn": "Solomon Islands",
+      "flag": "🇸🇧"
+    },
+    {
+      "code": "KI",
+      "nom": "Kiribati",
+      "nomEn": "Kiribati",
+      "flag": "🇰🇮"
+    },
+    {
+      "code": "FM",
+      "nom": "Micronésie",
+      "nomEn": "Micronesia",
+      "flag": "🇫🇲"
+    },
+    {
+      "code": "NR",
+      "nom": "Nauru",
+      "nomEn": "Nauru",
+      "flag": "🇳🇷"
+    },
+    {
+      "code": "NU",
+      "nom": "Niue",
+      "nomEn": "Niue",
+      "flag": "🇳🇺"
+    },
+    {
+      "code": "NC",
+      "nom": "Nouvelle-Calédonie",
+      "nomEn": "New Caledonia",
+      "flag": "🇳🇨"
+    },
+    {
+      "code": "NZ",
+      "nom": "Nouvelle-Zélande",
+      "nomEn": "New Zealand",
+      "flag": "🇳🇿"
+    },
+    {
+      "code": "PW",
+      "nom": "Palaos",
+      "nomEn": "Palau",
+      "flag": "🇵🇼"
+    },
+    {
+      "code": "PG",
+      "nom": "Papouasie-Nouvelle-Guinée",
+      "nomEn": "Papua New Guinea",
+      "flag": "🇵🇬"
+    },
+    {
+      "code": "PN",
+      "nom": "Pitcairn",
+      "nomEn": "Pitcairn Islands",
+      "flag": "🇵🇳"
+    },
+    {
+      "code": "PF",
+      "nom": "Polynésie française",
+      "nomEn": "French Polynesia",
+      "flag": "🇵🇫"
+    },
+    {
+      "code": "WS",
+      "nom": "Samoa",
+      "nomEn": "Samoa",
+      "flag": "🇼🇸"
+    },
+    {
+      "code": "AS",
+      "nom": "Samoa américaines",
+      "nomEn": "American Samoa",
+      "flag": "🇦🇸"
+    },
+    {
+      "code": "TK",
+      "nom": "Tokelau",
+      "nomEn": "Tokelau",
+      "flag": "🇹🇰"
+    },
+    {
+      "code": "TO",
+      "nom": "Tonga",
+      "nomEn": "Tonga",
+      "flag": "🇹🇴"
+    },
+    {
+      "code": "TV",
+      "nom": "Tuvalu",
+      "nomEn": "Tuvalu",
+      "flag": "🇹🇻"
+    },
+    {
+      "code": "VU",
+      "nom": "Vanuatu",
+      "nomEn": "Vanuatu",
+      "flag": "🇻🇺"
+    },
+    {
+      "code": "WF",
+      "nom": "Wallis-et-Futuna",
+      "nomEn": "Wallis and Futuna",
+      "flag": "🇼🇫"
+    }
+  ]
+}

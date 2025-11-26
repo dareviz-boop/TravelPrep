@@ -1,7 +1,6 @@
 import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
 import { GeneratedChecklist, GeneratedChecklistSection } from '@/utils/checklistGenerator';
-import checklistCompleteData from '@/data/checklistComplete.json';
 import { PDFIcon } from './PDFIcon';
 import { CompactPage } from './CompactPage';
 import { TimelineContent } from './TimelineContent';
@@ -156,7 +155,7 @@ export const CoverPage = ({
   };
 
   const getActivitesLabels = () => {
-    const activitesOptions: any[] = checklistCompleteData.activites?.options || [];
+    const activitesOptions: any[] = referenceData.activites?.options || [];
     return cleanTextForPDF(
       formData.activites
         .map(actId => {
@@ -169,12 +168,12 @@ export const CoverPage = ({
   };
 
   const getLocalisationLabel = () => {
-    const localisations: any = checklistCompleteData.localisations || {};
+    const localisations: any = referenceData.localisations || {};
     return cleanTextForPDF(localisations[formData.localisation]?.nom || formData.localisation);
   };
 
   const getProfilLabel = () => {
-    const profilsOptions: any[] = checklistCompleteData.profils?.options || [];
+    const profilsOptions: any[] = referenceData.profils?.options || [];
     const profil = profilsOptions.find((opt: any) => opt.id === formData.profil);
     return cleanTextForPDF(profil ? profil.nom : formData.profil);
   };
@@ -192,7 +191,7 @@ export const CoverPage = ({
       return 'je ne sais pas';
     }
 
-    const temps: any = checklistCompleteData.temperatures || {};
+    const temps: any = referenceData.temperatures || {};
     const tempArray = Array.isArray(formData.temperature) ? formData.temperature : [formData.temperature];
     const filtered = tempArray.filter(t => t !== 'inconnue');
 
@@ -218,7 +217,7 @@ export const CoverPage = ({
       return 'je ne sais pas';
     }
 
-    const saisons: any = checklistCompleteData.saisons || {};
+    const saisons: any = referenceData.saisons || {};
     const saisonArray = Array.isArray(formData.saison) ? formData.saison : [formData.saison];
     const filtered = saisonArray.filter(s => s !== 'inconnue');
 
@@ -245,7 +244,7 @@ export const CoverPage = ({
     }
 
     if (!formData.conditionsClimatiques || formData.conditionsClimatiques.length === 0) return null;
-    const conditions: any = checklistCompleteData.conditionsClimatiques || [];
+    const conditions: any = referenceData.conditionsClimatiques || [];
     const allConditions: any[] = [];
 
     // Parcourir tous les groupes pour trouver les conditions
@@ -268,13 +267,13 @@ export const CoverPage = ({
   };
 
   const getTypeVoyageLabel = () => {
-    const typesOptions: any[] = checklistCompleteData.typeVoyage?.options || [];
+    const typesOptions: any[] = referenceData.typeVoyage?.options || [];
     const type = typesOptions.find((opt: any) => opt.id === formData.typeVoyage);
     return cleanTextForPDF(type ? type.nom : formData.typeVoyage);
   };
 
   const getConfortLabel = () => {
-    const confortsOptions: any[] = checklistCompleteData.confort?.options || [];
+    const confortsOptions: any[] = referenceData.confort?.options || [];
     const confort = confortsOptions.find((opt: any) => opt.id === formData.confort);
     return cleanTextForPDF(confort ? confort.nom : formData.confort);
   };

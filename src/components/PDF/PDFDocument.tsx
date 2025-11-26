@@ -4,7 +4,8 @@ import { GeneratedChecklist } from '@/utils/checklistGenerator';
 import { CoverPage } from './CoverPage';
 import { TimelinePage } from './TimelinePage';
 import { CategoryPage } from './CategoryPage';
-import checklistCompleteData from '@/data/checklistComplete.json';
+import referenceData from '@/data/reference-data.json';
+import { getAllLocalisationsSync } from '@/utils/locationLoader';
 
 // 🔧 FIX: Ne pas charger de polices externes pour éviter les erreurs d'encodage
 // Utiliser Helvetica qui est toujours disponible dans les PDFs
@@ -68,12 +69,18 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
   // 3. Activités
   const activiteSections = filteredSections.filter(section => section.source === 'activite');
 
+  // Charger toutes les localisations pour le PDF
+  const localisations = getAllLocalisationsSync();
+
   return (
     <Document>
       <CoverPage
         formData={formData}
         checklistData={filteredChecklistData}
-        referenceData={checklistCompleteData}
+        referenceData={{
+          ...referenceData,
+          localisations // Ajouter les localisations chargées dynamiquement
+        }}
         isDetailed={isDetailedPDF}
         essentialSections={essentialSections}
         recommendedSections={recommendedSections}

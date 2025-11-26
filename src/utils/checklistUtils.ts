@@ -1,14 +1,24 @@
-import { FormData } from '@/types/form';
-import checklistData from '@/data/checklistComplete.json';
+import { FormData, Localisation } from '@/types/form';
+import referenceData from '@/data/reference-data.json';
+import { getAllLocalisationsSync } from './locationLoader';
+
+// Charger toutes les localisations de manière synchrone
+const localisations = getAllLocalisationsSync();
 
 export const getLocalisationLabel = (code: string): string => {
-  const loc = checklistData.localisations[code as keyof typeof checklistData.localisations];
+  const loc = localisations[code as Localisation];
   return loc?.nom || code;
 };
 
 export const getPaysOptions = (localisation: string) => {
-  if (!localisation || localisation === 'multi-destinations') return [];
-  const loc = checklistData.localisations[localisation as keyof typeof checklistData.localisations];
+  if (!localisation) return [];
+
+  // Pour multi-destinations, retourner les pays de toutes les zones
+  if (localisation === 'multi-destinations') {
+    return localisations['multi-destinations']?.pays || [];
+  }
+
+  const loc = localisations[localisation as Localisation];
   return loc?.pays || [];
 };
 
@@ -45,4 +55,8 @@ export const calculateDeadline = (dateDepart: string, delai: string): string => 
   return formatDate(departDate.toISOString());
 };
 
-export { checklistData };
+// Exporter les données de référence (sans les localisations)
+export { referenceData as checklistData };
+
+// Exporter aussi les localisations pour compatibilité
+export { localisations };

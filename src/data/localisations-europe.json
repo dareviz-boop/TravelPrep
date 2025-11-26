@@ -1,0 +1,300 @@
+{
+  "nom": "🇪🇺 Europe",
+  "code": "europe",
+  "pays": [
+    {
+      "code": "AL",
+      "nom": "Albanie",
+      "nomEn": "Albania",
+      "flag": "🇦🇱"
+    },
+    {
+      "code": "DE",
+      "nom": "Allemagne",
+      "nomEn": "Germany",
+      "flag": "🇩🇪"
+    },
+    {
+      "code": "AD",
+      "nom": "Andorre",
+      "nomEn": "Andorra",
+      "flag": "🇦🇩"
+    },
+    {
+      "code": "AT",
+      "nom": "Autriche",
+      "nomEn": "Austria",
+      "flag": "🇦🇹"
+    },
+    {
+      "code": "BE",
+      "nom": "Belgique",
+      "nomEn": "Belgium",
+      "flag": "🇧🇪"
+    },
+    {
+      "code": "BY",
+      "nom": "Biélorussie",
+      "nomEn": "Belarus",
+      "flag": "🇧🇾"
+    },
+    {
+      "code": "BA",
+      "nom": "Bosnie-Herzégovine",
+      "nomEn": "Bosnia and Herzegovina",
+      "flag": "🇧🇦"
+    },
+    {
+      "code": "BG",
+      "nom": "Bulgarie",
+      "nomEn": "Bulgaria",
+      "flag": "🇧🇬"
+    },
+    {
+      "code": "CY",
+      "nom": "Chypre",
+      "nomEn": "Cyprus",
+      "flag": "🇨🇾"
+    },
+    {
+      "code": "HR",
+      "nom": "Croatie",
+      "nomEn": "Croatia",
+      "flag": "🇭🇷"
+    },
+    {
+      "code": "DK",
+      "nom": "Danemark",
+      "nomEn": "Denmark",
+      "flag": "🇩🇰"
+    },
+    {
+      "code": "ES",
+      "nom": "Espagne",
+      "nomEn": "Spain",
+      "flag": "🇪🇸"
+    },
+    {
+      "code": "EE",
+      "nom": "Estonie",
+      "nomEn": "Estonia",
+      "flag": "🇪🇪"
+    },
+    {
+      "code": "FI",
+      "nom": "Finlande",
+      "nomEn": "Finland",
+      "flag": "🇫🇮"
+    },
+    {
+      "code": "FR",
+      "nom": "France",
+      "nomEn": "France",
+      "flag": "🇫🇷"
+    },
+    {
+      "code": "GR",
+      "nom": "Grèce",
+      "nomEn": "Greece",
+      "flag": "🇬🇷"
+    },
+    {
+      "code": "HU",
+      "nom": "Hongrie",
+      "nomEn": "Hungary",
+      "flag": "🇭🇺"
+    },
+    {
+      "code": "IE",
+      "nom": "Irlande",
+      "nomEn": "Ireland",
+      "flag": "🇮🇪"
+    },
+    {
+      "code": "IS",
+      "nom": "Islande",
+      "nomEn": "Iceland",
+      "flag": "🇮🇸"
+    },
+    {
+      "code": "IT",
+      "nom": "Italie",
+      "nomEn": "Italy",
+      "flag": "🇮🇹"
+    },
+    {
+      "code": "XK",
+      "nom": "Kosovo",
+      "nomEn": "Kosovo",
+      "flag": "🇽🇰"
+    },
+    {
+      "code": "LV",
+      "nom": "Lettonie",
+      "nomEn": "Latvia",
+      "flag": "🇱🇻"
+    },
+    {
+      "code": "LI",
+      "nom": "Liechtenstein",
+      "nomEn": "Liechtenstein",
+      "flag": "🇱🇮"
+    },
+    {
+      "code": "LT",
+      "nom": "Lituanie",
+      "nomEn": "Lithuania",
+      "flag": "🇱🇹"
+    },
+    {
+      "code": "LU",
+      "nom": "Luxembourg",
+      "nomEn": "Luxembourg",
+      "flag": "🇱🇺"
+    },
+    {
+      "code": "MK",
+      "nom": "Macédoine du Nord",
+      "nomEn": "North Macedonia",
+      "flag": "🇲🇰"
+    },
+    {
+      "code": "MT",
+      "nom": "Malte",
+      "nomEn": "Malta",
+      "flag": "🇲🇹"
+    },
+    {
+      "code": "MD",
+      "nom": "Moldavie",
+      "nomEn": "Moldova",
+      "flag": "🇲🇩"
+    },
+    {
+      "code": "MC",
+      "nom": "Monaco",
+      "nomEn": "Monaco",
+      "flag": "🇲🇨"
+    },
+    {
+      "code": "ME",
+      "nom": "Monténégro",
+      "nomEn": "Montenegro",
+      "flag": "🇲🇪"
+    },
+    {
+      "code": "NO",
+      "nom": "Norvège",
+      "nomEn": "Norway",
+      "flag": "🇳🇴"
+    },
+    {
+      "code": "NL",
+      "nom": "Pays-Bas",
+      "nomEn": "Netherlands",
+      "flag": "🇳🇱"
+    },
+    {
+      "code": "PL",
+      "nom": "Pologne",
+      "nomEn": "Poland",
+      "flag": "🇵🇱"
+    },
+    {
+      "code": "PT",
+      "nom": "Portugal",
+      "nomEn": "Portugal",
+      "flag": "🇵🇹"
+    },
+    {
+      "code": "RO",
+      "nom": "Roumanie",
+      "nomEn": "Romania",
+      "flag": "🇷🇴"
+    },
+    {
+      "code": "GB-ENG",
+      "nom": "Angleterre",
+      "nomEn": "England",
+      "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿"
+    },
+    {
+      "code": "GB-SCT",
+      "nom": "Écosse",
+      "nomEn": "Scotland",
+      "flag": "🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+    },
+    {
+      "code": "GB-NIR",
+      "nom": "Irlande du Nord",
+      "nomEn": "Northern Ireland",
+      "flag": "🇬🇧"
+    },
+    {
+      "code": "GB-WLS",
+      "nom": "Pays de Galles",
+      "nomEn": "Wales",
+      "flag": "🏴󠁧󠁢󠁷󠁬󠁳󠁿"
+    },
+    {
+      "code": "RU",
+      "nom": "Russie",
+      "nomEn": "Russia",
+      "flag": "🇷🇺"
+    },
+    {
+      "code": "SM",
+      "nom": "Saint-Marin",
+      "nomEn": "San Marino",
+      "flag": "🇸🇲"
+    },
+    {
+      "code": "RS",
+      "nom": "Serbie",
+      "nomEn": "Serbia",
+      "flag": "🇷🇸"
+    },
+    {
+      "code": "SK",
+      "nom": "Slovaquie",
+      "nomEn": "Slovakia",
+      "flag": "🇸🇰"
+    },
+    {
+      "code": "SI",
+      "nom": "Slovénie",
+      "nomEn": "Slovenia",
+      "flag": "🇸🇮"
+    },
+    {
+      "code": "SE",
+      "nom": "Suède",
+      "nomEn": "Sweden",
+      "flag": "🇸🇪"
+    },
+    {
+      "code": "CH",
+      "nom": "Suisse",
+      "nomEn": "Switzerland",
+      "flag": "🇨🇭"
+    },
+    {
+      "code": "CZ",
+      "nom": "Tchéquie",
+      "nomEn": "Czechia",
+      "flag": "🇨🇿"
+    },
+    {
+      "code": "UA",
+      "nom": "Ukraine",
+      "nomEn": "Ukraine",
+      "flag": "🇺🇦"
+    },
+    {
+      "code": "VA",
+      "nom": "Vatican",
+      "nomEn": "Vatican City",
+      "flag": "🇻🇦"
+    }
+  ]
+}
