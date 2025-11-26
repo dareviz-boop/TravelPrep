@@ -41,6 +41,10 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
         if (section.source === 'activite') {
           return true;
         }
+        // TOUJOURS inclure "pendant_apres" (car elle devrait être affichée même si non sélectionnée)
+        if (section.id === 'pendant_apres') {
+          return true;
+        }
         // Pour les sections core, vérifier si l'ID est dans sectionsInclure
         return sectionsInclure.includes(section.id);
       });

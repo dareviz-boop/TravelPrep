@@ -47,8 +47,8 @@ const LOCATION_FILES: Record<Localisation, string> = {
   'amerique-nord': '/src/data/localisations-amerique-nord.json',
   'amerique-centrale-caraibes': '/src/data/localisations-amerique-centrale-caraibes.json',
   'amerique-sud': '/src/data/localisations-amerique-sud.json',
-  'oceanie': '/src/data/localisations-oceanie.json',
-  'multi-destinations': '/src/data/localisations-amerique-sud.json' // Partagé avec amerique-sud
+  'multi-destinations': '/src/data/localisations-amerique-sud.json', // Partagé avec amerique-sud
+  'oceanie': '/src/data/localisations-oceanie.json'
 };
 
 /**
@@ -100,8 +100,8 @@ export function getAllLocalisationsSync(): LocalisationsMap {
     localisations['amerique-nord'] = ameriqueNordData;
     localisations['amerique-centrale-caraibes'] = ameriqueCentraleCaraibesData;
     localisations['amerique-sud'] = ameriqueSudData['amerique-sud'];
-    localisations['multi-destinations'] = ameriqueSudData['multi-destinations'];
     localisations['oceanie'] = oceanieData;
+    localisations['multi-destinations'] = ameriqueSudData['multi-destinations'];
 
     return localisations;
   } catch (error) {
