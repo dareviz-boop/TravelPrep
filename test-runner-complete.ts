@@ -465,9 +465,9 @@ const suggestionTests: TestCase[] = [
   },
   {
     id: 'sug_12',
-    name: 'Vents forts Patagonie',
+    name: 'Vent fort Patagonie',
     category: '3. Suggestions climatiques',
-    description: 'Argentine/Patagonie → vents forts',
+    description: 'Argentine/Patagonie → vent fort',
     formData: {
       pays: [{ code: 'AR', nom: 'Argentine' }],
       dateDepart: '2025-12-15',
@@ -479,7 +479,7 @@ const suggestionTests: TestCase[] = [
       const has = sugg.some(s => s.conditionId === 'climat_vents_forts');
       return {
         passed: has,
-        message: has ? '✅ Vents forts suggérés' : `❌ Non suggérés`,
+        message: has ? '✅ Vent fort suggéré' : `❌ Non suggéré`,
         details: { count: sugg.length }
       };
     }

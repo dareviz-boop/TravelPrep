@@ -95,7 +95,7 @@
         },
         {
           "id": "climat_orages",
-          "nom": "⛈️ Orages tropicaux fréquents",
+          "nom": "⛈️ Orage tropical fréquent",
           "emoji": "⛈️",
           "priorite": "moyenne",
           "delai": "J-7",
@@ -118,7 +118,7 @@
         },
         {
           "id": "climat_cyclones",
-          "nom": "🌀 Cyclones / Typhons / Ouragans",
+          "nom": "🌀 Cyclone / Typhon / Ouragan",
           "emoji": "🌀",
           "priorite": "haute",
           "delai": "J-30",
@@ -603,7 +603,7 @@
       "items": [
         {
           "id": "climat_vents_forts",
-          "nom": "💨 Vents violents / Tempêtes",
+          "nom": "💨 Vent violent / Tempête",
           "emoji": "💨",
           "priorite": "moyenne",
           "delai": "J-7",

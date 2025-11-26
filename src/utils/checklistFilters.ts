@@ -998,7 +998,7 @@ export function generateAutoSuggestions(formData: FormData): SuggestionItem[] {
   );
 
   if (isWindy) {
-    addSuggestion('climat_vents_forts', 'Vents violents fréquents', 'moyenne');
+    addSuggestion('climat_vents_forts', 'Vent violent fréquent', 'moyenne');
   }
 
   // 🌋 ZONES VOLCANIQUES : Pays avec volcans actifs

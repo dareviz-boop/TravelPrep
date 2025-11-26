@@ -1133,7 +1133,7 @@ function generateExtendedMultiDestinationTests(): MultiDestinationTestCase[] {
     paysCodes: ['CG', 'BR', 'UG', 'ID'],
     dateDepart: '2025-03-15',
     duree: 24,
-    description: 'Orages tropicaux fréquents',
+    description: 'Orage tropical fréquent',
     objectifTest: 'Vérifier zones orages quotidiens'
   });
 

@@ -103,11 +103,11 @@
         },
         {
           "id": "climat_orages",
-          "nom": "⛈️ Orages fréquents"
+          "nom": "⛈️ Orage fréquent"
         },
         {
           "id": "climat_neige",
-          "nom": "🌨️ Neige / Blizzards"
+          "nom": "🌨️ Neige / Blizzard"
         }
       ]
     },
@@ -116,11 +116,11 @@
       "options": [
         {
           "id": "climat_vents_forts",
-          "nom": "💨 Vents forts / Tempêtes"
+          "nom": "💨 Vent fort / Tempête"
         },
         {
           "id": "climat_cyclones",
-          "nom": "🌀 Cyclones / Typhons / Ouragans"
+          "nom": "🌀 Cyclone / Typhon / Ouragan"
         },
         {
           "id": "climat_harmattan",
