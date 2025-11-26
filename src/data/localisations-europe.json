@@ -216,13 +216,13 @@
       "code": "GB-ENG",
       "nom": "Angleterre",
       "nomEn": "England",
-      "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿"
+      "flag": "🏴"
     },
     {
       "code": "GB-SCT",
       "nom": "Écosse",
       "nomEn": "Scotland",
-      "flag": "🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+      "flag": "🏴"
     },
     {
       "code": "GB-NIR",
@@ -234,7 +234,7 @@
       "code": "GB-WLS",
       "nom": "Pays de Galles",
       "nomEn": "Wales",
-      "flag": "🏴󠁧󠁢󠁷󠁬󠁳󠁿"
+      "flag": "🏴"
     },
     {
       "code": "RU",

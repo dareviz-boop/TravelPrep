@@ -1115,62 +1115,6 @@ export function getSuggestionDetails(conditionId: string): ClimatItem | null {
   return findConditionById(conditionId);
 }
 
-/**
- * Accepte une suggestion et retourne les équipements associés
- */
-export function acceptSuggestion(conditionId: string, formData: FormData): string[] {
-  const condition = findConditionById(conditionId);
-  if (!condition) return [];
-
-  // Vérifier les filtres comme pour les conditions normales
-  const matchesDest = matchesDestination(
-    condition.filtres?.destinations,
-    formData.localisation
-  );
-
-  const matchesPeriod = matchesPeriode(
-    condition.filtres?.periode || [],
-    formData.dateDepart,
-    formData.localisation,
-    formData.pays,
-    formData.dateRetour,
-    formData.duree
-  );
-
-  const matchesAct = matchesActivites(
-    condition.filtres?.activites,
-    formData.activites
-  );
-
-  const matchesPaysFilter = matchesPays(
-    condition.filtres?.pays,
-    formData.pays
-  );
-
-  // Si un filtre pays est défini, l'utiliser en priorité sur destinations
-  const hasCountryFilter = condition.filtres?.pays && condition.filtres.pays.length > 0;
-  const locationMatch = hasCountryFilter ? matchesPaysFilter : matchesDest;
-
-  if (locationMatch && matchesPeriod && matchesAct) {
-    return condition.equipement;
-  }
-
-  return [];
-}
-
-/**
- * Retourne un résumé des filtres appliqués (pour debug/logging)
- */
-export function getFilterSummary(formData: FormData): string {
-  return `
-🗺️ Destination: ${formData.localisation}
-📍 Pays: ${formData.pays.map(p => p.nom).join(', ')}
-📅 Date départ: ${formData.dateDepart}
-🌡️ Températures: ${Array.isArray(formData.temperature) ? formData.temperature.join(', ') : formData.temperature}
-🍂 Saisons: ${Array.isArray(formData.saison) ? formData.saison.join(', ') : formData.saison}
-🏔️ Conditions: ${formData.conditionsClimatiques?.join(', ') || 'aucune'}
-  `.trim();
-}
 
 /**
  * Exporte toutes les fonctions utiles
@@ -1180,7 +1124,5 @@ export default {
   generateAutoSuggestions,
   autoDetectSeasons,
   autoDetectTemperatures,
-  getSuggestionDetails,
-  acceptSuggestion,
-  getFilterSummary
+  getSuggestionDetails
 };

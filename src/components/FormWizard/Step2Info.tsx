@@ -1,4 +1,4 @@
-// Step 2 Info.tsx
+// Étape 2 Infos.tsx
 
 import React, { useRef, useMemo } from "react";
 import { Label } from "@/components/ui/label";
@@ -83,11 +83,11 @@ const renderMarkdown = (text: string) => {
 export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
   // Ref pour tracker la dernière configuration utilisée pour l'auto-suggestion
-  // Format: "localisation|pays1,pays2|dateDepart|dateRetour"
+  // Format : "localisation|pays1,pays2|dateDepart|dateRetour"
   const lastAutoSuggestKeyRef = useRef<string>('');
 
   // 🔔 Ref pour tracker la dernière configuration de l'étape 1 (pour geler les recommandations)
-  // Format: "localisation|pays1,pays2|dateDepart|dateRetour|duree"
+  // Format : "localisation|pays1,pays2|dateDepart|dateRetour|duree"
   const lastStep1KeyRef = useRef<string>('');
 
   // 🔔 Calculer et stocker les recommandations dans formData.recommendedConditions
