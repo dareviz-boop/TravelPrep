@@ -52,9 +52,10 @@ const styles = StyleSheet.create({
     fontWeight: 700,
     color: '#C54616'
   },
-  // Séparateur entre grandes sections
+  // Séparateur orange entre grandes sections
   sectionSeparator: {
-    marginTop: 30,
+    borderBottom: '3px solid #C54616',
+    marginTop: 20,
     marginBottom: 15
   },
   // Encart de conseil climatique
