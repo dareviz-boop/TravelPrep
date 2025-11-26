@@ -1441,25 +1441,6 @@
           }
         ]
       },
-      "traduction": {
-        "nom": "🗣️ Traduction & Langue",
-        "apps": [
-          {
-            "nom": "Google Translate",
-            "usage": "Traduction offline + photo menu",
-            "prix": "Gratuit",
-            "priorite": "⭐⭐⭐",
-            "conseils": "Télécharger langues offline. Photo = traduction instant. Conversation bilatérale"
-          },
-          {
-            "nom": "Duolingo",
-            "usage": "Apprendre bases langue",
-            "prix": "Freemium",
-            "priorite": "⭐⭐",
-            "conseils": "15min/jour avant voyage. Bases survie. Ludique. Gratuit suffisant"
-          }
-        ]
-      },
       "budget": {
         "nom": "💰 Budget & Finances",
         "apps": [
@@ -1490,6 +1471,32 @@
             "prix": "Gratuit",
             "priorite": "⭐⭐⭐",
             "conseils": "Taux jour actualisés auto. Fonctionne offline après sync. Calcul instantané"
+          }
+        ]
+      },
+      "traduction": {
+        "nom": "🗣️ Traduction & Langue",
+        "apps": [
+          {
+            "nom": "Google Translate",
+            "usage": "Traduction offline + photo menu",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐⭐",
+            "conseils": "Télécharger langues offline. Photo = traduction instant. Conversation bilatérale"
+          },
+          {
+            "nom": "iTranslate",
+            "usage": "Traduction voix & texte",
+            "prix": "Gratuit (+ options)",
+            "priorite": "⭐⭐⭐",
+            "conseils": "Idéal conversations rapides. Mode hors-ligne pratique en voyage."
+          },
+          {
+            "nom": "Duolingo",
+            "usage": "Apprendre bases langue",
+            "prix": "Freemium",
+            "priorite": "⭐⭐",
+            "conseils": "15min/jour avant voyage. Bases survie. Ludique. Gratuit suffisant"
           }
         ]
       },
@@ -1556,6 +1563,13 @@
             "conseils": "Retrouver iPhone perdu/volé. Partage position famille. Effacement distance"
           },
           {
+            "nom": "EchoSOS",
+            "usage": "Urgences internationales",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐⭐",
+            "conseils": "Numéro d’urgence local automatique. Envoie localisation GPS précise. Surtout pour hors Europe ou zones inconnues."
+          },
+          {
             "nom": "Life360",
             "usage": "Partage localisation famille",
             "prix": "Freemium",
@@ -1575,6 +1589,13 @@
             "conseils": "Urgences 190+ pays. Police, pompiers, hôpitaux. Offline"
           },
           {
+            "nom": "First Aid – Croix-Rouge",
+            "usage": "Premiers secours hors-ligne",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐⭐",
+            "conseils": "Gestes d'urgence simples, utilisable sans Internet. Version plus complète : St. John First Aid."
+          },
+          {
             "nom": "Medisafe",
             "usage": "Rappels médicaments",
             "prix": "Gratuit",
@@ -1592,6 +1613,13 @@
             "prix": "Gratuit",
             "priorite": "⭐⭐⭐",
             "conseils": "Sauvegarde auto WiFi. Illimité qualité haute (compressée). Albums partagés"
+          },
+          {
+            "nom": "Polarsteps",
+            "usage": "Carnet de voyage & tracé itinéraire",
+            "prix": "Gratuit",
+            "priorite": "⭐⭐⭐",
+            "conseils": "Trace automatiquement ton itinéraire et crée une jolie carte de ton voyage. Possibilité de Travel Book imprimé."
           },
           {
             "nom": "Lightroom Mobile",
