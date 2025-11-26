@@ -693,9 +693,8 @@ export const DetailedSectionsPage = ({
           {renderTimelinePeriodForEssentials(timelines.j2_j1, 'J-2 à J-1 (48h avant le départ)')}
           {timelines.noDelay.length > 0 && (
             <View style={styles.timelineBlock}>
-              <Text style={styles.timelineHeader}>À prévoir (vérifier selon destination)</Text>
+              <Text style={styles.timelineHeader}>Autres recommandations</Text>
               {sortItemsByDelay(timelines.noDelay).map((item, idx) => {
-                // Grouper par catégorie
                 return renderItem(item, idx, false);
               })}
             </View>
