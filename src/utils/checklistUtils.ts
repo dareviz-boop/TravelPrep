@@ -13,9 +13,18 @@ export const getLocalisationLabel = (code: string): string => {
 export const getPaysOptions = (localisation: string) => {
   if (!localisation) return [];
 
-  // Pour multi-destinations, retourner les pays de toutes les zones
+  // Pour multi-destinations, retourner TOUS les pays de TOUTES les zones
   if (localisation === 'multi-destinations') {
-    return localisations['multi-destinations']?.pays || [];
+    // Fusionner tous les pays de toutes les zones géographiques
+    const allPays = Object.values(localisations)
+      .flatMap((loc) => loc.pays || []);
+
+    // Trier par ordre alphabétique et dédupliquer par code
+    const uniquePays = Array.from(
+      new Map(allPays.map(p => [p.code, p])).values()
+    ).sort((a, b) => a.nom.localeCompare(b.nom, 'fr'));
+
+    return uniquePays;
   }
 
   const loc = localisations[localisation as Localisation];
