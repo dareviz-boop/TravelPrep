@@ -1,7 +1,7 @@
 import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
 import { GeneratedChecklist, ChecklistItem } from '@/utils/checklistGenerator';
-import { calculateDeadline } from '@/utils/filterItems';
+import { calculateDeadline } from '@/utils/checklistUtils';
 import { PDFIcon } from './PDFIcon';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis

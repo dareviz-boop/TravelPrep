@@ -4,7 +4,6 @@ import { GeneratedChecklist } from '@/utils/checklistGenerator';
 import { CoverPage } from './CoverPage';
 import { TimelinePage } from './TimelinePage';
 import { CategoryPage } from './CategoryPage';
-import { BagagesPage } from './BagagesPage';
 import checklistCompleteData from '@/data/checklistComplete.json';
 
 // 🔧 FIX: Ne pas charger de polices externes pour éviter les erreurs d'encodage
