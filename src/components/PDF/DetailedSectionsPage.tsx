@@ -145,18 +145,21 @@ const styles = StyleSheet.create({
     color: COLORS.text.secondary,
     lineHeight: 1.4
   },
-  // Conseil sans indentation, démarre directement sous la checkbox
+  // Encart gris pour le conseil - démarre directement sous la checkbox/!!
   conseilContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginTop: 1,
-    paddingLeft: 0 // Pas d'indentation, démarre directement sous la checkbox
+    marginTop: 4,
+    marginLeft: 0, // Aligné avec le début de la ligne (sous les !!)
+    backgroundColor: '#f5f5f5', // Fond gris clair
+    padding: 8, // Padding uniforme
+    borderRadius: 2
   },
   conseilText: {
     fontSize: 9,
     color: COLORS.text.secondary,
     fontStyle: 'italic',
-    lineHeight: 1.3,
+    lineHeight: 1.4,
     flex: 1
   },
   prioritySymbol: {
@@ -347,10 +350,95 @@ export const DetailedSectionsPage = ({
       itemsByCategory[categoryName].push(item);
     });
 
+    const categoryEntries = Object.entries(itemsByCategory);
+    const firstCategoryEntry = categoryEntries[0];
+    const remainingCategoryEntries = categoryEntries.slice(1);
+
+    // Préparer le premier encart de la première catégorie
+    const getFirstCategoryContent = () => {
+      if (!firstCategoryEntry) return null;
+      const [categoryName, categoryItems] = firstCategoryEntry;
+      const sortedItems = sortItemsByDelay(categoryItems);
+
+      // Grouper par date précise
+      const itemsByDate: { [date: string]: ItemWithSection[] } = {};
+      sortedItems.forEach(item => {
+        const deadline = item.delai && formData.dateDepart
+          ? calculateDeadline(formData.dateDepart, item.delai)
+          : 'no-date';
+        if (!itemsByDate[deadline]) {
+          itemsByDate[deadline] = [];
+        }
+        itemsByDate[deadline].push(item);
+      });
+
+      const dateEntries = Object.entries(itemsByDate);
+      const firstEntry = dateEntries[0];
+      const remainingEntries = dateEntries.slice(1);
+
+      return { categoryName, firstEntry, remainingEntries };
+    };
+
+    const firstCategoryContent = getFirstCategoryContent();
+
     return (
       <View style={styles.timelineBlock} key={title}>
-        <Text style={styles.timelineHeader}>{cleanTextForPDF(title)}</Text>
-        {Object.entries(itemsByCategory).map(([categoryName, categoryItems]) => {
+        {/* Grouper le titre de période + premier titre de catégorie + premier encart pour éviter les orphelins */}
+        <View style={styles.titleWithItemsGroup} wrap={false}>
+          <Text style={styles.timelineHeader}>{cleanTextForPDF(title)}</Text>
+
+          {firstCategoryContent && (
+            <>
+              <Text style={styles.categoryTitle}>{cleanTextForPDF(firstCategoryContent.categoryName)}</Text>
+              {firstCategoryContent.firstEntry && (() => {
+                const [deadline, dateItems] = firstCategoryContent.firstEntry;
+                if (deadline !== 'no-date') {
+                  return (
+                    <View key={`${firstCategoryContent.categoryName}-${deadline}`} style={styles.datedBoxContainer}>
+                      <View style={styles.datedBoxItems}>
+                        {dateItems.map((item, idx) => renderItem(item, idx, false))}
+                      </View>
+                      <View style={styles.datedBoxDateColumn}>
+                        <Text style={styles.dateLabel}>{deadline}</Text>
+                      </View>
+                    </View>
+                  );
+                } else {
+                  return (
+                    <View key={`${firstCategoryContent.categoryName}-${deadline}`}>
+                      {dateItems.map((item, idx) => renderItem(item, idx, false))}
+                    </View>
+                  );
+                }
+              })()}
+            </>
+          )}
+        </View>
+
+        {/* Reste des encarts de la première catégorie */}
+        {firstCategoryContent && firstCategoryContent.remainingEntries.map(([deadline, dateItems]) => {
+          if (deadline !== 'no-date') {
+            return (
+              <View key={`${firstCategoryContent.categoryName}-${deadline}`} style={styles.datedBoxContainer} wrap={false}>
+                <View style={styles.datedBoxItems}>
+                  {dateItems.map((item, idx) => renderItem(item, idx, false))}
+                </View>
+                <View style={styles.datedBoxDateColumn}>
+                  <Text style={styles.dateLabel}>{deadline}</Text>
+                </View>
+              </View>
+            );
+          } else {
+            return (
+              <View key={`${firstCategoryContent.categoryName}-${deadline}`}>
+                {dateItems.map((item, idx) => renderItem(item, idx, false))}
+              </View>
+            );
+          }
+        })}
+
+        {/* Catégories restantes */}
+        {remainingCategoryEntries.map(([categoryName, categoryItems]) => {
           const sortedItems = sortItemsByDelay(categoryItems);
 
           // Grouper par date précise
@@ -374,27 +462,21 @@ export const DetailedSectionsPage = ({
               {/* Grouper le titre avec le premier encart pour éviter les orphelins */}
               {firstEntry && (
                 <View style={styles.titleWithItemsGroup} wrap={false}>
-                  {/* Afficher le titre de catégorie une seule fois */}
                   <Text style={styles.categoryTitle}>{cleanTextForPDF(categoryName)}</Text>
-
                   {(() => {
                     const [deadline, dateItems] = firstEntry;
-                    // Structure: fond gris avec items à gauche, date à droite alignée avec le premier élément
                     if (deadline !== 'no-date') {
                       return (
                         <View key={`${categoryName}-${deadline}`} style={styles.datedBoxContainer}>
-                          {/* Colonne gauche: tous les items */}
                           <View style={styles.datedBoxItems}>
                             {dateItems.map((item, idx) => renderItem(item, idx, false))}
                           </View>
-                          {/* Colonne droite: date alignée en haut */}
                           <View style={styles.datedBoxDateColumn}>
                             <Text style={styles.dateLabel}>{deadline}</Text>
                           </View>
                         </View>
                       );
                     } else {
-                      // Items sans date
                       return (
                         <View key={`${categoryName}-${deadline}`}>
                           {dateItems.map((item, idx) => renderItem(item, idx, false))}
@@ -407,22 +489,18 @@ export const DetailedSectionsPage = ({
 
               {/* Reste des encarts datés */}
               {remainingEntries.map(([deadline, dateItems]) => {
-                // Structure: fond gris avec items à gauche, date à droite alignée avec le premier élément
                 if (deadline !== 'no-date') {
                   return (
                     <View key={`${categoryName}-${deadline}`} style={styles.datedBoxContainer} wrap={false}>
-                      {/* Colonne gauche: tous les items */}
                       <View style={styles.datedBoxItems}>
                         {dateItems.map((item, idx) => renderItem(item, idx, false))}
                       </View>
-                      {/* Colonne droite: date alignée en haut */}
                       <View style={styles.datedBoxDateColumn}>
                         <Text style={styles.dateLabel}>{deadline}</Text>
                       </View>
                     </View>
                   );
                 } else {
-                  // Items sans date
                   return (
                     <View key={`${categoryName}-${deadline}`}>
                       {dateItems.map((item, idx) => renderItem(item, idx, false))}

@@ -1,5 +1,4 @@
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
-import { PDFIcon } from './PDFIcon';
 import { COLORS } from '@/utils/colors';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
@@ -40,7 +39,7 @@ const styles = StyleSheet.create({
   // Titre principal en deux parties
   titleContainer: {
     flexDirection: 'row',
-    marginBottom: 15,
+    marginBottom: 10,
     flexWrap: 'wrap'
   },
   titlePart1: {
@@ -59,26 +58,24 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 15
   },
-  // Encart de conseil climatique
-  conseilClimatiqueBox: {
-    backgroundColor: '#f9f0de', // Fond crème Dareviz
-    borderLeft: '4px solid #fbb041', // Bordure jaune/ambre Dareviz
-    padding: 10,
-    marginBottom: 12,
-    borderRadius: 2,
-    breakInside: 'avoid' as const
+  // Format compact pour les conditions climatiques (similaire au format compact)
+  climatConditionBlock: {
+    marginBottom: 6,
+    paddingLeft: 10
+    // Ne pas utiliser breakInside: 'avoid' pour permettre la pagination naturelle
   },
-  conseilClimatiqueTitle: {
+  climatConditionTitle: {
     fontSize: 10,
     fontWeight: 700,
     color: '#C54616',
-    marginBottom: 6
+    marginBottom: 4
   },
-  conseilClimatiqueAdviceItem: {
+  climatAdviceItem: {
     fontSize: 9,
-    color: '#78350F',
-    lineHeight: 1.4,
-    marginBottom: 2
+    color: COLORS.text.secondary,
+    marginBottom: 2,
+    paddingLeft: 10,
+    lineHeight: 1.4
   },
   // Groupe titre + items pour éviter les orphelins
   titleWithItemsGroup: {
@@ -120,38 +117,62 @@ export const ClimatAdvicePage = ({ conseilsClimatiques }: ClimatAdvicePageProps)
           <Text style={styles.titlePart2}> Conditions climatiques</Text>
         </View>
 
-        {/* Premier conseil */}
-        <View style={styles.conseilClimatiqueBox}>
-          {/* Nom de la condition comme titre principal */}
-          <Text style={styles.conseilClimatiqueTitle}>
-            {cleanTextForPDF(firstConseil.nom)}
-          </Text>
-          {/* Conseils formatés avec puces */}
-          {firstAdviceSentences.map((sentence, idx) => (
-            <Text key={idx} style={styles.conseilClimatiqueAdviceItem}>
-              • {cleanTextForPDF(sentence)}
-            </Text>
-          ))}
-        </View>
-      </View>
-
-      {/* Conseils restants */}
-      {remainingConseils.map((conseilData, index) => {
-        const adviceSentences = formatAdviceText(conseilData.conseil);
-        return (
-          <View key={index} style={styles.conseilClimatiqueBox} wrap={false}>
-            {/* Nom de la condition comme titre principal */}
-            <Text style={styles.conseilClimatiqueTitle}>
-              {cleanTextForPDF(conseilData.nom)}
-            </Text>
-            {/* Conseils formatés avec puces */}
-            {adviceSentences.map((sentence, idx) => (
-              <Text key={idx} style={styles.conseilClimatiqueAdviceItem}>
-                • {cleanTextForPDF(sentence)}
-              </Text>
+        {/* Premier conseil - format compact */}
+        {firstAdviceSentences.length <= 3 ? (
+          <View style={styles.climatConditionBlock}>
+            <Text style={styles.climatConditionTitle}>{cleanTextForPDF(firstConseil.nom)}</Text>
+            {firstAdviceSentences.map((sentence, idx) => (
+              <Text key={idx} style={styles.climatAdviceItem}>- {cleanTextForPDF(sentence)}</Text>
             ))}
           </View>
-        );
+        ) : (
+          <View style={styles.climatConditionBlock}>
+            <Text style={styles.climatConditionTitle}>{cleanTextForPDF(firstConseil.nom)}</Text>
+            {firstAdviceSentences.slice(0, 2).map((sentence, idx) => (
+              <Text key={idx} style={styles.climatAdviceItem}>- {cleanTextForPDF(sentence)}</Text>
+            ))}
+          </View>
+        )}
+      </View>
+
+      {/* Suite du premier conseil si plus de 3 phrases */}
+      {firstAdviceSentences.length > 3 && (
+        <View style={styles.climatConditionBlock}>
+          {firstAdviceSentences.slice(2).map((sentence, idx) => (
+            <Text key={idx + 2} style={styles.climatAdviceItem}>- {cleanTextForPDF(sentence)}</Text>
+          ))}
+        </View>
+      )}
+
+      {/* Conseils restants - format compact */}
+      {remainingConseils.map((conseilData, index) => {
+        const adviceSentences = formatAdviceText(conseilData.conseil);
+
+        // Grouper titre + 2 premiers conseils si possible
+        if (adviceSentences.length <= 3) {
+          return (
+            <View key={index} style={styles.climatConditionBlock} wrap={false}>
+              <Text style={styles.climatConditionTitle}>{cleanTextForPDF(conseilData.nom)}</Text>
+              {adviceSentences.map((sentence, idx) => (
+                <Text key={idx} style={styles.climatAdviceItem}>- {cleanTextForPDF(sentence)}</Text>
+              ))}
+            </View>
+          );
+        } else {
+          return (
+            <View key={index} style={styles.climatConditionBlock}>
+              <View wrap={false}>
+                <Text style={styles.climatConditionTitle}>{cleanTextForPDF(conseilData.nom)}</Text>
+                {adviceSentences.slice(0, 2).map((sentence, idx) => (
+                  <Text key={idx} style={styles.climatAdviceItem}>- {cleanTextForPDF(sentence)}</Text>
+                ))}
+              </View>
+              {adviceSentences.slice(2).map((sentence, idx) => (
+                <Text key={idx + 2} style={styles.climatAdviceItem}>- {cleanTextForPDF(sentence)}</Text>
+              ))}
+            </View>
+          );
+        }
       })}
     </>
   );
