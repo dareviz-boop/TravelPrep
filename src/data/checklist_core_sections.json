@@ -1461,7 +1461,7 @@
           {
             "nom": "AwardWallet",
             "usage": "Gestion programmes fidélité",
-            "prix": "Gratuit (premium dispo)",
+            "prix": "Gratuit",
             "priorite": "⭐",
             "conseils": "Idéal si tu accumules miles/points. Suivi centralisé vols, hôtels, statuts & expirations."
           },
@@ -2005,7 +2005,7 @@
         "item": "Application SOS/ICE configurée",
         "priorite": "⭐⭐",
         "delai": "J-3",
-        "conseils": "ICE (In Case Emergency) contacts. Groupe sanguin, allergies, traitements. Écran verrouillé accessible. iPhone = Fiche médicale"
+        "conseils": "ICE (In Case Emergency) contacts. Groupe sanguin, allergies, traitements. Écran verrouillé accessible."
       },
       {
         "id": "URG027",
@@ -2286,7 +2286,7 @@
         "item": "Numéro assistance assurance voyage (24/7)",
         "priorite": "⭐⭐⭐",
         "delai": "J-7",
-        "conseils": "Numéro +33 (depuis étranger). Enregistrer dans téléphone + noter sur papier. Numéro de contrat accessible"
+        "conseils": "Enregistrer dans téléphone + noter sur papier. Numéro de contrat accessible"
       },
       {
         "id": "DOC028",
@@ -2363,7 +2363,7 @@
         "item": "Noter numéros urgence bancaire",
         "priorite": "⭐⭐⭐",
         "delai": "J-7",
-        "conseils": "Opposition carte 24/7: sur papier + smartphone. Numéro international (+33...). Numéro international : +33... (pas de 0 initial)"
+        "conseils": "Opposition carte 24/7: sur papier + smartphone."
       },
       {
         "id": "FIN009",
@@ -2427,7 +2427,7 @@
         "item": "Constituer trousse à pharmacie complète de voyage",
         "priorite": "⭐⭐⭐",
         "delai": "J-14",
-        "conseils": "Antidouleurs, anti-diarrhéiques, pansements, désinfectant, antihistaminique, médicaments perso. Ordonnances si prescription"
+        "conseils": "Antidouleurs, anti-diarrhéiques, pansements, désinfectant, antihistaminique, médicaments perso."
       },
       {
         "id": "SAN001",
