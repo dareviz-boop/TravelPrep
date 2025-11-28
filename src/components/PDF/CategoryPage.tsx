@@ -81,17 +81,21 @@ const styles = StyleSheet.create({
     color: COLORS.text.secondary,
     lineHeight: 1.4
   },
+  // Encart gris pour le conseil - démarre directement sous la checkbox/!!
   conseilContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginLeft: 18,
-    marginTop: 3
+    marginTop: 4,
+    marginLeft: 0, // Aligné avec le début de la ligne (sous les !!)
+    backgroundColor: '#f5f5f5', // Fond gris clair
+    padding: 8, // Padding uniforme
+    borderRadius: 2
   },
   conseilText: {
-    fontSize: 9, // ✅ Augmenté à 9 pour meilleure lisibilité à l'impression
+    fontSize: 9,
     color: COLORS.text.secondary,
     fontStyle: 'italic',
-    lineHeight: 1.3,
+    lineHeight: 1.4,
     flex: 1
   },
   prioritySymbol: {
