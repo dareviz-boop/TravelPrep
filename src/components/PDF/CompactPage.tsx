@@ -2,6 +2,7 @@ import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
 import { GeneratedChecklist, ChecklistItem, GeneratedChecklistSection } from '@/utils/checklistGenerator';
 import { PDFIcon } from './PDFIcon';
+import { COLORS } from '@/utils/colors';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
 // Helvetica ne supporte PAS les emojis Unicode, ils apparaissent corrompus
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
   mainSectionTitlePart1: {
     fontSize: 18,
     fontWeight: 700,
-    color: '#111827'
+    color: COLORS.text.primary
   },
   // Deuxième partie du titre (orange, emphase)
   mainSectionTitlePart2: {
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
   timelineHeader: {
     fontSize: 11,
     fontWeight: 700,
-    color: '#111827', // ✅ Texte noir au lieu d'orange
+    color: COLORS.text.primary, // ✅ Texte noir au lieu d'orange
     marginBottom: 10,
     paddingLeft: 10,
     paddingVertical: 5,
@@ -105,14 +106,14 @@ const styles = StyleSheet.create({
   checkbox: {
     width: 8,
     height: 8,
-    border: '1px solid #111827',
+    border: `1px solid ${COLORS.text.primary}`,
     marginRight: 8,
     marginTop: 2
   },
   itemText: {
     flex: 1,
     fontSize: 10,
-    color: '#374151',
+    color: COLORS.text.secondary,
     lineHeight: 1.4
   },
   // Symbole de priorité haute !!
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
   subCategoryTitle: {
     fontSize: 10,
     fontWeight: 600,
-    color: '#6B7280',
+    color: COLORS.text.tertiary,
     marginBottom: 4,
     marginTop: 1, // Réduit de 4 à 1 pour moins d'espace au-dessus
     paddingLeft: 10,
@@ -173,7 +174,7 @@ const styles = StyleSheet.create({
   },
   climatAdviceItem: {
     fontSize: 9,
-    color: '#374151',
+    color: COLORS.text.secondary,
     marginBottom: 2,
     paddingLeft: 10,
     lineHeight: 1.4

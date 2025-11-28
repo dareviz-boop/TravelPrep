@@ -22,7 +22,7 @@ All colors MUST be HSL.
     --primary: 16 80% 43%; /* Orange #C54616 */
     --primary-foreground: 0 0% 100%;
     --primary-dark: 16 80% 35%;
-    
+
     /* Crème pour backgrounds */
     --secondary: 33 100% 97%;
     --secondary-foreground: 217 33% 17%;
@@ -43,6 +43,17 @@ All colors MUST be HSL.
     --ring: 16 80% 43%;
 
     --radius: 0.75rem;
+
+    /* Palette de gris simplifiée - Texte */
+    --text-primary: #111827;     /* gray-900 - Texte principal */
+    --text-secondary: #374151;   /* gray-700 - Texte secondaire */
+    --text-tertiary: #6b7280;    /* gray-500 - Texte tertiaire */
+    --text-muted: #9ca3af;       /* gray-400 - Texte désactivé/placeholder */
+
+    /* Palette de gris simplifiée - Fonds et bordures */
+    --bg-subtle: #f9fafb;        /* gray-50 - Fond très léger */
+    --bg-light: #F5F5F5;         /* gray-100 - Fond léger */
+    --border-gray: #e5e7eb;      /* gray-200 - Bordures */
     
     /* Gradients Dareviz */
     --gradient-travel: linear-gradient(135deg, hsl(16 80% 43%), hsl(21 76% 49%));

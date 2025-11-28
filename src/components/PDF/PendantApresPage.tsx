@@ -2,6 +2,7 @@ import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
 import { GeneratedChecklistSection, ChecklistItem } from '@/utils/checklistGenerator';
 import { PDFIcon } from './PDFIcon';
+import { COLORS } from '@/utils/colors';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
 const cleanTextForPDF = (text: string): string => {
@@ -82,14 +83,14 @@ const styles = StyleSheet.create({
   checkbox: {
     width: 8,
     height: 8,
-    border: '1px solid #111827',
+    border: `1px solid ${COLORS.text.primary}`,
     marginRight: 8,
     marginTop: 2
   },
   itemText: {
     flex: 1,
     fontSize: 10,
-    color: '#374151',
+    color: COLORS.text.secondary,
     lineHeight: 1.4
   },
   conseilContainer: {
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
   },
   conseilText: {
     fontSize: 9,
-    color: '#616161',
+    color: COLORS.text.secondary,
     fontStyle: 'italic',
     lineHeight: 1.3,
     flex: 1
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
     bottom: 20,
     right: 20,
     fontSize: 8,
-    color: '#9ca3af'
+    color: COLORS.text.muted
   }
 });
 

@@ -61,17 +61,17 @@ const styles = StyleSheet.create({
   categoryTitle: {
     fontSize: 11,
     fontWeight: 700,
-    color: '#111827',
+    color: COLORS.text.primary,
     marginBottom: 8,
     paddingLeft: 6,
     paddingVertical: 3,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: COLORS.background.light,
     borderLeft: '3px solid #C54616'
   },
   subCategoryTitle: {
     fontSize: 10,
     fontWeight: 600,
-    color: '#6B7280',
+    color: COLORS.text.tertiary,
     marginBottom: 5,
     marginTop: 8,
     paddingLeft: 10,
@@ -85,14 +85,14 @@ const styles = StyleSheet.create({
   checkbox: {
     width: 8,
     height: 8,
-    border: '1px solid #111827',
+    border: `1px solid ${COLORS.text.primary}`,
     marginRight: 8,
     marginTop: 2
   },
   itemText: {
     flex: 1,
     fontSize: 10,
-    color: '#374151',
+    color: COLORS.text.secondary,
     lineHeight: 1.4
   },
   pageNumber: {
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     bottom: 20,
     right: 20,
     fontSize: 8,
-    color: '#9ca3af'
+    color: COLORS.text.muted
   }
 });
 

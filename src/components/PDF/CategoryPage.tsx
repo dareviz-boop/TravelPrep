@@ -3,6 +3,7 @@ import { FormData } from '@/types/form';
 import { GeneratedChecklistSection, ChecklistItem } from '@/utils/checklistGenerator';
 import { calculateDeadline } from '@/utils/checklistUtils';
 import { PDFIcon } from './PDFIcon';
+import { COLORS } from '@/utils/colors';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
 // Helvetica ne supporte PAS les emojis Unicode, ils apparaissent corrompus
@@ -70,14 +71,14 @@ const styles = StyleSheet.create({
   checkbox: {
     width: 8,
     height: 8,
-    border: '1px solid #111827',
+    border: `1px solid ${COLORS.text.primary}`,
     marginRight: 8,
     marginTop: 2
   },
   itemText: {
     flex: 1,
     fontSize: 10,
-    color: '#374151',
+    color: COLORS.text.secondary,
     lineHeight: 1.4
   },
   conseilContainer: {
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
   },
   conseilText: {
     fontSize: 9, // ✅ Augmenté à 9 pour meilleure lisibilité à l'impression
-    color: '#616161',
+    color: COLORS.text.secondary,
     fontStyle: 'italic',
     lineHeight: 1.3,
     flex: 1
@@ -103,25 +104,25 @@ const styles = StyleSheet.create({
     fontSize: 7,
     fontWeight: 600,
     marginRight: 5,
-    color: '#374151'
+    color: COLORS.text.secondary
   },
   timelineSection: {
     marginBottom: 18,
-    borderBottom: '1px solid #e5e7eb',
+    borderBottom: `1px solid ${COLORS.border.gray}`,
     paddingBottom: 12
   },
   timelineSectionTitle: {
     fontSize: 11,
     fontWeight: 600,
-    color: '#111827',
+    color: COLORS.text.primary,
     marginBottom: 8,
-    backgroundColor: '#f9fafb',
+    backgroundColor: COLORS.background.subtle,
     padding: 5,
     borderLeft: '3px solid #C54616'
   },
   deadline: {
     fontSize: 8,
-    color: '#6b7280',
+    color: COLORS.text.tertiary,
     width: 65,
     textAlign: 'right'
   },
@@ -130,7 +131,7 @@ const styles = StyleSheet.create({
     bottom: 20,
     right: 20,
     fontSize: 8,
-    color: '#9ca3af'
+    color: COLORS.text.muted
   }
 });
 
