@@ -58,8 +58,7 @@
             "saison": ["ete"],
             "description": "Suggéré automatiquement pour Asie en été"
           },
-          "conseils": "Pluies torrentielles quotidiennes 15h-19h. Routes coupées fréquentes. Privilégier activités matinales (sec). Chaussures imperméables ESSENTIELLES. Tout sécher chaque soir sinon moisissure. Antifongique pieds. Humidité 90%+. Vêtements sèchent difficilement. Prévoir 2x plus de sous-vêtements. Sachets silice dans bagages électroniques"
-        },
+          "conseils": "Pluies torrentielles quotidiennes 15h-19h - Routes coupées fréquentes - Activités matinales privilégiées. Chaussures imperméables ESSENTIELLES + tout sécher chaque soir (sinon moisissure). Humidité 90%+: Vêtements sèchent difficilement - Prévoir 2x sous-vêtements + sachets silice électronique. Antifongique pieds quotidien obligatoire"        },
         {
           "id": "climat_sec_aride",
           "nom": "🌵 Saison sèche / Climat aride",
@@ -91,8 +90,7 @@
             "temperature": ["chaude", "tres-chaude"],
             "description": "Suggéré automatiquement pour climat chaud et sec"
           },
-          "conseils": "Températures 30-45°C. Humidité <20%. Lèvres gercées systématique. Électricité statique importante. Boire 3-4L/jour MINIMUM. Urine foncée = déshydratation dangereuse. Crème hydratante matin ET soir. Électrolytes essentiels (perte sels). Éviter alcool (déshydratation). Ombre 11h-16h obligatoire"
-        },
+          "conseils": "Températures 30-45°C + humidité <20% - Lèvres gercées systématique + électricité statique importante. Déshydratation critique: Boire 3-4L/jour MINIMUM - Urine foncée = DANGER. Électrolytes essentiels (perte sels) - Éviter alcool (déshydrate). Crème hydratante matin ET soir - Ombre 11h-16h obligatoire"        },
         {
           "id": "climat_orages",
           "nom": "⛈️ Orage tropical fréquent",
@@ -114,7 +112,7 @@
               {"debut": 3, "fin": 7}
             ]
           },
-          "conseils": "Zones tropicales: orages 15h-18h systématiques. Altitude: descendre IMMÉDIATEMENT. Éviter arbres isolés, sommets, lignes crête. Position sécurité: accroupi, pieds joints. Hôtels: coupures électricité fréquentes (lampe frontale). Éviter douche pendant orage. Débrancher appareils"
+          "conseils": "Zones tropicales: Orages 15h-18h systématiques - Altitude: descendre IMMÉDIATEMENT si orage. Éviter arbres isolés/sommets/lignes crête - Position sécurité: accroupi pieds joints. Hôtels: Coupures électricité fréquentes (lampe frontale vitale) - Éviter douche pendant orage - Débrancher appareils"
         },
         {
           "id": "climat_cyclones",
@@ -144,7 +142,7 @@
               {"debut": 11, "fin": 4, "region": "Océan Indien"}
             ]
           },
-          "conseils": "VÉRIFIER calendrier saison cyclonique AVANT réservation. Assurance annulation OBLIGATOIRE. Suivre alertes locales. Évacuation possible (prévoir budget). Hôtels: étages élevés éviter inondations. Kit urgence accessible 24/7. Fenêtres: croix scotch renforcé. Plan évacuation établi. Numéros urgence notés"
+          "conseils": "VÉRIFIER calendrier saison cyclonique AVANT réservation - Assurance annulation OBLIGATOIRE. Suivre alertes locales - Évacuation possible (prévoir budget) - Hôtels étages élevés (éviter inondations). Kit urgence accessible 24/7 - Fenêtres: croix scotch renforcé - Plan évacuation établi - Numéros urgence notés"
         },
         {
           "id": "climat_neige",
@@ -176,7 +174,7 @@
             "saison": ["hiver"],
             "description": "Suggéré automatiquement pour climat hivernal"
           },
-          "conseils": "Températures -15°C à -40°C possibles. Système 3 couches: base thermique + isolante + coupe-vent. Gants de rechange VITAUX (humides = gelures). Lunettes catégorie 4 obligatoires (cécité des neiges). Crampons chaussures zones verglas. Routes fermées fréquentes. Prévoir 2x temps trajet. Voiture: couvertures, nourriture, eau. Gelures 10-15 min exposition"
+          "conseils": "Températures -15°C à -40°C - Système 3 couches obligatoire (thermique + isolante + coupe-vent). Protection critique: Gants rechange (gelures si humides), lunettes cat.4, crampons verglas. Routes fermées fréquentes - Prévoir 2x temps + kit voiture (couvertures, eau, nourriture). DANGER: Gelures en 10-15min d'exposition, jamais seul à l'extérieur"
         }
       ]
     },
@@ -216,7 +214,7 @@
             "temperature": ["tres-chaude"],
             "description": "Ajouté AUTOMATIQUEMENT si température très chaude (30-38°C)"
           },
-          "conseils": "Canicule: chaleur 30-38°C prolongée. Risque ÉLEVÉ insolation/coup de chaleur/déshydratation. Boire 4-5L/jour MINIMUM. Urine claire = bonne hydratation, foncée = DANGER. Activités 6h-10h et 18h-21h de préférence. Repos 11h-17h à l'ombre/climatisé recommandé. Électrolytes toutes les 2h (perte sels). Signes alerte coup de chaleur: vertiges, nausées, confusion, peau sèche/rouge, arrêt transpiration = URGENCE MÉDICALE. Crème solaire toutes les 2h. Vêtements longs légers PARADOXALEMENT plus frais que shorts. Éviter alcool/café (déshydratation). Douches tièdes fréquentes"
+          "conseils": "Canicule 30-38°C prolongée - Risque ÉLEVÉ insolation/coup chaleur/déshydratation. Boire 4-5L/jour - Urine claire = OK, foncée = DANGER. Activités 6h-10h et 18h-21h - Repos 11h-17h ombre/climatisé. Électrolytes toutes 2h (perte sels). URGENCE: Vertiges/nausées/confusion/peau sèche = coup chaleur - Crème solaire toutes 2h - Vêtements longs légers paradoxalement plus frais"
         },
         {
           "id": "climat_chaleur_extreme",
@@ -253,7 +251,7 @@
             "temperature": ["chaleur-extreme"],
             "description": "Ajouté AUTOMATIQUEMENT si température extrême (>38°C)"
           },
-          "conseils": "CHALEUR EXTRÊME 38-55°C : DANGER DE MORT. Sortie extérieure LIMITÉE à 5h-9h et 19h-21h UNIQUEMENT. Repos absolu climatisé 10h-18h OBLIGATOIRE. Boire 8-10L/jour + sels. Électrolytes x2 dose toutes les heures en activité. Mouiller vêtements régulièrement. Compresses froides nuque/poignets. SIGNES VITAUX: confusion, arrêt transpiration, peau sèche brûlante, pouls rapide faible = COUP DE CHALEUR MORTEL = URGENCE ABSOLUE refroidissement + 15/18. Urine foncée/absente = déshydratation sévère. Vêtements longs blancs obligatoires. JAMAIS peau nue au soleil. Prévoir abris climatisés sur itinéraire. Voyage déconseillé personnes fragiles (enfants, seniors, pathologies)"
+          "conseils": "CHALEUR EXTRÊME 38-55°C: DANGER DE MORT - Sortie 5h-9h et 19h-21h UNIQUEMENT. Repos climatisé 10h-18h OBLIGATOIRE - Boire 8-10L/jour + sels + électrolytes x2 dose/heure. Mouiller vêtements régulièrement - Compresses froides nuque/poignets. SIGNES MORTELS: Confusion/arrêt transpiration/peau sèche brûlante = coup chaleur = URGENCE ABSOLUE. Vêtements longs blancs obligatoires - JAMAIS peau nue soleil"
         },
         {
           "id": "climat_froid_intense",
@@ -289,7 +287,7 @@
             "saison": ["hiver"],
             "description": "Ajouté AUTOMATIQUEMENT si température très froide"
           },
-          "conseils": "TEMPÉRATURES -20°C à -60°C. Gelures en <10 minutes exposition peau. SYSTÈME 3 COUCHES VITAL: base thermique évacuation transpiration + isolante chaleur + externe coupe-vent imperméable. JAMAIS coton (retient humidité = hypothermie). Privilégier Merino Wool. Moufles > gants (-10°C chaleur). Chauffe-mains/pieds poches/chaussures. Thermos boissons chaudes = moral + chaleur interne. Boire 3-4L/jour (déshydratation sournoise froid). Couvrir 100% peau exposée. Respirer par nez (filtre air froid). Signes hypothermie: frissons, confusion, somnolence = URGENCE"
+          "conseils": "Températures -20°C à -60°C - Gelures <10min exposition peau. SYSTÈME 3 COUCHES VITAL: base thermique + isolante + coupe-vent imperméable. JAMAIS coton (hypothermie) - Privilégier Merino Wool. Moufles >gants (-10°C chaleur) - Chauffe-mains/pieds + thermos boissons chaudes. Boire 3-4L/jour (déshydratation sournoise) - Couvrir 100% peau - Respirer par nez. URGENCE: Frissons/confusion/somnolence = hypothermie"
         },
         {
           "id": "climat_amplitude_thermique",
@@ -312,7 +310,7 @@
             "activites": [],
             "periode": []
           },
-          "conseils": "Déserts/montagnes: 40°C jour → 0°C nuit (Δ40°C!). Système oignon 5-6 couches modulables. Matin/soir: froid. Midi: chaleur. Doudoune fine compressible indispensable soir. Sac couchage -5°C minimum (déserts altitude). Prévoir crème solaire ET protection froid. Hydratation constante malgré froid nuit"
+          "conseils": "Déserts/montagnes: 40°C jour → 0°C nuit (Δ40°C) - Système oignon 5-6 couches modulables obligatoire. Matin/soir froid - Midi chaleur intense. Doudoune fine compressible indispensable soir - Sac couchage -5°C minimum déserts altitude. Prévoir crème solaire ET protection froid simultanément - Hydratation constante malgré froid nuit"
         }
       ]
     },
@@ -342,7 +340,7 @@
             "activites": ["city-trip", "randonnee"],
             "periode": []
           },
-          "conseils": "Altitude 2500-3500m (ex: Cusco 3400m, La Paz 3640m, Quito 2850m). Mal aigu montagnes (MAM) fréquent: maux tête, nausées, fatigue, insomnie. ACCLIMATATION PROGRESSIVE VITALE: 2-3 jours repos arrivée. Coca tea local efficace. Éviter alcool 48h. Boire 3-4L/jour. Manger léger. Aspirine 100mg matin prévention. Montée progressive altitude. Nuit altitude < journée. Signes alerte: maux tête persistants, vomissements = DESCENDRE"
+          "conseils": "Altitude 2500-3500m (Cusco 3400m, La Paz 3640m, Quito 2850m) - MAM fréquent: maux tête/nausées/fatigue/insomnie. ACCLIMATATION PROGRESSIVE VITALE: 2-3j repos arrivée - Coca tea local efficace. Éviter alcool 48h - Boire 3-4L/jour - Manger léger - Aspirine 100mg matin prévention. Montée progressive - Nuit altitude <journée. SIGNES ALERTE: Maux tête persistants/vomissements = DESCENDRE"
         },
         {
           "id": "climat_altitude_haute",
@@ -367,7 +365,7 @@
             "activites": ["randonnee", "backpacking"],
             "periode": []
           },
-          "conseils": "Haute altitude 3500-5500m (ex: Everest Base Camp 5364m). RISQUES VITAUX: Œdème cérébral (OCHA), œdème pulmonaire (OPA). ACCLIMATATION STRICTE: +300m dénivelé nuit/jour MAX. Nuit altitudes basses. Diamox prophylaxie J-1 début. SpO2 >85% impératif (descendre si <80%). Signes OCHA: maux tête violents + ataxie/confusion = DESCENDRE IMMÉDIATEMENT + Dexaméthasone. Signes OPA: toux + crachats roses = URGENCE VITALE descente. Hydratation 4-5L/jour. Calories doubles (6000 kcal/j). UV intenses (crème solaire)"
+          "conseils": "Haute altitude 3500-5500m (Everest Base Camp 5364m) - RISQUES VITAUX: OCHA (œdème cérébral), OPA (œdème pulmonaire). ACCLIMATATION STRICTE: +300m dénivelé nuit/jour MAX - Nuit altitudes basses. Diamox prophylaxie J-1 - SpO2 >85% impératif (descendre si <80%). OCHA: Maux tête violents + ataxie/confusion = DESCENDRE + Dexaméthasone. OPA: Toux + crachats roses = URGENCE VITALE. Hydratation 4-5L/jour - Calories doubles 6000kcal/j"
         },
         {
           "id": "climat_altitude_extreme",
@@ -394,7 +392,7 @@
             "activites": ["randonnee"],
             "periode": []
           },
-          "conseils": "Très haute altitude >5500m. ZONE DE MORT >7500m. Corps se dégrade. Acclimatation progressive 6-8 semaines OBLIGATOIRE. Rotations altitude (camps successifs). Oxygène supplémentaire souvent nécessaire >6500m. Risques vitaux: OCHA, OPA, gelures, hypothermie. Guide expérimenté OBLIGATOIRE. Assurance évacuation $50,000+ VITALE. Radio satellite contact permanent. Météo imprévisible. Fenêtres sommet 48h. Demi-tour obligatoire heure fixée. 50% accidents descente"
+          "conseils": "Très haute altitude >5500m - ZONE DE MORT >7500m (corps se dégrade). Acclimatation 6-8 semaines OBLIGATOIRE - Rotations altitude camps successifs. Oxygène supplémentaire souvent nécessaire >6500m - Risques vitaux: OCHA/OPA/gelures/hypothermie. Guide expérimenté OBLIGATOIRE - Assurance évacuation $50,000+ VITALE. Radio satellite contact permanent - Météo imprévisible fenêtres 48h. Demi-tour heure fixée - 50% accidents descente"
         }
       ]
     },
@@ -427,7 +425,7 @@
             "activites": [],
             "periode": []
           },
-          "conseils": "Humidité 80-95% constante. Température 28-35°C. Maladies tropicales: paludisme, dengue, zika, fièvre jaune. Anti-moustiques DEET 50% appliqué 4x/jour. Moustiquaire imprégnée VITALE sommeil. Antipaludiques prophylaxie selon zone. Vêtements longs clairs crépuscule/nuit (moustiques). Mycoses pieds fréquentes: chaussures séchage rapide, poudre antifongique. Tout sécher chaque soir. Sachets silice dans électronique"
+          "conseils": "Humidité 80-95% constante + température 28-35°C - Maladies: paludisme/dengue/zika/fièvre jaune. Anti-moustiques DEET 50% 4x/jour - Moustiquaire imprégnée VITALE sommeil - Antipaludiques prophylaxie selon zone. Vêtements longs clairs crépuscule/nuit (moustiques) - Mycoses pieds fréquentes: chaussures séchage rapide + poudre antifongique. Tout sécher chaque soir - Sachets silice électronique"
         },
         {
           "id": "climat_marin",
@@ -454,7 +452,7 @@
             "activites": ["plage", "sports-nautiques"],
             "periode": []
           },
-          "conseils": "Réverbération eau = coups soleil violents. Crème waterproof réapplication 60-90min. Lycra UV protection optimale snorkeling. Lunettes polarisées réduisent reflets. Méduses: vinaigre blanc neutralise. NE PAS frotter. Antihistaminique. Oursins: retirer épines pince. Tremper eau chaude 45°C. Corail: gants néoprène protection. Laver plaies eau douce savon. Sel abîme équipement: rincer systématiquement"
+          "conseils": "Réverbération eau = coups soleil violents - Crème waterproof réapplication 60-90min. Lycra UV protection optimale snorkeling - Lunettes polarisées réduisent reflets. Méduses: Vinaigre blanc neutralise - NE PAS frotter - Antihistaminique. Oursins: Retirer épines pince + tremper eau chaude 45°C. Corail: Gants néoprène protection - Laver plaies eau douce savon. Sel abîme équipement: rincer systématiquement"
         },
         {
           "id": "climat_desert_aride",
@@ -482,7 +480,7 @@
             "activites": ["randonnee", "road-trip", "backpacking"],
             "periode": []
           },
-          "conseils": "Température jour 45-55°C, nuit 5-10°C. Amplitude 40°C. Déshydratation FOUDROYANTE. Boire 8-10L/jour. Sel. Marche aurore/crépuscule UNIQUEMENT. Repos ombre 10h-17h OBLIGATOIRE. Tempêtes sable: chèche protège voies respiratoires. Lunettes catégorie 4 obligatoires (UV + réverbération). Vêtements longs clairs protègent mieux. GPS + backup (désorientation fréquente). Balise satellite VITALE (pas réseau). Prévoir 2x eau nécessaire"
+          "conseils": "Température jour 45-55°C, nuit 5-10°C (amplitude 40°C) - Déshydratation FOUDROYANTE. Boire 8-10L/jour + sel - Marche aurore/crépuscule UNIQUEMENT - Repos ombre 10h-17h OBLIGATOIRE. Tempêtes sable: Chèche protège voies respiratoires - Lunettes cat.4 obligatoires. Vêtements longs clairs protègent mieux - GPS + backup (désorientation fréquente). Balise satellite VITALE (pas réseau) - Prévoir 2x eau nécessaire"
         },
         {
           "id": "climat_volcanique",
@@ -508,7 +506,7 @@
             "activites": ["randonnee"],
             "periode": []
           },
-          "conseils": "Gaz toxiques: SO2, CO2, H2S. Masque FFP3 filtration obligatoire zones fumerolles. Lunettes hermétiques (projections acides). Vêtements synthétiques résistent mieux chaleur que coton. Semelles épaisses (sol chaud). Respecter périmètres sécurité. Guide local recommandé. Vérifier activité volcanique avant départ. Évacuation rapide si alerte. Application alertes temps réel"
+          "conseils": "Gaz toxiques: SO2/CO2/H2S - Masque FFP3 filtration obligatoire zones fumerolles. Lunettes hermétiques (projections acides) - Vêtements synthétiques résistent mieux chaleur que coton. Semelles épaisses (sol chaud) - Respecter périmètres sécurité - Guide local recommandé. Vérifier activité volcanique avant départ - Évacuation rapide si alerte - Application alertes temps réel"
         },
         {
           "id": "climat_jungle_dense",
@@ -537,7 +535,7 @@
             "activites": ["backpacking", "randonnee", "camping"],
             "periode": []
           },
-          "conseils": "Visibilité <50m. Désorientation facile. Guide local OBLIGATOIRE. GPS + boussole backup. Sifflet communication. Sangsues omniprésentes: sel les détache. Bottes montantes + guêtres. Vêtements imprégnés perméthrine. Eau: purifier SYSTÉMATIQUEMENT (parasites). Humidité 90%+: tout mouille. Feu difficile (bois humide). Allume-feu waterproof vital. Sécher chaussettes chaque soir (mycoses)"
+          "conseils": "Visibilité <50m - Désorientation facile - Guide local OBLIGATOIRE. GPS + boussole backup - Sifflet communication. Sangsues omniprésentes: Sel les détache - Bottes montantes + guêtres - Vêtements imprégnés perméthrine. Eau: Purifier SYSTÉMATIQUEMENT (parasites). Humidité 90%+: Tout mouille - Feu difficile (bois humide) - Allume-feu waterproof vital - Sécher chaussettes chaque soir (mycoses)"
         },
         {
           "id": "climat_arctique",
@@ -569,7 +567,7 @@
               {"debut": 11, "fin": 3, "region": "arctique"}
             ]
           },
-          "conseils": "Températures -30°C à -60°C. Vent glacial facteur refroidissement extrême. Gelures 5-10 min exposition. Combinaison immersion VITALE (chute eau = mort 15 min). Système 4-5 couches. Moufles changement fréquent (humidité = gel). Balise satellite OBLIGATOIRE (pas réseau). Radio Iridium contact permanent. Guide polaire expérimenté VITAL. Évacuation impossible conditions météo. Autonomie complète 2 semaines. Ours polaires: fusée détresse"
+          "conseils": "Températures -30°C à -60°C + vent glacial refroidissement extrême - Gelures 5-10min exposition. Combinaison immersion VITALE (chute eau = mort 15min) - Système 4-5 couches - Moufles changement fréquent (humidité = gel). Balise satellite OBLIGATOIRE (pas réseau) - Radio Iridium contact permanent - Guide polaire expérimenté VITAL. Évacuation impossible conditions météo - Autonomie complète 2 semaines - Ours polaires: fusée détresse"
         },
         {
           "id": "climat_brouillard",
@@ -593,7 +591,7 @@
             "activites": ["randonnee", "road-trip", "backpacking"],
             "periode": []
           },
-          "conseils": "Brouillard épais réduit visibilité <50m. Désorientation facile même chemins connus. GPS + waypoints ESSENTIELS. Boussole backup obligatoire. Progression lente prudente. Gilet réfléchissant = visibilité autres randonneurs/véhicules. Lampe frontale même jour. Sifflet signalisation groupe (contact visuel impossible). Routes: phares antibrouillard, distances sécurité doublées. Éviter sommets/falaises (danger chutes). Attendre dissipation si possible"
+          "conseils": "Brouillard épais réduit visibilité <50m - Désorientation facile même chemins connus. GPS + waypoints ESSENTIELS - Boussole backup obligatoire - Progression lente prudente. Gilet réfléchissant = visibilité autres randonneurs/véhicules - Lampe frontale même jour - Sifflet signalisation groupe (contact visuel impossible). Routes: Phares antibrouillard + distances doublées - Éviter sommets/falaises (danger chutes) - Attendre dissipation si possible"
         }
       ]
     },
@@ -624,7 +622,7 @@
             "activites": ["randonnee", "camping", "backpacking"],
             "periode": []
           },
-          "conseils": "Vents 100-150 km/h fréquents dans certaines zones. Progression difficile (30% effort supplémentaire). Tente: orientation ouverture dos au vent. Sardines 25cm minimum. Pierres lestage double-toit. Coupe-vent coupe-pluie qualité VITAL. Lunettes protection poussière/sable. Chapeau cordons serrés sinon envol. Marche vent face matinale (force augmente après-midi). Abri naturel (rochers/dépressions) pause"
+          "conseils": "Vents 100-150km/h fréquents certaines zones - Progression difficile (30% effort supplémentaire). Tente: Orientation ouverture dos au vent - Sardines 25cm minimum - Pierres lestage double-toit. Coupe-vent coupe-pluie qualité VITAL - Lunettes protection poussière/sable - Chapeau cordons serrés (sinon envol). Marche vent face matinale (force augmente après-midi) - Abri naturel rochers/dépressions pause"
         },
         {
           "id": "climat_tornades",
@@ -651,7 +649,7 @@
               {"debut": 4, "fin": 6}
             ]
           },
-          "conseils": "Tornado Alley: Oklahoma, Kansas, Texas. Saison avril-juin. ALERTES: suivre NOAA Weather Radio. Tornado Watch = conditions favorables. Tornado Warning = tornade détectée = ABRI IMMÉDIAT. Abri: sous-sol, pièce intérieure sans fenêtre, baignoire. JAMAIS rester voiture ou mobile-home. Position sécurité: recroquevillé, mains sur tête. Débris volants = danger mortel"
+          "conseils": "Tornado Alley: Oklahoma/Kansas/Texas - Saison avril-juin - Suivre NOAA Weather Radio. Tornado Watch = conditions favorables - Tornado Warning = tornade détectée = ABRI IMMÉDIAT. Abri: Sous-sol, pièce intérieure sans fenêtre, baignoire - JAMAIS voiture ou mobile-home. Position sécurité: recroquevillé mains sur tête - Débris volants = danger mortel"
         },
         {
           "id": "climat_tempetes_sable",
@@ -687,7 +685,7 @@
             "temperature": ["chaude", "tres-chaude", "chaleur-extreme"],
             "description": "Suggéré pour zones désertiques en saison chaude"
           },
-          "conseils": "Tempêtes de sable DANGEREUSES: visibilité 0m, vents 80-100 km/h, sable pénètre partout. SIGNES AVANT-COUREURS: mur brun/orange à l'horizon, baisse température soudaine, ciel jaune-orange. RÉACTION: s'abriter IMMÉDIATEMENT bâtiment/véhicule/rochers. Si impossible: s'asseoir dos au vent, couvrir nez/bouche avec tissu humide, protéger yeux. NE JAMAIS continuer marche (désorientation totale). Attendre fin tempête (1-3h). Après: vérifier équipement, rincer yeux sérum physiologique, nettoyer électronique. Véhicule: moteur arrêté (sable aspiration), fenêtres fermées, phares allumés"
+          "conseils": "Tempêtes DANGEREUSES: Visibilité 0m, vents 80-100km/h, sable pénètre partout. SIGNES: Mur brun/orange horizon, baisse température, ciel jaune-orange. RÉACTION: S'abriter IMMÉDIATEMENT bâtiment/véhicule/rochers - Si impossible: assis dos au vent, tissu humide nez/bouche, protéger yeux. NE JAMAIS continuer (désorientation totale) - Attendre fin 1-3h. Après: rincer yeux sérum physiologique - Véhicule: moteur arrêté, fenêtres fermées, phares allumés"
         },
         {
           "id": "climat_harmattan",
@@ -712,7 +710,7 @@
               {"debut": 11, "fin": 3}
             ]
           },
-          "conseils": "Harmattan: vent sec Sahara chargé sable fin. Visibilité réduite <100m. Températures chutent 10°C. Poussière fine PARTOUT. Masque N95 protection respiratoire. Lunettes hermétiques (sable yeux irritation). Sérum physiologique rinçage. Peau: déshydratation extrême, crème 3x/jour. Électronique: pochettes étanches (sable infiltre tout). Vols retardés/annulés fréquents"
+          "conseils": "Harmattan: Vent sec Sahara chargé sable fin - Visibilité <100m - Températures chutent 10°C. Poussière fine PARTOUT - Masque N95 protection respiratoire - Lunettes hermétiques (sable yeux irritation) - Sérum physiologique rinçage. Peau: Déshydratation extrême, crème 3x/jour - Électronique: pochettes étanches (sable infiltre tout) - Vols retardés/annulés fréquents"
         }
       ]
     },
@@ -743,7 +741,7 @@
             "activites": [],
             "periode": []
           },
-          "conseils": "Humidité 85-95%. Rien ne sèche. Moisissures 24-48h. Vêtements: synthétique UNIQUEMENT (sèche 3x plus vite). Coton prohibé (moisit). Sachets silice dans chaque pochette (électronique, vêtements, chaussures). Tout sécher CHAQUE soir (ventilateur/climatisation). Mycoses pieds fréquentes: poudre antifongique quotidienne. Chaussures: alterner paires. Odeurs: spray désinfectant"
+          "conseils": "Humidité 85-95% - Rien ne sèche - Moisissures 24-48h. Vêtements: Synthétique UNIQUEMENT (sèche 3x plus vite) - Coton prohibé (moisit). Sachets silice dans chaque pochette (électronique/vêtements/chaussures) - Tout sécher CHAQUE soir (ventilateur/climatisation). Mycoses pieds fréquentes: poudre antifongique quotidienne - Chaussures: alterner paires - Odeurs: spray désinfectant"
         }
       ]
     },
@@ -762,7 +760,7 @@
         "destinations": ["europe"],
         "activites": []
       },
-      "conseils": "Climat tempéré stable. Météo prévisible. Équipement basique adapté. Vérifier prévisions 7 jours avant départ. Adaptation mineure selon saison. Confort voyage optimal. Aucune contrainte particulière."
+      "conseils": "Climat tempéré stable - Météo prévisible - Équipement basique adapté. Vérifier prévisions 7j avant départ - Adaptation mineure selon saison - Confort voyage optimal - Aucune contrainte particulière"
     }
   },
 
