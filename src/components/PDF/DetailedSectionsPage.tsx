@@ -3,6 +3,7 @@ import { FormData } from '@/types/form';
 import { GeneratedChecklistSection, ChecklistItem } from '@/utils/checklistGenerator';
 import { calculateDeadline } from '@/utils/checklistUtils';
 import { PDFIcon } from './PDFIcon';
+import { COLORS } from '@/utils/colors';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
 const cleanTextForPDF = (text: string): string => {
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
   titlePart1: {
     fontSize: 16,
     fontWeight: 700,
-    color: '#111827'
+    color: COLORS.text.primary
   },
   titlePart2: {
     fontSize: 16,
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
   timelineHeader: {
     fontSize: 11,
     fontWeight: 700,
-    color: '#111827',
+    color: COLORS.text.primary,
     marginBottom: 10,
     paddingLeft: 10,
     paddingVertical: 5,
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
   },
   dateLabel: {
     fontSize: 8,
-    color: '#6b7280',
+    color: COLORS.text.tertiary,
     fontWeight: 600,
     textAlign: 'right'
   },
@@ -134,14 +135,14 @@ const styles = StyleSheet.create({
   checkbox: {
     width: 8,
     height: 8,
-    border: '1px solid #111827',
+    border: `1px solid ${COLORS.text.primary}`,
     marginRight: 8,
     marginTop: 2
   },
   itemText: {
     flex: 1,
     fontSize: 10,
-    color: '#374151',
+    color: COLORS.text.secondary,
     lineHeight: 1.4
   },
   // Conseil sans indentation, démarre directement sous la checkbox
@@ -153,7 +154,7 @@ const styles = StyleSheet.create({
   },
   conseilText: {
     fontSize: 9,
-    color: '#616161',
+    color: COLORS.text.secondary,
     fontStyle: 'italic',
     lineHeight: 1.3,
     flex: 1

@@ -1,5 +1,6 @@
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
 import { PDFIcon } from './PDFIcon';
+import { COLORS } from '@/utils/colors';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
 const cleanTextForPDF = (text: string): string => {
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
   titlePart1: {
     fontSize: 16,
     fontWeight: 700,
-    color: '#111827'
+    color: COLORS.text.primary
   },
   titlePart2: {
     fontSize: 16,

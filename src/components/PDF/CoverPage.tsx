@@ -6,6 +6,7 @@ import { CompactPage } from './CompactPage';
 import { TimelineContent } from './TimelineContent';
 import { DetailedSectionsPage } from './DetailedSectionsPage';
 import { ClimatAdvicePage } from './ClimatAdvicePage';
+import { COLORS } from '@/utils/colors';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
 // Helvetica ne supporte PAS les emojis Unicode, ils apparaissent corrompus
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 10,
-    color: '#6b7280',
+    color: COLORS.text.tertiary,
     marginBottom: 20,
     textAlign: 'center'
   },
@@ -73,10 +74,10 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase'
   },
   infoBox: {
-    backgroundColor: '#F5F5F5', // Fond gris Dareviz
+    backgroundColor: COLORS.background.light, // Fond gris Dareviz
     padding: 15,
     borderRadius: 4,
-    border: '1px solid #CCCCCC', // Bordure grise
+    border: `1px solid ${COLORS.border.gray}`, // Bordure grise
     width: '100%',
     marginBottom: 15
   },
@@ -91,18 +92,18 @@ const styles = StyleSheet.create({
     fontSize: 9
   },
   infoLabel: {
-    color: '#6b7280',
+    color: COLORS.text.tertiary,
     width: 80,
     fontWeight: 600,
     flexDirection: 'row',
     alignItems: 'center'
   },
   labelText: {
-    color: '#6b7280',
+    color: COLORS.text.tertiary,
     fontWeight: 600
   },
   infoValue: {
-    color: '#111827',
+    color: COLORS.text.primary,
     flex: 1
   },
   footer: {
@@ -112,14 +113,14 @@ const styles = StyleSheet.create({
     right: 30,
     textAlign: 'center',
     fontSize: 8,
-    color: '#9ca3af'
+    color: COLORS.text.muted
   },
   pageNumber: {
     position: 'absolute',
     bottom: 20,
     right: 30,
     fontSize: 8,
-    color: '#9ca3af'
+    color: COLORS.text.muted
   }
 });
 

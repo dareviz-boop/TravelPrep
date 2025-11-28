@@ -3,6 +3,7 @@ import { FormData } from '@/types/form';
 import { GeneratedChecklist, ChecklistItem } from '@/utils/checklistGenerator';
 import { calculateDeadline } from '@/utils/checklistUtils';
 import { PDFIcon } from './PDFIcon';
+import { COLORS } from '@/utils/colors';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
 // Helvetica ne supporte PAS les emojis Unicode, ils apparaissent corrompus
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
   },
   section: {
     marginBottom: 14,
-    borderBottom: '1px solid #e5e7eb',
+    borderBottom: `1px solid ${COLORS.border.gray}`,
     borderLeft: '4px solid #C54616', // Barre verticale orange
     paddingLeft: 10,
     paddingBottom: 10
@@ -63,9 +64,9 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 11,
     fontWeight: 600,
-    color: '#111827',
+    color: COLORS.text.primary,
     marginBottom: 8,
-    backgroundColor: '#f9fafb',
+    backgroundColor: COLORS.background.subtle,
     padding: 5,
     borderLeft: '3px solid #C54616'
   },
@@ -103,14 +104,14 @@ const styles = StyleSheet.create({
   checkbox: {
     width: 8,
     height: 8,
-    border: '1px solid #111827',
+    border: `1px solid ${COLORS.text.primary}`,
     marginRight: 8,
     marginTop: 2
   },
   itemText: {
     flex: 1,
     fontSize: 10,
-    color: '#374151',
+    color: COLORS.text.secondary,
     lineHeight: 1.4
   },
   // Conseil sans indentation, démarre sous la checkbox
@@ -122,14 +123,14 @@ const styles = StyleSheet.create({
   },
   conseilText: {
     fontSize: 9,
-    color: '#616161',
+    color: COLORS.text.secondary,
     fontStyle: 'italic',
     lineHeight: 1.3,
     flex: 1
   },
   deadline: {
     fontSize: 7,
-    color: '#6b7280',
+    color: COLORS.text.tertiary,
     width: 60,
     textAlign: 'right'
   },
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
     fontSize: 7,
     fontWeight: 600,
     marginRight: 5,
-    color: '#374151'
+    color: COLORS.text.secondary
   },
   // Encart daté avec fond gris et date à droite
   dateGroupContainer: {
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
   },
   dateLabel: {
     fontSize: 8,
-    color: '#6b7280',
+    color: COLORS.text.tertiary,
     fontWeight: 600,
     textAlign: 'right'
   },
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
     bottom: 20,
     right: 20,
     fontSize: 8,
-    color: '#9ca3af'
+    color: COLORS.text.muted
   }
 });
 
@@ -506,7 +507,7 @@ export const TimelinePage = ({ formData, checklistData, isDetailed = false }: Ti
   return (
     <Page size="A4" style={styles.page}>
       <View style={{ flexDirection: 'row', marginBottom: 15 }}>
-        <Text style={{ fontSize: 20, fontWeight: 700, color: '#111827' }}>
+        <Text style={{ fontSize: 20, fontWeight: 700, color: COLORS.text.primary }}>
           Timeline de Préparation - {' '}
         </Text>
         <Text style={{ fontSize: 20, fontWeight: 700, color: '#C54616' }}>
