@@ -5,21 +5,21 @@
 import { COLORS } from '../utils/colors';
 
 export const PDF_COLORS = {
-  primary: COLORS.primary.primary,
-  creamBg: COLORS.accent.creamDareviz,
-  amberBorder: COLORS.accent.amber,
-  brownText: COLORS.accent.brown,
-  lightBg: COLORS.accent.creamLight,
+  primary: COLORS.primary,
+  creamBg: COLORS.creamDareviz,
+  amberBorder: COLORS.amber,
+  brownText: COLORS.brown,
+  lightBg: COLORS.creamLight,
 } as const;
 
 export const PDF_BORDERS = {
   section: {
-    bottom: `2px solid ${COLORS.primary.primary}`,
-    bottomThick: `3px solid ${COLORS.primary.primary}`,
+    bottom: `2px solid ${COLORS.primary}`,
+    bottomThick: `3px solid ${COLORS.primary}`,
   },
   accent: {
-    left: `4px solid ${COLORS.primary.primary}`,
-    leftAmber: `4px solid ${COLORS.accent.amber}`,
+    left: `4px solid ${COLORS.primary}`,
+    leftAmber: `4px solid ${COLORS.amber}`,
   },
   info: {
     standard: `1px solid ${COLORS.border.gray}`,
