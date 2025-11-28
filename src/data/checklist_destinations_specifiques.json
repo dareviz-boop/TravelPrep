@@ -1,0 +1,281 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "lastUpdated": "2025-11-28",
+    "description": "Equipements automatiques selon destination + activites (logique backend)",
+    "note": "Non visible dans formulaire - Ajoute automatiquement via triggers"
+  },
+  "destinationsSpecifiques": {
+    "description": "Equipements specifiques selon type d'environnement (non visible dans formulaire, logique backend uniquement)",
+    "note": "Ces items sont ajoutes automatiquement selon la combinaison destination + activites",
+
+    "desert": {
+      "nom": "Desert / Zones arides",
+      "trigger": {
+        "destinations": ["afrique", "asie", "oceanie"],
+        "activites": ["randonnee", "road-trip", "backpacking"],
+        "ou_conditions": ["climat_sec_aride", "climat_canicule"]
+      },
+      "items": [
+        {
+          "id": "DEST001",
+          "item": "Cheche / Foulard touareg long (2-3m)",
+          "priorite": "haute",
+          "conseils": "Protection soleil + sable + vent. Multifonction: tete, visage, cou. Coton leger blanc (reflexion chaleur)"
+        },
+        {
+          "id": "DEST002",
+          "item": "Lunettes soleil categorie 4 + cordon",
+          "priorite": "haute",
+          "conseils": "Protection UV maximale. Categorie 4 = 97% filtration. Cordon = securite vent. Coques laterales (sable)"
+        },
+        {
+          "id": "DEST003",
+          "item": "Gourde isotherme 1.5L + gourde 1L",
+          "priorite": "haute",
+          "quantite": "2 gourdes minimum",
+          "conseils": "Eau tiede > froide (choc thermique). Isotherme garde fraicheur 24h. Boire 4-5L/jour"
+        },
+        {
+          "id": "DEST004",
+          "item": "Pastilles purification eau (Micropur)",
+          "priorite": "haute",
+          "quantite": "30 pastilles",
+          "conseils": "Eau potable rare. 1 pastille = 1L potable en 30min. Backup essentiel"
+        },
+        {
+          "id": "DEST005",
+          "item": "GPS + cartes papier",
+          "priorite": "haute",
+          "conseils": "Desert = pas de reperes. Se perdre = mortel. GPS + backup papier obligatoire"
+        },
+        {
+          "id": "DEST006",
+          "item": "Bache / Tarp protection soleil",
+          "priorite": "moyenne",
+          "conseils": "Ombre artificielle. Pause midi essentielle. Temperature -15C sous bache"
+        }
+      ]
+    },
+
+    "jungle": {
+      "nom": "Jungle / Foret tropicale",
+      "trigger": {
+        "destinations": ["amerique-sud", "afrique", "asie", "oceanie"],
+        "activites": ["randonnee", "camping", "backpacking"],
+        "ou_conditions": ["climat_mousson", "climat_tropical_humide", "climat_jungle_dense"]
+      },
+      "items": [
+        {
+          "id": "DEST011",
+          "item": "Machette / Parang",
+          "priorite": "haute",
+          "specifications": ["Lame 30-40cm", "Acier inoxydable", "Manche antiderapant", "Gaine solide"],
+          "conseils": "Vegetation dense = progression lente. Coupe lianes, branches. Outil polyvalent. Affutage regulier"
+        },
+        {
+          "id": "DEST012",
+          "item": "Repulsif moustiques DEET 50%",
+          "priorite": "haute",
+          "quantite": "3 flacons 100ml",
+          "conseils": "Dengue, paludisme, zika = risques. DEET 50% efficacite maximale. Application toutes les 4h. Zones decouvertes + vetements"
+        },
+        {
+          "id": "DEST013",
+          "item": "Moustiquaire impregnee permethrin",
+          "priorite": "haute",
+          "specifications": ["Impregnation dure 6 mois", "Mailles fines (<1mm)", "Suspendre loin corps"],
+          "conseils": "Sommeil sans protection = centaines piqures. Verifier dechirures quotidien. Border sous matelas"
+        },
+        {
+          "id": "DEST014",
+          "item": "Vetements manches longues impregnes",
+          "priorite": "haute",
+          "quantite": "2-3 tenues",
+          "specifications": ["Traitement permethrin", "Tissu leger respirant", "Couleurs neutres (pas noires = moustiques)"],
+          "conseils": "Peau exposee = vulnerabilite. Impregnation permethrin tue moustiques au contact. Traiter tous vetements"
+        },
+        {
+          "id": "DEST015",
+          "item": "Chaussures montantes impermeables",
+          "priorite": "haute",
+          "specifications": ["Tige haute (serpents)", "Gore-Tex etanche", "Semelle crantee adherente", "Sechage rapide"],
+          "conseils": "Sol constamment humide. Sangsues. Serpents. Protection chevilles essentielle. Guetres recommandees"
+        },
+        {
+          "id": "DEST016",
+          "item": "Antipaludeens (Malarone/Doxycycline)",
+          "priorite": "haute",
+          "delai": "J-30",
+          "conseils": "Zones endemiques paludisme. Debut traitement 1-2j avant entree zone. Continuer 7j apres sortie"
+        },
+        {
+          "id": "DEST017",
+          "item": "Hamac avec moustiquaire integree",
+          "priorite": "moyenne",
+          "specifications": ["Moustiquaire 360", "Charge max 150kg", "Cordes incluses"],
+          "conseils": "Sol humide. Insectes rampants. Hamac = securite + confort. Hennessy Hammock reference"
+        },
+        {
+          "id": "DEST018",
+          "item": "Kit extraction sangsues / tiques",
+          "priorite": "moyenne",
+          "specifications": ["Pince tire-tique", "Desinfectant", "Pansements"],
+          "conseils": "Sangsues frequentes (jambes, entre orteils). Ne JAMAIS arracher (tete reste). Sel/chaleur pour detacher"
+        },
+        {
+          "id": "DEST019",
+          "item": "Sifflet 120dB + miroir signalisation",
+          "priorite": "haute",
+          "conseils": "Jungle = se perdre facilement. Visibilite 5m. Sifflet porte 1km. Miroir = helicoptere"
+        }
+      ]
+    },
+
+    "montagne_altitude": {
+      "nom": "Haute montagne / Altitude",
+      "trigger": {
+        "destinations": ["asie", "amerique-sud", "afrique", "europe"],
+        "activites": ["randonnee", "sports-hiver"],
+        "ou_conditions": ["climat_altitude_moderee", "climat_altitude_haute", "climat_altitude_extreme"]
+      },
+      "items": [
+        {
+          "id": "DEST021",
+          "item": "Crampons acier 12 pointes",
+          "priorite": "haute",
+          "specifications": ["Compatibles chaussures rigides", "Pointes avant verticales", "Reglages precis"],
+          "conseils": "Glacier, neves, pentes glacees = obligatoires. Grivel, Petzl = references. Entrainement technique avant",
+          "filtres": {"activites": ["randonnee"]}
+        },
+        {
+          "id": "DEST022",
+          "item": "Piolet montagne",
+          "priorite": "haute",
+          "specifications": ["Longueur adaptee taille", "Tete acier forge", "Dragonne", "Protege-pic"],
+          "conseils": "Technique auto-arret essentielle. Formation recommandee. Petzl Summit, Grivel",
+          "filtres": {"activites": ["randonnee"]}
+        },
+        {
+          "id": "DEST023",
+          "item": "Corde escalade 50m (si groupe)",
+          "priorite": "haute",
+          "specifications": ["Diametre 9-10mm", "Dynamique", "Marquage milieu", "Sac corde"],
+          "conseils": "Securite passages exposes. Rappels. Norme UIAA. 50m = longueur standard. Verifier usure",
+          "filtres": {"activites": ["randonnee"]}
+        },
+        {
+          "id": "DEST024",
+          "item": "Baudrier escalade + mousquetons",
+          "priorite": "haute",
+          "quantite": "1 baudrier + 4 mousquetons",
+          "conseils": "Baudrier ajustable. 2 mousquetons vissants + 2 mousquetons snap. Verifications securite",
+          "filtres": {"activites": ["randonnee"]}
+        },
+        {
+          "id": "DEST025",
+          "item": "Lunettes glacier categorie 4",
+          "priorite": "haute",
+          "specifications": ["Filtration 92-97%", "Coques laterales", "Cordon securite", "Protection UV 100%"],
+          "conseils": "Reverberation neige 80%. Ophtalmie des neiges = cecite temporaire. AUCUN compromis qualite"
+        },
+        {
+          "id": "DEST026",
+          "item": "Masque altitude oxygene (>5000m)",
+          "priorite": "moyenne",
+          "delai": "J-30",
+          "conseils": ">5000m: mal aigu montagnes frequent. Oxygene = securite. Location possible sur place"
+        },
+        {
+          "id": "DEST027",
+          "item": "Medicaments altitude (Diamox)",
+          "priorite": "haute",
+          "delai": "J-14",
+          "conseils": "Prevention mal aigu montagnes. Debut 24h avant montee. Prescription medicale. Effets secondaires"
+        },
+        {
+          "id": "DEST028",
+          "item": "Duvet grand froid -15C comfort",
+          "priorite": "haute",
+          "specifications": ["Duvet oie 800+ fill", "Momie", "Capuche ajustable", "Sac compression"],
+          "conseils": "Nuits altitude = froid intense. Temperature comfort importante (pas extreme). Western Mountaineering"
+        },
+        {
+          "id": "DEST029",
+          "item": "Matelas isolant R-value >5",
+          "priorite": "haute",
+          "specifications": ["R-value 5-6", "Auto-gonflant ou mousse", "Reparation kit"],
+          "conseils": "Sol gele = deperdition chaleur. R-value = isolation thermique. Therm-a-Rest NeoAir Xtherm"
+        },
+        {
+          "id": "DEST030",
+          "item": "Rechaud essence / gaz multi-combustible",
+          "priorite": "haute",
+          "specifications": ["Fonctionne -20C", "Essence, gaz, kerosene", "Stable", "Reparation kit"],
+          "conseils": "Altitude = eau bout 85C (pas 100C). Gaz ne fonctionne pas froid. MSR WhisperLite"
+        },
+        {
+          "id": "DEST031",
+          "item": "Balise GPS SPOT / InReach",
+          "priorite": "haute",
+          "delai": "J-30",
+          "conseils": "Zones isolees sans reseau. SOS satellite. Localisation exacte secours. Abonnement mensuel",
+          "filtres": {"activites": ["randonnee", "backpacking"]}
+        },
+        {
+          "id": "DEST032",
+          "item": "DVA (Detecteur Victimes Avalanche)",
+          "priorite": "haute",
+          "delai": "J-30",
+          "conseils": "Zones avalanche = DVA + pelle + sonde OBLIGATOIRE. Formation utilisation essentielle",
+          "filtres": {"activites": ["sports-hiver"]}
+        },
+        {
+          "id": "DEST033",
+          "item": "Pelle avalanche aluminium",
+          "priorite": "haute",
+          "conseils": "Creuser neige compactee. Legere. Demontable. BCA, Ortovox",
+          "filtres": {"activites": ["sports-hiver"]}
+        },
+        {
+          "id": "DEST034",
+          "item": "Sonde avalanche 240cm+",
+          "priorite": "haute",
+          "conseils": "Localisation precise victime. 240-300cm longueur. Graduation claire. Black Diamond",
+          "filtres": {"activites": ["sports-hiver"]}
+        }
+      ]
+    }
+  },
+
+  "suggestions_automatiques": {
+    "description": "Regles de suggestions automatiques non forcees",
+    "regles": [
+      {
+        "condition": "temperature inclut 'tres-chaude'",
+        "suggerer": ["climat_canicule", "climat_sec_aride"],
+        "message": "Nous recommandons d'ajouter les equipements pour chaleur extreme"
+      },
+      {
+        "condition": "temperature inclut 'tres-froide'",
+        "suggerer": ["climat_froid_intense", "climat_neige"],
+        "message": "Nous recommandons d'ajouter les equipements pour froid extreme"
+      },
+      {
+        "condition": "saison inclut 'ete' ET destination inclut 'asie'",
+        "suggerer": ["climat_mousson"],
+        "message": "Periode de mousson probable en Asie durant l'ete"
+      },
+      {
+        "condition": "activites inclut 'randonnee' ET altitude detectee",
+        "suggerer": ["climat_altitude_moderee", "climat_altitude_haute"],
+        "message": "Equipements altitude recommandes pour la randonnee en montagne"
+      },
+      {
+        "condition": "destination inclut 'amerique-centrale-caraibes' ET periode juin-novembre",
+        "suggerer": ["climat_cyclones"],
+        "message": "Saison cyclonique active - prevoir equipements d'urgence"
+      }
+    ]
+  }
+}
