@@ -25,7 +25,7 @@ describe('Générateur de Checklist - Tests de non-régression', () => {
         typeVoyage: 'flexible',
         confort: 'standard',
         nombreEnfants: 0,
-        ageEnfants: [],
+        agesEnfants: [],
         formatFichier: 'pdf'
       };
 
@@ -55,7 +55,7 @@ describe('Générateur de Checklist - Tests de non-régression', () => {
         typeVoyage: 'flexible',
         confort: 'standard',
         nombreEnfants: 0,
-        ageEnfants: [],
+        agesEnfants: [],
         formatFichier: 'pdf'
       };
 
@@ -81,7 +81,7 @@ describe('Générateur de Checklist - Tests de non-régression', () => {
         typeVoyage: 'flexible',
         confort: 'standard',
         nombreEnfants: 0,
-        ageEnfants: [],
+        agesEnfants: [],
         formatFichier: 'pdf'
       };
 
@@ -111,7 +111,7 @@ describe('Générateur de Checklist - Tests de non-régression', () => {
         typeVoyage: 'flexible',
         confort: 'standard',
         nombreEnfants: 0,
-        ageEnfants: [],
+        agesEnfants: [],
         formatFichier: 'pdf'
       };
 
@@ -142,7 +142,7 @@ describe('Générateur de Checklist - Tests de non-régression', () => {
         typeVoyage: 'flexible',
         confort: 'standard',
         nombreEnfants: 0,
-        ageEnfants: [],
+        agesEnfants: [],
         formatFichier: 'pdf'
       };
 
