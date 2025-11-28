@@ -11,6 +11,10 @@ import { checklistData, getPaysOptions, localisations } from "@/utils/checklistU
 import { Check, ChevronsUpDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { LIMITS, DATE_LIMITS, SPECIAL_LOCATIONS } from "@/constants/validation";
+import { DIMENSIONS } from "@/constants/theme";
+import { ERROR_MESSAGES, PLACEHOLDERS, TITLES } from "@/constants/messages";
+import { DURATION_LABELS_SHORT, DURATION_VALUES } from "@/constants/formats";
 
 interface Step1DestinationProps {
   formData: FormData;
@@ -78,19 +82,21 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
   const handlePaysSelect = (pays: Pays) => {
     const currentPays = formData.pays || [];
     const isAlreadySelected = currentPays.find(p => p.code === pays.code);
-    
+
     // Détermine la limite basée sur le type de localisation
-    const maxPays = formData.localisation === 'multi-destinations' ? 10 : 3;
+    const maxPays = formData.localisation === SPECIAL_LOCATIONS.multiDestinations
+      ? LIMITS.countries.multiDestinations
+      : LIMITS.countries.default;
 
     if (isAlreadySelected) {
       updateFormData({ pays: currentPays.filter(p => p.code !== pays.code) });
     } else if (currentPays.length < maxPays) {
       updateFormData({ pays: [...currentPays, pays] });
-    } else if (formData.localisation !== 'multi-destinations') {
+    } else if (formData.localisation !== SPECIAL_LOCATIONS.multiDestinations) {
         // Affiche un toast uniquement pour la limite de 3 pays par zone
         toast({
             title: "Limite atteinte",
-            description: "❌ Vous ne pouvez sélectionner que 3 pays maximum par zone.",
+            description: ERROR_MESSAGES.maxCountriesPerZone,
             variant: "destructive"
         });
     }
@@ -133,8 +139,13 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
    */
   const getTomorrowDate = (): Date => {
     const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    tomorrow.setHours(0, 0, 0, 0);
+    tomorrow.setDate(tomorrow.getDate() + DATE_LIMITS.tomorrowOffset);
+    tomorrow.setHours(
+      DATE_LIMITS.midnightHours.hours,
+      DATE_LIMITS.midnightHours.minutes,
+      DATE_LIMITS.midnightHours.seconds,
+      DATE_LIMITS.midnightHours.milliseconds
+    );
     return tomorrow;
   };
   // Fin Fonctions de validation
@@ -142,9 +153,9 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
 
   return (
     <div className="space-y-8 animate-fade-in">
-      <div className="text-center mb-12">
+      <div className={`text-center ${DIMENSIONS.margins.xl}`}>
         <h2 className="text-3xl font-bold mb-3 bg-gradient-travel bg-clip-text text-transparent">
-          ✈️ Où pars-tu en voyage ?
+          {TITLES.destinationQuestion}
         </h2>
         <p className="text-foreground/70 text-lg">
           Choisis ta destination pour personnaliser ta checklist
@@ -159,10 +170,10 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
           </Label>
           <Input
             id="nomVoyage"
-            placeholder="Ex: Voyage au pays des pandas - 2028"
+            placeholder={PLACEHOLDERS.tripName}
             value={formData.nomVoyage}
             onChange={(e) => updateFormData({ nomVoyage: e.target.value })}
-            className="h-14 text-base border-2 focus-visible:border-primary"
+            className={`${DIMENSIONS.button.heightMd} text-base border-2 focus-visible:border-primary`}
             required
           />
           <p className="text-sm text-muted-foreground">
@@ -183,7 +194,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                 type="button"
                 onClick={() => {
                   updateFormData({ localisation: loc.value, pays: [] });
-                  setShowPaysSelector(loc.value !== 'multi-destinations');
+                  setShowPaysSelector(loc.value !== SPECIAL_LOCATIONS.multiDestinations);
                 }}
                 className={cn(
                   "p-4 rounded-xl border-2 transition-all text-center hover:shadow-md",
@@ -200,11 +211,11 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
         </div>
 
         {/* Sélecteur de pays - MONO DESTINATION */}
-        {formData.localisation && formData.localisation !== 'multi-destinations' && (
+        {formData.localisation && formData.localisation !== SPECIAL_LOCATIONS.multiDestinations && (
           <div className="space-y-4 bg-card p-6 rounded-xl border-2 border-border shadow-sm">
             <div className="flex items-center justify-between">
               <Label className="text-lg font-bold text-foreground">
-                Pays spécifiques <span className="text-muted-foreground text-sm font-normal">(max 3, optionnel)</span>
+                Pays spécifiques <span className="text-muted-foreground text-sm font-normal">(max {LIMITS.countries.default}, optionnel)</span>
               </Label>
             </div>
 
@@ -231,14 +242,14 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
             )}
 
             {/* Combobox (La couleur du focus/ring est gérée par --primary, ce qui est correct pour l'orange) */}
-            {formData.pays.length < 3 && (
+            {formData.pays.length < LIMITS.countries.default && (
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-full justify-between h-14 border-2"
+                    className={`w-full justify-between ${DIMENSIONS.button.heightMd} border-2`}
                   >
                     <span className="text-muted-foreground">
                       Rechercher un pays...
@@ -293,14 +304,14 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
             </p>
           </div>
         )}
-          
+
         {/* Sélecteur de pays - MULTI DESTINATIONS */}
-        {formData.localisation === 'multi-destinations' && (
+        {formData.localisation === SPECIAL_LOCATIONS.multiDestinations && (
           <div className="space-y-4 bg-card p-6 rounded-xl border-2 border-border shadow-sm">
-            
+
             <div className="flex items-center justify-between">
               <Label className="text-lg font-bold text-foreground">
-                Vos destinations <span className="text-muted-foreground text-sm font-normal">(max 10)</span>
+                Vos destinations <span className="text-muted-foreground text-sm font-normal">(max {LIMITS.countries.multiDestinations})</span>
               </Label>
             </div>
       
@@ -325,16 +336,16 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
                 ))}
               </div>
             )}
-      
+
             {/* Combobox mis à jour : utilise 'allPaysOptions' (maintenant trié) */}
-            {formData.pays.length < 10 && (  
+            {formData.pays.length < LIMITS.countries.multiDestinations && (
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-full justify-between h-14 border-2"
+                    className={`w-full justify-between ${DIMENSIONS.button.heightMd} border-2`}
                   >
                     <span className="text-muted-foreground">
                       Rechercher un pays...
@@ -445,7 +456,12 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               }
 
               const today = new Date();
-              today.setHours(0, 0, 0, 0);
+              today.setHours(
+                DATE_LIMITS.midnightHours.hours,
+                DATE_LIMITS.midnightHours.minutes,
+                DATE_LIMITS.midnightHours.seconds,
+                DATE_LIMITS.midnightHours.milliseconds
+              );
 
               if (selectedDate <= today) {
                 toast({
@@ -477,7 +493,7 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               updateFormData({ dateDepart: dateString });
             }}
             minDate={getTomorrowDate()}
-            maxDate={new Date('9999-12-31')}
+            maxDate={DATE_LIMITS.maxDate}
             placeholder="Choisir la date de départ"
           />
           <p className="text-sm text-muted-foreground">
@@ -566,8 +582,13 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               }}
               minDate={formData.dateDepart ? (() => {
                 const minReturn = new Date(formData.dateDepart);
-                minReturn.setDate(minReturn.getDate() + 1);
-                minReturn.setHours(0, 0, 0, 0);
+                minReturn.setDate(minReturn.getDate() + DATE_LIMITS.tomorrowOffset);
+                minReturn.setHours(
+                  DATE_LIMITS.midnightHours.hours,
+                  DATE_LIMITS.midnightHours.minutes,
+                  DATE_LIMITS.midnightHours.seconds,
+                  DATE_LIMITS.midnightHours.milliseconds
+                );
                 return minReturn;
               })() : getTomorrowDate()}
               placeholder="Choisir la date de retour"
@@ -591,30 +612,28 @@ export const Step1Destination = ({ formData, updateFormData }: Step1DestinationP
               onValueChange={(value) => updateFormData({ duree: value as FormData['duree'] })}
               className="grid grid-cols-2 md:grid-cols-4 gap-3"
             >
-              {[
-                { value: 'court', label: 'Court', desc: '≤ 7 jours' },
-                { value: 'moyen', label: 'Moyen', desc: '8-29 jours' },
-                { value: 'long', label: 'Long', desc: '30-90 jours' },
-                { value: 'tres-long', label: 'Très long', desc: '> 90 jours' },
-              ].map((option) => (
-                <div key={option.value}>
-                  <RadioGroupItem
-                    value={option.value}
-                    id={option.value}
-                    className="peer sr-only"
-                  />
-                  <Label
-                    htmlFor={option.value}
-                    className={cn(
-                      "flex flex-col items-center justify-center rounded-xl border-2 border-border bg-card p-4 cursor-pointer transition-all",
-                      "hover:bg-primary/5 hover:border-primary/50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10"
-                    )}
-                  >
-                    <span className="text-sm font-bold text-foreground">{option.label}</span>
-                    <span className="text-xs text-muted-foreground mt-1">{option.desc}</span>
-                  </Label>
-                </div>
-              ))}
+              {DURATION_VALUES.map((value) => {
+                const label = value.charAt(0).toUpperCase() + value.slice(1).replace('-', ' ');
+                return (
+                  <div key={value}>
+                    <RadioGroupItem
+                      value={value}
+                      id={value}
+                      className="peer sr-only"
+                    />
+                    <Label
+                      htmlFor={value}
+                      className={cn(
+                        "flex flex-col items-center justify-center rounded-xl border-2 border-border bg-card p-4 cursor-pointer transition-all",
+                        "hover:bg-primary/5 hover:border-primary/50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10"
+                      )}
+                    >
+                      <span className="text-sm font-bold text-foreground">{label}</span>
+                      <span className="text-xs text-muted-foreground mt-1">{DURATION_LABELS_SHORT[value]}</span>
+                    </Label>
+                  </div>
+                );
+              })}
             </RadioGroup>
           </div>
         )}

@@ -4,6 +4,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FormData } from "@/types/form";
 import { useState, useEffect, useMemo } from 'react';
 import { generateCompleteChecklist } from '@/utils/checklistGenerator';
+import { PLACEHOLDERS } from "@/constants/messages";
+import { DIMENSIONS } from "@/constants/theme";
+import { TIMEOUTS } from "@/constants/animations";
 
 interface Step6CheckoutProps {
   formData: FormData;
@@ -86,7 +89,7 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
           // Retry une fois après 1 seconde
           if (retryCount < 1) {
             console.log('🔄 Nouvelle tentative dans 1 seconde...');
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            await new Promise(resolve => setTimeout(resolve, TIMEOUTS.retryDelay));
             return import('@react-pdf/renderer');
           }
           throw err;
@@ -132,10 +135,10 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
           </Label>
           <Input
             id="prenomClient"
-            placeholder="Jack"
+            placeholder={PLACEHOLDERS.firstName}
             value={formData.prenomClient || ''}
             onChange={(e) => updateFormData({ prenomClient: e.target.value })}
-            className="h-12 text-base"
+            className={`${DIMENSIONS.button.heightSm} text-base`}
           />
         </div>
 
@@ -146,10 +149,10 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
           </Label>
           <Input
             id="nomClient"
-            placeholder="Williams"
+            placeholder={PLACEHOLDERS.lastName}
             value={formData.nomClient || ''}
             onChange={(e) => updateFormData({ nomClient: e.target.value })}
-            className="h-12 text-base"
+            className={`${DIMENSIONS.button.heightSm} text-base`}
           />
         </div>
 
@@ -161,10 +164,10 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
           <Input
             id="email"
             type="email"
-            placeholder="jack.williams@email.com"
+            placeholder={PLACEHOLDERS.email}
             value={formData.email || ''}
             onChange={(e) => updateFormData({ email: e.target.value })}
-            className="h-12 text-base"
+            className={`${DIMENSIONS.button.heightSm} text-base`}
           />
           <p className="text-sm text-muted-foreground">
             Votre checklist personnalisée vous sera envoyée à cette adresse.
@@ -194,7 +197,7 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
         </p>
         {/* 🔧 FIX: Afficher les erreurs de chargement */}
         {pdfError && (
-          <div className="w-full h-[600px] border-2 border-destructive rounded-lg overflow-hidden shadow-lg flex items-center justify-center">
+          <div className={`w-full h-[${DIMENSIONS.pdf.previewHeight}px] border-2 border-destructive rounded-lg overflow-hidden shadow-lg flex items-center justify-center`}>
             <div className="text-center p-8">
               <p className="text-destructive font-bold mb-2">❌ Erreur de chargement du PDF</p>
               <p className="text-sm text-muted-foreground">{pdfError}</p>
@@ -203,12 +206,12 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
           </div>
         )}
         {!PDFComponents && !pdfError && (
-          <div className="w-full h-[600px] border-2 border-border rounded-lg overflow-hidden shadow-lg flex items-center justify-center">
+          <div className={`w-full h-[${DIMENSIONS.pdf.previewHeight}px] border-2 border-border rounded-lg overflow-hidden shadow-lg flex items-center justify-center`}>
             <p className="text-muted-foreground">Chargement de l'aperçu PDF...</p>
           </div>
         )}
         {showPDF && PDFComponents && !pdfError && (
-          <div className="w-full h-[600px] border-2 border-border rounded-lg overflow-hidden shadow-lg">
+          <div className={`w-full h-[${DIMENSIONS.pdf.previewHeight}px] border-2 border-border rounded-lg overflow-hidden shadow-lg`}>
             <PDFComponents.PDFViewer width="100%" height="100%" showToolbar={true}>
               <PDFComponents.TravelPrepPDF formData={pdfFormData} checklistData={generatedChecklist} />
             </PDFComponents.PDFViewer>

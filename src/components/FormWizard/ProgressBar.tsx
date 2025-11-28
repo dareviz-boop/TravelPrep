@@ -1,4 +1,5 @@
 import { Check } from "lucide-react";
+import { DIMENSIONS } from "@/constants/theme";
 
 interface ProgressBarProps {
   currentStep: number;
@@ -22,11 +23,11 @@ export const ProgressBar = ({ currentStep, totalSteps, stepTitles, maxStepReache
               <div className="flex flex-col items-center">
                 <div
                   onClick={() => isClickable && onStepClick(index)}
-                  className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all duration-300 ${
+                  className={`${DIMENSIONS.progressBar.circle} rounded-full flex items-center justify-center font-semibold transition-all duration-300 ${
                     isCompleted
                       ? "bg-primary text-primary-foreground scale-110"
                       : isCurrent
-                      ? "bg-primary text-primary-foreground ring-4 ring-primary/20 scale-110"
+                      ? `bg-primary text-primary-foreground ${DIMENSIONS.progressBar.ring} ring-primary/20 scale-110`
                       : "bg-muted text-muted-foreground"
                   } ${
                     isClickable ? "cursor-pointer hover:scale-125 hover:ring-2 hover:ring-primary/30" : "cursor-not-allowed"
@@ -42,7 +43,7 @@ export const ProgressBar = ({ currentStep, totalSteps, stepTitles, maxStepReache
                 </span>
               </div>
               {index < totalSteps - 1 && (
-                <div className="flex-1 h-1 mx-2 relative overflow-hidden rounded-full bg-muted">
+                <div className={`flex-1 ${DIMENSIONS.progressBar.bar} mx-2 relative overflow-hidden rounded-full bg-muted`}>
                   <div
                     className={`h-full bg-primary transition-all duration-500 ${
                       index < currentStep ? "w-full" : "w-0"
