@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Plane, Clock, FileDown, Sparkles } from "lucide-react";
+import { TITLES } from "@/constants/messages";
+import { ANIMATION_DELAYS } from "@/constants/animations";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -16,7 +18,7 @@ const Index = () => {
               <span className="inline-block text-5xl mb-2">🌍</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-travel bg-clip-text text-transparent">
-              TravelPrep
+              {TITLES.app}
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-4">
               Votre guide de préparation au voyage personnalisé
@@ -44,7 +46,7 @@ const Index = () => {
             Prêt à partir l'esprit tranquille ?
           </h2>
           <p className="text-base text-muted-foreground">
-            3 minutes de formulaire = Une checklist complète pour tout votre voyage
+            {TITLES.tagline}
           </p>
         </div>
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -59,7 +61,7 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="bg-card p-6 rounded-2xl shadow-lg border border-border hover:shadow-xl transition-shadow animate-slide-up" style={{ animationDelay: "0.1s" }}>
+          <div className="bg-card p-6 rounded-2xl shadow-lg border border-border hover:shadow-xl transition-shadow animate-slide-up" style={{ animationDelay: ANIMATION_DELAYS.short }}>
             <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mb-4">
               <Clock className="w-6 h-6 text-accent" />
             </div>
@@ -70,7 +72,7 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="bg-card p-6 rounded-2xl shadow-lg border border-border hover:shadow-xl transition-shadow animate-slide-up" style={{ animationDelay: "0.2s" }}>
+          <div className="bg-card p-6 rounded-2xl shadow-lg border border-border hover:shadow-xl transition-shadow animate-slide-up" style={{ animationDelay: ANIMATION_DELAYS.medium }}>
             <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mb-4">
               <FileDown className="w-6 h-6 text-foreground" />
             </div>

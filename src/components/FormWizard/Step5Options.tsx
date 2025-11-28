@@ -6,7 +6,9 @@ import { FormData } from "@/types/form";
 import { checklistData } from "@/utils/checklistUtils";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { Flag } from "lucide-react"; // Importation pour un drapeau générique si besoin
+import { Flag } from "lucide-react";
+import { ESSENTIAL_SECTIONS, SPECIAL_CONDITIONS } from "@/constants/validation";
+import { DURATION_LABELS, AGE_GROUPS } from "@/constants/formats";
 
 // ----------------------------------------------------------------------
 // Types pour les options
@@ -66,13 +68,7 @@ const getOptionDetailsFromDict = (groupKey: keyof typeof checklistData, id: stri
 // Fonction pour déterminer le libellé de la durée
 const getDurationLabel = (duree: FormData['duree'] | undefined) => {
   if (!duree) return "Non défini";
-  const map: Record<string, string> = { // On utilise string pour la flexibilité en l'absence d'importation de Duree
-    'court': "Courte (moins d'une semaine)",
-    'moyen': "Moyenne (1 à 2 semaines)",
-    'long': "Longue (1 à 3 mois)",
-    'tres-long': "Très longue (plus de 3 mois)",
-  };
-  return map[duree] || duree;
+  return DURATION_LABELS[duree] || duree;
 };
 
 interface Step5OptionsProps {
@@ -93,7 +89,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
     }));
 
   // 🎯 Groupes de sections pour l'affichage
-  const essentielsAbsolusIds = ['documents', 'finances', 'sante'];
+  const essentielsAbsolusIds = [...ESSENTIAL_SECTIONS];
   const sectionsRecommandees = sectionsData.filter(s => !essentielsAbsolusIds.includes(s.id));
   const sectionsEssentielles = sectionsData.filter(s => essentielsAbsolusIds.includes(s.id));
 
@@ -146,7 +142,7 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
     }
 
     // Filtrer pour enlever "climat_aucune"
-    const selectedConditions = formData.conditionsClimatiques.filter(id => id !== 'climat_aucune');
+    const selectedConditions = formData.conditionsClimatiques.filter(id => id !== SPECIAL_CONDITIONS.none);
 
     // Cas 1 : Aucune condition réelle (soit tableau vide, soit seulement "climat_aucune")
     if (selectedConditions.length === 0) {
@@ -343,10 +339,10 @@ export const Step5Options = ({ formData, updateFormData }: Step5OptionsProps) =>
                           Âges :{' '}
                           {formData.agesEnfants.map(ageKey => {
                             const agesMap: { [key: string]: { label: string; emoji: string } } = {
-                              '0-2-ans': { label: '0-2 ans', emoji: '🍼' },
-                              '3-5-ans': { label: '3-5 ans', emoji: '👶' },
-                              '6-12-ans': { label: '6-12 ans', emoji: '👦' },
-                              '13+-ans': { label: '13+ ans', emoji: '🧑' }
+                              '0-2-ans': { label: AGE_GROUPS['0-2-ans'], emoji: '🍼' },
+                              '3-5-ans': { label: AGE_GROUPS['3-5-ans'], emoji: '👶' },
+                              '6-12-ans': { label: AGE_GROUPS['6-12-ans'], emoji: '👦' },
+                              '13+-ans': { label: AGE_GROUPS['13+-ans'], emoji: '🧑' }
                             };
                             const ageInfo = agesMap[ageKey];
                             return (

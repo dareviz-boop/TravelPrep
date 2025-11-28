@@ -1,6 +1,7 @@
 import { FormData } from "@/types/form";
 import { Edit2 } from "lucide-react";
 import { checklistData, localisations } from "@/utils/checklistUtils";
+import { DURATION_LABELS_SHORT, AGE_GROUPS } from "@/constants/formats";
 
 interface TravelSummaryProps {
   formData: FormData;
@@ -29,13 +30,7 @@ const calculateDuration = (dateDepart: string, dateRetour?: string, duree?: stri
   }
 
   // Si pas de date de retour, afficher la durée estimée
-  const dureeLabels = {
-    "court": "≤ 7 jours",
-    "moyen": "8-29 jours",
-    "long": "30-90 jours",
-    "tres-long": "> 90 jours"
-  };
-  return dureeLabels[duree as keyof typeof dureeLabels] || "";
+  return duree ? DURATION_LABELS_SHORT[duree as keyof typeof DURATION_LABELS_SHORT] : "";
 };
 
 // Helper pour obtenir le label d'une saison
@@ -85,13 +80,7 @@ const getConfortLabel = (confortId: string): string => {
 
 // Helper pour obtenir le label d'un âge enfant
 const getAgeEnfantLabel = (ageId: string): string => {
-  const agesLabels = {
-    "0-2-ans": "0-2 ans",
-    "3-5-ans": "3-5 ans",
-    "6-12-ans": "6-12 ans",
-    "13+-ans": "13+ ans"
-  };
-  return agesLabels[ageId as keyof typeof agesLabels] || ageId;
+  return AGE_GROUPS[ageId as keyof typeof AGE_GROUPS] || ageId;
 };
 
 export const TravelSummary = ({ formData, onEditStep }: TravelSummaryProps) => {

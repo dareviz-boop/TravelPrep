@@ -11,42 +11,25 @@ import { FormData } from "@/types/form";
 import { ArrowLeft, ArrowRight, Download } from "lucide-react";
 import { toast } from "sonner";
 import { generateCompleteChecklist, getChecklistSummary } from "@/utils/checklistGenerator";
+import { DEFAULT_FORM_DATA } from "@/config/defaults";
+import { ERROR_MESSAGES } from "@/constants/messages";
+import { SPECIAL_CONDITIONS, PATTERNS } from "@/constants/validation";
+import { STEP_TITLES } from "@/constants/formats";
 
 const Generator = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [maxStepReached, setMaxStepReached] = useState(0); // Track le plus loin que l'utilisateur est allé
-  const [formData, setFormData] = useState<FormData>({
-    nomVoyage: "",
-    dateDepart: "",
-    duree: "moyen",
-    localisation: "multi-destinations",
-    pays: [],
-    temperature: ["inconnue"],
-    saison: ["inconnue"],
-    conditionsClimatiques: [],
-    recommendedConditions: [], // 🔔 Recommandations gelées (basées sur étape 1)
-    activites: [],
-    profil: "couple",
-    agesEnfants: [],
-    typeVoyage: "flexible",
-    confort: "standard",
-    sectionsInclure: ['documents', 'finances', 'sante'], // Sélection par défaut des 3 sections essentielles
-    formatPDF: "detaille",
-    formatFichier: "pdf",
-    nomClient: "",
-    prenomClient: "",
-    email: "",
-  });
-  
+  const [formData, setFormData] = useState<FormData>(DEFAULT_FORM_DATA);
+
   useEffect(() => {
     // Vérifie si nous sommes dans un environnement de navigateur
     if (typeof window !== 'undefined') {
       // Force le défilement instantané vers le haut (0, 0)
-      window.scrollTo(0, 0); 
+      window.scrollTo(0, 0);
     }
   }, [currentStep]); // Le code s'exécute uniquement lorsque currentStep change.
 
-  const stepTitles = ["Destination", "Informations", "Activités", "Profil", "Récapitulatif", "Checkout"];
+  const stepTitles = [...STEP_TITLES];
   
   const updateFormData = (data: Partial<FormData>) => {
     setFormData((prev) => ({ ...prev, ...data }));
@@ -56,12 +39,12 @@ const validateStep = (step: number): boolean => {
     switch (step) {
       case 0: // Étape 1 : Destinations (Nom, Localisation, Durée obligatoire)
         if (!formData.nomVoyage || !formData.localisation) {
-          toast.error("Veuillez remplir le nom du voyage et la zone géographique.");
+          toast.error(ERROR_MESSAGES.missingNameAndZone);
           return false;
         }
         // Vérifier que la durée estimée est renseignée (obligatoire)
         if (!formData.dateRetour && !formData.duree) {
-            toast.error("Veuillez renseigner la date de retour OU la durée estimée du voyage.");
+            toast.error(ERROR_MESSAGES.missingReturnOrDuration);
             return false;
         }
         return true;
@@ -72,22 +55,22 @@ const validateStep = (step: number): boolean => {
 
         // 1. Validation de non-vide (au moins un élément doit être sélectionné)
         if (selectedTemperatures.length === 0 || selectedSaisons.length === 0) {
-            toast.error("Veuillez sélectionner au moins une température et une saison pour votre voyage.");
+            toast.error(ERROR_MESSAGES.missingTemperatureAndSeason);
             return false;
         }
 
         // 2. Validation de l'exclusivité de 'inconnue'
-        if ((selectedTemperatures.includes('inconnue') && selectedTemperatures.length > 1) ||
-            (selectedSaisons.includes('inconnue') && selectedSaisons.length > 1)) {
-            toast.error("L'option 'Inconnue' est exclusive et ne peut être sélectionnée avec d'autres saisons ou températures.");
+        if ((selectedTemperatures.includes(SPECIAL_CONDITIONS.unknown) && selectedTemperatures.length > 1) ||
+            (selectedSaisons.includes(SPECIAL_CONDITIONS.unknown) && selectedSaisons.length > 1)) {
+            toast.error(ERROR_MESSAGES.exclusiveUnknown);
             return false;
         }
         return true;
       }
-        
+
       case 2: // Étape 3 : Activités/Thèmes 💥 CORRECTION DE LA LOGIQUE
         if (!formData.activites || formData.activites.length === 0) {
-           toast.error("Veuillez choisir au moins un thème d'activités pour générer la checklist.");
+           toast.error(ERROR_MESSAGES.missingActivities);
            return false;
         }
         return true;
@@ -123,7 +106,7 @@ const validateStep = (step: number): boolean => {
         toast.error("Veuillez renseigner votre nom et votre prénom.");
         return false;
             }
-            if (!formData.email || !/^\S+@\S+\.\S+$/.test(formData.email)) {
+            if (!formData.email || !PATTERNS.email.test(formData.email)) {
               toast.error("Veuillez entrer une adresse email valide.");
               return false;
             }

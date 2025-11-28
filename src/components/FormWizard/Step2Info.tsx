@@ -10,6 +10,8 @@ import { cn } from "@/lib/utils";
 import { useEffect } from "react";
 import { generateAutoSuggestions, autoDetectSeasons, autoDetectTemperatures } from "@/utils/checklistFilters";
 import { Card } from "@/components/ui/card";
+import { SPECIAL_CONDITIONS, SPECIAL_LOCATIONS, DURATION_THRESHOLDS } from "@/constants/validation";
+import { DURATION_VALUES } from "@/constants/formats";
 
 interface SaisonOption {
   id: string;
@@ -129,7 +131,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
    */
   useEffect(() => {
     if (!formData.conditionsClimatiques || formData.conditionsClimatiques.length === 0) {
-      updateFormData({ conditionsClimatiques: ['climat_aucune'] });
+      updateFormData({ conditionsClimatiques: [SPECIAL_CONDITIONS.none] });
     }
   }, []); // Tableau vide = exécution une seule fois au montage
 
@@ -220,7 +222,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
       if (suggestions.length > 0) {
         // ✅ FUSION intelligente : conserver les conditions manuelles + ajouter les nouvelles suggestions
         const suggestionIds = suggestions.map(s => s.conditionId);
-        const existingConditions = (formData.conditionsClimatiques || []).filter(c => c !== 'climat_aucune');
+        const existingConditions = (formData.conditionsClimatiques || []).filter(c => c !== SPECIAL_CONDITIONS.none);
 
         // Fusionner et dédupliquer
         const mergedConditions = [...new Set([...existingConditions, ...suggestionIds])];
@@ -230,10 +232,10 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
         });
       } else {
         // Si aucune suggestion n'est proposée ET aucune condition manuelle, sélectionner "climat_aucune"
-        const existingConditions = (formData.conditionsClimatiques || []).filter(c => c !== 'climat_aucune');
+        const existingConditions = (formData.conditionsClimatiques || []).filter(c => c !== SPECIAL_CONDITIONS.none);
         if (existingConditions.length === 0) {
           updateFormData({
-            conditionsClimatiques: ['climat_aucune']
+            conditionsClimatiques: [SPECIAL_CONDITIONS.none]
           });
         }
       }
@@ -250,27 +252,27 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   const handleToggle = (field: 'saison' | 'temperature', itemId: string) => {
     const current = (formData[field] as string[] || []);
     const isCurrentlySelected = current.includes(itemId);
-    
+
     // --- Logique Spéciale pour l'option "inconnue" ---
-    if (itemId === 'inconnue') {
+    if (itemId === SPECIAL_CONDITIONS.unknown) {
         let newState: string[];
 
         if (isCurrentlySelected) {
              // Si 'inconnue' est décochée, on passe à un état vide (validé par Generator.tsx)
-             newState = []; 
+             newState = [];
         } else {
              // Si 'inconnue' est cochée, elle est exclusive
-             newState = ['inconnue']; 
+             newState = [SPECIAL_CONDITIONS.unknown];
         }
-        
+
         updateFormData({ [field]: newState } as Partial<FormData>);
         return;
     }
 
     // --- Pour toute autre option ---
-    
+
     // 1. S'assurer de retirer 'inconnue' si elle était sélectionnée.
-    let updated = current.filter(id => id !== 'inconnue');
+    let updated = current.filter(id => id !== SPECIAL_CONDITIONS.unknown);
 
     // 2. Basculer l'option cliquée
     if (isCurrentlySelected) {
@@ -281,7 +283,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
 
     // 3. S'assurer qu'il y a toujours au moins une réponse
     if (updated.length === 0) {
-        updated = ['inconnue'];
+        updated = [SPECIAL_CONDITIONS.unknown];
     }
 
     updateFormData({ [field]: updated } as Partial<FormData>);
@@ -296,13 +298,13 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
   const handleConditionToggle = (conditionId: string) => {
     const current = formData.conditionsClimatiques || [];
 
-    if (conditionId === 'climat_aucune') {
-        const isCurrentlyNone = current.includes('climat_aucune');
-        updateFormData({ conditionsClimatiques: isCurrentlyNone ? [] : ['climat_aucune'] });
+    if (conditionId === SPECIAL_CONDITIONS.none) {
+        const isCurrentlyNone = current.includes(SPECIAL_CONDITIONS.none);
+        updateFormData({ conditionsClimatiques: isCurrentlyNone ? [] : [SPECIAL_CONDITIONS.none] });
         return;
     }
 
-    const filteredCurrent = current.filter(id => id !== 'climat_aucune');
+    const filteredCurrent = current.filter(id => id !== SPECIAL_CONDITIONS.none);
     const isSelected = filteredCurrent.includes(conditionId);
 
     const updated = isSelected
@@ -322,11 +324,11 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
         (new Date(formData.dateRetour).getTime() - new Date(formData.dateDepart).getTime()) /
           (1000 * 60 * 60 * 24)
       );
-      return days > 90; // Strictement plus de 90 jours = plus de 3 mois
+      return days > DURATION_THRESHOLDS.veryLong; // Strictement plus de 90 jours = plus de 3 mois
     }
 
     // Sinon utiliser formData.duree : seulement 'tres-long' est > 3 mois
-    return formData.duree === 'tres-long';
+    return formData.duree === DURATION_VALUES[3]; // 'tres-long'
   };
 
   /**
@@ -349,7 +351,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
       return null;
     }
 
-    const isMultiHemisphere = ['multi-destinations', 'amerique-centrale-caraibes'].includes(formData.localisation);
+    const isMultiHemisphere = SPECIAL_LOCATIONS.multiHemisphere.includes(formData.localisation);
     const locLabel = getLocalisationLabel();
     const isLongTrip = isVeryLongTrip(); // Utilise la nouvelle fonction
     const hasPays = formData.pays && formData.pays.length > 0;
@@ -561,7 +563,7 @@ export const Step2Info = ({ formData, updateFormData }: Step2InfoProps) => {
                           "flex items-center space-x-3 p-4 rounded-xl border-2 transition-all cursor-pointer",
                           "hover:border-primary/50",
                           "peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10",
-                          condition.id === 'climat_aucune' ? 'bg-secondary/20' : ''
+                          condition.id === SPECIAL_CONDITIONS.none ? 'bg-secondary/20' : ''
                         )}
                       >
                         {/* 3. Le contenu de la carte */}

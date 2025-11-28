@@ -5,6 +5,9 @@ import { Input } from "@/components/ui/input";
 import { FormData, Profil, Confort, EnfantAge } from "@/types/form";
 import { checklistData } from "@/utils/checklistUtils";
 import { cn } from "@/lib/utils";
+import { LIMITS } from "@/constants/validation";
+import { DIMENSIONS } from "@/constants/theme";
+import { AGE_GROUPS, AGE_GROUP_VALUES } from "@/constants/formats";
 
 interface ProfilOption {
   id: string;
@@ -38,12 +41,11 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
   const confort = checklistData.confort;
   const typeVoyage = checklistData.typeVoyage.options;
 
-  const agesEnfants = [
-    { key: '0-2-ans', label: '0-2 ans (bébé)', emoji: '🍼' },
-    { key: '3-5-ans', label: '3-5 ans (jeune enfant)', emoji: '👶' },
-    { key: '6-12-ans', label: '6-12 ans (enfant)', emoji: '👦' },
-    { key: '13+-ans', label: '13+ ans (adolescent)', emoji: '🧑' }
-  ];
+  const agesEnfants = AGE_GROUP_VALUES.map(key => ({
+    key,
+    label: AGE_GROUPS[key],
+    emoji: key === '0-2-ans' ? '🍼' : key === '3-5-ans' ? '👶' : key === '6-12-ans' ? '👦' : '🧑'
+  }));
 
   const handleAgeEnfantToggle = (age: EnfantAge) => {
     const current = formData.agesEnfants || [];
@@ -111,11 +113,11 @@ export const Step4Profil = ({ formData, updateFormData }: Step4ProfilProps) => {
               <Input
                 id="nombreEnfants"
                 type="number"
-                min="1"
-                max="99"
+                min={LIMITS.children.min}
+                max={LIMITS.children.max}
                 value={formData.nombreEnfants || ''}
                 onChange={(e) => updateFormData({ nombreEnfants: parseInt(e.target.value) || undefined })}
-                className="h-12 text-base max-w-xs border-2 !ring-0 !ring-offset-0 focus-visible:border-primary"
+                className={`${DIMENSIONS.button.heightSm} text-base max-w-xs border-2 !ring-0 !ring-offset-0 focus-visible:border-primary`}
                 required
               />
             </div>
