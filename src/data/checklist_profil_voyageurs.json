@@ -860,7 +860,7 @@
       },
       {
         "id": "PRO004",
-        "item": "Cartes de visite (100+)",
+        "item": "Cartes de visite (≈100)",
         "priorite": "⭐⭐⭐",
         "delai": "J-14",
         "quantite": "100-200",
@@ -868,6 +868,13 @@
       },
       {
         "id": "PRO005",
+        "item": "Cartes de visite digital",
+        "priorite": "⭐⭐⭐",
+        "delai": "J-14",
+        "conseils": "QR code testé. vCard compatible tous systèmes. LinkedIn à jour. Application dédiée : Blinq/HiHello"
+      },
+      {
+        "id": "PRO006",
         "item": "Ordinateur portable professionnel",
         "priorite": "⭐⭐⭐",
         "delai": "J-3",
@@ -875,7 +882,7 @@
         "conseils": "Sacoche rembourrée. Adaptateur électrique universel. Câbles spare. Encryption disque"
       },
       {
-        "id": "PRO006",
+        "id": "PRO007",
         "item": "Documents professionnels",
         "priorite": "⭐⭐⭐",
         "delai": "J-3",
@@ -883,7 +890,7 @@
         "conseils": "Copies papier + digital. Pochettes plastique (protection). Organisation claire"
       },
       {
-        "id": "PRO007",
+        "id": "PRO008",
         "item": "Lettre de mission employeur",
         "priorite": "⭐⭐",
         "delai": "J-14",
@@ -891,7 +898,7 @@
         "conseils": "Certaines douanes exigent justificatif. Invitation client si applicable. Tampon entreprise"
       },
       {
-        "id": "PRO008",
+        "id": "PRO009",
         "item": "Adaptateur présentations (HDMI, VGA, USB-C)",
         "priorite": "⭐⭐⭐",
         "delai": "J-7",
@@ -900,7 +907,7 @@
         "conseils": "Salles réunion = connectique variée. Murphy's law. Clé USB backup présentation"
       },
       {
-        "id": "PRO009",
+        "id": "PRO010",
         "item": "Pointeur laser / Télécommande présentation",
         "priorite": "⭐⭐",
         "delai": "J-7",
@@ -908,7 +915,7 @@
         "conseils": "Professionnalisme. Autonomie présentation. Logitech Spotlight = référence"
       },
       {
-        "id": "PRO010",
+        "id": "PRO011",
         "item": "Cahier notes professionnel + stylos",
         "priorite": "⭐⭐⭐",
         "delai": "J-3",
@@ -917,14 +924,14 @@
         "conseils": "Impression professionnelle. Notes réunions. Stylos backup. Éviter électronique réunions sensibles"
       },
       {
-        "id": "PRO011",
+        "id": "PRO012",
         "item": "Enregistreur vocal (si autorisé)",
         "priorite": "⭐",
         "delai": "J-7",
         "conseils": "Réunions complexes. Demander autorisation. Alternative: app smartphone"
       },
       {
-        "id": "PRO012",
+        "id": "PRO013",
         "item": "Cadeau d'entreprise / Souvenirs pays",
         "priorite": "⭐⭐",
         "delai": "J-14",
@@ -933,7 +940,7 @@
         "conseils": "Courtoisie professionnelle. Spécialités locales. Éviter alcool (religion). Carte manuscrite"
       },
       {
-        "id": "PRO013",
+        "id": "PRO014",
         "item": "Traducteur poche / App traduction offline",
         "priorite": "⭐⭐",
         "delai": "J-7",
@@ -941,7 +948,7 @@
         "conseils": "Google Translate mode offline. Phrases business essentielles. Carte hôtel langue locale"
       },
       {
-        "id": "PRO014",
+        "id": "PRO015",
         "item": "Agenda papier ou digital synchronisé",
         "priorite": "⭐⭐⭐",
         "delai": "J-3",
@@ -949,7 +956,7 @@
         "conseils": "Coordination équipe. Fuseaux horaires. Backup papier si digital"
       },
       {
-        "id": "PRO015",
+        "id": "PRO016",
         "item": "Mallette / Porte-documents cuir",
         "priorite": "⭐⭐",
         "delai": "J-7",
@@ -957,7 +964,7 @@
         "conseils": "Première impression compte. Organisation visible. Samsonite, Tumi = références"
       },
       {
-        "id": "PRO016",
+        "id": "PRO017",
         "item": "Carte Amex Corporate / Visa Business",
         "priorite": "⭐⭐⭐",
         "delai": "J-30",
@@ -965,7 +972,7 @@
         "conseils": "Frais professionnels. Notes de frais. Assurance incluse. Services concierge"
       },
       {
-        "id": "PRO017",
+        "id": "PRO018",
         "item": "Trousse de secours jet lag",
         "priorite": "⭐⭐",
         "delai": "J-7",
@@ -973,7 +980,7 @@
         "conseils": "Performance professionnelle. Adaptation rapide. Hydratation ++. Sieste stratégique"
       },
       {
-        "id": "PRO018",
+        "id": "PRO019",
         "item": "Abonnement lounge aéroport (Priority Pass)",
         "priorite": "⭐",
         "delai": "J-60",
