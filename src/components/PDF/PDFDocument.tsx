@@ -39,6 +39,10 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
     if (section.source === 'activite') {
       return true;
     }
+    // TOUJOURS inclure les sections climatiques (générées selon conditions sélectionnées)
+    if (section.source === 'climat') {
+      return true;
+    }
     // TOUJOURS inclure "pendant_apres" (même si non sélectionnée dans sectionsInclure)
     if (section.id === 'pendant_apres') {
       return true;

@@ -197,7 +197,7 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
         </p>
         {/* 🔧 FIX: Afficher les erreurs de chargement */}
         {pdfError && (
-          <div className={`w-full h-[${DIMENSIONS.pdf.previewHeight}px] border-2 border-destructive rounded-lg overflow-hidden shadow-lg flex items-center justify-center`}>
+          <div className="w-full h-[600px] border-2 border-destructive rounded-lg overflow-hidden shadow-lg flex items-center justify-center">
             <div className="text-center p-8">
               <p className="text-destructive font-bold mb-2">❌ Erreur de chargement du PDF</p>
               <p className="text-sm text-muted-foreground">{pdfError}</p>
@@ -206,12 +206,12 @@ export const Step6Checkout = ({ formData, updateFormData }: Step6CheckoutProps) 
           </div>
         )}
         {!PDFComponents && !pdfError && (
-          <div className={`w-full h-[${DIMENSIONS.pdf.previewHeight}px] border-2 border-border rounded-lg overflow-hidden shadow-lg flex items-center justify-center`}>
+          <div className="w-full h-[600px] border-2 border-border rounded-lg overflow-hidden shadow-lg flex items-center justify-center">
             <p className="text-muted-foreground">Chargement de l'aperçu PDF...</p>
           </div>
         )}
         {showPDF && PDFComponents && !pdfError && (
-          <div className={`w-full h-[${DIMENSIONS.pdf.previewHeight}px] border-2 border-border rounded-lg overflow-hidden shadow-lg`}>
+          <div className="w-full h-[600px] border-2 border-border rounded-lg overflow-hidden shadow-lg">
             <PDFComponents.PDFViewer width="100%" height="100%" showToolbar={true}>
               <PDFComponents.TravelPrepPDF formData={pdfFormData} checklistData={generatedChecklist} />
             </PDFComponents.PDFViewer>

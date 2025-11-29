@@ -4,7 +4,7 @@
  */
 
 import { FormData } from '@/types/form';
-import { getClimatEquipment, getClimatAdvice, ChecklistSection, DestinationSpecifiqueItem } from '@/utils/checklistFilters';
+import { getClimatEquipment, getClimatAdvice, getClimatEquipmentByCondition, ChecklistSection, DestinationSpecifiqueItem, ClimatConditionSection } from '@/utils/checklistFilters';
 import activitesData from '@/data/checklist_activites.json';
 import coreSectionsData from '@/data/checklist_core_sections.json';
 import profilVoyageursData from '@/data/checklist_profil_voyageurs.json';
@@ -316,22 +316,30 @@ export function generateCompleteChecklist(formData: FormData): GeneratedChecklis
   const sections: GeneratedChecklistSection[] = [];
 
   // === 1. SECTIONS PRINCIPALES depuis checklist_core_sections.json ===
-  let coreSections = getCoreSections(formData);
-
-  // === 2. FUSIONNER LES ITEMS CLIMATIQUES DANS LES SECTIONS CORE ===
-  // Récupérer les conseils climatiques avec nom de condition
-  const conseilsClimatiques = getClimatAdvice(formData);
-
-  const climatItems = getClimatItemsGroupedBySection(formData);
-  coreSections = coreSections.map(section => {
-    const sectionClimatItems = climatItems[section.id] || [];
-    if (sectionClimatItems.length > 0) {
-      return mergeClimatItemsIntoSection(section, sectionClimatItems);
-    }
-    return section;
-  });
-
+  const coreSections = getCoreSections(formData);
   sections.push(...coreSections);
+
+  // === 2. SECTIONS CLIMATIQUES DÉDIÉES (avec conseils en tête) ===
+  // Chaque condition climatique devient une section à part avec ses équipements et conseils
+  const climatConditions = getClimatEquipmentByCondition(formData);
+  const climatSections = climatConditions.map((condition: ClimatConditionSection): GeneratedChecklistSection => ({
+    id: condition.id,
+    nom: condition.nom,
+    items: condition.equipement.map((item, index) => ({
+      id: `${condition.id}-${index}`,
+      item: item,
+      priorite: condition.priorite === 'haute' ? 'haute' : 'moyenne',
+      delai: condition.delai,
+      conseils: '' // Les conseils sont au niveau de la section, pas des items
+    })),
+    source: 'climat' as const,
+    category: 'interesting',
+    conseils: condition.conseils // Conseil global de la condition
+  }));
+  sections.push(...climatSections);
+
+  // Récupérer les conseils climatiques pour compatibilité (utilisé par ClimatAdvicePage)
+  const conseilsClimatiques = getClimatAdvice(formData);
 
   // === 3. ITEMS PAR ACTIVITÉS SÉLECTIONNÉES ===
   const activitesSections = getActivitesSections(formData);

@@ -484,6 +484,91 @@ export function getClimatEquipment(formData: FormData): ChecklistSection[] {
 }
 
 /**
+ * Interface pour une section climatique complète (condition + équipements + conseils)
+ */
+export interface ClimatConditionSection {
+  id: string;
+  nom: string;  // Nom de la condition (sans emoji)
+  equipement: string[];
+  conseils: string;
+  priorite: string;
+  delai?: string;
+}
+
+/**
+ * Récupère les équipements climatiques groupés par condition
+ * Chaque condition retournée contient son nom, ses équipements et ses conseils
+ * Pour affichage dans le PDF avec conseils en tête de section
+ */
+export function getClimatEquipmentByCondition(formData: FormData): ClimatConditionSection[] {
+  const sections: ClimatConditionSection[] = [];
+
+  const selectedConditions = formData.conditionsClimatiques || [];
+
+  // Si "Aucune" est sélectionné, on ne retourne rien
+  if (selectedConditions.includes('climat_aucune')) {
+    return [];
+  }
+
+  // Traiter chaque condition climatique sélectionnée
+  selectedConditions.forEach((conditionId) => {
+    const condition = findConditionById(conditionId);
+    if (!condition) return;
+
+    // === FILTRES : Vérifier si la condition est applicable ===
+
+    // 1. Filtre destination
+    const matchesDest = matchesDestination(
+      condition.filtres?.destinations,
+      formData.localisation
+    );
+
+    // 2. Filtre période (prend en compte toute la durée du voyage)
+    const matchesPeriod = matchesPeriode(
+      condition.filtres?.periode || [],
+      formData.dateDepart,
+      formData.localisation,
+      formData.pays,
+      formData.dateRetour,
+      formData.duree
+    );
+
+    // 3. Filtre activités
+    const matchesAct = matchesActivites(
+      condition.filtres?.activites,
+      formData.activites
+    );
+
+    // 4. Filtre pays spécifiques (prioritaire sur destinations si défini)
+    const matchesPaysFilter = matchesPays(
+      condition.filtres?.pays,
+      formData.pays
+    );
+
+    // === LOGIQUE DE FILTRAGE COMBINÉE ===
+    const hasCountryFilter = condition.filtres?.pays && condition.filtres.pays.length > 0;
+    const locationMatch = hasCountryFilter ? matchesPaysFilter : matchesDest;
+
+    // === APPLICATION DES FILTRES ===
+    if (locationMatch && matchesPeriod && matchesAct) {
+      // Nettoyer le nom en enlevant l'emoji au début
+      const cleanNom = condition.nom.replace(/^[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]\s*/u, '').trim();
+
+      sections.push({
+        id: condition.id,
+        nom: cleanNom,
+        equipement: condition.equipement,
+        conseils: condition.conseils || '',
+        priorite: condition.priorite,
+        delai: condition.delai
+      });
+    }
+  });
+
+  return sections;
+}
+
+/**
  * Récupère les conseils climatiques avec le nom de chaque condition
  * Pour affichage dans le PDF avec nom de condition comme titre
  */

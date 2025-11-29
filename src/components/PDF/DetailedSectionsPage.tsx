@@ -172,6 +172,19 @@ const styles = StyleSheet.create({
     lineHeight: 1.4,
     flex: 1
   },
+  // Encart gris pour les conseils climatiques en tête de section
+  climatConseilsContainer: {
+    backgroundColor: '#f5f5f5',
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 2
+  },
+  climatConseilItem: {
+    fontSize: 9,
+    color: COLORS.text.secondary,
+    lineHeight: 1.5,
+    marginBottom: 2
+  },
   prioritySymbol: {
     fontSize: 8,
     fontWeight: 700,
@@ -648,6 +661,62 @@ export const DetailedSectionsPage = ({
         return (
           <View key={section.id}>
             {renderPendantApresSection(itemsWithSection, true, section.nom)}
+          </View>
+        );
+      }
+
+      // Gestion spéciale pour sections climatiques (source === 'climat')
+      // Affiche les conseils en tête dans un encadré gris, puis les équipements en checklist
+      if (section.source === 'climat') {
+        const hasConseils = section.conseils && section.conseils.trim().length > 0;
+        // Formater les conseils : séparer par "." ou "-" pour créer une liste
+        const formatClimatConseils = (conseils: string): string[] => {
+          if (!conseils) return [];
+          // Séparer par "." ou " - " et nettoyer
+          return conseils
+            .split(/[.]\s*(?=[A-Z])|(?:\s+-\s+)/)
+            .map(s => s.trim())
+            .filter(s => s.length > 0)
+            .map(s => s.endsWith('.') ? s : s + '.');
+        };
+        const conseilsList = hasConseils ? formatClimatConseils(section.conseils!) : [];
+        const firstItems = section.items.slice(0, 3);
+        const remainingItems = section.items.slice(3);
+
+        return (
+          <View key={section.id}>
+            {/* Groupe titre + conseils + premiers items pour éviter orphelins */}
+            <View style={styles.titleWithItemsGroup} wrap={false}>
+              <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
+              {/* Encadré gris avec les conseils en liste */}
+              {hasConseils && (
+                <View style={styles.climatConseilsContainer}>
+                  {conseilsList.map((conseil, idx) => (
+                    <Text key={idx} style={styles.climatConseilItem}>
+                      - {cleanTextForPDF(conseil)}
+                    </Text>
+                  ))}
+                </View>
+              )}
+              {/* Premiers équipements */}
+              {firstItems.map((item, idx) => {
+                const itemWithSection: ItemWithSection = {
+                  ...item,
+                  sectionName: section.nom,
+                  sectionId: section.id
+                };
+                return renderItem(itemWithSection, idx, false);
+              })}
+            </View>
+            {/* Reste des équipements */}
+            {remainingItems.map((item, idx) => {
+              const itemWithSection: ItemWithSection = {
+                ...item,
+                sectionName: section.nom,
+                sectionId: section.id
+              };
+              return renderItem(itemWithSection, idx + firstItems.length, false);
+            })}
           </View>
         );
       }
