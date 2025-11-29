@@ -5,7 +5,7 @@ import { PDFIcon } from './PDFIcon';
 import { CompactPage } from './CompactPage';
 import { TimelineContent } from './TimelineContent';
 import { DetailedSectionsPage } from './DetailedSectionsPage';
-import { ClimatAdvicePage } from './ClimatAdvicePage';
+// ClimatAdvicePage n'est plus utilisé - conseils intégrés dans les sections climatiques
 import { COLORS } from '@/utils/colors';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
@@ -484,10 +484,7 @@ export const CoverPage = ({
             />
           )}
 
-          {/* 4. Conseils climatiques (encarts informatifs) */}
-          {checklistData.conseilsClimatiques && checklistData.conseilsClimatiques.length > 0 && (
-            <ClimatAdvicePage conseilsClimatiques={checklistData.conseilsClimatiques} />
-          )}
+          {/* 4. Conseils climatiques - maintenant intégrés dans les sections climatiques (source='climat') */}
         </>
       )}
 
