@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     color: COLORS.text.primary,
     marginTop: 8, // ✅ Ajouté pour contrôle
-    marginBottom: 6, // ✅ Réduit
+    marginBottom: 4, // ✅ Réduit davantage pour compacter
     backgroundColor: COLORS.background.subtle,
     padding: 5,
     borderLeft: '3px solid #C54616'
