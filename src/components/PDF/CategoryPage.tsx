@@ -45,27 +45,29 @@ const styles = StyleSheet.create({
   page: {
     fontFamily: 'Helvetica',
     fontSize: 9,
-    padding: 20,
+    padding: 30, // ✅ Augmenté pour meilleur contrôle
+    paddingBottom: 40, // ✅ Espace pour numéro de page
     backgroundColor: '#FFFFFF'
   },
   title: {
     fontSize: 14,
     fontWeight: 700,
     color: '#C54616',
-    marginBottom: 15
+    marginBottom: 10 // ✅ Réduit
   },
   itemWithConseil: {
     flexDirection: 'column',
-    marginBottom: 10,
+    marginBottom: 6, // ✅ Réduit de moitié
+    paddingBottom: 2, // ✅ Padding minimal
     paddingLeft: 5
   },
   itemRow: {
     flexDirection: 'row',
-    marginBottom: 3
+    marginBottom: 2 // ✅ Réduit
   },
   item: {
     flexDirection: 'row',
-    marginBottom: 5,
+    marginBottom: 4, // ✅ Légèrement réduit
     paddingLeft: 5
   },
   checkbox: {
@@ -73,7 +75,7 @@ const styles = StyleSheet.create({
     height: 8,
     border: `1px solid ${COLORS.text.primary}`,
     marginRight: 8,
-    marginTop: 2
+    marginTop: 3 // ✅ Léger ajustement pour alignement optique
   },
   itemText: {
     flex: 1,
@@ -85,10 +87,12 @@ const styles = StyleSheet.create({
   conseilContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginTop: 4,
-    marginLeft: 0, // Aligné avec le début de la ligne (sous les !!)
+    marginTop: 1, // ✅ Réduit drastiquement
+    marginBottom: 1, // ✅ Espace minimal sous le conseil
+    marginLeft: 24, // ✅ Aligné sous checkbox (8px width + 8px marginRight + 8px extra)
+    marginRight: 24, // ✅ Symétrique avec marginLeft
     backgroundColor: '#f5f5f5', // Fond gris clair
-    padding: 8, // Padding uniforme
+    padding: 6, // ✅ Padding réduit
     borderRadius: 2
   },
   conseilText: {
@@ -111,15 +115,16 @@ const styles = StyleSheet.create({
     color: COLORS.text.secondary
   },
   timelineSection: {
-    marginBottom: 18,
+    marginBottom: 10, // ✅ Réduit de moitié
     borderBottom: `1px solid ${COLORS.border.gray}`,
-    paddingBottom: 12
+    paddingBottom: 8 // ✅ Réduit
   },
   timelineSectionTitle: {
     fontSize: 11,
     fontWeight: 600,
     color: COLORS.text.primary,
-    marginBottom: 8,
+    marginTop: 8, // ✅ Ajouté pour contrôle
+    marginBottom: 6, // ✅ Réduit
     backgroundColor: COLORS.background.subtle,
     padding: 5,
     borderLeft: '3px solid #C54616'
