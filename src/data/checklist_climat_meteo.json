@@ -57,7 +57,8 @@
             "saison": ["ete"],
             "description": "Suggéré automatiquement pour Asie en été"
           },
-          "conseils": "Pluies torrentielles quotidiennes 15h-19h - Routes coupées fréquentes - Activités matinales privilégiées. Chaussures imperméables ESSENTIELLES + tout sécher chaque soir (sinon moisissure). Humidité 90%+: Vêtements sèchent difficilement - Prévoir 2x sous-vêtements + sachets silice électronique. Antifongique pieds quotidien obligatoire"        },
+          "conseils": "Pluies torrentielles quotidiennes 15h-19h - Routes coupées fréquentes - Activités matinales privilégiées. Chaussures imperméables ESSENTIELLES + tout sécher chaque soir (sinon moisissure). Humidité 90%+: Vêtements sèchent difficilement - Prévoir 2x sous-vêtements + sachets silice électronique. Antifongique pieds quotidien obligatoire"
+        },
         {
           "id": "climat_sec_aride",
           "nom": "🌵 Saison sèche / Climat aride",
@@ -89,7 +90,8 @@
             "temperature": ["chaude", "tres-chaude"],
             "description": "Suggéré automatiquement pour climat chaud et sec"
           },
-          "conseils": "Températures 30-45°C + humidité <20% - Lèvres gercées systématique + électricité statique importante. Déshydratation critique: Boire 3-4L/jour MINIMUM - Urine foncée = DANGER. Électrolytes essentiels (perte sels) - Éviter alcool (déshydrate). Crème hydratante matin ET soir - Ombre 11h-16h obligatoire"        },
+          "conseils": "Températures 30-45°C + humidité <20% - Lèvres gercées systématique + électricité statique importante. Déshydratation critique: Boire 3-4L/jour MINIMUM - Urine foncée = DANGER. Électrolytes essentiels (perte sels) - Éviter alcool (déshydrate). Crème hydratante matin ET soir - Ombre 11h-16h obligatoire"
+        },
         {
           "id": "climat_orages",
           "nom": "⛈️ Orage tropical fréquent",
@@ -173,7 +175,7 @@
             "saison": ["hiver"],
             "description": "Suggéré automatiquement pour climat hivernal"
           },
-          "conseils": "Températures -15°C à -40°C - Système 3 couches obligatoire (thermique + isolante + coupe-vent). Protection critique: Gants rechange (gelures si humides), lunettes cat.4, crampons verglas. Routes fermées fréquentes - Prévoir 2x temps + kit voiture (couvertures, eau, nourriture). DANGER: Gelures en 10-15min d'exposition, jamais seul à l'extérieur"
+          "conseils": "Températures -15°C à -40°C - Système 3 couches obligatoire (thermique + isolante + coupe-vent). Protection critique: Gants rechange (gelures si humides), lunettes cat-4, crampons verglas. Routes fermées fréquentes - Prévoir 2x temps + kit voiture (couvertures, eau, nourriture). DANGER: Gelures en 10-15min d'exposition, jamais seul à l'extérieur"
         }
       ]
     },
@@ -479,7 +481,7 @@
             "activites": ["randonnee", "road-trip", "backpacking"],
             "periode": []
           },
-          "conseils": "Température jour 45-55°C, nuit 5-10°C (amplitude 40°C) - Déshydratation FOUDROYANTE. Boire 8-10L/jour + sel - Marche aurore/crépuscule UNIQUEMENT - Repos ombre 10h-17h OBLIGATOIRE. Tempêtes sable: Chèche protège voies respiratoires - Lunettes cat.4 obligatoires. Vêtements longs clairs protègent mieux - GPS + backup (désorientation fréquente). Balise satellite VITALE (pas réseau) - Prévoir 2x eau nécessaire"
+          "conseils": "Température jour 45-55°C, nuit 5-10°C (amplitude 40°C) - Déshydratation FOUDROYANTE. Boire 8-10L/jour + sel - Marche aurore/crépuscule UNIQUEMENT - Repos ombre 10h-17h OBLIGATOIRE. Tempêtes sable: Chèche protège voies respiratoires - Lunettes cat-4 obligatoires. Vêtements longs clairs protègent mieux - GPS + backup (désorientation fréquente). Balise satellite VITALE (pas réseau) - Prévoir 2x eau nécessaire"
         },
         {
           "id": "climat_volcanique",
