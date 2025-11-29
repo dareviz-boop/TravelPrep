@@ -379,9 +379,12 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
   // ==========================================
 
   const renderSelectionSection = () => {
-    // Filtrer TOUTES les sections qui ne sont ni dans Timeline ni des activités
+    // Filtrer TOUTES les sections qui ne sont ni dans Timeline ni des activités NI des sections climatiques
+    // Les sections climatiques sont affichées dans leur section dédiée "Conseils - Conditions climatiques"
     const selectionSections = checklistData.sections.filter(section =>
-      !TIMELINE_CATEGORIES.includes(section.id) && section.source !== 'activite'
+      !TIMELINE_CATEGORIES.includes(section.id) &&
+      section.source !== 'activite' &&
+      section.source !== 'climat'
     );
 
     // Récupérer TOUS les items (toutes priorités) pour chaque section

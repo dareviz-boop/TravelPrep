@@ -378,16 +378,29 @@ function getTravelMonths(
       travelMonths.push(endMonth);
     }
 
-    // Puis ajouter tous les mois intermédiaires
-    let currentMonth = startMonth;
-    while (currentMonth !== endMonth) {
-      currentMonth++;
-      if (currentMonth > 12) currentMonth = 1;
-      if (!travelMonths.includes(currentMonth)) {
-        travelMonths.push(currentMonth);
+    // Calculer la durée totale en jours pour déterminer si on couvre tous les mois
+    const durationInDays = Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+
+    // Si le voyage dure plus de 365 jours, on couvre forcément tous les mois de l'année
+    if (durationInDays >= 365) {
+      // Ajouter tous les mois (1-12) car le voyage couvre plus d'un an
+      for (let m = 1; m <= 12; m++) {
+        if (!travelMonths.includes(m)) {
+          travelMonths.push(m);
+        }
       }
-      // Sécurité: max 12 itérations
-      if (travelMonths.length > 12) break;
+    } else {
+      // Pour les voyages de moins d'un an, ajouter tous les mois intermédiaires
+      let currentMonth = startMonth;
+      let iterationCount = 0;
+      while (currentMonth !== endMonth && iterationCount < 12) {
+        currentMonth++;
+        if (currentMonth > 12) currentMonth = 1;
+        if (!travelMonths.includes(currentMonth)) {
+          travelMonths.push(currentMonth);
+        }
+        iterationCount++;
+      }
     }
   }
 
