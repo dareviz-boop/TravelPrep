@@ -58,11 +58,13 @@ const styles = StyleSheet.create({
     breakInside: 'avoid' as const
   },
   momentTitle: {
-    fontSize: 11,
-    fontWeight: 700,
-    color: '#C54616',
-    marginBottom: 8,
-    paddingLeft: 6
+    fontSize: 10,
+    fontWeight: 600,
+    color: COLORS.text.tertiary,
+    marginBottom: 5,
+    marginTop: 8,
+    paddingLeft: 10,
+    fontStyle: 'italic'
   },
   itemWithConseil: {
     flexDirection: 'column',

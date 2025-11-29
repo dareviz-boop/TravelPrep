@@ -88,6 +88,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingLeft: 6
   },
+  // Sous-titre de catégorie (apps, moments pendant/après) - style gris italique
+  subCategoryTitle: {
+    fontSize: 10,
+    fontWeight: 600,
+    color: COLORS.text.tertiary,
+    marginBottom: 5,
+    marginTop: 8,
+    paddingLeft: 10,
+    fontStyle: 'italic'
+  },
   // Encart daté avec fond gris et date à droite
   datedBoxContainer: {
     flexDirection: 'row',
@@ -591,7 +601,7 @@ export const DetailedSectionsPage = ({
             {isFirstMoment && includeSectionTitle && sectionName && (
               <Text style={styles.categoryTitle}>{cleanTextForPDF(sectionName)}</Text>
             )}
-            <Text style={styles.timelineHeader}>{cleanTextForPDF(getMomentLabel(moment))}</Text>
+            <Text style={styles.subCategoryTitle}>{cleanTextForPDF(getMomentLabel(moment))}</Text>
             {firstItems.map((item, idx) => renderItem(item, idx, false))}
           </View>
           {/* Reste des items */}
@@ -704,7 +714,7 @@ export const DetailedSectionsPage = ({
         <View key={category}>
           {/* Groupe titre + 3 premiers items pour éviter orphelins */}
           <View style={styles.titleWithItemsGroup} wrap={false}>
-            <Text style={styles.timelineHeader}>{cleanTextForPDF(category)}</Text>
+            <Text style={styles.subCategoryTitle}>{cleanTextForPDF(category)}</Text>
             {firstItems.map((item, idx) => {
               const itemWithSection: ItemWithSection = {
                 ...item,

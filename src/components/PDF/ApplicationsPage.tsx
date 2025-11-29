@@ -1,6 +1,7 @@
 import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { FormData } from '@/types/form';
 import { GeneratedChecklistSection, ChecklistItem } from '@/utils/checklistGenerator';
+import { COLORS } from '@/utils/colors';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
 const cleanTextForPDF = (text: string): string => {
@@ -57,16 +58,6 @@ const styles = StyleSheet.create({
   },
   categorySection: {
     marginBottom: 12
-  },
-  categoryTitle: {
-    fontSize: 11,
-    fontWeight: 700,
-    color: COLORS.text.primary,
-    marginBottom: 8,
-    paddingLeft: 6,
-    paddingVertical: 3,
-    backgroundColor: COLORS.background.light,
-    borderLeft: '3px solid #C54616'
   },
   subCategoryTitle: {
     fontSize: 10,
