@@ -69,15 +69,20 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
     ESSENTIAL_IDS.includes(section.id)
   );
 
-  // 2. Sections recommandées : toutes les autres sauf essentiels et activités
+  // 2. Sections recommandées : toutes les autres sauf essentiels, activités et climatiques
   // Inclut : bagages, equipement, apps, pendant_apres, etc.
+  // Les sections climatiques sont affichées dans leur propre section dédiée
   const recommendedSections = filteredSections.filter(section =>
     section.source !== 'activite' &&
+    section.source !== 'climat' &&
     !ESSENTIAL_IDS.includes(section.id)
   );
 
   // 3. Activités
   const activiteSections = filteredSections.filter(section => section.source === 'activite');
+
+  // 4. Sections climatiques (pour la section dédiée)
+  const climateSections = filteredSections.filter(section => section.source === 'climat');
 
   // Charger toutes les localisations pour le PDF
   const localisations = getAllLocalisationsSync();
@@ -95,6 +100,7 @@ export const TravelPrepPDF = ({ formData, checklistData }: PDFDocumentProps) => 
         essentialSections={essentialSections}
         recommendedSections={recommendedSections}
         activiteSections={activiteSections}
+        climateSections={climateSections}
       />
       {/* Format compact ET format détaillé : Intégrés directement dans CoverPage */}
     </Document>

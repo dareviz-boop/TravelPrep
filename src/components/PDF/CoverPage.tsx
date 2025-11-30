@@ -5,7 +5,7 @@ import { PDFIcon } from './PDFIcon';
 import { CompactPage } from './CompactPage';
 import { TimelineContent } from './TimelineContent';
 import { DetailedSectionsPage } from './DetailedSectionsPage';
-// ClimatAdvicePage n'est plus utilisé - conseils intégrés dans les sections climatiques
+import { ClimatAdvicePage } from './ClimatAdvicePage';
 import { COLORS } from '@/utils/colors';
 
 // Fonction utilitaire pour nettoyer les caractères spéciaux et SUPPRIMER les emojis
@@ -132,6 +132,7 @@ interface CoverPageProps {
   essentialSections?: GeneratedChecklistSection[];
   recommendedSections?: GeneratedChecklistSection[];
   activiteSections?: GeneratedChecklistSection[];
+  climateSections?: GeneratedChecklistSection[];
 }
 
 export const CoverPage = ({
@@ -141,7 +142,8 @@ export const CoverPage = ({
   isDetailed = false,
   essentialSections = [],
   recommendedSections = [],
-  activiteSections = []
+  activiteSections = [],
+  climateSections = []
 }: CoverPageProps) => {
   const calculateDuration = () => {
     if (!formData.dateRetour) return null;
@@ -484,7 +486,10 @@ export const CoverPage = ({
             />
           )}
 
-          {/* 4. Conseils climatiques - maintenant intégrés dans les sections climatiques (source='climat') */}
+          {/* 4. Conseils climatiques - Section dédiée avec conseils détaillés */}
+          {checklistData.conseilsClimatiques && checklistData.conseilsClimatiques.length > 0 && (
+            <ClimatAdvicePage conseilsClimatiques={checklistData.conseilsClimatiques} />
+          )}
         </>
       )}
 
