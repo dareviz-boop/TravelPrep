@@ -53,21 +53,20 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 700,
     color: '#C54616',
-    marginBottom: 10 // ✅ Réduit
+    marginBottom: 6 // ✅ Réduit de 10 à 6pt
   },
   itemWithConseil: {
     flexDirection: 'column',
-    marginBottom: 6, // ✅ Réduit de moitié
-    paddingBottom: 2, // ✅ Padding minimal
+    marginBottom: 7, // ✅ Espacement uniforme entre items (6-8pt)
     paddingLeft: 5
   },
   itemRow: {
     flexDirection: 'row',
-    marginBottom: 2 // ✅ Réduit
+    marginBottom: 1 // ✅ Espace minimal (1-2pt) avant le conseil
   },
   item: {
     flexDirection: 'row',
-    marginBottom: 4, // ✅ Légèrement réduit
+    marginBottom: 7, // ✅ Espacement uniforme entre items (6-8pt)
     paddingLeft: 5
   },
   checkbox: {
@@ -75,7 +74,7 @@ const styles = StyleSheet.create({
     height: 8,
     border: `1px solid ${COLORS.text.primary}`,
     marginRight: 8,
-    marginTop: 3 // ✅ Léger ajustement pour alignement optique
+    marginTop: 3
   },
   itemText: {
     flex: 1,
@@ -83,21 +82,15 @@ const styles = StyleSheet.create({
     color: COLORS.text.secondary,
     lineHeight: 1.4
   },
-  // Encart gris pour le conseil - démarre directement sous la checkbox/!!
+  // Texte de conseil - aligné avec le texte de l'item (pas de fond, juste italic gris)
   conseilContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginTop: 1, // ✅ Réduit drastiquement
-    marginBottom: 1, // ✅ Espace minimal sous le conseil
-    marginLeft: 24, // ✅ Aligné sous checkbox (8px width + 8px marginRight + 8px extra)
-    marginRight: 24, // ✅ Symétrique avec marginLeft
-    backgroundColor: '#f5f5f5', // Fond gris clair
-    padding: 6, // ✅ Padding réduit
-    borderRadius: 2
+    paddingLeft: 16 // ✅ Aligné avec le texte de l'item (8px checkbox + 8px marginRight)
   },
   conseilText: {
-    fontSize: 9,
-    color: COLORS.text.secondary,
+    fontSize: 8, // ✅ Taille réduite pour distinction visuelle
+    color: '#666666', // ✅ Gris moyen comme spécifié
     fontStyle: 'italic',
     lineHeight: 1.4,
     flex: 1
@@ -115,18 +108,18 @@ const styles = StyleSheet.create({
     color: COLORS.text.secondary
   },
   timelineSection: {
-    marginBottom: 10, // ✅ Réduit de moitié
+    marginBottom: 6, // ✅ Réduit de 10 à 6pt
     borderBottom: `1px solid ${COLORS.border.gray}`,
-    paddingBottom: 8 // ✅ Réduit
+    paddingBottom: 6 // ✅ Réduit de 8 à 6pt
   },
   timelineSectionTitle: {
     fontSize: 11,
     fontWeight: 600,
     color: COLORS.text.primary,
-    marginTop: 8, // ✅ Ajouté pour contrôle
-    marginBottom: 3, // ✅ Réduit au minimum pour compacter
+    marginTop: 5, // ✅ Réduit de 8 à 5pt
+    marginBottom: 3, // ✅ Déjà optimisé
     backgroundColor: COLORS.background.subtle,
-    padding: 5,
+    padding: 4, // ✅ Réduit de 5 à 4pt
     borderLeft: '3px solid #C54616'
   },
   deadline: {
@@ -245,7 +238,6 @@ export const CategoryPage = ({ formData, category, title }: CategoryPageProps) =
           )}
         </View>
         <View style={styles.conseilContainer}>
-          <PDFIcon name="lightbulb" style={{ marginRight: 4, marginTop: 1 }} />
           <Text style={styles.conseilText}>
             {cleanTextForPDF(item.conseils)}
           </Text>

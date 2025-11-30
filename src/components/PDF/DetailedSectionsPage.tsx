@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   // Titre principal en deux parties
   titleContainer: {
     flexDirection: 'row',
-    marginBottom: 15,
+    marginBottom: 8, // ✅ Réduit de 15 à 8pt
     flexWrap: 'wrap'
   },
   titlePart1: {
@@ -66,16 +66,16 @@ const styles = StyleSheet.create({
   },
   // Bloc de timeline (J-90 à J-60, etc.)
   timelineBlock: {
-    marginBottom: 10
+    marginBottom: 6 // ✅ Réduit de 10 à 6pt
     // Ne pas utiliser breakInside: 'avoid' pour permettre la pagination
   },
   timelineHeader: {
     fontSize: 11,
     fontWeight: 700,
     color: COLORS.text.primary,
-    marginBottom: 10,
+    marginBottom: 6, // ✅ Réduit de 10 à 6pt
     paddingLeft: 10,
-    paddingVertical: 5,
+    paddingVertical: 4, // ✅ Réduit de 5 à 4pt
     borderLeft: '4px solid #C54616',
     backgroundColor: '#FFF5F0'
   },
@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: 700,
     color: '#C54616',
-    marginBottom: 8,
-    marginTop: 10,
+    marginBottom: 5, // ✅ Réduit de 8 à 5pt
+    marginTop: 6, // ✅ Réduit de 10 à 6pt
     paddingLeft: 6
   },
   // Sous-titre de catégorie (apps, moments pendant/après) - style gris italique
@@ -93,18 +93,18 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: 600,
     color: COLORS.text.tertiary,
-    marginBottom: 5,
-    marginTop: 8,
+    marginBottom: 4, // ✅ Réduit de 5 à 4pt
+    marginTop: 5, // ✅ Réduit de 8 à 5pt
     paddingLeft: 10,
     fontStyle: 'italic'
   },
   // Encart daté avec fond gris et date à droite
   datedBoxContainer: {
     flexDirection: 'row',
-    marginBottom: 8,
+    marginBottom: 6, // ✅ Réduit de 8 à 6pt
     backgroundColor: '#f5f5f5',
-    padding: 6,
-    paddingRight: 8,
+    padding: 5, // ✅ Réduit de 6 à 5pt
+    paddingRight: 7, // ✅ Réduit de 8 à 7pt
     borderRadius: 2,
     breakInside: 'avoid' as const
   },
@@ -129,17 +129,17 @@ const styles = StyleSheet.create({
   // Item de checklist avec conseil
   itemWithConseil: {
     flexDirection: 'column',
-    marginBottom: 10,
+    marginBottom: 7, // ✅ Espacement uniforme entre items (6-8pt)
     breakInside: 'avoid' as const
   },
   itemRow: {
     flexDirection: 'row',
-    marginBottom: 3
+    marginBottom: 1 // ✅ Espace minimal (1-2pt) avant le conseil
   },
   // Item de checklist sans conseil
   item: {
     flexDirection: 'row',
-    marginBottom: 6,
+    marginBottom: 7, // ✅ Espacement uniforme entre items (6-8pt)
     breakInside: 'avoid' as const
   },
   checkbox: {
@@ -155,19 +155,15 @@ const styles = StyleSheet.create({
     color: COLORS.text.secondary,
     lineHeight: 1.4
   },
-  // Encart gris pour le conseil - démarre directement sous la checkbox/!!
+  // Texte de conseil - aligné avec le texte de l'item (pas de fond, juste italic gris)
   conseilContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginTop: 4,
-    marginLeft: 0, // Aligné avec le début de la ligne (sous les !!)
-    backgroundColor: '#f5f5f5', // Fond gris clair
-    padding: 8, // Padding uniforme
-    borderRadius: 2
+    paddingLeft: 16 // ✅ Aligné avec le texte de l'item (8px checkbox + 8px marginRight)
   },
   conseilText: {
-    fontSize: 9,
-    color: COLORS.text.secondary,
+    fontSize: 8, // ✅ Taille réduite pour distinction visuelle
+    color: '#666666', // ✅ Gris moyen
     fontStyle: 'italic',
     lineHeight: 1.4,
     flex: 1
@@ -175,8 +171,8 @@ const styles = StyleSheet.create({
   // Encart gris pour les conseils climatiques en tête de section
   climatConseilsContainer: {
     backgroundColor: '#f5f5f5',
-    padding: 10,
-    marginBottom: 10,
+    padding: 7, // ✅ Réduit de 10 à 7pt
+    marginBottom: 6, // ✅ Réduit de 10 à 6pt
     borderRadius: 2
   },
   climatConseilItem: {
@@ -194,8 +190,8 @@ const styles = StyleSheet.create({
   // Séparateur orange entre grandes sections (pour démarcation)
   sectionSeparator: {
     borderBottom: '3px solid #C54616',
-    marginTop: 20,
-    marginBottom: 15
+    marginTop: 12, // ✅ Réduit de 20 à 12pt
+    marginBottom: 10 // ✅ Réduit de 15 à 10pt
   },
   // Groupe titre + items pour éviter les orphelins
   titleWithItemsGroup: {
@@ -339,7 +335,6 @@ export const DetailedSectionsPage = ({
           </Text>
         </View>
         <View style={styles.conseilContainer}>
-          <PDFIcon name="lightbulb" style={{ marginRight: 4, marginTop: 1 }} />
           <Text style={styles.conseilText}>
             {cleanTextForPDF(item.conseils)}
           </Text>

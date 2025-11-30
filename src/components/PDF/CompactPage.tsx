@@ -50,8 +50,8 @@ const styles = StyleSheet.create({
   // Container pour le titre en deux parties (style détaillé)
   mainSectionTitleContainer: {
     flexDirection: 'row',
-    marginTop: 6, // Réduit pour moins d'espace blanc
-    marginBottom: 4, // Réduit pour moins d'espace après les grands titres
+    marginTop: 4, // ✅ Réduit de 6 à 4pt
+    marginBottom: 3, // ✅ Réduit de 4 à 3pt
     flexWrap: 'wrap'
   },
   // Première partie du titre (noir)
@@ -69,39 +69,51 @@ const styles = StyleSheet.create({
   // Barre de séparation orange pleine largeur
   divider: {
     borderBottom: '2px solid #C54616',
-    marginVertical: 10,
+    marginVertical: 6, // ✅ Réduit de 10 à 6pt
     width: '100%'
   },
   // Jalon temporel (J-90 - J-60, etc.)
   timelineBlock: {
-    marginBottom: 10, // Réduit pour moins d'espace blanc
+    marginBottom: 6, // ✅ Réduit de 10 à 6pt
     breakInside: 'avoid' as const
   },
   timelineHeader: {
     fontSize: 11,
     fontWeight: 700,
-    color: COLORS.text.primary, // ✅ Texte noir au lieu d'orange
-    marginBottom: 10,
+    color: COLORS.text.primary,
+    marginBottom: 6, // ✅ Réduit de 10 à 6pt
     paddingLeft: 10,
-    paddingVertical: 5,
+    paddingVertical: 4, // ✅ Réduit de 5 à 4pt
     borderLeft: '4px solid #C54616',
-    backgroundColor: '#FFF5F0' // Fond orange pâle conservé
+    backgroundColor: '#FFF5F0'
   },
   // Titre de catégorie (Documents & Administratifs, Santé, etc.)
   categoryTitle: {
     fontSize: 11,
     fontWeight: 700,
     color: '#C54616',
-    marginBottom: 6,
-    marginTop: 6, // Réduit de 10 à 6 pour moins d'espace au-dessus
+    marginBottom: 5, // ✅ Réduit de 6 à 5pt
+    marginTop: 5, // ✅ Réduit de 6 à 5pt
     paddingLeft: 6
   },
   // Item de checklist
   item: {
     flexDirection: 'row',
-    marginBottom: 4,
+    marginBottom: 7, // ✅ Espacement uniforme entre items (6-8pt)
     paddingLeft: 10,
-    breakInside: 'avoid' as const // Empêche les items d'être coupés entre pages
+    breakInside: 'avoid' as const
+  },
+  // Item avec conseil (container)
+  itemWithConseil: {
+    flexDirection: 'column',
+    marginBottom: 7, // ✅ Espacement uniforme entre items (6-8pt)
+    paddingLeft: 10,
+    breakInside: 'avoid' as const
+  },
+  // Ligne du titre de l'item (quand il y a un conseil)
+  itemRow: {
+    flexDirection: 'row',
+    marginBottom: 1 // ✅ Espace minimal (1-2pt) avant le conseil
   },
   checkbox: {
     width: 8,
@@ -129,15 +141,15 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: 600,
     color: COLORS.text.tertiary,
-    marginBottom: 4,
-    marginTop: 1, // Réduit de 4 à 1 pour moins d'espace au-dessus
+    marginBottom: 3, // ✅ Réduit de 4 à 3pt
+    marginTop: 1, // ✅ Déjà optimisé
     paddingLeft: 10,
     fontStyle: 'italic'
   },
   // Groupe catégorie + items (évite les coupures orphelines)
   categoryGroup: {
     breakInside: 'avoid' as const,
-    marginBottom: 6
+    marginBottom: 5 // ✅ Réduit de 6 à 5pt
   },
   // Groupe titre + premiers items (garantit min 2-3 items avec le titre)
   categoryHeaderGroup: {
@@ -162,7 +174,7 @@ const styles = StyleSheet.create({
   },
   // Styles pour les conseils climatiques
   climatConditionBlock: {
-    marginBottom: 6,
+    marginBottom: 5, // ✅ Réduit de 6 à 5pt
     paddingLeft: 10
     // Ne pas utiliser breakInside: 'avoid' pour permettre la pagination naturelle
   },
@@ -170,7 +182,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: 700,
     color: '#C54616',
-    marginBottom: 4
+    marginBottom: 3 // ✅ Réduit de 4 à 3pt
   },
   climatAdviceItem: {
     fontSize: 9,
@@ -178,6 +190,19 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     paddingLeft: 10,
     lineHeight: 1.4
+  },
+  // Texte de conseil - aligné avec le texte de l'item
+  conseilContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    paddingLeft: 16 // ✅ Aligné avec le texte de l'item (8px checkbox + 8px marginRight)
+  },
+  conseilText: {
+    fontSize: 8, // ✅ Taille réduite pour distinction visuelle
+    color: '#666666', // ✅ Gris moyen
+    fontStyle: 'italic',
+    lineHeight: 1.4,
+    flex: 1
   }
 });
 
@@ -232,6 +257,35 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
     const delay = extractDelayNumber(item.delai);
     const milestone = TIMELINE_MILESTONES.find(m => delay >= m.min && delay <= m.max);
     return milestone ? milestone.id : null;
+  };
+
+  // Helper pour rendre un item avec ou sans conseil
+  const renderItemWithConseil = (item: ChecklistItem, index: number, showPriority: boolean = true) => {
+    const hasConseil = item.conseils && item.conseils.trim().length > 0;
+    const priority = getPriority(item.priorite);
+
+    if (hasConseil) {
+      return (
+        <View style={styles.itemWithConseil} key={item.id || `item-${index}`} wrap={false}>
+          <View style={styles.itemRow}>
+            {showPriority && priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+            <View style={styles.checkbox} />
+            <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+          </View>
+          <View style={styles.conseilContainer}>
+            <Text style={styles.conseilText}>{cleanTextForPDF(item.conseils)}</Text>
+          </View>
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.item} key={item.id || `item-${index}`} wrap={false}>
+          {showPriority && priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
+          <View style={styles.checkbox} />
+          <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
+        </View>
+      );
+    }
   };
 
   // ==========================================
@@ -307,31 +361,13 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
                 {firstCategory && (
                   <View style={styles.categoryHeaderGroup} wrap={false}>
                     <Text style={styles.categoryTitle}>{firstCategory[0]}</Text>
-                    {firstCatFirstItems.map(({ item }, idx) => {
-                      const priority = getPriority(item.priorite);
-                      return (
-                        <View style={styles.item} key={item.id || `item-${idx}`} wrap={false}>
-                          {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
-                          <View style={styles.checkbox} />
-                          <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                        </View>
-                      );
-                    })}
+                    {firstCatFirstItems.map(({ item }, idx) => renderItemWithConseil(item, idx))}
                   </View>
                 )}
               </View>
 
               {/* Items restants de la première catégorie */}
-              {firstCatRestItems.map(({ item }, idx) => {
-                const priority = getPriority(item.priorite);
-                return (
-                  <View style={styles.item} key={item.id || `first-rest-${idx}`} wrap={false}>
-                    {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
-                    <View style={styles.checkbox} />
-                    <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                  </View>
-                );
-              })}
+              {firstCatRestItems.map(({ item }, idx) => renderItemWithConseil(item, idx))}
 
               {/* Catégories restantes avec titre + 3 premiers items groupés */}
               {restCategories.map(([categoryName, categoryItems]) => {
@@ -342,28 +378,10 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
                     {/* Titre + 3 premiers items ensemble */}
                     <View style={styles.categoryHeaderGroup} wrap={false}>
                       <Text style={styles.categoryTitle}>{categoryName}</Text>
-                      {firstItems.map(({ item }, idx) => {
-                        const priority = getPriority(item.priorite);
-                        return (
-                          <View style={styles.item} key={item.id || `item-${idx}`} wrap={false}>
-                            {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
-                            <View style={styles.checkbox} />
-                            <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                          </View>
-                        );
-                      })}
+                      {firstItems.map(({ item }, idx) => renderItemWithConseil(item, idx))}
                     </View>
                     {/* Items restants */}
-                    {restItems.map(({ item }, idx) => {
-                      const priority = getPriority(item.priorite);
-                      return (
-                        <View style={styles.item} key={item.id || `rest-${idx}`} wrap={false}>
-                          {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
-                          <View style={styles.checkbox} />
-                          <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                        </View>
-                      );
-                    })}
+                    {restItems.map(({ item }, idx) => renderItemWithConseil(item, idx))}
                   </View>
                 );
               })}
@@ -458,28 +476,10 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
               {/* Titre + 3 premiers items ensemble */}
               <View style={styles.categoryHeaderGroup} wrap={false}>
                 <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
-                {firstItems.map((item, idx) => {
-                  const priority = getPriority(item.priorite);
-                  return (
-                    <View style={styles.item} key={item.id || `item-${idx}`} wrap={false}>
-                      {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
-                      <View style={styles.checkbox} />
-                      <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                    </View>
-                  );
-                })}
+                {firstItems.map((item, idx) => renderItemWithConseil(item, idx))}
               </View>
               {/* Items restants */}
-              {restItems.map((item, idx) => {
-                const priority = getPriority(item.priorite);
-                return (
-                  <View style={styles.item} key={item.id || `rest-${idx}`} wrap={false}>
-                    {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
-                    <View style={styles.checkbox} />
-                    <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                  </View>
-                );
-              })}
+              {restItems.map((item, idx) => renderItemWithConseil(item, idx))}
             </View>
           );
         })()}
@@ -515,28 +515,10 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
               {/* Titre + 3 premiers items ensemble */}
               <View style={styles.categoryHeaderGroup} wrap={false}>
                 <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
-                {firstItems.map((item, idx) => {
-                  const priority = getPriority(item.priorite);
-                  return (
-                    <View style={styles.item} key={item.id || `item-${idx}`} wrap={false}>
-                      {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
-                      <View style={styles.checkbox} />
-                      <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                    </View>
-                  );
-                })}
+                {firstItems.map((item, idx) => renderItemWithConseil(item, idx))}
               </View>
               {/* Items restants */}
-              {restItems.map((item, idx) => {
-                const priority = getPriority(item.priorite);
-                return (
-                  <View style={styles.item} key={item.id || `rest-${idx}`} wrap={false}>
-                    {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
-                    <View style={styles.checkbox} />
-                    <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                  </View>
-                );
-              })}
+              {restItems.map((item, idx) => renderItemWithConseil(item, idx))}
             </View>
           );
         })}
@@ -588,12 +570,7 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
         {appsByCategory.map(([category, categoryItems]) => (
           <View key={category} style={styles.appsCategoryColumn} wrap={false}>
             <Text style={styles.subCategoryTitle}>{cleanTextForPDF(category)}</Text>
-            {categoryItems.map((item, idx) => (
-              <View style={styles.item} key={item.id || `app-${idx}`} wrap={false}>
-                <View style={styles.checkbox} />
-                <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-              </View>
-            ))}
+            {categoryItems.map((item, idx) => renderItemWithConseil(item, idx, false))}
           </View>
         ))}
       </View>
@@ -639,28 +616,10 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
               {/* Titre + 3 premiers items ensemble */}
               <View style={styles.categoryHeaderGroup} wrap={false}>
                 <Text style={styles.subCategoryTitle}>{cleanTextForPDF(getMomentLabel(moment))}</Text>
-                {firstItems.map((item, idx) => {
-                  const priority = getPriority(item.priorite);
-                  return (
-                    <View style={styles.item} key={item.id || `moment-${idx}`} wrap={false}>
-                      {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
-                      <View style={styles.checkbox} />
-                      <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                    </View>
-                  );
-                })}
+                {firstItems.map((item, idx) => renderItemWithConseil(item, idx))}
               </View>
               {/* Items restants */}
-              {restItems.map((item, idx) => {
-                const priority = getPriority(item.priorite);
-                return (
-                  <View style={styles.item} key={item.id || `rest-${idx}`} wrap={false}>
-                    {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
-                    <View style={styles.checkbox} />
-                    <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                  </View>
-                );
-              })}
+              {restItems.map((item, idx) => renderItemWithConseil(item, idx))}
             </View>
           );
         })}
@@ -697,28 +656,10 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
             {/* Titre + 3 premiers items ensemble */}
             <View style={styles.categoryHeaderGroup} wrap={false}>
               <Text style={styles.categoryTitle}>{cleanTextForPDF(firstSection.nom)}</Text>
-              {firstSection.items.slice(0, 3).map((item, idx) => {
-                const priority = getPriority(item.priorite);
-                return (
-                  <View style={styles.item} key={item.id || `activity-${idx}`} wrap={false}>
-                    {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
-                    <View style={styles.checkbox} />
-                    <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                  </View>
-                );
-              })}
+              {firstSection.items.slice(0, 3).map((item, idx) => renderItemWithConseil(item, idx))}
             </View>
             {/* Items restants de la première section */}
-            {firstSection.items.slice(3).map((item, idx) => {
-              const priority = getPriority(item.priorite);
-              return (
-                <View style={styles.item} key={item.id || `rest-${idx}`} wrap={false}>
-                  {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
-                  <View style={styles.checkbox} />
-                  <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                </View>
-              );
-            })}
+            {firstSection.items.slice(3).map((item, idx) => renderItemWithConseil(item, idx))}
           </View>
         )}
 
@@ -735,28 +676,10 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
               {/* Titre + 3 premiers items ensemble */}
               <View style={styles.categoryHeaderGroup} wrap={false}>
                 <Text style={styles.categoryTitle}>{cleanTextForPDF(section.nom)}</Text>
-                {firstItems.map((item, idx) => {
-                  const priority = getPriority(item.priorite);
-                  return (
-                    <View style={styles.item} key={item.id || `activity-${idx}`} wrap={false}>
-                      {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
-                      <View style={styles.checkbox} />
-                      <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                    </View>
-                  );
-                })}
+                {firstItems.map((item, idx) => renderItemWithConseil(item, idx))}
               </View>
               {/* Items restants */}
-              {restItems.map((item, idx) => {
-                const priority = getPriority(item.priorite);
-                return (
-                  <View style={styles.item} key={item.id || `rest-${idx}`} wrap={false}>
-                    {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
-                    <View style={styles.checkbox} />
-                    <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                  </View>
-                );
-              })}
+              {restItems.map((item, idx) => renderItemWithConseil(item, idx))}
             </View>
           );
         })}
@@ -907,28 +830,10 @@ export const CompactPage = ({ formData, checklistData }: CompactPageProps) => {
               {/* Titre + 3 premiers items ensemble */}
               <View style={styles.categoryHeaderGroup} wrap={false}>
                 <Text style={styles.categoryTitle}>{cleanTextForPDF(getMomentLabel(moment))}</Text>
-                {firstItems.map((item, idx) => {
-                  const priority = getPriority(item.priorite);
-                  return (
-                    <View style={styles.item} key={item.id || `moment-${idx}`} wrap={false}>
-                      {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
-                      <View style={styles.checkbox} />
-                      <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                    </View>
-                  );
-                })}
+                {firstItems.map((item, idx) => renderItemWithConseil(item, idx))}
               </View>
               {/* Items restants */}
-              {restItems.map((item, idx) => {
-                const priority = getPriority(item.priorite);
-                return (
-                  <View style={styles.item} key={item.id || `rest-${idx}`} wrap={false}>
-                    {priority === 'haute' && <Text style={styles.highPrioritySymbol}>!!</Text>}
-                    <View style={styles.checkbox} />
-                    <Text style={styles.itemText}>{cleanTextForPDF(item.item)}</Text>
-                  </View>
-                );
-              })}
+              {restItems.map((item, idx) => renderItemWithConseil(item, idx))}
             </View>
           );
         })}
